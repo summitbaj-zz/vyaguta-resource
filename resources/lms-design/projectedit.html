@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Leapfrog Management System</title>
+<meta name="description" content="Leapfrog Management System">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+<link rel="shortcut icon" href="img/favicon/favicon.ico">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<!-- Related styles of various icon packs-->
+<link rel="stylesheet" href="css/font-awesome.css" >
+<link rel="stylesheet" href="css/glyphicons.css" >
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<div id="page-container" class="sidebar-partial sidebar-visible-lg">
+  <div id="sidebar">
+    <div class="sidebar-scroll">
+      <div class="sidebar-content">
+        <h1><a href="index.html" class="sidebar-brand">Leapfrog Management System</a> </h1>
+        <ul class="sidebar-nav">
+          <li> <a href="index.html"><i class="fa fa-dashboard fa-fw"></i><span class="xn-text">Resource Utilization</span> </a></li>
+          <li> <a href="project.html" class="active"><i class="fa fa-bar-chart-o fa-fw"></i><span class="xn-text">Projects</span></a></li>
+          <li> <a href="index.html"><i class="fa fa-table fa-fw"></i><span class="xn-text">Tables</span></a></li>
+          <li> <a href="#"><i class="fa fa-edit fa-fw"></i><span class="xn-text">Forms</span></a></li>
+          <li> <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="xn-text">UI element</span><i class="fa fa-angle-down sidebar-nav-indicator"></i></a>
+            <ul>
+              <li> <a href="panels-wells.html">Panels and Wells</a> </li>
+              <li> <a href="buttons.html">Buttons</a> </li>
+              <li> <a href="notifications.html">Notifications</a> </li>
+              <li> <a href="typography.html">Typography</a> </li>
+              <li> <a href="icons.html"> Icons</a> </li>
+              <li> <a href="grid.html">Grid</a> </li>
+            </ul>
+          </li>
+          <li><a href="#" class="sidebar-nav-menu"><i class="fa fa-sitemap fa-fw"></i><span class="xn-text">Multi Level Dropdwon</span><i class="fa fa-angle-down sidebar-nav-indicator"></i></a>
+            <ul>
+              <li> <a href="#">Second Level Item</a> </li>
+              <li> <a href="#">Second Level Item</a> </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--  sidebar--> 
+  <!-- main-container-->
+  <div id="main-container">
+    <header class="navbar navbar-default">
+      <ul class="nav navbar-nav-custom">
+        <li> <a href="#" onclick="App.sidebar('toggle-sidebar');"> <i class="fa fa-bars fa-fw"></i> </a> </li>
+      </ul>
+      
+      <!-- Search Form -->
+      <form action="page_ready_search_results.html" method="post" class="navbar-form-custom" role="search">
+        <div class="form-group">
+          <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+        </div>
+      </form>
+      <!-- END Search Form -->
+      <ul class="nav navbar-nav-custom pull-right">
+        <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> </a>
+          <ul class="notification-panel dropdown-menu dropdown-alerts">
+            <li> <a href="#">
+              <div> <i class="fa fa-comment fa-fw"></i> New Comment <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-twitter fa-fw"></i> 3 New Followers <span class="pull-right text-muted small">12 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-envelope fa-fw"></i> Message Sent <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-tasks fa-fw"></i> New Task <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-upload fa-fw"></i> Server Rebooted <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a class="text-center" href="#"> <strong>See All Alerts</strong> <i class="fa fa-angle-right"></i> </a> </li>
+          </ul>
+        </li>
+        <!-- User Dropdown -->
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="profile-img img-circle" src="img/placeholders/avatar.png" alt="avatar"> <i class="fa fa-angle-down"></i> </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> </li>
+            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
+            <li class="divider"></li>
+            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
+          </ul>
+        </li>
+        <!-- END User Dropdown -->
+      </ul>
+    </header>
+    <div id="page-content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="content-header">
+            <div class="header-section">
+              <h1>Leapfrog Management System</h1>
+            </div>
+          </div>
+          <ul class="breadcrumb breadcrumb-top">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="projectview.html">Leapfrog Management System</a></li>
+            <li>Edit</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="block">
+            <div class="block-title-border">Project Details</div>
+            <form class="form-bordered" method="post">
+              <div class="form-group has-success">
+                <label>Project Name</label>
+                <input type="text" placeholder="Project Name" class="form-control">
+                <span class="help-block">Project name available</span> </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea placeholder="Short description about the project." class="form-control" rows="4"></textarea>
+              </div>
+              <div class="form-group clearfix">
+                <div class="row multiple-element">
+                  <div class="col-md-6 col-lg-4 element">
+                    <label class="control-label">Project Type</label>
+                    <select class="form-control">
+                      <option value="0">Please select</option>
+                      <option value="1">Service</option>
+                      <option value="2">Product</option>
+                      <option value="3">Internal</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-lg-4 element">
+                    <label  class=" control-label">Budget Type</label>
+                    <select class="form-control">
+                      <option value="0">Please select</option>
+                      <option value="1">Fixed</option>
+                      <option value="2">Resource Based</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-lg-4 element">
+                    <label class="control-label">Account Manager</label>
+                    <input type="text" placeholder="Account Manager Name" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="row multiple-element">
+                  <div class="col-md-6 col-lg-4 element">
+                    <label for="example-select" class="control-label">Project Status</label>
+                    <select class="form-control">
+                      <option value="0">Please select</option>
+                      <option value="1">Pending</option>
+                      <option value="2">Executing</option>
+                      <option value="3">Closed</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-lg-4 element">
+                    <label class="control-label">Contract Date</label>
+                    <div data-date-format="mm/dd/yyyy" class="input-group input-daterange">
+                      <input type="text" placeholder="From" class="form-control text-center">
+                      <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                      <input type="text" placeholder="To" class="form-control text-center">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <label class="control-label">Technology Stack</label>
+                <div class="text-wrap"> <span class="label label-blue-grey">Angular JS<a href="#"><i class="fa fa-close"></i></a></span> <span class="label label-blue-grey">React.js<a href="#"><i class="fa fa-close"></i></a></span> </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Resources</label>
+                <div class="row multiple-element">
+                  <div class="col-sm-12 col-lg-8 element">
+                    <div  class="input-group">
+                      <input type="text" placeholder="Resource" class="form-control text-center">
+                      <span class="input-group-addon">No. of</span>
+                      <input type="text" placeholder="2" class="form-control text-center input-sm">
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-8 element">
+                    <div  class="input-group">
+                      <input type="text" placeholder="Resource" class="form-control text-center">
+                      <span class="input-group-addon">No. of</span>
+                      <input type="text" placeholder="2" class="form-control text-center input-sm">
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-8 element">
+                    <div  class="input-group">
+                      <input type="text" placeholder="Resource" class="form-control text-center">
+                      <span class="input-group-addon">No. of</span>
+                      <input type="text" placeholder="2" class="form-control text-center input-sm">
+                    </div>
+                  </div>
+                  <div class="block-options clear"> <a class="btn btn-sm btn-ghost text-uppercase" data-toggle="tooltip" title="Add Another Field" href="#"><i class="fa fa-plus"></i> Add Another Field</a> </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Team Members</label>
+                <div class="row  text-center">
+                  <div class="col-sm-12">
+                    <ul class="team-list clearfix">
+                      <li> <a href="#" class="profile-img img-lg add-team" data-toggle="modal" data-target="#addTeam"><i class="fa fa-plus"></i> <span class="on-hover circular-block"></span> </a> 
+
+                      </li>
+                      <li> <a href="#" class="profile-img img-lg"><img class="img-circle" alt="avatar" src="img/placeholders/avatar.png"></a> </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group form-actions clearfix">
+                <div class="pull-right">
+                  <button class="btn btn-sm btn-success" type="submit"><i class="fa fa-angle-right"></i>Save</button>
+                  <button class="btn btn-sm btn-default" type="reset"><i class="fa fa-repeat"></i>Reset</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page Content -->
+    <footer class="clearfix"> <span></span> &copy; <a href="#" target="_blank">Leapfrog Technology Inc</a> </footer>
+  </div>
+  <!-- main-container--> 
+</div>
+<!--page-container --> 
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="addTeam" tabindex="-1" role="dialog">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <div class="modal-title">Team Members</div>
+                              </div>
+                              <div class="modal-body">
+                            <form class="form-horizontal">
+                            <div class="form-group">
+                            <label class="control-label col-md-4">Team Member</label>
+                            <div class="col-md-8">
+                                                <div class="text-wrap"> <span class="label label-blue-grey">Anjali Shakya<a href="#"><i class="fa fa-close"></i></a></span> </div>
+                                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-4">Role</label>
+                            <div class="col-md-8">
+                                            <select class="form-control">
+                                                <option value="0">Please select</option>
+                                                <option value="1">Developer</option>
+                                                <option value="2">Tester</option>
+                                                <option value="3">Team Lead</option>
+                                                <option value="4">SA</option>
+                                                <option value="5">PM</option>
+                                            </select>
+                                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-4">Estimated Duration</label>
+                            <div class="col-md-8">
+                                                <div class="input-group input-daterange">
+                      <input type="text" class="form-control text-center" placeholder="From">
+                      <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                      <input type="text" class="form-control text-center" placeholder="To">
+                    </div>
+                                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-4">Allocation</label>
+                            <div class="col-md-8">
+                            <div class="input-group">
+                                                    <input type="text" placeholder="0" class="form-control">
+                                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                </div></div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-4">Billed</label>
+                            <div class="col-md-8">
+                            <label for="billed-resource" class="switch switch-default">
+                                                    <input type="checkbox" value="1" id="billed-resource">
+                                                    <span data-toggle="tooltip"></span>
+                                                </label>
+                                                </div>
+                            </div>
+                            </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-ghost" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>Add Team Member</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<!-- Bootstrap.js, Jquery plugins and Custom JS code --> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/app.js"></script>
+</body>
+</html>

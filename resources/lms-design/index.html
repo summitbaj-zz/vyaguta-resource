@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Leapfrog Management System</title>
+<meta name="description" content="Leapfrog Management System">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+<link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+<link rel="shortcut icon" href="img/favicon/favicon.ico">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<!-- Related styles of various icon packs-->
+<link rel="stylesheet" href="css/font-awesome.css" >
+<link rel="stylesheet" href="css/glyphicons.css" >
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<div id="page-container" class="sidebar-partial sidebar-visible-lg">
+  <div id="sidebar">
+    <div class="sidebar-scroll">
+      <div class="sidebar-content">
+        <h1><a href="index.html" class="sidebar-brand">Leapfrog Management System</a> </h1>
+        <ul class="sidebar-nav">
+          <li> <a href="#" class="active"><i class="fa fa-dashboard fa-fw"></i><span class="xn-text">Resource Utilization</span> </a></li>
+          <li> <a href="project.html"><i class="fa fa-bar-chart-o fa-fw"></i><span class="xn-text">Projects</span></a></li>
+          <li> <a href="#"><i class="fa fa-table fa-fw"></i><span class="xn-text">Tables</span></a></li>
+          <li> <a href="#"><i class="fa fa-edit fa-fw"></i><span class="xn-text">Forms</span></a></li>
+          <li> <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="xn-text">UI Elements</span><i class="fa fa-angle-down sidebar-nav-indicator"></i></a>
+            <ul>
+              <li> <a href="panels-wells.html">Panels and Wells</a> </li>
+              <li> <a href="buttons.html">Buttons</a> </li>
+              <li> <a href="notifications.html">Notifications</a> </li>
+              <li> <a href="typography.html">Typography</a> </li>
+              <li> <a href="icons.html"> Icons</a> </li>
+              <li> <a href="grid.html">Grid</a> </li>
+            </ul>
+          </li>
+          <li><a href="#" class="sidebar-nav-menu"><i class="fa fa-sitemap fa-fw"></i><span class="xn-text">Multi Level Dropdwon</span><i class="fa fa-angle-down sidebar-nav-indicator"></i></a>
+            <ul>
+              <li> <a href="#">Second Level Item</a> </li>
+              <li> <a href="#">Second Level Item</a> </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--  sidebar--> 
+  <!-- main-container-->
+  <div id="main-container">
+    <header class="navbar navbar-default">
+      <ul class="nav navbar-nav-custom">
+        <li> <a href="#" onclick="App.sidebar('toggle-sidebar');"> <i class="fa fa-bars fa-fw"></i> </a> </li>
+      </ul>
+      
+      <!-- Search Form -->
+      <form action="page_ready_search_results.html" method="post" class="navbar-form-custom" role="search">
+        <div class="form-group">
+          <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+        </div>
+      </form>
+      <!-- END Search Form -->
+      <ul class="nav navbar-nav-custom pull-right">
+        <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> </a>
+          <ul class="notification-panel dropdown-menu dropdown-alerts">
+            <li> <a href="#">
+              <div> <i class="fa fa-comment fa-fw"></i> New Comment <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-twitter fa-fw"></i> 3 New Followers <span class="pull-right text-muted small">12 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-envelope fa-fw"></i> Message Sent <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-tasks fa-fw"></i> New Task <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#">
+              <div> <i class="fa fa-upload fa-fw"></i> Server Rebooted <span class="pull-right text-muted small">4 minutes ago</span> </div>
+              </a> </li>
+            <li class="divider"></li>
+            <li> <a class="text-center" href="#"> <strong>See All Alerts</strong> <i class="fa fa-angle-right"></i> </a> </li>
+          </ul>
+        </li>
+        <!-- User Dropdown -->
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="profile-img img-circle" src="img/placeholders/avatar.png" alt="avatar"> <i class="fa fa-angle-down"></i> </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> </li>
+            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
+            <li class="divider"></li>
+            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
+          </ul>
+        </li>
+        <!-- END User Dropdown -->
+      </ul>
+    </header>
+    <div id="page-content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="content-header">
+            <div class="header-section">
+              <h1>Resource Utilization </h1>
+            </div>
+          </div>
+          <!--          <ul class="breadcrumb breadcrumb-top">
+                        <li>Dashboard</li><li>Dashboard</li>
+                        <li>Dashboard</li>
+                    </ul>--> 
+        </div>
+      </div>
+      <div class="row res-stats">
+        <div class="col-sm-6 col-lg-4"> <a class="widget widget-hover-effect1">
+          <div class="widget-simple">
+            <div class="widget-icon label-green pull-left animation-fadeIn"> <span class="res-counter">100</span> </div>
+            <h3 class="widget-content text-right animation-pullDown"> Total Resource </h3>
+          </div>
+          </a> </div>
+        <div class="col-sm-6 col-lg-4"> <a class="widget widget-hover-effect1">
+          <div class="widget-simple">
+            <div class="widget-icon pull-left label-red animation-fadeIn"> <span class="res-counter">30</span> </div>
+            <h3 class="widget-content text-right animation-pullDown"> Free Resources </h3>
+          </div>
+          </a> </div>
+        <div class="col-sm-6 col-lg-4"> <a class="widget widget-hover-effect1">
+          <div class="widget-simple">
+            <div class="widget-icon pull-left label-lg-blue animation-fadeIn"> <span class="res-counter">70</span> </div>
+            <h3 class="widget-content text-right animation-pullDown"> Booked Resources <small class="side-text"> <span class="text-light">Billed: 60</span> <span class="text-light">Unbilled: 10</span> </small> </h3>
+          </div>
+          </a> </div>
+        <div class="col-lg-12">
+          <div class="widget">
+            <div class="widget-extra label-lg-grey">
+              <div class="widget-title">Booked Resources </div>
+            </div>
+            <div class="widget-extra-full">
+              <div class="row text-center">
+                <div class="col-xs-12 col-lg-4 cards"> <span class="cards-counter">50%</span> <span class="cards-text"><i class="fa fa-cogs"></i>Services</span> </div>
+                <div class="col-xs-12 col-lg-4 cards"> <span class="cards-counter">25%</span> <span class="cards-text"><i class="fa fa-cubes "></i>Products</span> </div>
+                <div class="col-xs-12 col-lg-4 cards"> <span class="cards-counter">25%</span> <span class="cards-text"><i class="fa fa-building-o"></i>Internal</span> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--res-stats-->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="block full">
+            <div class="block-title">
+              <h2>Available Resources</h2>
+            </div>
+            <div class="table-responsive">
+              <table id="resource-free" class="table table-vcenter table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Resource Detail</th>
+                    <th>Core Skills</th>
+                    <th>Allocation</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="profile-holder clearfix"><span class="profile-img pull-left img-lg"><img src="img/placeholders/avatar.png" alt="avatar" class="img-circle"></span> <span class="profile-detail pull-left"> <span class="label-name">Anjali Shakya</span> <span>Sr. UI/UX Designer</span> </span> </div></td>
+                    <td><span class="label label-indigo">HTML</span><span class="label label-indigo">CSS</span><span class="label label-indigo">Photoshop</span></td>
+                    <td>100%</td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="profile-holder clearfix"><span class="profile-img pull-left img-lg"><img src="img/placeholders/avatar.png" alt="avatar" class="img-circle"></span> <span class="profile-detail pull-left"> <span class="label-name">Anuj Joshi </span> <span>Software Engineer</span> </span> </div></td>
+                    <td><span class="label label-red">ROR</span></td>
+                    <td>25%</td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="profile-holder clearfix"><span class="profile-img pull-left img-lg"><img src="img/placeholders/avatar.png" alt="avatar" class="img-circle"></span> <span class="profile-detail pull-left"> <span class="label-name">Bibhushan Raj Joshi </span> <span>Associate Software Engineer </span> </span> </div></td>
+                    <td><span class="label label-deep-orange">JAVA</span></td>
+                    <td>50%</td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="profile-holder clearfix"><span class="profile-img pull-left img-lg"><img src="img/placeholders/avatar.png" alt="avatar" class="img-circle"></span> <span class="profile-detail pull-left"> <span class="label-name">Grishma Shrestha </span> <span>Associate Software Engineer </span> </span> </div></td>
+                    <td><span class="label label-green">Android</span></td>
+                    <td>100%</td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="profile-holder clearfix"><span class="profile-img pull-left img-lg"><img src="img/placeholders/avatar.png" alt="avatar" class="img-circle"></span> <span class="profile-detail pull-left"> <span class="label-name">Grishma Shrestha </span> <span>Associate Software Engineer </span> </span> </div></td>
+                    <td><span class="label label-green">Android</span></td>
+                    <td>100%</td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+          <div class="col-lg-12">
+          <div class="block clearfix">
+            <div class="block-title">
+              <h2>Project Details</h2>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-vcenter table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Projects</th>
+                    <th>Type</th>
+                    <th>Resources</th>
+                    <th>End Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr class="danger">
+                    <td>Leapfrog Management System</td>
+                    <td>Product</td>
+                    <td><span class="label label-blue-grey">Developer <span class="counts">3</span></span><span class="label label-blue-grey">Quality Analyst<span class="counts">1</span></span> <span class="label label-blue-grey">Project Manager<span class="counts">1</span></span></td>
+                    <td>3/2/2016</td>
+                    <td class="text-center"><span class="label text-uppercase label-green ">In progress</span></td>
+                    <td class="text-center"><div class="btn-group"> <a href="projectedit.html" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                <tr class="warning">
+                    <td>Vayoo</td>
+                    <td>Services</td>
+                    <td><span class="label label-blue-grey">Developer<span class="counts">5</span></span><span class="label label-blue-grey">Quality Analyst<span class="counts">1</span></span> <span class="label label-blue-grey">Project Manager<span class="counts">1</span></span></td>
+                    <td>11/2/2016</td>
+                    <td class="text-center"><span class="label text-uppercase label-green ">In progress</span></td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td>Scale IT</td>
+                    <td>Product</td>
+                    <td><span class="label label-blue-grey">Developer<span class="counts">3</span></span><span class="label label-blue-grey">Quality Analyst<span class="counts">1</span></span></td>
+                    <td>18/2/2016</td>
+                    <td class="text-center"><span class="label text-uppercase label-green ">In progress</span></td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                  <tr>
+                    <td>Linkway</td>
+                    <td>Service</td>
+                    <td><span class="label label-blue-grey">Developer<span class="counts">2</span></span><span class="label label-blue-grey">Quality Analyst<span class="counts">2</span></span><span class="label label-blue-grey">Designer<span class="counts">1</span></span></td>
+                    <td>29/2/2016</td>
+                    <td class="text-center"><span class="label text-uppercase label-green ">In progress</span></td>
+                    <td class="text-center"><div class="btn-group"> <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a> </div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination-wrap clearfix">
+                                                <ul class="pagination">
+                                                    <li class="disabled"><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                                                    <li class="active"><a href="#">1</a></li>
+                                                    <li><a href="#">2</a></li>
+                                                    <li><a href="#">3</a></li>
+                                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                                                </ul>
+                                            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+              <div class="col-lg-6">
+              <div class="block"><div class="block-title-border ">Projects Ending</div>
+              <div class="list-wrapper">
+              <ul class="list-group">
+              <li class="list-group-item">
+              <span>Projects</span>
+              <span>Resources</span>
+              </li>
+              <li class="list-group-item">
+              <span>Vayoo</span>
+              <span>5</span>
+              </li>
+              <li class="list-group-item">
+              <span>Scale IT</span>
+              <span class="pull-right">5</span>
+              </li>
+              <li class="list-group-item">
+              <span>Gham Power</span>
+              <span class="pull-right">2</span>
+              </li>
+              <li class="list-group-item">
+              <span>Total</span>
+              <span>12</span>
+              </li>
+              
+              </ul>
+              </div>
+              </div>
+              </div>
+         <div class="col-lg-6">
+         <div class="block">
+         <div class="block-title-border ">Block 2</div>
+         </div>
+         </div>
+      </div>
+    </div>
+    <!-- END Page Content --> 
+    <!-- Footer -->
+    <footer class="clearfix"> <span></span> &copy; <a href="#" target="_blank">Leapfrog Technology Inc</a> </footer>
+    <!-- END Footer --> 
+  </div>
+  <!-- main-container--> 
+</div>
+<!--page-container --> 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<!-- Bootstrap.js, Jquery plugins and Custom JS code --> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/app.js"></script>
+</body>
+</html>
