@@ -10,24 +10,62 @@
         browserSync = require('browser-sync'),
         reload = browserSync.reload,
         historyApiFallback = require('connect-history-api-fallback'),
-        concat = require('gulp-concat');
+        concat = require('gulp-concat'),
+        imagemin = require('gulp-imagemin'),
+        iconfont = require('gulp-iconfont'),
+        runTimestamp = Math.round(Date.now()/1000);
 
     var config = {
         paths: {
             js: './src/js/*.js',
             css: [
-                './src/css/*.css',
                 'node_modules/bootstrap/dist/css/bootstrap.min.css',
-                'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+                './src/css/*.css'
             ],
-            fonts:'',
+            img: [
+                './src/img/*',
+                './src/img/**/*'
+            ],
+            fonts:'./src/css/fonts/*',
             distJs: './dist/js',
             distCss: './dist/css/',
+            distImg: './dist/img',
+            distFonts: './dist/css/fonts',
             appJsPath: './src/routes/routes',
             appJs: 'app'
 
         }
     };
+
+    gulp.task('fonts', function(){
+        return gulp.src(config.paths.fonts)
+            .pipe(iconfont({
+                fontName: 'myfont', // required
+                prependUnicode: true, // recommended option
+                formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
+                timestamp: runTimestamp // recommended to get consistent builds when watching files
+            }))
+            .pipe(gulp.dest(config.paths.distFonts));
+    });
+
+    gulp.task('image', function () {
+        gulp.src(config.paths.img)
+            .pipe(iconfont({
+                fontName: 'myfont', // required
+                prependUnicode: true, // recommended option
+                formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
+                timestamp: runTimestamp // recommended to get consistent builds when watching files
+            }))
+            .pipe(imagemin({
+                progressive: true,
+                interlaced: true,
+                svgoPlugins: [
+                    {removeViewBox: false},
+                    {cleanupIDs: false}
+                ]
+            }))
+            .pipe(gulp.dest(config.paths.distImg));
+    });
 
     gulp.task('styles',function() {
         // Compiles CSS
@@ -94,7 +132,7 @@
     });
 
 // run 'scripts' task first, then watch for future changes
-    gulp.task('default', ['styles','scripts','browser-sync'], function() {
+    gulp.task('default', ['styles','scripts','browser-sync', 'image', 'fonts'], function() {
         return buildScript(true); // browserify watch for JS changes
     });
 

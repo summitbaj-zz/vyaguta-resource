@@ -10,7 +10,7 @@
     var App = React.createClass({
         render: function(){
             return (
-                <div id="page-container" class="sidebar-partial sidebar-visible-lg">
+                <div id="page-container" className="sidebar-partial sidebar-visible-lg">
                     <Sidebar/>
                     <div id="main-container">
                         <Header/>

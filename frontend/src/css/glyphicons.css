@@ -2,8 +2,8 @@
 /**---Glyphicons---**/
  @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../../min/fonts/glyphicons-halflings-regular.eot');
-  src: url('../../min/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../min/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../min/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../min/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../min/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../../dist/css/fonts/glyphicons-halflings-regular.eot');
+  src: url('../../dist/css/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../dist/css/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../dist/css/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../dist/css/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;

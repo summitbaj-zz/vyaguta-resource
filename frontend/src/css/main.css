@@ -24,7 +24,7 @@ body {
 	width: 0;
 	position: absolute;
 	overflow: hidden;
-	background:url(../img/bg-sidebar.png) repeat-y 0 0;
+	background:url(../../dist/img/bg-sidebar.png) repeat-y 0 0;
 	border-right: 1px solid #e4ebf1;
 }
 
@@ -234,9 +234,11 @@ header.navbar-inverse.navbar-fixed-bottom {
 	font-size: 18px;
 	display: block;
 	color: #ffffff;
-	background: rgba(0, 0, 0, 0.15);
 }
 
+.sidebar-title{
+	background: rgba(0, 0, 0, 0.15);
+}
 
 /* Sidebar Navigation */
 .sidebar-nav {
