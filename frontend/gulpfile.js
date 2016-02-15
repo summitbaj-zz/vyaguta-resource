@@ -48,7 +48,7 @@
             .pipe(gulp.dest(config.paths.distFonts));
     });
 
-    gulp.task('image', function () {
+    gulp.task('images', function () {
         gulp.src(config.paths.img)
             .pipe(iconfont({
                 fontName: 'myfont', // required
@@ -132,7 +132,7 @@
     });
 
 // run 'scripts' task first, then watch for future changes
-    gulp.task('default', ['styles','scripts','browser-sync', 'image', 'fonts'], function() {
+    gulp.task('default', ['styles', 'scripts', 'browser-sync', 'images', 'fonts'], function() {
         return buildScript(true); // browserify watch for JS changes
     });
 

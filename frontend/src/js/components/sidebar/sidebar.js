@@ -1,10 +1,10 @@
 ;(function () {
     'use strict';
 
-    var React = require("react");
-    var ReactDOM = require("react-dom");
-    var ReactRouter = require("react-router");
-    var Link = ReactRouter.Link;
+    var React = require('react'),
+        ReactDOM = require('react-dom'),
+        ReactRouter = require('react-router'),
+        Link = ReactRouter.Link;
 
     var Sidebar = React.createClass({
         render: function () {

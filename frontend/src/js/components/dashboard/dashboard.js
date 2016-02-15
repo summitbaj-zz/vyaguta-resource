@@ -1,8 +1,8 @@
 ;(function(){
     'use strict';
 
-    var React = require("react");
-    var ReactDOM = require("react-dom");
+    var React = require('react'),
+        ReactDOM = require('react-dom');
 
     var Dashboard = React.createClass({
         render: function(){

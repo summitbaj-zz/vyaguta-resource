@@ -1,11 +1,11 @@
 ;(function () {
     'use strict';
 
-    var React = require("react");
-    var ReactDOM = require("react-dom");
-    var DropDownList = require("./dropdown_list");
-    var Hamburger = require("./hamburger");
-    var SearchBar = require("./search_bar");
+    var React = require('react'),
+        ReactDOM = require('react-dom'),
+        DropDownList = require('./dropdown_list'),
+        Hamburger = require('./hamburger'),
+        SearchBar = require('./search_bar');
 
     var Header = React.createClass({
 

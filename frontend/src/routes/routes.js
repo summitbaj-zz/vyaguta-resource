@@ -1,17 +1,18 @@
-;(function(){
-    var React = require("react");
-    var ReactDOM = require("react-dom");
-    var ReactRouter = require("react-router");
-    var Router = ReactRouter.Router;
-    var createBrowserHistory = require('history/lib/createBrowserHistory');
+;(function () {
+    'use strict';
 
-    var IndexRoute = ReactRouter.IndexRoute;
-    var Route = ReactRouter.Route;
+    var React = require('react'),
+        ReactDOM = require('react-dom'),
+        ReactRouter = require('react-router'),
+        Router = ReactRouter.Router,
+        createBrowserHistory = require('history/lib/createBrowserHistory'),
+        IndexRoute = ReactRouter.IndexRoute,
+        Route = ReactRouter.Route;
 
-    var routes =(
+    var routes = (
         <Router history={createBrowserHistory()}>
             <Route path="/" component={require('../app')}>
-                <IndexRoute component={require('../js/components/dashboard/dashboard')} />
+                <IndexRoute component={require('../js/components/dashboard/dashboard')}/>
                 <Route path="new" component={require('../js/components/new/new')}/>
             </Route>
         </Router>
