@@ -18,6 +18,8 @@ public interface CrudService<T, Pk> {
     public T merge(Pk id, T entity);
 
     public void remove(T entity);
+    
+    public void removeById(Pk id);
 
     public T findById(Pk id);
 
