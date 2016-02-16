@@ -9,7 +9,7 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 
 /**
  * 
- * @author achyut <achyutpokhrel@lftechnology.com>
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
 @Entity

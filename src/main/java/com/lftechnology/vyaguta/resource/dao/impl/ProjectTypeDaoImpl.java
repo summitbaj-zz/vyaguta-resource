@@ -14,7 +14,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
 
 /**
  * 
- * @author achyut <achyutpokhrel@lftechnology.com>
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
 @Stateless
@@ -47,9 +47,9 @@ public class ProjectTypeDaoImpl extends BaseDao implements ProjectTypeDao {
   }
 
   @Override
-  public void remove(ProjectType projectTypeNew) {
+  public void remove(ProjectType projectType) {
     try {
-      em.remove(em.merge(projectTypeNew));
+      em.remove(em.merge(projectType));
     } catch (PersistenceException persistenceException) {
       throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
           persistenceException.getCause());

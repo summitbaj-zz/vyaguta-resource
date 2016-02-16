@@ -2,7 +2,7 @@ package com.lftechnology.vyaguta.commons.exception;
 
 /**
  * 
- * @author achyut <achyutpokhrel@lftechnology.com>
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
 public class ObjectNotFoundException extends RuntimeException {

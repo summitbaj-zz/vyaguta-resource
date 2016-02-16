@@ -5,7 +5,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
 
 /**
  * 
- * @author achyut <achyutpokhrel@lftechnology.com>
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
 public interface ProjectTypeDao extends CrudDao<ProjectType, String> {
