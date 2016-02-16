@@ -4,9 +4,7 @@
 
 'use strict';
 
-var React = require('react')
-var BudgetList = require('./BudgetList');
-
+var React = require('react');
 var BudgetMain = React.createClass({
 
     render: function () {
