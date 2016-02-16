@@ -27,6 +27,20 @@ ALTER TABLE ONLY budget_types
     ADD CONSTRAINT budget_types_title_key UNIQUE (title);
 
 
+CREATE TABLE project_types (
+    id character varying(32) NOT NULL,
+    title character varying(255) NOT NULL,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE project_types OWNER TO frieddust;
+ALTER TABLE ONLY project_types
+    ADD CONSTRAINT project_types PRIMARY KEY (id);
+ALTER TABLE ONLY project_types
+    ADD CONSTRAINT project_types_title_key UNIQUE (title);
+
 
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
