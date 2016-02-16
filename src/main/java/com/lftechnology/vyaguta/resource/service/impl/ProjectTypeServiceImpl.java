@@ -11,7 +11,7 @@ import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
 
 /**
  * 
- * @author achyut <achyutpokhrel@lftechnology.com>
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
 public class ProjectTypeServiceImpl implements ProjectTypeService {
@@ -35,27 +35,26 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
       throw new ObjectNotFoundException();
     }
     projectType.setTitle(obj.getTitle());
-    this.update(projectType);
-    return projectType;
+    return this.update(projectType);
   }
 
   @Override
-  public void remove(ProjectType projectTypeNew) {
-    ProjectType projectTypeOld = this.findById(projectTypeNew.getId());
-    if (projectTypeOld == null) {
+  public void remove(ProjectType projectType) {
+    projectTypeDao.remove(projectType);
+  }
+
+  @Override
+  public void removeById(String id) {
+    ProjectType projectType = this.findById(id);
+    if (projectType == null) {
       throw new ObjectNotFoundException();
     }
-    projectTypeDao.remove(projectTypeOld);
+    this.remove(projectType);
   }
 
   @Override
   public ProjectType findById(String id) {
-    ProjectType projectType = projectTypeDao.findById(id);
-    if (projectType == null) {
-      throw new ObjectNotFoundException();
-    } else {
-      return this.update(projectType);
-    }
+    return projectTypeDao.findById(id);
   }
 
   @Override
