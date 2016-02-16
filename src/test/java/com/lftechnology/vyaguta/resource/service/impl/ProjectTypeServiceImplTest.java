@@ -16,6 +16,11 @@ import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;;
 
+/**
+ * 
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ *
+ */
 public class ProjectTypeServiceImplTest {
   @InjectMocks
   private ProjectTypeServiceImpl projectTypeServiceImpl;
@@ -42,19 +47,6 @@ public class ProjectTypeServiceImplTest {
     assertThat(resultProjectType, is(projectType));
   }
 
-  @Test
-  public void testSaveWhenProjectTypeIsNull() {
-    // arrange
-    Mockito.when(projectTypeDao.save(null)).thenReturn(null);
-
-    // act
-    ProjectType resultProjectType = projectTypeServiceImpl.save(null);
-
-    // assert
-    Mockito.verify(projectTypeDao).save(null);
-
-  }
-
   private ProjectType buildProjectType() {
     ProjectType projectType = new ProjectType();
     User user = buildUser();
@@ -74,4 +66,3 @@ public class ProjectTypeServiceImplTest {
     return user;
   }
 }
-
