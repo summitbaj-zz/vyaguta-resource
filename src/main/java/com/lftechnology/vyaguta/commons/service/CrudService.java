@@ -14,6 +14,8 @@ public interface CrudService<T, Pk> {
     public T save(T entity);
 
     public T update(T entity);
+    
+    public T merge(Pk id, T entity);
 
     public void remove(T entity);
 
@@ -24,4 +26,5 @@ public interface CrudService<T, Pk> {
     public Long count();
 
     public List<T> find(Integer start, Integer offset);
+
 }
