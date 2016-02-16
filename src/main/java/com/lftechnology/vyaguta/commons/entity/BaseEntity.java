@@ -94,6 +94,8 @@ public abstract class BaseEntity {
     public void prePersist() {
         this.setId(GuidUtil.generate());
         this.setCreatedAt(LocalDateTime.now());
+        this.setUpdatedAt(null);
+        this.setUpdatedBy(null);
     }
 
     @PreUpdate

@@ -8,32 +8,22 @@ import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
  *
  */
 public class ErrorMessage {
-    private String field;
-    private String message;
+  private String error;
 
-    public ErrorMessage(String field, String message) {
-        this.field = field;
-        this.message = message;
-    }
+  public ErrorMessage(String error) {
+    this.error = error;
+  }
 
-    public String getField() {
-        return field;
-    }
+  public String getError() {
+    return error;
+  }
 
-    public void setField(String field) {
-        this.field = field;
-    }
+  public void setError(String error) {
+    this.error = error;
+  }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return JsonToStringBuilder.toString(this);
-    }
+  @Override
+  public String toString() {
+    return JsonToStringBuilder.toString(this);
+  }
 }
