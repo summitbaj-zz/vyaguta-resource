@@ -29,7 +29,7 @@ public abstract class BaseEntity {
     @Id
     private String id;
 
-    @NotNull(message = "unknown user to create entity")
+//    @NotNull(message = "unknown user to create entity")
     @Column(name = "created_by")
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
@@ -96,6 +96,9 @@ public abstract class BaseEntity {
         this.setCreatedAt(LocalDateTime.now());
         this.setUpdatedAt(null);
         this.setUpdatedBy(null);
+        User user = new User();
+        user.setId("1");
+        this.setCreatedBy(user);
     }
 
     @PreUpdate
