@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -48,7 +49,7 @@ public class ProjectTypeRs {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response create(@Valid ProjectType projectType) {
+  public Response create(@NotNull @Valid ProjectType projectType) {
     projectType = projectTypeService.save(projectType);
     return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectType)).build();
   }
@@ -57,7 +58,7 @@ public class ProjectTypeRs {
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response update(@PathParam("id") String id, ProjectType projectTypeNew) {
+  public Response update(@PathParam("id") String id, @NotNull @Valid ProjectType projectTypeNew) {
     ProjectType projectType = projectTypeService.merge(id, projectTypeNew);
     return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectType)).build();
   }
