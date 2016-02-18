@@ -1,4 +1,4 @@
-;(function() {
+;(function () {
     'use strict';
     var source = require('vinyl-source-stream'),
         gulp = require('gulp'),
@@ -13,7 +13,7 @@
         concat = require('gulp-concat'),
         imagemin = require('gulp-imagemin'),
         iconfont = require('gulp-iconfont'),
-        runTimestamp = Math.round(Date.now()/1000);
+        runTimestamp = Math.round(Date.now() / 1000);
 
     var config = {
         paths: {
@@ -32,7 +32,7 @@
                 './src/img/*',
                 './src/img/**/*'
             ],
-            fonts:'./src/css/fonts/*',
+            fonts: './src/css/fonts/*',
             distJs: './dist/js',
             distCss: './dist/css/',
             distImg: './dist/img',
@@ -46,7 +46,7 @@
         }
     };
 
-    gulp.task('fonts', function(){
+    gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
             .pipe(iconfont({
                 fontName: 'myfont', // required
@@ -76,30 +76,30 @@
             .pipe(gulp.dest(config.paths.distImg));
     });
 
-    gulp.task('styles',function() {
+    gulp.task('styles', function () {
         // Compiles CSS
         gulp.src(config.paths.css)
             .pipe(concat('bundle.css'))
             .pipe(gulp.dest(config.paths.distCss))
-            .pipe(reload({stream:true}))
+            .pipe(reload({stream: true}))
     });
 
-    gulp.task('custom_ui',function() {
+    gulp.task('custom_ui', function () {
         // Compiles CSS
         gulp.src(config.paths.customUI)
             .pipe(concat('vyaguta-custom.min.js'))
             .pipe(gulp.dest(config.paths.distJs))
-            .pipe(reload({stream:true}))
+            .pipe(reload({stream: true}))
     });
 
     /*
      Browser Sync
      */
-    gulp.task('browser-sync', function() {
+    gulp.task('browser-sync', function () {
         browserSync({
             // we need to disable clicks and forms for when we test multiple rooms
-            server : {},
-            middleware : [ historyApiFallback() ],
+            server: {},
+            middleware: [historyApiFallback()],
             ghostMode: false
         });
     });
@@ -116,10 +116,10 @@
     function buildScript(watch) {
         var props = {
             entries: [config.paths.appJs],
-            debug : true,
+            debug: true,
             cache: {},
             packageCache: {},
-            transform:  [babelify]
+            transform: [babelify]
         };
 
         // watchify() if watch requested, otherwise run browserify() once
@@ -131,11 +131,11 @@
                 .on('error', handleErrors)
                 .pipe(source('vyaguta.min.js'))
                 .pipe(gulp.dest(config.paths.distJs))
-                .pipe(reload({stream:true}))
+                .pipe(reload({stream: true}))
         }
 
         // listen for an update and run rebundle
-        bundler.on('update', function() {
+        bundler.on('update', function () {
             rebundle();
             gutil.log('Rebundle...');
         });
@@ -144,12 +144,12 @@
         return rebundle();
     }
 
-    gulp.task('scripts', function() {
+    gulp.task('scripts', function () {
         return buildScript(false); // this will run once because we set watch to false
     });
 
-// run 'scripts' task first, then watch for future changes
-    gulp.task('default', ['styles', 'scripts', 'browser-sync', 'images', 'fonts', 'custom_ui'], function() {
+    // run 'scripts' task first, then watch for future changes
+    gulp.task('default', ['styles', 'scripts', 'browser-sync', 'images', 'fonts', 'custom_ui'], function () {
         return buildScript(true); // browserify watch for JS changes
     });
 
