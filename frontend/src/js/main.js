@@ -1,15 +1,16 @@
 /**
- * Created by pratishshr on 2/16/16.
+ * Created by
+ * Pratish Shrestha <pratishshrestha@lftechnology.com>
+ * on 2/15/16.
  */
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var routes = require('./routes');
+;(function () {
+    'use strict';
 
-ReactDOM.render(routes, document.querySelector('#vyaguta-body'));
+    var React = require('react');
+    var ReactDOM = require('react-dom');
+    var routes = require('./routes');
 
+    ReactDOM.render(routes, document.querySelector('#vyaguta-body'));
 
-
-
-
-
+})();

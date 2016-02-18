@@ -72,7 +72,7 @@ body, html, #page-container, #sidebar, .sidebar-scroll, .sidebar-content, .sideb
 	font-size: 20px;
 	font-weight: 500;
 }
-.cards-text {
+.cards-text, .cards-text span {
 	font-size: 18px;
 	font-weight: 300;
 	margin: 3px 0;
