@@ -5,7 +5,7 @@
  */
 
 ;(function () {
-    const resourceConstant = {
+    var resourceConstant = {
         BUDGET_TYPES: 'budgettypes'
     }
 

@@ -13,7 +13,9 @@
     var BudgetTypeHeader = require('./BudgetTypeHeader');
     var toastr = require('toastr');
 
-    const resourceConstant = require('../../constants/resourceConstant');
+    //constants
+    var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
 
     var BudgetTypeForm = React.createClass({
         mixins: [History],
@@ -48,12 +50,12 @@
             if (budgetTypeId) {
                 ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, budgetTypeId, function (data) {
                     toastr.success("Budget Type Successfully Edited");
-                    that.history.pushState(null, '/budgettypes');
+                    that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
                 })
             } else {
                 ApiUtil.create(resourceConstant.BUDGET_TYPES, budgetType, function (data) {
                     toastr.success("Budget Type Successfully Added");
-                    that.history.pushState(null, '/budgettypes');
+                    that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
                 });
             }
 
@@ -73,7 +75,7 @@
                     <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}/>
                     <div className="block">
                         <div
-                            className="block-title-border">{(this.props.params.id) ? 'Edit Budget Type' : 'Add Budget Type'}</div>
+                            className="block-title-border">Budget Type Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.addBudgetType}>
                             <div className="form-group">
                                 <label>Budget Type</label>

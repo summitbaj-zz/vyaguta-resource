@@ -7,13 +7,18 @@
 ;(function () {
     var React = require('react');
     var Link = require('react-router').Link;
+
+    //constants
+    var urlConstant = require('../../constants/urlConstant');
+
     var BudgetTypeRow = React.createClass({
         render: function () {
             return (
                 <tr>
+                    <td>{++this.props.index}</td>
                     <td>{this.props.budgetType.title}</td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={'/budgettypes/edit/'+ this.props.budgetType.id}
+                        <div className="btn-group"><Link to={urlConstant.BUDGET_TYPES.EDIT + '/' + this.props.budgetType.id}
                                                          data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i

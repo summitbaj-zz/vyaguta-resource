@@ -13,7 +13,9 @@
     var _ = require('lodash');
     var toastr = require('toastr');
 
-    const resourceConstant = require('../../constants/resourceConstant');
+    //constants
+    var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
 
     var BudgetTypeList = React.createClass({
         getInitialState: function () {
@@ -25,7 +27,7 @@
         componentDidMount: function () {
             var that = this;
 
-            ApiUtil.fetchAll('budgetTypes', function (budgetTypes) {
+            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, function (budgetTypes) {
                 that.setState({budgetTypes: budgetTypes});
             })
         },
@@ -56,9 +58,9 @@
                     <BudgetTypeHeader title="Budget Types"/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Budget Details</h2>
+                            <h2>Budget Type Details</h2>
                             <div className="block-options pull-right">
-                                <Link to="budgettypes/new" title="Add Project" data-toggle="tooltip"
+                                <Link to={urlConstant.BUDGET_TYPES.NEW} title="Add Project" data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Budget Type</Link>
                             </div>
@@ -67,6 +69,7 @@
                             <table className="table table-center table-hover table-striped">
                                 <thead>
                                 <tr>
+                                    <th>S.No.</th>
                                     <th>Budget Type</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
