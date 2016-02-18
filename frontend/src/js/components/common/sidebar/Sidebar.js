@@ -24,7 +24,7 @@
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Budget Types</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_STATUS.INDEX} className="sidebar-nav-menu"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Budget Types</span>
+                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Status</span>
                                 </Link></li>
                             </ul>
                         </div>

@@ -15,9 +15,8 @@ target
 frontend/node_modules
 frontend/dist
 frontend/test/temp
+frontend/coverage
 .sass-cache
 frontend/app/vendor
 .tmp
 frontend/test/scripts/
-frontend/coverage
-

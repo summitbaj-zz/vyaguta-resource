@@ -12,7 +12,7 @@ var projectStatus = {
     "id": 13
 }
 var params = {
-    projectStatusId: 5
+    id: 5
 };
 
 

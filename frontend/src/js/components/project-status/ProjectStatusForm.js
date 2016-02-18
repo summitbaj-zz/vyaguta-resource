@@ -60,7 +60,7 @@
         },
         render: function () {
             if (this.props.params)
-                this.projectStatusId = this.props.params.projectStatusId;
+                this.projectStatusId = this.props.params.id;
             var action = this.projectStatusId ? 'Edit ' : 'Create ';
             return (
                 <div>
