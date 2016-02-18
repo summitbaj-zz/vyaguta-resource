@@ -8,7 +8,7 @@
 var React = require('react');
 var ApiUtil = require('../../api-util/ApiUtil');
 var History = require('react-router').History;
-var BudgetHeader = require('./BudgetHeader');
+var BudgetHeader = require('./BudgetTypeHeader');
 var toastr = require('toastr');
 
 var BudgetForm = React.createClass({

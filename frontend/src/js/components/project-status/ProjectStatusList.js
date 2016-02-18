@@ -5,8 +5,8 @@
     var Link = require('react-router').Link;
 
     var ApiUtil = require('../../api-util/ApiUtil');
-    var ProjectStatus = require('./ProjectStatus');
-    var Header = require('./Header');
+    var ProjectStatus = require('./ProjectStatusRow');
+    var Header = require('./ProjectStatusHeader');
 
     var _ = require('lodash');
     var Toastr = require('toastr');

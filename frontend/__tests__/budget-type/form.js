@@ -1,19 +1,18 @@
-/*
-jest.dontMock('../../src/js/components/project-status/ProjectStatusForm')
+jest.dontMock('../../src/js/components/budget-type/BudgetTypeForm')
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
-var Form = require('../../src/js/components/project-status/ProjectStatusForm');
+var Form = require('../../src/js/components/budget-type/BudgetTypeForm');
 var ApiUtil = require('../../src/js/api-util/ApiUtil');
 
 
-var projectStatus = {
+var budgetType = {
     "name": "dfdsfsdf",
     "id": 13
 }
 var params = {
-    id: 5
+    budgetTypeId: 5
 };
 
 
@@ -32,8 +31,8 @@ describe('Form', function () {
 
     it('stores fetched data correctly into the state for edit', function () {
         var form = TestUtils.renderIntoDocument(<Form/>)
-        form.changeState(projectStatus);
-        expect(form.state.projectStatus.id).toNotEqual(null);
+        form.changeState(budgetType);
+        expect(form.state.budgetType.id).toNotEqual(null);
     });
 
     it('changes value of state on key press', function () {
@@ -42,7 +41,7 @@ describe('Form', function () {
         form.fieldChange = jest.genMockFunction();
         var input = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(form, 'input'));
         TestUtils.Simulate.change(input, {target: {name: 'name', value: value}})
-        expect(form.state.projectStatus.name).toEqual(value);
+        expect(form.state.budgetType.name).toEqual(value);
 
     });
     it('call edit function of ApiUtil when id is not null', function () {
@@ -59,4 +58,3 @@ describe('Form', function () {
 
     });
 });
-*/

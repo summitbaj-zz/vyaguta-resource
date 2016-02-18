@@ -4,8 +4,8 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
-var Budget = require('./Budget');
-var BudgetHeader = require('./BudgetHeader');
+var Budget = require('./BudgetTypeRow');
+var BudgetHeader = require('./BudgetTypeHeader');
 var ApiUtil = require('../../api-util/ApiUtil');
 var _ = require('lodash');
 var toastr = require('toastr');

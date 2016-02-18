@@ -2,14 +2,14 @@
     'use strict';
 
     var React = require('react');
-    var Header = require('./Header');
+    var Header = require('./ProjectStatusHeader');
     var history = require('react-router').History;
     var ApiUtil = require('../../api-util/ApiUtil');
     var resourceConstant = require('../../constants/resourceConstant');
     var Toastr = require('toastr');
 
     const PAGE_TITLE = 'Project Status';
-    var id = null;
+    var projectStatusId = null;
 
     var ProjectForm = React.createClass({
         mixins: [history],
@@ -21,8 +21,8 @@
         },
 
         componentDidMount: function () {
-            if (this.id) {
-                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.id, this.changeState);
+            if (this.projectStatusId) {
+                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.projectStatusId, this.changeState);
             }
         },
 
@@ -37,8 +37,8 @@
             var submittedProjectStatus = {
                 name: this.refs.name.value
             }
-            if (this.id) {
-                ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.id, function (data) {
+            if (this.projectStatusId) {
+                ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.projectStatusId, function (data) {
                     Toastr.success("Project Status Successfully Edited");
                     that.history.pushState(null, '/projectstatus');
                 });
@@ -59,8 +59,8 @@
         },
         render: function () {
             if (this.props.params)
-                this.id = this.props.params.id;
-            var action = this.id ? 'Edit ' : 'Create ';
+                this.projectStatusId = this.props.params.projectStatusId;
+            var action = this.projectStatusId ? 'Edit ' : 'Create ';
             return (
                 <div>
                     <Header header={action + PAGE_TITLE}/>
