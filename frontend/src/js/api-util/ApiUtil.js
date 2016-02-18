@@ -6,21 +6,17 @@
 
 var request = require('superagent');
 var url = 'http://localhost:3000/';
-var data = [];
 
 var ApiUtil = {
     fetchById: function (resourceName, id, callback) {
         request
-            .get(url + resourceName + "/" + id)
+            .get(url + resourceName + '/' + id)
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 if (!err) {
-                    data = res.body;
-                } else {
-                    console.log('error');
+                    callback(res.body);
                 }
-                callback(data);
-            })
+            });
     },
 
     fetchAll: function (resourceName, callback) {
@@ -29,11 +25,8 @@ var ApiUtil = {
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 if (!err) {
-                    data = res.body;
-                } else {
-                    console.log('error');
+                    callback(res.body);
                 }
-                callback(data);
             });
     },
 
@@ -44,12 +37,8 @@ var ApiUtil = {
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 if (!err) {
-                    data = res.body;
-                } else {
-                    console.log('error')
+                    callback(res.body);
                 }
-                callback(data);
-
             });
     },
 
@@ -60,11 +49,8 @@ var ApiUtil = {
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 if (!err) {
-                    data = res.body;
-                } else {
-                    console.log('error')
+                    callback(res.body);
                 }
-                callback(data);
             });
     },
 
@@ -73,11 +59,8 @@ var ApiUtil = {
             .delete(url + resourceName + '/' + dataId)
             .end(function (err, res) {
                 if (!err) {
-                    console.log('success');
-                } else {
-                    console.log('error');
+                    callback(dataId);
                 }
-                callback(dataId);
             });
     }
 }

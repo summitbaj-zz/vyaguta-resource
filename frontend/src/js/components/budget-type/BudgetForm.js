@@ -12,7 +12,7 @@ var BudgetHeader = require('./BudgetHeader');
 var toastr = require('toastr');
 
 var BudgetForm = React.createClass({
-    mixins: [History],
+    mixins: [history],
 
     getInitialState: function () {
         return {

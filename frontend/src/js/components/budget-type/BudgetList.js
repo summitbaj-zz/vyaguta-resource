@@ -54,7 +54,7 @@ var BudgetList = React.createClass({
                     <div className="block-title">
                         <h2>Budget Details</h2>
                         <div className="block-options pull-right">
-                            <Link to="budgettypes/add" title="Add Project" data-toggle="tooltip"
+                            <Link to="budgettypes/add" title="Add Budget" data-toggle="tooltip"
                                   className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                 className="fa fa-plus"></i> Add Budget Type</Link>
                         </div>
