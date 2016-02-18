@@ -50,9 +50,13 @@
                                 </div>
                                 <div className="widget-extra-full">
                                     <div className="row text-center">
-                                        <div className="col-xs-12 col-lg-4 cards"><span
-                                            className="cards-counter">50%</span> <span className="cards-text"><i
-                                            className="fa fa-cogs"></i>Services</span></div>
+                                        <div className="col-xs-12 col-lg-4 cards">
+                                            <span className="cards-counter">50%</span>
+                                            <span className="cards-text">
+                                                <i className="fa fa-cogs"></i>
+                                                Services
+                                            </span>
+                                        </div>
                                         <div className="col-xs-12 col-lg-4 cards"><span
                                             className="cards-counter">25%</span> <span className="cards-text"><i
                                             className="fa fa-cubes "></i>Products</span></div>
@@ -315,8 +319,8 @@
                     </div>
                 </div>
             )
-        }
-    });
+            }
+            });
 
-    module.exports = Dashboard
-})();
+            module.exports = Dashboard
+            })();
