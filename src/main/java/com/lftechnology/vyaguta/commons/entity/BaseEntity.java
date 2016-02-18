@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -29,7 +28,6 @@ public abstract class BaseEntity {
     @Id
     private String id;
 
-//    @NotNull(message = "unknown user to create entity")
     @Column(name = "created_by")
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
