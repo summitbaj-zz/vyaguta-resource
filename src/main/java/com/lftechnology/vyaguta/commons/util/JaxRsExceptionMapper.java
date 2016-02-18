@@ -31,10 +31,7 @@ public class JaxRsExceptionMapper implements ExceptionMapper<ValidationException
       List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
       ResteasyViolationException cve = (ResteasyViolationException) e;
       for (ResteasyConstraintViolation rcv : cve.getViolations()) {
-        ErrorMessageWithAttribute msg = new ErrorMessageWithAttribute(extractFieldName(rcv.getPath()),
-            rcv.getMessage());
-        System.out.println(msg.getField());
-        System.out.println(msg.getError());
+        ErrorMessage msg = new ErrorMessage(extractFieldName(rcv.getMessage()));
         errorMessages.add(msg);
       }
       return Response.status(Status.BAD_REQUEST).entity(errorMessages).type(MediaType.APPLICATION_JSON).build();
@@ -46,7 +43,6 @@ public class JaxRsExceptionMapper implements ExceptionMapper<ValidationException
   protected static String extractFieldName(String compositeField) {
     String[] fieldName = compositeField.split("\\.");
     if (fieldName.length > 2) {
-      System.out.println("extracted field name " + fieldName[2]);
       return StringUtils.substringAfter(compositeField, fieldName[0] + "." + fieldName[1] + ".");
     }
     return compositeField;
