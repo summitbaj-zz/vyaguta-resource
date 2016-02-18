@@ -19,7 +19,7 @@ public class ProjectType extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 832909736494541803L;
   
-  @NotNull(message = "Title field cannot be blank.")
+  @NotNull(message = "Title cannot be blank.")
   private String title;
 
   public String getTitle() {
