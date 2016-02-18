@@ -18,6 +18,12 @@
                     <Route path="new" component={require('./components/budget-type/BudgetTypeForm')}/>
                     <Route path="edit/:id" component={require('./components/budget-type/BudgetTypeForm')}/>
                 </Route>
+                <Route path="projectstatus" component={require('./components/project-status/ProjectStatusMain')}>
+                    <IndexRoute component={require('./components/project-status/ProjectStatusList')}/>
+                    <Route path="new" component={require('./components/project-status/ProjectStatusForm')}/>
+                    <Route path="edit/:id"
+                           component={require('./components/project-status/ProjectStatusForm')}/>
+                </Route>
             </Route>
         </Router>
     );

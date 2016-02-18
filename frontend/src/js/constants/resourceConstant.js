@@ -6,8 +6,9 @@
 
 ;(function () {
     var resourceConstant = {
-        BUDGET_TYPES: 'budgettypes'
-    }
+        BUDGET_TYPES: 'budgettypes',
+        PROJECT_STATUS: 'projectStatus'
+    };
 
     module.exports = resourceConstant;
 
