@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 
@@ -17,7 +18,8 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 public class ProjectType extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 832909736494541803L;
-
+  
+  @NotNull(message = "Title field cannot be blank.")
   private String title;
 
   public String getTitle() {
