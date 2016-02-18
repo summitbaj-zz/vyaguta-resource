@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../src/js/components/project-status/ProjectStatusForm')
 
 var React = require('react');
@@ -13,7 +12,7 @@ var projectStatus = {
     "id": 13
 }
 var params = {
-    id: 5
+    projectStatusId: 5
 };
 
 
@@ -59,4 +58,3 @@ describe('Form', function () {
 
     });
 });
-*/

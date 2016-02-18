@@ -2,7 +2,7 @@
     'use strict';
 
     var React = require('react');
-    var Main = React.createClass({
+    var ProjectStatusMain = React.createClass({
         render: function () {
             return (
                 <div id="page-content">
@@ -12,5 +12,5 @@
         }
     });
 
-    module.exports = Main;
+    module.exports = ProjectStatusMain;
 })();

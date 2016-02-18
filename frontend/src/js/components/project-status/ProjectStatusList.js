@@ -6,16 +6,17 @@
 
     var ApiUtil = require('../../api-util/ApiUtil');
     var ProjectStatus = require('./ProjectStatusRow');
-    var Header = require('./ProjectStatusHeader');
+    var ProjectStatusHeader = require('./ProjectStatusHeader');
 
     var _ = require('lodash');
     var Toastr = require('toastr');
 
     var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
 
-    const PAGE_TITLE = 'Project Status';
+    var PAGE_TITLE = 'Project Status';
 
-    var ProjectList = React.createClass({
+    var ProjectStatusList = React.createClass({
         getInitialState: function () {
             return {
                 projectStatus: []
@@ -58,12 +59,12 @@
             var projectStatusIds = Object.keys(this.state.projectStatus);
             return (
                 <div>
-                    <Header header={PAGE_TITLE}/>
+                    <ProjectStatusHeader header={PAGE_TITLE}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
                             <div className="block-options pull-right">
-                                <Link to="/projectstatus/create" title="Add Project Status" data-toggle="tooltip"
+                                <Link to={urlConstant.PROJECT_STATUS.NEW} title="Add Project Status" data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project Status</Link>
                             </div>
@@ -72,6 +73,7 @@
                             <table className="table table-vcenter table-hover table-striped">
                                 <thead>
                                 <tr>
+                                    <th>S.No.</th>
                                     <th>Name</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
@@ -86,5 +88,5 @@
             );
         }
     });
-    module.exports = ProjectList;
+    module.exports = ProjectStatusList;
 })();

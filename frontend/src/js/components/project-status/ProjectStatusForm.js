@@ -2,16 +2,17 @@
     'use strict';
 
     var React = require('react');
-    var Header = require('./ProjectStatusHeader');
+    var ProjectStatusHeader = require('./ProjectStatusHeader');
     var history = require('react-router').History;
     var ApiUtil = require('../../api-util/ApiUtil');
     var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
     var Toastr = require('toastr');
 
-    const PAGE_TITLE = 'Project Status';
+    var PAGE_TITLE = 'Project Status';
     var projectStatusId = null;
 
-    var ProjectForm = React.createClass({
+    var ProjectStatusForm = React.createClass({
         mixins: [history],
 
         getInitialState: function () {
@@ -40,12 +41,12 @@
             if (this.projectStatusId) {
                 ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.projectStatusId, function (data) {
                     Toastr.success("Project Status Successfully Edited");
-                    that.history.pushState(null, '/projectstatus');
+                    that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                 });
             } else {
                 ApiUtil.create(resourceConstant.PROJECT_STATUS, submittedProjectStatus, function (data) {
                     Toastr.success("Project Status Successfully Added");
-                    that.history.pushState(null, "/projectstatus");
+                    that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                 });
             }
         },
@@ -63,7 +64,7 @@
             var action = this.projectStatusId ? 'Edit ' : 'Create ';
             return (
                 <div>
-                    <Header header={action + PAGE_TITLE}/>
+                    <ProjectStatusHeader header={action + PAGE_TITLE}/>
                     <div className="block">
                         <div className="block-title-border">{action} Project Status</div>
                         <form className="form-bordered" method="post" onSubmit={this.submitForm}>
@@ -90,5 +91,5 @@
             );
         }
     });
-    module.exports = ProjectForm;
+    module.exports = ProjectStatusForm;
 })();

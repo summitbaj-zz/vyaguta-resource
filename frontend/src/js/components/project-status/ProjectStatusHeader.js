@@ -4,7 +4,7 @@
     var React = require('react');
     var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
-    var Header = React.createClass({
+    var ProjectStatusHeader = React.createClass({
         render: function () {
             return (
                 <div className="row">
@@ -21,6 +21,6 @@
         }
     });
 
-    module.exports = Header;
+    module.exports = ProjectStatusHeader;
 })();
 

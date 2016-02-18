@@ -1,15 +1,17 @@
 ;(function () {
     var React = require('react');
     var Link = require('react-router').Link;
+    var urlConstant = require('../../constants/urlConstant');
 
-    var ProjectStatus = React.createClass({
+    var ProjectStatusRow = React.createClass({
         render: function () {
             var id = this.props.projectStatus.id;
             return (
                 <tr>
+                    <td>{++this.props.index}</td>
                     <td>{this.props.projectStatus.name}</td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={"/projectstatus/edit/"+id} data-toggle="tooltip"
+                        <div className="btn-group"><Link to={urlConstant.PROJECT_STATUS.EDIT + id} data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>
@@ -24,5 +26,5 @@
             );
         }
     });
-    module.exports = ProjectStatus;
+    module.exports = ProjectStatusRow;
 })();
