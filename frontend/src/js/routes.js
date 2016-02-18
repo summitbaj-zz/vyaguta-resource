@@ -11,17 +11,17 @@
 
     var routes = (
         <Router history={createBrowserHistory()}>
-            <Route path="/" component={require('./components/App')}>
+            <Route path="/" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
-                <Route path="budgettypes" component={require('./components/budget-type/BudgetTypeMain')}>
+                <Route path="budgettypes" name="Budget Types" component={require('./components/budget-type/BudgetTypeMain')}>
                     <IndexRoute component={require('./components/budget-type/BudgetTypeList')}/>
-                    <Route path="new" component={require('./components/budget-type/BudgetTypeForm')}/>
-                    <Route path="edit/:id" component={require('./components/budget-type/BudgetTypeForm')}/>
+                    <Route path="new" name="Add" component={require('./components/budget-type/BudgetTypeForm')}/>
+                    <Route path="edit/:id" name="Edit" component={require('./components/budget-type/BudgetTypeForm')}/>
                 </Route>
-                <Route path="projectstatus" component={require('./components/project-status/ProjectStatusMain')}>
+                <Route path="projectstatus" name ="Project Status" component={require('./components/project-status/ProjectStatusMain')}>
                     <IndexRoute component={require('./components/project-status/ProjectStatusList')}/>
-                    <Route path="new" component={require('./components/project-status/ProjectStatusForm')}/>
-                    <Route path="edit/:id"
+                    <Route path="new" name="Add" component={require('./components/project-status/ProjectStatusForm')}/>
+                    <Route path="edit/:id" name="Edit"
                            component={require('./components/project-status/ProjectStatusForm')}/>
                 </Route>
             </Route>

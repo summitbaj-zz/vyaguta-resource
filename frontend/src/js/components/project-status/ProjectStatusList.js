@@ -59,7 +59,7 @@
             var projectStatusIds = Object.keys(this.state.projectStatus);
             return (
                 <div>
-                    <ProjectStatusHeader header={PAGE_TITLE}/>
+                    <ProjectStatusHeader header={PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>

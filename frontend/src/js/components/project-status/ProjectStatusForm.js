@@ -64,7 +64,7 @@
             var action = this.projectStatusId ? 'Edit ' : 'Create ';
             return (
                 <div>
-                    <ProjectStatusHeader header={action + PAGE_TITLE}/>
+                    <ProjectStatusHeader header={action + PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">{action} Project Status</div>
                         <form className="form-bordered" method="post" onSubmit={this.submitForm}>

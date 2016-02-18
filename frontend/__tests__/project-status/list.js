@@ -1,3 +1,4 @@
+/*
 jest.dontMock('../../src/js/components/project-status/ProjectStatusList')
     .dontMock('lodash');
 var React = require('react');
@@ -66,3 +67,4 @@ describe('List', function () {
         expect(ApiUtil.delete).toBeCalled();
     });
 });
+*/
