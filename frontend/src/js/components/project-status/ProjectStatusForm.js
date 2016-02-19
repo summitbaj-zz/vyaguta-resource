@@ -40,12 +40,12 @@
             }
             if (this.props.params.id) {
                 ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.props.params.id, function (data) {
-                    Toastr.success("Project Status Successfully Edited");
+                    Toastr.success('Project Status Successfully Edited');
                     that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                 });
             } else {
                 ApiUtil.create(resourceConstant.PROJECT_STATUS, submittedProjectStatus, function (data) {
-                    Toastr.success("Project Status Successfully Added");
+                    Toastr.success('Project Status Successfully Added');
                     that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                 });
             }

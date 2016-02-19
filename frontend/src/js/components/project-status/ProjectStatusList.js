@@ -51,7 +51,7 @@
 
         delete: function (key) {
             var that = this;
-            if (confirm('Do you want to delete this item?')) {
+            if (confirm('Are you sure?')) {
                 ApiUtil.delete(resourceConstant.PROJECT_STATUS, key, this.removeRecordFromState);
             }
         },
