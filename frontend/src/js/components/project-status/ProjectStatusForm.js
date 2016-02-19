@@ -22,8 +22,8 @@
         },
 
         componentDidMount: function () {
-            if (this.projectStatusId) {
-                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.projectStatusId, this.changeState);
+            if (this.props.params.id) {
+                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id, this.changeState);
             }
         },
 
@@ -38,8 +38,8 @@
             var submittedProjectStatus = {
                 name: this.refs.name.value
             }
-            if (this.projectStatusId) {
-                ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.projectStatusId, function (data) {
+            if (this.props.params.id) {
+                ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.props.params.id, function (data) {
                     Toastr.success("Project Status Successfully Edited");
                     that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                 });
@@ -59,9 +59,7 @@
             return this.setState({projectStatus: this.state.projectStatus});
         },
         render: function () {
-            if (this.props.params)
-                this.projectStatusId = this.props.params.id;
-            var action = this.projectStatusId ? 'Edit ' : 'Create ';
+            var action = this.props.params.id ? 'Edit ' : 'Create ';
             return (
                 <div>
                     <ProjectStatusHeader header={action + PAGE_TITLE} routes={this.props.routes}/>

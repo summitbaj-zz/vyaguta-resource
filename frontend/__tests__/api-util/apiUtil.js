@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../src/js/api-util/ApiUtil')
     .dontMock('superagent');
 var ApiUtil = require('../../src/js/api-util/ApiUtil');
@@ -94,4 +93,3 @@ describe('ApiUtil', function() {
         });
     });
 });
-*/

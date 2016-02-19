@@ -55,7 +55,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title="Budget Types"/>
+                    <BudgetTypeHeader title="Budget Types" routes = {this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>

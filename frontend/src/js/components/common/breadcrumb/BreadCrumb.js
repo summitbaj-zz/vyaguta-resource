@@ -9,43 +9,51 @@ var BreadCrumb = React.createClass({
             paths: []
         }
     },
+
     componentWillMount: function () {
         this.setPathState();
     },
 
     setPathState: function () {
-        this.routes = this.props.routes;
+        var routes = this.props.routes;
         var newRoute = '';
         var arrays = [];
-        for (var i in this.routes) {
-            if (this.routes[i].path && this.routes[i].name) {
-                newRoute = newRoute.concat(this.routes[i].path);
+        for (var i in routes) {
+            if (routes[i].path && routes[i].name) {
+                newRoute = newRoute.concat(routes[i].path);
                 var newPath = {
-                    name: this.routes[i].name,
-                    route: this.routes[i].path
+                    name: routes[i].name,
+                    route: routes[i].path
                 };
                 this.state.paths.push(newPath);
             }
         }
         this.setState({paths: this.state.paths});
-        console.warn(this.state.paths);
     },
 
     getComponent: function (key) {
         return (
-           <Link to={this.state.paths[key].route} key={key}>{this.state.paths[key].name} </Link>
+            <li key={key}>
+                <Link to={this.state.paths[key].route} key={key}>{this.state.paths[key].name} </Link>
+            </li>
         );
     },
+
     render: function () {
-        return(<div></div>);
         var componentIds = Object.keys(this.state.paths);
         componentIds.splice(-1, 1);
-        return (
-            <ul className="breadcrumb breadcrumb-top">
-                <li>{componentIds.map(this.getComponent)}</li>
-                <li>{this.state.paths[this.state.paths.length - 1].name}</li>
-            </ul>
-        );
+        if(this.state.paths.length) {
+            return (
+                <ul className="breadcrumb breadcrumb-top">
+                    {componentIds.map(this.getComponent)}
+                    <li>{this.state.paths[this.state.paths.length - 1].name}</li>
+                </ul>
+
+            );
+        }
+        else{
+            return(<div></div>);
+        }
     }
 });
 
