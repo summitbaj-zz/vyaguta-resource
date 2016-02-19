@@ -6,7 +6,6 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
-import com.lftechnology.vyaguta.commons.pojo.ErrorMessage;
 
 /**
  * 
@@ -19,8 +18,8 @@ public class DataAccessExceptionMapper implements ExceptionMapper<DataAccessExce
 
   @Override
   public Response toResponse(DataAccessException exception) {
-    ErrorMessage errorMessage = new ErrorMessage("Unique Key Violation Error");
-    return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).type(MediaType.APPLICATION_JSON).build();
+    return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).type(MediaType.APPLICATION_JSON).build();
+    
   }
 
 }
