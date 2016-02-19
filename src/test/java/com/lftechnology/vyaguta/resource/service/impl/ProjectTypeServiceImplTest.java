@@ -34,6 +34,8 @@ public class ProjectTypeServiceImplTest {
   @Mock
   private ProjectTypeDao projectTypeDao;
 
+  private final String testId = "asdf";
+
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
@@ -73,12 +75,11 @@ public class ProjectTypeServiceImplTest {
   public void testMergeWhenIdIsNotValid() {
 
     // arrange
-    Mockito.when(this.projectTypeDao.findById(Matchers.anyString())).thenReturn(null);
+    Mockito.when(this.projectTypeDao.findById(ProjectType.class, testId)).thenReturn(null);
     ProjectType projectType = new ProjectType();
-    String id = "id";
 
     // act
-    this.projectTypeServiceImpl.merge(id, projectType);
+    this.projectTypeServiceImpl.merge(testId, projectType);
 
   }
 
@@ -89,15 +90,14 @@ public class ProjectTypeServiceImplTest {
     ProjectType projectTypeNew = this.buildProjectType();
     ProjectType projectTypeOld = this.buildProjectType();
     projectTypeOld.setTitle("Title old");
-    Mockito.when(projectTypeDao.findById(Matchers.anyString())).thenReturn(projectTypeOld);
-    String id = "valid id";
+    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(projectTypeOld);
 
     // act
-    this.projectTypeServiceImpl.merge(id, projectTypeNew);
+    this.projectTypeServiceImpl.merge(testId, projectTypeNew);
 
     // assert
     assertThat(projectTypeOld.getTitle(), is(projectTypeNew.getTitle()));
-    Mockito.verify(projectTypeDao).findById(id);
+    Mockito.verify(projectTypeDao).findById(ProjectType.class, testId);
     Mockito.verify(projectTypeServiceImpl).update(projectTypeOld);
   }
 
@@ -119,11 +119,10 @@ public class ProjectTypeServiceImplTest {
   public void testRemoveByIdWhenIdIsNotValid() {
 
     // arrange
-    Mockito.when(this.projectTypeServiceImpl.findById(Matchers.anyString())).thenReturn(null);
-    String id = "id";
+    Mockito.when(this.projectTypeServiceImpl.findById(testId)).thenReturn(null);
 
     // act
-    this.projectTypeServiceImpl.removeById(id);
+    this.projectTypeServiceImpl.removeById(testId);
   }
 
   @Test
@@ -131,28 +130,28 @@ public class ProjectTypeServiceImplTest {
 
     // arrange
     ProjectType projectType = this.buildProjectType();
-    Mockito.when(projectTypeDao.findById(Matchers.anyString())).thenReturn(projectType);
+    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(projectType);
     Mockito.doNothing().when(projectTypeServiceImpl).remove(projectType);
 
     // act
-    this.projectTypeServiceImpl.removeById("validId");
+    this.projectTypeServiceImpl.removeById(testId);
 
     // assert
     Mockito.verify(this.projectTypeServiceImpl).remove(projectType);
-    Mockito.verify(this.projectTypeDao).findById(Matchers.anyString());
+    Mockito.verify(this.projectTypeDao).findById(ProjectType.class, testId);
   }
 
   @Test
   public void testfindById() {
 
     // arrange
-    Mockito.when(projectTypeDao.findById(Matchers.anyString())).thenReturn(new ProjectType());
+    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(new ProjectType());
 
     // act
-    this.projectTypeServiceImpl.findById("validId");
+    this.projectTypeServiceImpl.findById(testId);
 
     // assert
-    Mockito.verify(projectTypeDao).findById(Matchers.anyString());
+    Mockito.verify(projectTypeDao).findById(ProjectType.class, testId);
   }
 
   @Test
@@ -179,7 +178,7 @@ public class ProjectTypeServiceImplTest {
 
     // assert
     Mockito.verify(projectTypeDao).count();
-    assertThat(result,is(Long.valueOf(10)));
+    assertThat(result, is(Long.valueOf(10)));
   }
 
   @Test
