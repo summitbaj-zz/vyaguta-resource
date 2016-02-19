@@ -17,7 +17,7 @@ import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
 public class ProjectTypeServiceImpl implements ProjectTypeService {
   @Inject
   ProjectTypeDao projectTypeDao;
-
+  
   @Override
   public ProjectType save(ProjectType projectType) {
     return projectTypeDao.save(projectType);
@@ -54,7 +54,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 
   @Override
   public ProjectType findById(String id) {
-    return projectTypeDao.findById(id);
+    return projectTypeDao.findById(ProjectType.class, id);
   }
 
   @Override
