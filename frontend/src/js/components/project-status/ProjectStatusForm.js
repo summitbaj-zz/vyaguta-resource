@@ -58,6 +58,7 @@
             this.state.projectStatus[field] = value;
             return this.setState({projectStatus: this.state.projectStatus});
         },
+
         render: function () {
             if (this.props.params)
                 this.projectStatusId = this.props.params.id;
