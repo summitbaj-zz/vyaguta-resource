@@ -46,12 +46,12 @@
 
             if (this.props.params.id) {
                 ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id, function (data) {
-                    toastr.success("Budget Type Successfully Edited");
+                    toastr.success('Budget Type Successfully Edited');
                     that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
                 })
             } else {
                 ApiUtil.create(resourceConstant.BUDGET_TYPES, budgetType, function (data) {
-                    toastr.success("Budget Type Successfully Added");
+                    toastr.success('Budget Type Successfully Added');
                     that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
                 });
             }
@@ -67,13 +67,9 @@
         },
 
         render: function () {
-            if(this.props.params.id) {
-                var budgetTypeId = this.props.params.id;
-            }
-
             return (
                 <div>
-                    <BudgetTypeHeader title={(budgetTypeId)?'Edit Budget Type':'Add Budget Type'}/>
+                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}/>
                     <div className="block">
                         <div
                             className="block-title-border">Budget Type Details
@@ -88,7 +84,7 @@
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
                                     <button className="btn btn-sm btn-success" type="submit"><i
-                                        className="fa fa-angle-right"></i>{(budgetTypeId) ? 'Update' : 'Save'}
+                                        className="fa fa-angle-right"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
                                     <button className="btn btn-sm btn-default" type="reset"><i
                                         className="fa fa-repeat"></i>Reset

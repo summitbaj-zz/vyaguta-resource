@@ -29,7 +29,7 @@ var Form; //test BudgetTypeForm
 describe('BudgetTypeForm', function () {
 
 
-    it('doesnt call fetchById of ApiUtil when id is  null', function () {
+    it('does not call fetchById of ApiUtil when id is  null', function () {
         Form = TestUtils.renderIntoDocument(<BudgetTypeForm params={paramWithoutId}/>);
         Form.componentDidMount();
         expect(ApiUtil.fetchById).not.toBeCalled();

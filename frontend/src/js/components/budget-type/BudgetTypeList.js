@@ -33,14 +33,14 @@
         },
 
         removeFromState: function(budgetId) {
-            toastr.success("Budget Type Successfully Deleted");
+            toastr.success('Budget Type Successfully Deleted');
             var index = _.indexOf(this.state.budgetTypes, _.find(this.state.budgetTypes, {id: budgetId}));
             this.state.budgetTypes.splice(index, 1);
             this.updateState(this.state.budgetTypes);
         },
 
         deleteBudgetType: function (id) {
-            if (confirm("Are you sure?")) {
+            if (confirm('Are you sure?')) {
                 ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, this.removeFromState);
             }
         },
