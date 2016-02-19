@@ -25,22 +25,23 @@
         },
 
         componentDidMount: function () {
-            var that = this;
+            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, this.updateState);
+        },
 
-            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, function (budgetTypes) {
-                that.setState({budgetTypes: budgetTypes});
-            })
+        updateState: function(budgetTypes) {
+            this.setState({budgetTypes: budgetTypes});
+        },
+
+        removeFromState: function(budgetId) {
+            toastr.success("Budget Type Successfully Deleted");
+            var index = _.indexOf(this.state.budgetTypes, _.find(this.state.budgetTypes, {id: budgetId}));
+            this.state.budgetTypes.splice(index, 1);
+            this.updateState(this.state.budgetTypes);
         },
 
         deleteBudgetType: function (id) {
-            var that = this;
             if (confirm("Are you sure?")) {
-                ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, function (budgetId) {
-                    toastr.success("Budget Type Successfully Deleted");
-                    var index = _.indexOf(that.state.budgetTypes, _.find(that.state.budgetTypes, {id: budgetId}));
-                    that.state.budgetTypes.splice(index, 1);
-                    that.setState({budgetTypes: that.state.budgetTypes});
-                });
+                ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, this.removeFromState);
             }
         },
 

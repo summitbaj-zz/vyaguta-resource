@@ -27,28 +27,25 @@
         },
 
         componentDidMount: function () {
-            var budgetTypeId = this.props.params.id;
-
-            var that = this;
-            if (budgetTypeId) {
-                ApiUtil.fetchById(resourceConstant.BUDGET_TYPES, budgetTypeId, function (data) {
-                    that.setState({budgetType: data});
-                })
+            if (this.props.params.id) {
+                ApiUtil.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id, this.updateState);
             }
+        },
+
+        updateState: function(budgetType) {
+            this.setState({budgetType: budgetType});
         },
 
         addBudgetType: function (event) {
             event.preventDefault();
             var that = this;
 
-            var budgetTypeId = this.props.params.id;
-
             var budgetType = {
                 title: this.refs.budgetType.value
             }
 
-            if (budgetTypeId) {
-                ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, budgetTypeId, function (data) {
+            if (this.props.params.id) {
+                ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id, function (data) {
                     toastr.success("Budget Type Successfully Edited");
                     that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
                 })
@@ -70,12 +67,17 @@
         },
 
         render: function () {
+            if(this.props.params.id) {
+                var budgetTypeId = this.props.params.id;
+            }
+
             return (
                 <div>
-                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}/>
+                    <BudgetTypeHeader title={(budgetTypeId)?'Edit Budget Type':'Add Budget Type'}/>
                     <div className="block">
                         <div
-                            className="block-title-border">Budget Type Details</div>
+                            className="block-title-border">Budget Type Details
+                        </div>
                         <form className="form-bordered" method="post" onSubmit={this.addBudgetType}>
                             <div className="form-group">
                                 <label>Budget Type</label>
@@ -86,7 +88,7 @@
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
                                     <button className="btn btn-sm btn-success" type="submit"><i
-                                        className="fa fa-angle-right"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        className="fa fa-angle-right"></i>{(budgetTypeId) ? 'Update' : 'Save'}
                                     </button>
                                     <button className="btn btn-sm btn-default" type="reset"><i
                                         className="fa fa-repeat"></i>Reset
@@ -101,5 +103,4 @@
     });
 
     module.exports = BudgetTypeForm;
-
 })();
