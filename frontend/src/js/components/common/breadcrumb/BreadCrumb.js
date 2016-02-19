@@ -34,7 +34,7 @@ var BreadCrumb = React.createClass({
     getComponent: function (key) {
         return (
             <li key={key}>
-                <Link to={this.state.paths[key].route} key={key}>{this.state.paths[key].name} </Link>
+                <Link to={this.state.paths[key].route}>{this.state.paths[key].name} </Link>
             </li>
         );
     },
