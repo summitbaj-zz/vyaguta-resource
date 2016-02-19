@@ -75,7 +75,7 @@ public class BudgetTypeRs {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") String id) {
-		System.out.println(id);
+
 		BudgetType budgetType = budgetTypeService.findById(id);
 		if (budgetType != null) {
 			return Response.status(Response.Status.OK).entity(
