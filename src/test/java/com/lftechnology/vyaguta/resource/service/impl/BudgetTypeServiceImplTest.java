@@ -86,26 +86,29 @@ public class BudgetTypeServiceImplTest {
 			budgetType);
 		Mockito.when(this.budgetTypeService.findById(Matchers.anyString())).thenReturn(
 			budgetType);
+
 		// act
 		this.budgetTypeService.merge(ID, budgetType);
+
 		// assert
 		Mockito.verify(budgetTypeDao).update(budgetType);
 	}
-	
+
 	@Test(expected = ObjectNotFoundException.class)
-	  public void testMergeWhenObjectNotFoundException() {
-	
-	   // arrange
+	public void testMergeWhenObjectNotFoundException() {
+
+		// arrange
 		BudgetType budgetType = new BudgetType();
-	    Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(null);
-	    
-	   // act
-	   this.budgetTypeService.merge(ID, budgetType);
-	   
-	   // assert
+		Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
+			null);
+
+		// act
+		this.budgetTypeService.merge(ID, budgetType);
+
+		// assert
 		Mockito.verify(budgetTypeDao).update(budgetType);
-	
-	 }
+
+	}
 
 	@Test
 	public void testRemoveBudgetType() {
@@ -146,6 +149,7 @@ public class BudgetTypeServiceImplTest {
 		BudgetType budgetType = this.buildBudgetType();
 		Mockito.when(this.budgetTypeService.findById(Matchers.anyString())).thenReturn(
 			null);
+
 		// act
 		this.budgetTypeService.removeById(ID);
 
