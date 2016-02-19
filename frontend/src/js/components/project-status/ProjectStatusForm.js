@@ -58,6 +58,7 @@
             this.state.projectStatus[field] = value;
             return this.setState({projectStatus: this.state.projectStatus});
         },
+
         render: function () {
             var action = this.props.params.id ? 'Edit ' : 'Create ';
             return (

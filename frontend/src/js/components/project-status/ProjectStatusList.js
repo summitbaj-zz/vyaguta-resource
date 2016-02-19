@@ -31,7 +31,6 @@
         setNewState: function (data) {
             this.state.projectStatus = data;
             this.setState({projectStatus: this.state.projectStatus});
-
         },
 
         list: function (key) {
