@@ -17,8 +17,8 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 public class BudgetType extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -3510694911514582414L;
-	
-	@NotNull
+
+	@NotNull(message = "Title cannot be blank.")
 	private String title;
 
 	public String getTitle() {
