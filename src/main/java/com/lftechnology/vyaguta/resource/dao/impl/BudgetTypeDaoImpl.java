@@ -1,4 +1,3 @@
-
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.List;
@@ -19,73 +18,60 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 @Stateless
 public class BudgetTypeDaoImpl extends BaseDao implements BudgetTypeDao {
 
-	@Inject
-	CriteriaUtil<BudgetType> criteriaUtil;
+  @Inject
+  CriteriaUtil<BudgetType> criteriaUtil;
 
-	@Override
-	public BudgetType save(BudgetType budgetType) {
+  @Override
+  public BudgetType save(BudgetType budgetType) {
+    try {
+      em.persist(budgetType);
+      em.flush();
+    } catch (PersistenceException persistenceException) {
+      throw new DataAccessException(constructErrorMessage(persistenceException)
+          .toString(), persistenceException.getCause());
+    }
+    return budgetType;
+  }
 
-		try {
-			em.persist(budgetType);
-			em.flush();
-		}
-		catch (PersistenceException persistenceException) {
-			throw new DataAccessException(
-				constructErrorMessage(persistenceException).toString(),
-				persistenceException.getCause());
-		}
-		return budgetType;
-	}
+  @Override
+  public BudgetType update(BudgetType budgetType) {
+    try {
+      em.merge(budgetType);
+      em.flush();
+    } catch (PersistenceException persistenceException) {
+      throw new DataAccessException(constructErrorMessage(persistenceException)
+          .toString(), persistenceException.getCause());
+    }
+    return budgetType;
+  }
 
-	@Override
-	public BudgetType update(BudgetType budgetType) {
+  @Override
+  public void remove(BudgetType budgetType) {
+    try {
+      em.remove(em.merge(budgetType));
+    } catch (PersistenceException persistenceException) {
+      throw new DataAccessException(constructErrorMessage(persistenceException)
+          .toString(), persistenceException.getCause());
+    }
+  }
 
-		try {
-			em.merge(budgetType);
-			em.flush();
-		}
-		catch (PersistenceException persistenceException) {
-			throw new DataAccessException(
-				constructErrorMessage(persistenceException).toString(),
-				persistenceException.getCause());
-		}
-		return budgetType;
-	}
+  @Override
+  public BudgetType findById(String id) {
+    return em.find(BudgetType.class, id);
+  }
 
-	@Override
-	public void remove(BudgetType budgetType) {
+  @Override
+  public List<BudgetType> findAll() {
+    return criteriaUtil.findAll(BudgetType.class);
+  }
 
-		try {
-			em.remove(em.merge(budgetType));
-		}
-		catch (PersistenceException persistenceException) {
-			throw new DataAccessException(
-				constructErrorMessage(persistenceException).toString(),
-				persistenceException.getCause());
-		}
-	}
+  @Override
+  public Long count() {
+    return criteriaUtil.count(BudgetType.class);
+  }
 
-	@Override
-	public BudgetType findById(String id) {
-
-		return em.find(BudgetType.class, id);
-	}
-
-	@Override
-	public List<BudgetType> findAll() {
-
-		return criteriaUtil.findAll(BudgetType.class);
-	}
-
-	@Override
-	public Long count() {
-
-		return criteriaUtil.count(BudgetType.class);
-	}
-
-	@Override
-	public List<BudgetType> find(Integer start, Integer offset) {
-
-		return criteriaUtil.find(BudgetType.class, start, offset);
-	}
+  @Override
+  public List<BudgetType> find(Integer start, Integer offset) {
+    return criteriaUtil.find(BudgetType.class, start, offset);
+  }
 }

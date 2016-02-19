@@ -1,4 +1,3 @@
-
 package com.lftechnology.vyaguta.resource.dao;
 
 import com.lftechnology.vyaguta.commons.dao.CrudDao;

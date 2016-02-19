@@ -1,4 +1,3 @@
-
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
@@ -16,18 +15,16 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 @Table(name = "budget_types")
 public class BudgetType extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = -3510694911514582414L;
+  private static final long serialVersionUID = -3510694911514582414L;
 
-	@NotNull(message = "Title cannot be blank.")
-	private String title;
+  @NotNull(message = "Title cannot be blank.")
+  private String title;
 
-	public String getTitle() {
+  public String getTitle() {
+    return title;
+  }
 
-		return title;
-	}
-
-	public void setTitle(String title) {
-
-		this.title = title;
-	}
+  public void setTitle(String title) {
+    this.title = title;
+  }
 }

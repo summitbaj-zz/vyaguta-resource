@@ -1,4 +1,3 @@
-
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -30,209 +29,195 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 @RunWith(MockitoJUnitRunner.class)
 public class BudgetTypeServiceImplTest {
 
-	private static final String ID = "86e14841918a43abad9dd96d4d41acf4";
-	private static final Long COUNT = 20L;
+  private static final String ID = "86e14841918a43abad9dd96d4d41acf4";
+  private static final Long COUNT = 20L;
 
-	@Mock
-	private BudgetTypeDao budgetTypeDao;
+  @Mock
+  private BudgetTypeDao budgetTypeDao;
 
-	@InjectMocks
-	@Spy
-	private BudgetTypeServiceImpl budgetTypeService;
+  @InjectMocks
+  @Spy
+  private BudgetTypeServiceImpl budgetTypeService;
 
-	@Before
-	public void setup() {
+  @Before
+  public void setup() {
 
-		MockitoAnnotations.initMocks(this);
-	}
+    MockitoAnnotations.initMocks(this);
+  }
 
-	@Test
-	public void testSaveBudgetType() {
+  @Test
+  public void testSaveBudgetType() {
+    // arrange
+    BudgetType budgetType = this.buildBudgetType();
+    Mockito.when(this.budgetTypeDao.save(budgetType)).thenReturn(budgetType);
 
-		// arrange
-		BudgetType budgetType = this.buildBudgetType();
-		Mockito.when(this.budgetTypeDao.save(budgetType)).thenReturn(budgetType);
+    // act
+    BudgetType resultBudgetType = this.budgetTypeService.save(budgetType);
 
-		// act
-		BudgetType resultBudgetType = this.budgetTypeService.save(budgetType);
+    // assert
+    Mockito.verify(budgetTypeDao).save(budgetType);
+    assertThat(resultBudgetType, is(budgetType));
+  }
 
-		// assert
-		Mockito.verify(budgetTypeDao).save(budgetType);
-		assertThat(resultBudgetType, is(budgetType));
-	}
+  @Test
+  public void testUpdateBudgetType() {
+    // arrange
+    BudgetType budgetType = new BudgetType();
+    Mockito.when(this.budgetTypeDao.update(Matchers.any(BudgetType.class)))
+        .thenReturn(budgetType);
 
-	@Test
-	public void testUpdateBudgetType() {
+    // act
+    this.budgetTypeService.update(budgetType);
 
-		// arrange
-		BudgetType budgetType = new BudgetType();
-		Mockito.when(this.budgetTypeDao.update(Matchers.any(BudgetType.class))).thenReturn(
-			budgetType);
+    // assert
+    Mockito.verify(budgetTypeDao).update(budgetType);
 
-		// act
-		this.budgetTypeService.update(budgetType);
+  }
 
-		// assert
-		Mockito.verify(budgetTypeDao).update(budgetType);
+  @Test
+  public void testMergeBudgetType() {
+    // arrange
+    BudgetType budgetType = this.buildBudgetType();
+    Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
+        budgetType);
+    Mockito.when(this.budgetTypeService.findById(Matchers.anyString()))
+        .thenReturn(budgetType);
 
-	}
+    // act
+    this.budgetTypeService.merge(ID, budgetType);
 
-	@Test
-	public void testMergeBudgetType() {
+    // assert
+    Mockito.verify(budgetTypeDao).update(budgetType);
+  }
 
-		// arrange
-		BudgetType budgetType = this.buildBudgetType();
-		Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
-			budgetType);
-		Mockito.when(this.budgetTypeService.findById(Matchers.anyString())).thenReturn(
-			budgetType);
+  @Test(expected = ObjectNotFoundException.class)
+  public void testMergeWhenObjectNotFoundException() {
+    // arrange
+    BudgetType budgetType = new BudgetType();
+    Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
+        null);
 
-		// act
-		this.budgetTypeService.merge(ID, budgetType);
+    // act
+    this.budgetTypeService.merge(ID, budgetType);
 
-		// assert
-		Mockito.verify(budgetTypeDao).update(budgetType);
-	}
+    // assert
+    Mockito.verify(budgetTypeDao).update(budgetType);
 
-	@Test(expected = ObjectNotFoundException.class)
-	public void testMergeWhenObjectNotFoundException() {
+  }
 
-		// arrange
-		BudgetType budgetType = new BudgetType();
-		Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
-			null);
+  @Test
+  public void testRemoveBudgetType() {
+    // arrange
+    BudgetType budgetType = this.buildBudgetType();
+    Mockito.doNothing().when(this.budgetTypeDao).remove(budgetType);
 
-		// act
-		this.budgetTypeService.merge(ID, budgetType);
+    // act
+    this.budgetTypeService.remove(budgetType);
 
-		// assert
-		Mockito.verify(budgetTypeDao).update(budgetType);
+    // assert
+    Mockito.verify(budgetTypeDao).remove(budgetType);
+  }
 
-	}
+  @Test
+  public void testRemoveBudgetTypeById() {
+    // arrange
+    BudgetType budgetType = this.buildBudgetType();
+    Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
+        budgetType);
+    Mockito.when(this.budgetTypeService.findById(Matchers.anyString()))
+        .thenReturn(budgetType);
 
-	@Test
-	public void testRemoveBudgetType() {
+    // act
+    this.budgetTypeService.removeById(ID);
 
-		// arrange
-		BudgetType budgetType = this.buildBudgetType();
-		Mockito.doNothing().when(this.budgetTypeDao).remove(budgetType);
+    // assert
+    Mockito.verify(budgetTypeService).remove(budgetType);
 
-		// act
-		this.budgetTypeService.remove(budgetType);
+  }
 
-		// assert
-		Mockito.verify(budgetTypeDao).remove(budgetType);
-	}
+  @Test(expected = ObjectNotFoundException.class)
+  public void testRemoveBudgetTypeByIdWhenObjectNotFoundException() {
+    // arrange
+    BudgetType budgetType = this.buildBudgetType();
+    Mockito.when(this.budgetTypeService.findById(Matchers.anyString()))
+        .thenReturn(null);
 
-	@Test
-	public void testRemoveBudgetTypeById() {
+    // act
+    this.budgetTypeService.removeById(ID);
 
-		// arrange
-		BudgetType budgetType = this.buildBudgetType();
-		Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
-			budgetType);
-		Mockito.when(this.budgetTypeService.findById(Matchers.anyString())).thenReturn(
-			budgetType);
+    // assert
+    Mockito.verify(budgetTypeService).remove(budgetType);
+  }
 
-		// act
-		this.budgetTypeService.removeById(ID);
+  @Test
+  public void findBudgetTypeById() {
+    // arrange
+    Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
+        new BudgetType());
 
-		// assert
-		Mockito.verify(budgetTypeService).remove(budgetType);
+    // act
+    this.budgetTypeService.findById(ID);
 
-	}
+    // assert
+    Mockito.verify(budgetTypeDao).findById(Matchers.anyString());
 
-	@Test(expected = ObjectNotFoundException.class)
-	public void testRemoveBudgetTypeByIdWhenObjectNotFoundException() {
+  }
 
-		// arrange
-		BudgetType budgetType = this.buildBudgetType();
-		Mockito.when(this.budgetTypeService.findById(Matchers.anyString())).thenReturn(
-			null);
+  @Test
+  public void testFindAllBudgetType() {
+    // arrange
+    Mockito.when(this.budgetTypeDao.findAll()).thenReturn(
+        new ArrayList<BudgetType>());
 
-		// act
-		this.budgetTypeService.removeById(ID);
+    // act
+    this.budgetTypeService.findAll();
 
-		// assert
-		Mockito.verify(budgetTypeService).remove(budgetType);
-	}
+    // assert
+    Mockito.verify(budgetTypeDao).findAll();
+  }
 
-	@Test
-	public void findBudgetTypeById() {
+  @Test
+  public void testCountBudgetType() {
+    // arrange
+    Mockito.when(this.budgetTypeDao.count()).thenReturn(COUNT);
 
-		// arrange
-		Mockito.when(this.budgetTypeDao.findById(Matchers.anyString())).thenReturn(
-			new BudgetType());
+    // act
+    Long result = this.budgetTypeService.count();
 
-		// act
-		this.budgetTypeService.findById(ID);
+    // assert
+    Mockito.verify(budgetTypeDao).count();
+    assertEquals(Long.valueOf("20"), result);
+  }
 
-		// assert
-		Mockito.verify(budgetTypeDao).findById(Matchers.anyString());
+  @Test
+  public void testFindBudgetType() {
+    // arrange
+    Mockito.when(this.budgetTypeDao.find(Matchers.anyInt(), Matchers.anyInt()))
+        .thenReturn(new ArrayList<BudgetType>());
 
-	}
+    // act
+    this.budgetTypeService.find(Matchers.anyInt(), Matchers.anyInt());
 
-	@Test
-	public void testFindAllBudgetType() {
+    // assert
+    Mockito.verify(budgetTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
+  }
 
-		// arrange
-		Mockito.when(this.budgetTypeDao.findAll()).thenReturn(
-			new ArrayList<BudgetType>());
+  private BudgetType buildBudgetType() {
+    BudgetType budgetType = new BudgetType();
+    User user = this.buildUser();
+    budgetType.setId(ID);
+    budgetType.setTitle("Fixed Budget");
+    budgetType.setCreatedBy(user);
+    budgetType.setUpdatedAt(LocalDateTime.now());
+    budgetType.setCreatedAt(LocalDateTime.now());
+    return budgetType;
+  }
 
-		// act
-		this.budgetTypeService.findAll();
-
-		// assert
-		Mockito.verify(budgetTypeDao).findAll();
-	}
-
-	@Test
-	public void testCountBudgetType() {
-
-		// arrange
-		Mockito.when(this.budgetTypeDao.count()).thenReturn(COUNT);
-
-		// act
-		Long result = this.budgetTypeService.count();
-
-		// assert
-		Mockito.verify(budgetTypeDao).count();
-		assertEquals(Long.valueOf("20"), result);
-	}
-
-	@Test
-	public void testFindBudgetType() {
-
-		// arrange
-		Mockito.when(
-			this.budgetTypeDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(
-			new ArrayList<BudgetType>());
-
-		// act
-		this.budgetTypeService.find(Matchers.anyInt(), Matchers.anyInt());
-
-		// assert
-		Mockito.verify(budgetTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
-	}
-
-	private BudgetType buildBudgetType() {
-
-		BudgetType budgetType = new BudgetType();
-		User user = this.buildUser();
-		budgetType.setId(ID);
-		budgetType.setTitle("Fixed Budget");
-		budgetType.setCreatedBy(user);
-		budgetType.setUpdatedAt(LocalDateTime.now());
-		budgetType.setCreatedAt(LocalDateTime.now());
-		return budgetType;
-	}
-
-	private User buildUser() {
-
-		User user = new User();
-		user.setEmail("krishnatimilsina@lftechnology.com");
-		user.setId(ID);
-		user.setName("Krishna Timilsina");
-		return user;
-	}
+  private User buildUser() {
+    User user = new User();
+    user.setEmail("krishnatimilsina@lftechnology.com");
+    user.setId(ID);
+    user.setName("Krishna Timilsina");
+    return user;
+  }
 }
