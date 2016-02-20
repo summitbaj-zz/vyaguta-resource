@@ -17,7 +17,7 @@ import com.lftechnology.vyaguta.resource.service.TagService;
 public class TagServiceImpl implements TagService {
 
   @Inject
-  TagDao tagDao;
+  private TagDao tagDao;
 
   @Override
   public Tag save(Tag tag) {

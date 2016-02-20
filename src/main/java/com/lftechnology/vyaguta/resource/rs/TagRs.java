@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiParam;
 public class TagRs {
 
   @Inject
-  TagService tagService;
+  private TagService tagService;
 
   @Path("/")
   @GET

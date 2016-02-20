@@ -18,7 +18,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
 @Stateless
 public class ProjectTypeDaoImpl extends BaseDao<ProjectType, String>implements ProjectTypeDao {
   @Inject
-  CriteriaUtil<ProjectType> criteriaUtil;
+  private CriteriaUtil<ProjectType> criteriaUtil;
 
   @Override
   public List<ProjectType> findAll() {
