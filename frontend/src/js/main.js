@@ -3,9 +3,7 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/15/16.
  */
-
 ;(function () {
-    'use strict';
 
     var React = require('react');
     var ReactDOM = require('react-dom');

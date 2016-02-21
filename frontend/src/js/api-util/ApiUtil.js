@@ -8,7 +8,8 @@
     'use strict';
 
     var request = require('superagent');
-    var url = 'http://localhost:3000/';
+    var config = require('../../../config/config');
+    var url = config.server;
 
     var ApiUtil = {
         fetchById: function (resourceName, id, callback) {
