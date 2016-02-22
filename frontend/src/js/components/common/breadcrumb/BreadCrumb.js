@@ -24,7 +24,6 @@ var BreadCrumb = React.createClass({
                     newRoute = newRoute.concat('/');
                 newRoute = newRoute.concat(routes[i].path);
 
-                console.log(newRoute);
                 var newPath = {
                     name: routes[i].name,
                     route: newRoute
