@@ -4,7 +4,7 @@ var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 var List = require('../../src/js/components/project-status/ProjectStatusList');
 var ProjectStatus = require('../../src/js/components/project-status/ProjectStatusRow');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 
 var projectStatusArray = [
     {

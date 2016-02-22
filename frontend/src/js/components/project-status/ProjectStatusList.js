@@ -4,7 +4,7 @@
     var React = require('react');
     var Link = require('react-router').Link;
 
-    var ApiUtil = require('../../api-util/ApiUtil');
+    var ApiUtil = require('../../util/ApiUtil');
     var ProjectStatus = require('./ProjectStatusRow');
     var ProjectStatusHeader = require('./ProjectStatusHeader');
 

@@ -1,6 +1,6 @@
-jest.dontMock('../../src/js/api-util/ApiUtil')
+jest.dontMock('../../src/js/util/ApiUtil')
     .dontMock('superagent');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 var projectStatus = {
     name:'abcd',
     id: 100
