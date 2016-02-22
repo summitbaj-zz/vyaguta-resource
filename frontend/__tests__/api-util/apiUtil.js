@@ -7,7 +7,7 @@ var projectStatus = {
 };
 
 var PROJECT_STATUS = 'projectStatus';
-var TIME_OUT_MESSAGE = "Call time out.";
+var TIME_OUT_MESSAGE = 'Call time out.';
 describe('ApiUtil', function() {
     it('fetches all data',function(){
         var test = false;
