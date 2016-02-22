@@ -7,56 +7,47 @@
 ;(function () {
     var React = require('react');
     var Link = require('react-router').Link;
+    var connect = require('react-redux').connect;
+
     var BudgetTypeRow = require('./BudgetTypeRow');
     var BudgetTypeHeader = require('./BudgetTypeHeader');
     var ApiUtil = require('../../util/ApiUtil');
+    var budgetTypeActions = require('../../actions/budgetTypeActions');
+
     var _ = require('lodash');
-    var toastr = require('toastr');
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
     var BudgetTypeList = React.createClass({
-        getInitialState: function () {
-            return {
-                budgetTypes: []
-            }
+        componentWillMount: function () {
+            budgetTypeActions.fetchAllBudgetType(resourceConstant.BUDGET_TYPES);
         },
 
-        componentDidMount: function () {
-            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, this.updateState);
-        },
-
-        updateState: function(budgetTypes) {
+        updateState: function (budgetTypes) {
             this.setState({budgetTypes: budgetTypes});
         },
 
-        removeFromState: function(budgetId) {
-            toastr.success('Budget Type Successfully Deleted');
-            var index = _.indexOf(this.state.budgetTypes, _.find(this.state.budgetTypes, {id: budgetId}));
-            this.state.budgetTypes.splice(index, 1);
-            this.updateState(this.state.budgetTypes);
-        },
+       deleteBudgetType: function (id) {
+            var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
 
-        deleteBudgetType: function (id) {
             if (confirm('Are you sure?')) {
-                ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, this.removeFromState);
+                budgetTypeActions.deleteBudgetType(resourceConstant.BUDGET_TYPES, id, data);
             }
         },
 
         renderBudgetType: function (key) {
             return (
-                <BudgetTypeRow key={key} index={key} budgetType={this.state.budgetTypes[key]}
+                <BudgetTypeRow key={key} index={key} budgetType={this.props.budgetTypes[key]}
                                deleteBudgetType={this.deleteBudgetType}/>
             )
         },
 
-
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title="Budget Types" routes = {this.props.routes}/>
+                    <BudgetTypeHeader title="Budget Types" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
@@ -76,7 +67,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Object.keys(this.state.budgetTypes).map(this.renderBudgetType)}
+                                {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                 </tbody>
                             </table>
                         </div>
@@ -86,5 +77,12 @@
         }
     });
 
-    module.exports = BudgetTypeList;
+    var selectStore = function (reducers) {
+        return {
+            budgetTypes: reducers.budgetTypeReducer.get('budgetTypes')
+        }
+    }
+
+    module.exports = connect(selectStore)(BudgetTypeList);
+
 })();
