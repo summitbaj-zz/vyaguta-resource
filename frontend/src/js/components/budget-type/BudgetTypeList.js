@@ -9,7 +9,7 @@
     var Link = require('react-router').Link;
     var BudgetTypeRow = require('./BudgetTypeRow');
     var BudgetTypeHeader = require('./BudgetTypeHeader');
-    var ApiUtil = require('../../api-util/ApiUtil');
+    var ApiUtil = require('../../util/ApiUtil');
     var _ = require('lodash');
     var toastr = require('toastr');
 

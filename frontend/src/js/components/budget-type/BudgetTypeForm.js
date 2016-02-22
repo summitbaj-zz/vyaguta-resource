@@ -8,10 +8,11 @@
     'use strict';
 
     var React = require('react');
-    var ApiUtil = require('../../api-util/ApiUtil');
+    var ApiUtil = require('../../util/ApiUtil');
     var History = require('react-router').History;
     var BudgetTypeHeader = require('./BudgetTypeHeader');
     var toastr = require('toastr');
+    var formValidator = require('../../util/FormValidator');
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
@@ -32,11 +33,11 @@
             }
         },
 
-        updateState: function(budgetType) {
+        updateState: function (budgetType) {
             this.setState({budgetType: budgetType});
         },
 
-        addBudgetType: function (event) {
+        saveBudgetType: function (event) {
             event.preventDefault();
             var that = this;
 
@@ -44,18 +45,33 @@
                 title: this.refs.budgetType.value
             }
 
-            if (this.props.params.id) {
-                ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id, function (data) {
-                    toastr.success('Budget Type Successfully Edited');
-                    that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
-                })
+            if (formValidator.isValid(budgetType)) {
+                if (this.props.params.id) {
+                    ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id, function (data) {
+                        document.querySelector('#save-btn').disabled = true;
+                        that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
+                        toastr.success('Budget Type Successfully Edited');
+                    })
+                } else {
+                    ApiUtil.create(resourceConstant.BUDGET_TYPES, budgetType, function (data) {
+                        document.querySelector('#save-btn').disabled = true;
+                        that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
+                        toastr.success('Budget Type Successfully Added');
+                    });
+                }
             } else {
-                ApiUtil.create(resourceConstant.BUDGET_TYPES, budgetType, function (data) {
-                    toastr.success('Budget Type Successfully Added');
-                    that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
-                });
+                this.showErrors(formValidator.errors)
             }
 
+        },
+
+        showErrors: function (errors) {
+            for (var elementId in errors) {
+                var parentElement = document.querySelector('#' + elementId).parentElement;
+
+                parentElement.className += " has-error";
+                parentElement.querySelector('span').innerHTML = errors[elementId];
+            }
         },
 
         handleChange: function (event) {
@@ -74,16 +90,18 @@
                         <div
                             className="block-title-border">Budget Type Details
                         </div>
-                        <form className="form-bordered" method="post" onSubmit={this.addBudgetType}>
+                        <form className="form-bordered" method="post" onSubmit={this.saveBudgetType}>
                             <div className="form-group">
                                 <label>Budget Type</label>
                                 <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
                                        className="form-control"
-                                       value={this.state.budgetType.title} onChange={this.handleChange} required/>
+                                       value={this.state.budgetType.title} onChange={this.handleChange}
+                                       id="title"/>
+                                <span className="help-block"></span>
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit"><i
+                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
                                         className="fa fa-angle-right"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
                                     <button className="btn btn-sm btn-default" type="reset"><i

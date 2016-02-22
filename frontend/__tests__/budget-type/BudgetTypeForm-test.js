@@ -4,12 +4,13 @@
  * on 2/18/16.
  */
 jest.dontMock('../../src/js/components/budget-type/BudgetTypeForm');
+jest.dontMock('../../src/js/util/FormValidator');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var BudgetTypeForm = require('../../src/js/components/budget-type/BudgetTypeForm');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 
 var budgetType = [
     {
@@ -27,8 +28,6 @@ var paramWithoutId = {};
 var Form; //test BudgetTypeForm
 
 describe('BudgetTypeForm', function () {
-
-
     it('does not call fetchById of ApiUtil when id is  null', function () {
         Form = TestUtils.renderIntoDocument(<BudgetTypeForm params={paramWithoutId}/>);
         Form.componentDidMount();
@@ -47,16 +46,26 @@ describe('BudgetTypeForm', function () {
         expect(Form.state.budgetType).toEqual(budgetType);
     });
 
-    it('calls edit function of ApiUtil when id is present and submit is pressed', function() {
+    it('calls edit function of ApiUtil when id is present and submit is pressed with valid data', function() {
         Form = TestUtils.renderIntoDocument(<BudgetTypeForm params={paramWithId}/>);
-        var budgetTypeForm = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(Form, 'form'));
+        var budgetTypeForm = TestUtils.findRenderedDOMComponentWithTag(Form, 'form');
+        var formTitle = Form.refs.budgetType.getDOMNode();
+
+        formTitle.value = 'test';
         TestUtils.Simulate.submit(budgetTypeForm);
+
+        expect(ApiUtil.edit).toBeCalled();
     });
 
-    it('calls edit function of ApiUtil when id is present and submit is pressed', function() {
+    it('calls create function of ApiUtil when id is not present and submit is pressed with valid data', function() {
         Form = TestUtils.renderIntoDocument(<BudgetTypeForm params={paramWithoutId}/>);
-        var budgetTypeForm = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(Form, 'form'));
+        var budgetTypeForm = TestUtils.findRenderedDOMComponentWithTag(Form, 'form');
+        var formTitle = Form.refs.budgetType.getDOMNode();
+
+        formTitle.value = 'test';
         TestUtils.Simulate.submit(budgetTypeForm);
+
+        expect(ApiUtil.create).toBeCalled();
     });
 
     it('changes value of state on key press', function () {
