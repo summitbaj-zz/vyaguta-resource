@@ -36,6 +36,9 @@ public abstract class BaseDao<T, Pk> {
       if (messages != null && messages.length > 1) {
         errorMessage.setError(messages[1]);
       }
+    } else if (message.contains("violates foreign key constraint")) {
+      message = StringUtils.substringBetween(message, "=(", ")");
+      errorMessage.setError(message + " violates foreign key constraint");
     }
     return errorMessage;
   }
