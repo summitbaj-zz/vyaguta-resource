@@ -9,7 +9,7 @@
     var Link = require('react-router').Link;
     var BudgetTypeRow = require('./BudgetTypeRow');
     var BudgetTypeHeader = require('./BudgetTypeHeader');
-    var ApiUtil = require('../../api-util/ApiUtil');
+    var ApiUtil = require('../../util/ApiUtil');
     var _ = require('lodash');
     var toastr = require('toastr');
 
@@ -25,22 +25,23 @@
         },
 
         componentDidMount: function () {
-            var that = this;
+            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, this.updateState);
+        },
 
-            ApiUtil.fetchAll(resourceConstant.BUDGET_TYPES, function (budgetTypes) {
-                that.setState({budgetTypes: budgetTypes});
-            })
+        updateState: function(budgetTypes) {
+            this.setState({budgetTypes: budgetTypes});
+        },
+
+        removeFromState: function(budgetId) {
+            toastr.success('Budget Type Successfully Deleted');
+            var index = _.indexOf(this.state.budgetTypes, _.find(this.state.budgetTypes, {id: budgetId}));
+            this.state.budgetTypes.splice(index, 1);
+            this.updateState(this.state.budgetTypes);
         },
 
         deleteBudgetType: function (id) {
-            var that = this;
-            if (confirm("Are you sure?")) {
-                ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, function (budgetId) {
-                    toastr.success("Budget Type Successfully Deleted");
-                    var index = _.indexOf(that.state.budgetTypes, _.find(that.state.budgetTypes, {id: budgetId}));
-                    that.state.budgetTypes.splice(index, 1);
-                    that.setState({budgetTypes: that.state.budgetTypes});
-                });
+            if (confirm('Are you sure?')) {
+                ApiUtil.delete(resourceConstant.BUDGET_TYPES, id, this.removeFromState);
             }
         },
 
@@ -55,7 +56,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title="Budget Types"/>
+                    <BudgetTypeHeader title="Budget Types" routes = {this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>

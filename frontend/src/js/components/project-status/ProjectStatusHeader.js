@@ -14,7 +14,7 @@
                                 <h1>{this.props.header}</h1>
                             </div>
                         </div>
-                        <BreadCrumb/>
+                        <BreadCrumb routes={this.props.routes}/>
                     </div>
                 </div>
             );

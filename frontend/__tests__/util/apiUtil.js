@@ -1,13 +1,13 @@
-jest.dontMock('../../src/js/api-util/ApiUtil')
+jest.dontMock('../../src/js/util/ApiUtil')
     .dontMock('superagent');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 var projectStatus = {
     name:'abcd',
     id: 100
 };
 
 var PROJECT_STATUS = 'projectStatus';
-var TIME_OUT_MESSAGE = "Call time out.";
+var TIME_OUT_MESSAGE = 'Call time out.';
 describe('ApiUtil', function() {
     it('fetches all data',function(){
         var test = false;
