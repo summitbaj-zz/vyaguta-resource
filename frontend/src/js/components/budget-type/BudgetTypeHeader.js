@@ -5,6 +5,7 @@
  */
 
 ;(function () {
+    var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
     var React = require('react');
     var IndexLink = require('react-router').IndexLink;
     var BudgetTypeHeader = React.createClass({
@@ -17,10 +18,7 @@
                                 <h1>{this.props.title}</h1>
                             </div>
                         </div>
-                        <ul className="breadcrumb breadcrumb-top">
-                            <li><IndexLink to="/">Home</IndexLink></li>
-                            <li>Budget Types</li>
-                        </ul>
+                        <BreadCrumb routes={this.props.routes}/>
                     </div>
                 </div>
             )

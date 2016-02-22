@@ -58,9 +58,10 @@
 
         delete: function (key) {
             var that = this;
+
             console.log(this.props.projectStatus);
             var data = JSON.parse(JSON.stringify(this.props.projectStatus));
-            if (confirm('Do you want to delete this item?')) {
+            if (confirm('Are you sure?')) {
                 crudActions.deleteItem(resourceConstant.PROJECT_STATUS, key, data);
                 //ApiUtil.delete(resourceConstant.PROJECT_STATUS, key, this.removeRecordFromState);
             }
@@ -70,7 +71,7 @@
             console.log(projectStatusIds);
             return (
                 <div>
-                    <ProjectStatusHeader header={PAGE_TITLE}/>
+                    <ProjectStatusHeader header={PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
