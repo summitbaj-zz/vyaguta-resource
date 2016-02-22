@@ -47,12 +47,12 @@ public class TagDaoImplTest {
     Mockito.doNothing().when(em).flush();
 
     // act
-    Tag resultProjectType = this.tagDaoImpl.save(tag);
+    Tag resultTag = this.tagDaoImpl.save(tag);
 
     // assert
     Mockito.verify(em).persist(tag);
     Mockito.verify(em).flush();
-    assertThat(resultProjectType, is(tag));
+    assertThat(resultTag, is(tag));
   }
 
   @Test(expected = DataAccessException.class)
@@ -74,12 +74,12 @@ public class TagDaoImplTest {
     Mockito.doNothing().when(em).flush();
 
     // act
-    Tag resultProjectType = this.tagDaoImpl.update(tag);
+    Tag resultTag = this.tagDaoImpl.update(tag);
 
     // assert
     Mockito.verify(em).merge(tag);
     Mockito.verify(em).flush();
-    assertThat(resultProjectType, is(tag));
+    assertThat(resultTag, is(tag));
   }
 
   @Test(expected = DataAccessException.class)
@@ -127,10 +127,10 @@ public class TagDaoImplTest {
     Mockito.when(em.find(Matchers.anyObject(), Matchers.anyString())).thenReturn(tag);
 
     // act
-    Tag resultProjectType = this.tagDaoImpl.findById(Tag.class, "asdf");
+    Tag resultTag = this.tagDaoImpl.findById(Tag.class, "asdf");
 
     // assert
-    assertThat(resultProjectType, is(tag));
+    assertThat(resultTag, is(tag));
   }
 
   @Test

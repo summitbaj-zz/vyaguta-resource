@@ -37,18 +37,18 @@ public class TagServiceImplTest {
   }
 
   @Test
-  public void testSaveWhenProjectTypeIsValidObject() {
+  public void testSaveWhenTagIsValidObject() {
 
     // arrange
     Tag tag = this.buildTag();
     Mockito.when(tagDao.save(tag)).thenReturn(tag);
 
     // act
-    Tag resultProjectType = this.tagServiceImpl.save(tag);
+    Tag resultTag = this.tagServiceImpl.save(tag);
 
     // assert
     Mockito.verify(tagDao).save(tag);
-    assertThat(resultProjectType, is(tag));
+    assertThat(resultTag, is(tag));
   }
 
   @Test
@@ -59,11 +59,11 @@ public class TagServiceImplTest {
     Mockito.when(this.tagDao.update(tag)).thenReturn(tag);
 
     // act
-    Tag resultProjectType = this.tagServiceImpl.update(tag);
+    Tag resultTag = this.tagServiceImpl.update(tag);
 
     // assert
     Mockito.verify(tagDao).update(tag);
-    assertThat(resultProjectType, is(tag));
+    assertThat(resultTag, is(tag));
   }
 
   @Test(expected = ObjectNotFoundException.class)
@@ -82,18 +82,18 @@ public class TagServiceImplTest {
   public void testMergeWhenIdIsValidAndObjectIsValid() {
 
     // arrange
-    Tag projectTypeNew = this.buildTag();
-    Tag projectTypeOld = this.buildTag();
-    projectTypeOld.setTitle("Title old");
-    Mockito.when(tagDao.findById(Tag.class, testId)).thenReturn(projectTypeOld);
+    Tag tagNew = this.buildTag();
+    Tag tagOld = this.buildTag();
+    tagOld.setTitle("Title old");
+    Mockito.when(tagDao.findById(Tag.class, testId)).thenReturn(tagOld);
 
     // act
-    this.tagServiceImpl.merge(testId, projectTypeNew);
+    this.tagServiceImpl.merge(testId, tagNew);
 
     // assert
-    assertThat(projectTypeOld.getTitle(), is(projectTypeNew.getTitle()));
+    assertThat(tagOld.getTitle(), is(tagNew.getTitle()));
     Mockito.verify(tagDao).findById(Tag.class, testId);
-    Mockito.verify(tagServiceImpl).update(projectTypeOld);
+    Mockito.verify(tagServiceImpl).update(tagOld);
   }
 
   @Test
