@@ -3,6 +3,7 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/18/16.
  */
+/*
 jest.dontMock('../../src/js/components/budget-type/BudgetTypeForm');
 
 var React = require('react');
@@ -70,3 +71,4 @@ describe('BudgetTypeForm', function () {
 })
 
 
+*/

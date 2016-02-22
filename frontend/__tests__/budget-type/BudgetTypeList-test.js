@@ -4,6 +4,7 @@
  * on 2/18/16.
  */
 
+/*
 jest.dontMock('../../src/js/components/budget-type/BudgetTypeList');
 
 var React = require('react');
@@ -72,3 +73,4 @@ describe('BudgetTypeList', function () {
 })
 
 
+*/

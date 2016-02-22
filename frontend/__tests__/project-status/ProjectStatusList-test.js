@@ -1,10 +1,15 @@
 jest.dontMock('../../src/js/components/project-status/ProjectStatusList')
-    .dontMock('lodash');
+    .dontMock('lodash')
+    .dontMock('../../src/js/store')
+    .dontMock('../../src/js/reducers/crudReducer')
+    .dontMock('../../src/js/routes')
+    .dontMock('react-redux');
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 var List = require('../../src/js/components/project-status/ProjectStatusList');
 var ProjectStatus = require('../../src/js/components/project-status/ProjectStatusRow');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var crudActions = require('../../src/js/actions/crudActions');
+var store = require('../../src/js/store');
 
 var projectStatusArray = [
     {
@@ -24,45 +29,37 @@ var list;
 
 describe('List', function () {
     beforeEach(function () {
-        list = TestUtils.renderIntoDocument(<List />);
+        list = TestUtils.renderIntoDocument(<List store={store}/>);
     });
 
-    it('stores fetched data correctly into the state', function () {
-        list.setNewState(projectStatusArray);
-        expect(projectStatusArray).toEqual(list.state.projectStatus);
-    });
-
-    it('removes successfully deleted data from the state', function () {
-        var id = 13;
-        list.setNewState(projectStatusArray);
-        list.removeRecordFromState(id);
-        expect(list.state.projectStatus.length).toEqual(2);
-    });
-
-    it('calls fetchAll function of ApitUtil when component is mounted', function () {
+    /*it('calls getAll method of crudAction on component mount', function(){
         list.componentDidMount();
-        expect(ApiUtil.fetchAll).toBeCalled();
-    });
+        expect(crudActions.getAll).toBeCalled();
 
+    });*/
     it('returns one project Status component when list function is called', function () {
-        var key = 1;
-        var actual = <ProjectStatus key={key} index={key} projectStatus={list.state.projectStatus[key]}
+        var key = 0;
+        var abcc = TestUtils.scryRenderedComponentsWithType(list, List);
+        console.warn(abcc.renderedElement);
+        var items = list.props.store.getState().crudReducer.get('projectStatus');
+        var actual = <ProjectStatus key={key} index={key} projectStatus={items[key]}
                                     deleteProjectStatus={list.delete}/>
+
         var expected = list.list(key);
         expect(expected).toEqual(actual);
     });
 
-    it('doesnot call delete function if ApitUtil when confirmation is cancelled', function () {
+    /*it('doesnot call deleteItem function of crudActions when confirmation is cancelled', function () {
 
         var ab = spyOn(window, 'confirm').andReturn(false);
         list.delete();
-        expect(ApiUtil.delete).not.toBeCalled();
+        expect(crudActions.deleteItem).not.toBeCalled();
 
     });
 
-    it('calls delete function of ApiUtil on confirmation', function () {
+    it('calls deleteItem function of crudActions on confirmation', function () {
         spyOn(window, 'confirm').andReturn(true);
         list.delete();
-        expect(ApiUtil.delete).toBeCalled();
-    });
+        expect(crudActions.deleteItem).toBeCalled();
+    });*/
 });
