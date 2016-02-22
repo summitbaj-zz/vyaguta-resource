@@ -4,7 +4,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 
 var BreadCrumb = React.createClass({
-    getInitialState(){
+    getInitialState: function(){
         return {
             paths: []
         }

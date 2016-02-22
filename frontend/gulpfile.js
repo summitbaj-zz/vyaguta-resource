@@ -55,6 +55,7 @@
     };
 
     var env = process.env.NODE_ENV || config.env.development;
+    var isProduction = process.env.NODE_ENV === 'production';
 
     gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
@@ -75,7 +76,7 @@
                 formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
-            .pipe(gulpif(env!=config.env.development,imagemin({
+            .pipe(gulpif(isProduction,imagemin({
                 progressive: true,
                 interlaced: true,
                 svgoPlugins: [
@@ -90,7 +91,7 @@
         // Compiles CSS
         gulp.src(config.paths.css)
             .pipe(concat('bundle.css'))
-            .pipe(gulpif(env!=config.env.development,minifyCss()))
+            .pipe(gulpif(isProduction,minifyCss()))
             .pipe(gulp.dest(config.paths.distCss))
             .pipe(reload({stream: true}))
     });
@@ -146,7 +147,7 @@
                 .on('error', handleErrors)
                 .pipe(source('vyaguta.min.js'))
                 .pipe(buffer())
-                .pipe(gulpif(env!=config.env.development,uglify()))
+                .pipe(gulpif(isProduction,uglify()).on('error', gutil.log))
                 .pipe(gulp.dest(config.paths.distJs))
                 .pipe(reload({stream: true}))
         }
