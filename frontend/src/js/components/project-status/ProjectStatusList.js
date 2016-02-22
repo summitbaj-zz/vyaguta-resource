@@ -50,7 +50,7 @@
 
         delete: function (key) {
             var that = this;
-            if (confirm('Do you want to delete this item?')) {
+            if (confirm('Are you sure?')) {
                 ApiUtil.delete(resourceConstant.PROJECT_STATUS, key, this.removeRecordFromState);
             }
         },
@@ -58,7 +58,7 @@
             var projectStatusIds = Object.keys(this.state.projectStatus);
             return (
                 <div>
-                    <ProjectStatusHeader header={PAGE_TITLE}/>
+                    <ProjectStatusHeader header={PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>

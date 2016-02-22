@@ -85,7 +85,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}/>
+                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'} routes={this.props.routes}/>
                     <div className="block">
                         <div
                             className="block-title-border">Budget Type Details

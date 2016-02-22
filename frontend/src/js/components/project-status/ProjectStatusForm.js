@@ -23,8 +23,8 @@
         },
 
         componentDidMount: function () {
-            if (this.projectStatusId) {
-                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.projectStatusId, this.changeState);
+            if (this.props.params.id) {
+                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id, this.changeState);
             }
         },
 
@@ -77,12 +77,10 @@
         },
 
         render: function () {
-            if (this.props.params)
-                this.projectStatusId = this.props.params.id;
-            var action = this.projectStatusId ? 'Edit ' : 'Create ';
+            var action = this.props.params.id ? 'Edit ' : 'Create ';
             return (
                 <div>
-                    <ProjectStatusHeader header={action + PAGE_TITLE}/>
+                    <ProjectStatusHeader header={action + PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">{action} Project Status</div>
                         <form className="form-bordered" method="post" onSubmit={this.submitForm}>
