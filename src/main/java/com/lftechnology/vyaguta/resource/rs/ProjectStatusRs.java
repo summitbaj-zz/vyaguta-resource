@@ -33,56 +33,57 @@ import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
 @Path("/projectstatus")
 public class ProjectStatusRs {
 
-  @Inject
-  private ProjectStatusService projectStatusService;
+    @Inject
+    private ProjectStatusService projectStatusService;
 
-  @Path("/")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response list(@Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-      @QueryParam("offset") Integer offset) {
-    Page page = PageUtil.page(pageNum, offset);
-    List<ProjectStatus> projectStatus = projectStatusService.find(page.getStart(), page.getOffset());
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
-  }
-
-  @Path("/")
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
-    projectStatus = projectStatusService.save(projectStatus);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
-  }
-
-  @Path("/{id}")
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response update(@PathParam("id") String id,
-      @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
-    ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
-  }
-
-  @Path("/{id}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response findById(@PathParam("id") String id) {
-    ProjectStatus projectStatus = projectStatusService.findById(id);
-    if (projectStatus != null) {
-      return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
-    } else {
-      throw new ObjectNotFoundException();
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(
+            @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
+            @QueryParam("offset") Integer offset) {
+        Page page = PageUtil.page(pageNum, offset);
+        List<ProjectStatus> projectStatus = projectStatusService.find(page.getStart(), page.getOffset());
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
     }
-  }
 
-  @Path("/{id}")
-  @DELETE
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response remove(@PathParam("id") String id) {
-    projectStatusService.removeById(id);
-    return Response.status(Response.Status.OK).build();
-  }
+    @Path("/")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
+        projectStatus = projectStatusService.save(projectStatus);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") String id,
+            @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
+        ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+    }
+
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) {
+        ProjectStatus projectStatus = projectStatusService.findById(id);
+        if (projectStatus != null) {
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+        } else {
+            throw new ObjectNotFoundException();
+        }
+    }
+
+    @Path("/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam("id") String id) {
+        projectStatusService.removeById(id);
+        return Response.status(Response.Status.OK).build();
+    }
 
 }

@@ -17,7 +17,7 @@ public interface CrudDao<T, Pk> {
 
     public void remove(T entity);
 
-    public T findById(Class<T> t, Pk id);
+    public T findById(Pk id);
 
     public List<T> findAll();
 

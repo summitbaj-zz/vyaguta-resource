@@ -15,7 +15,9 @@ import com.lftechnology.vyaguta.commons.pojo.User;
  */
 public class UserSerializer extends JsonSerializer<User> {
 
-    public void serialize(User user, JsonGenerator generator, SerializerProvider provider) throws IOException, JsonProcessingException {
+    @Override
+    public void serialize(User user, JsonGenerator generator, SerializerProvider provider)
+            throws IOException, JsonProcessingException {
         generator.writeString(user.getId());
     }
 }

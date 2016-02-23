@@ -18,22 +18,27 @@ import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 @Stateless
 public class ProjectStatusDaoImpl extends BaseDao<ProjectStatus, String>implements ProjectStatusDao {
 
-  @Inject
-  private CriteriaUtil<ProjectStatus> criteriaUtil;
+    @Inject
+    private CriteriaUtil<ProjectStatus> criteriaUtil;
 
-  @Override
-  public List<ProjectStatus> findAll() {
-    return criteriaUtil.findAll(ProjectStatus.class);
-  }
+    @Override
+    public List<ProjectStatus> findAll() {
+        return criteriaUtil.findAll(ProjectStatus.class);
+    }
 
-  @Override
-  public Long count() {
-    return criteriaUtil.count(ProjectStatus.class);
-  }
+    @Override
+    public Long count() {
+        return criteriaUtil.count(ProjectStatus.class);
+    }
 
-  @Override
-  public List<ProjectStatus> find(Integer start, Integer offset) {
-    return criteriaUtil.find(ProjectStatus.class, start, offset);
-  }
+    @Override
+    public List<ProjectStatus> find(Integer start, Integer offset) {
+        return criteriaUtil.find(ProjectStatus.class, start, offset);
+    }
+
+    @Override
+    public ProjectStatus findById(String id) {
+        return em.find(ProjectStatus.class, id);
+    }
 
 }

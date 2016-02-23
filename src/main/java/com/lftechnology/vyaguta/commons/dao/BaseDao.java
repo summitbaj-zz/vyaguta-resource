@@ -18,63 +18,59 @@ import com.lftechnology.vyaguta.commons.pojo.ErrorMessage;
  */
 public abstract class BaseDao<T, Pk> {
 
-  @Inject
-  protected EntityManager em;
+    @Inject
+    protected EntityManager em;
 
-  /**
-   * Construct proper dao exception messages
-   * 
-   * @param throwable
-   * @return
-   */
-  public static ErrorMessage constructErrorMessage(Throwable throwable) {
-    String message = ExceptionUtils.getRootCauseMessage(throwable);
-    ErrorMessage errorMessage = new ErrorMessage(message);
-    if (message.contains("duplicate key value violates unique constraint")) {
-      message = StringUtils.substringAfter(message, "Detail: Key ");
-      String[] messages = message.split("=");
-      if (messages != null && messages.length > 1) {
-        errorMessage.setError(messages[1]);
-      }
-    } else if (message.contains("violates foreign key constraint")) {
-      message = StringUtils.substringBetween(message, "=(", ")");
-      errorMessage.setError(message + " violates foreign key constraint");
+    /**
+     * Construct proper dao exception messages
+     * 
+     * @param throwable
+     * @return
+     */
+    public static ErrorMessage constructErrorMessage(Throwable throwable) {
+        String message = ExceptionUtils.getRootCauseMessage(throwable);
+        ErrorMessage errorMessage = new ErrorMessage(message);
+        if (message.contains("duplicate key value violates unique constraint")) {
+            message = StringUtils.substringAfter(message, "Detail: Key ");
+            String[] messages = message.split("=");
+            if (messages != null && messages.length > 1) {
+                errorMessage.setError(messages[1]);
+            }
+        } else if (message.contains("violates foreign key constraint")) {
+            message = StringUtils.substringBetween(message, "=(", ")");
+            errorMessage.setError(message + " violates foreign key constraint");
+        }
+        return errorMessage;
     }
-    return errorMessage;
-  }
 
-  public T save(T entity) {
-    try {
-      em.persist(entity);
-      em.flush();
-    } catch (PersistenceException persistenceException) {
-      throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-          persistenceException.getCause());
+    public T save(T entity) {
+        try {
+            em.persist(entity);
+            em.flush();
+        } catch (PersistenceException persistenceException) {
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
+        }
+        return entity;
     }
-    return entity;
-  }
 
-  public T update(T entity) {
-    try {
-      em.merge(entity);
-      em.flush();
-    } catch (PersistenceException persistenceException) {
-      throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-          persistenceException.getCause());
+    public T update(T entity) {
+        try {
+            em.merge(entity);
+            em.flush();
+        } catch (PersistenceException persistenceException) {
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
+        }
+        return entity;
     }
-    return entity;
-  }
 
-  public void remove(T entity) {
-    try {
-      em.remove(em.merge(entity));
-    } catch (PersistenceException persistenceException) {
-      throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-          persistenceException.getCause());
+    public void remove(T entity) {
+        try {
+            em.remove(em.merge(entity));
+        } catch (PersistenceException persistenceException) {
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
+        }
     }
-  }
-
-  public T findById(Class<T> entity, Pk id) {
-    return (T) em.find(entity, id);
-  }
 }

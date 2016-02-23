@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
  *
  */
 public class Resources {
-  @Produces
-  @PersistenceContext
-  private EntityManager em;
+    @Produces
+    @PersistenceContext
+    private EntityManager em;
 }

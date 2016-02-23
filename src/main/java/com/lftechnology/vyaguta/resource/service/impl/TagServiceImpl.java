@@ -16,66 +16,66 @@ import com.lftechnology.vyaguta.resource.service.TagService;
  */
 public class TagServiceImpl implements TagService {
 
-  @Inject
-  private TagDao tagDao;
+    @Inject
+    private TagDao tagDao;
 
-  @Override
-  public Tag save(Tag tag) {
-    return tagDao.save(tag);
-  }
-
-  @Override
-  public Tag update(Tag tag) {
-    return tagDao.update(tag);
-  }
-
-  @Override
-  public Tag merge(String id, Tag obj) {
-    Tag tag = this.findById(id);
-    if (tag == null) {
-      throw new ObjectNotFoundException();
+    @Override
+    public Tag save(Tag tag) {
+        return tagDao.save(tag);
     }
-    tag.setTitle(obj.getTitle());
-    return this.update(tag);
-  }
 
-  @Override
-  public void remove(Tag tag) {
-    tagDao.remove(tag);
-
-  }
-
-  @Override
-  public void removeById(String id) {
-    Tag tag = this.findById(id);
-    if (tag == null) {
-      throw new ObjectNotFoundException();
+    @Override
+    public Tag update(Tag tag) {
+        return tagDao.update(tag);
     }
-    this.remove(tag);
-  }
 
-  @Override
-  public Tag findById(String id) {
-    return tagDao.findById(Tag.class, id);
-  }
+    @Override
+    public Tag merge(String id, Tag obj) {
+        Tag tag = this.findById(id);
+        if (tag == null) {
+            throw new ObjectNotFoundException();
+        }
+        tag.setTitle(obj.getTitle());
+        return this.update(tag);
+    }
 
-  @Override
-  public List<Tag> findAll() {
-    return tagDao.findAll();
-  }
+    @Override
+    public void remove(Tag tag) {
+        tagDao.remove(tag);
 
-  @Override
-  public Long count() {
-    return tagDao.count();
-  }
+    }
 
-  @Override
-  public List<Tag> find(Integer start, Integer offset) {
-    return tagDao.find(start, offset);
-  }
+    @Override
+    public void removeById(String id) {
+        Tag tag = this.findById(id);
+        if (tag == null) {
+            throw new ObjectNotFoundException();
+        }
+        this.remove(tag);
+    }
 
-  @Override
-  public List<Tag> findByTitle(String title) {
-    return tagDao.findByTitle(title);
-  }
+    @Override
+    public Tag findById(String id) {
+        return tagDao.findById(id);
+    }
+
+    @Override
+    public List<Tag> findAll() {
+        return tagDao.findAll();
+    }
+
+    @Override
+    public Long count() {
+        return tagDao.count();
+    }
+
+    @Override
+    public List<Tag> find(Integer start, Integer offset) {
+        return tagDao.find(start, offset);
+    }
+
+    @Override
+    public List<Tag> findByTitle(String title) {
+        return tagDao.findByTitle(title);
+    }
 }

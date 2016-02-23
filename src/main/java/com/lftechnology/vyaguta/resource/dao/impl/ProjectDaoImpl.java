@@ -18,22 +18,27 @@ import com.lftechnology.vyaguta.resource.entity.Project;
 @Stateless
 public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDao {
 
-  @Inject
-  private CriteriaUtil<Project> criteriaUtil;
+    @Inject
+    private CriteriaUtil<Project> criteriaUtil;
 
-  @Override
-  public List<Project> findAll() {
-    return criteriaUtil.findAll(Project.class);
-  }
+    @Override
+    public List<Project> findAll() {
+        return criteriaUtil.findAll(Project.class);
+    }
 
-  @Override
-  public Long count() {
-    return criteriaUtil.count(Project.class);
-  }
+    @Override
+    public Long count() {
+        return criteriaUtil.count(Project.class);
+    }
 
-  @Override
-  public List<Project> find(Integer start, Integer offset) {
-    return criteriaUtil.find(Project.class, start, offset);
-  }
+    @Override
+    public List<Project> find(Integer start, Integer offset) {
+        return criteriaUtil.find(Project.class, start, offset);
+    }
+
+    @Override
+    public Project findById(String id) {
+        return em.find(Project.class, id);
+    }
 
 }

@@ -6,7 +6,7 @@ package com.lftechnology.vyaguta.commons.pojo;
  *
  */
 public class Page {
-    
+
     public static final Integer PAGE_SIZE = 20;
 
     private Integer start;

@@ -38,71 +38,72 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "/tags", produces = "application/json", consumes = "application/json")
 public class TagRs {
 
-  @Inject
-  private TagService tagService;
+    @Inject
+    private TagService tagService;
 
-  @Path("/")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get list of Tags", notes = "Can provide page number and offset value")
-  public Response list(@Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-      @QueryParam("offSet") Integer offSet) {
-    Page page = PageUtil.page(pageNum, offSet);
-    List<Tag> tags = tagService.find(page.getStart(), page.getOffset());
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
-  }
-
-  @Path("/")
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Create a new tag")
-  public Response create(
-      @ApiParam(value = "Tag object to create", required = true) @NotNull(message = "Request body expected") @Valid Tag tag) {
-    tag = tagService.save(tag);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
-  }
-
-  @Path("/{id}")
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Update exisitng tag")
-  public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
-      @ApiParam(value = "Tag object to update", required = true) @NotNull(message = "Request body expected") @Valid Tag tagNew) {
-    Tag tag = tagService.merge(id, tagNew);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
-  }
-
-  @Path("/{id}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get a tag")
-  public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") String id) {
-    Tag tag = tagService.findById(id);
-    if (tag != null) {
-      return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
-    } else {
-      throw new ObjectNotFoundException();
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get list of Tags", notes = "Can provide page number and offset value")
+    public Response list(
+            @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
+            @QueryParam("offSet") Integer offSet) {
+        Page page = PageUtil.page(pageNum, offSet);
+        List<Tag> tags = tagService.find(page.getStart(), page.getOffset());
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
     }
-  }
 
-  @Path("/{id}")
-  @DELETE
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Delete a tag")
-  public Response remove(
-      @ApiParam(value = "Tag id that needs to be deleted", required = true) @PathParam("id") String id) {
-    tagService.removeById(id);
-    return Response.status(Response.Status.OK).build();
-  }
+    @Path("/")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Create a new tag")
+    public Response create(
+            @ApiParam(value = "Tag object to create", required = true) @NotNull(message = "Request body expected") @Valid Tag tag) {
+        tag = tagService.save(tag);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+    }
 
-  @Path("/title/{title}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Search tag by its name")
-  public Response findByTitle(@ApiParam(value = "Tag name", required = true) @PathParam("title") String title) {
-    List<Tag> tags = tagService.findByTitle(title);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
-  }
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Update exisitng tag")
+    public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
+            @ApiParam(value = "Tag object to update", required = true) @NotNull(message = "Request body expected") @Valid Tag tagNew) {
+        Tag tag = tagService.merge(id, tagNew);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+    }
+
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get a tag")
+    public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") String id) {
+        Tag tag = tagService.findById(id);
+        if (tag != null) {
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+        } else {
+            throw new ObjectNotFoundException();
+        }
+    }
+
+    @Path("/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Delete a tag")
+    public Response remove(
+            @ApiParam(value = "Tag id that needs to be deleted", required = true) @PathParam("id") String id) {
+        tagService.removeById(id);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @Path("/title/{title}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Search tag by its name")
+    public Response findByTitle(@ApiParam(value = "Tag name", required = true) @PathParam("title") String title) {
+        List<Tag> tags = tagService.findByTitle(title);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
+    }
 }

@@ -22,190 +22,190 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 
 public class TagServiceImplTest {
 
-  @Spy
-  @InjectMocks
-  private TagServiceImpl tagServiceImpl;
+    @Spy
+    @InjectMocks
+    private TagServiceImpl tagServiceImpl;
 
-  @Mock
-  private TagDao tagDao;
+    @Mock
+    private TagDao tagDao;
 
-  private final String testId = "asdf";
+    private final String testId = "asdf";
 
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-  }
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-  @Test
-  public void testSaveWhenTagIsValidObject() {
+    @Test
+    public void testSaveWhenTagIsValidObject() {
 
-    // arrange
-    Tag tag = this.buildTag();
-    Mockito.when(tagDao.save(tag)).thenReturn(tag);
+        // arrange
+        Tag tag = this.buildTag();
+        Mockito.when(tagDao.save(tag)).thenReturn(tag);
 
-    // act
-    Tag resultTag = this.tagServiceImpl.save(tag);
+        // act
+        Tag resultTag = this.tagServiceImpl.save(tag);
 
-    // assert
-    Mockito.verify(tagDao).save(tag);
-    assertThat(resultTag, is(tag));
-  }
+        // assert
+        Mockito.verify(tagDao).save(tag);
+        assertThat(resultTag, is(tag));
+    }
 
-  @Test
-  public void testUpdate() {
+    @Test
+    public void testUpdate() {
 
-    // arrange
-    Tag tag = this.buildTag();
-    Mockito.when(this.tagDao.update(tag)).thenReturn(tag);
+        // arrange
+        Tag tag = this.buildTag();
+        Mockito.when(this.tagDao.update(tag)).thenReturn(tag);
 
-    // act
-    Tag resultTag = this.tagServiceImpl.update(tag);
+        // act
+        Tag resultTag = this.tagServiceImpl.update(tag);
 
-    // assert
-    Mockito.verify(tagDao).update(tag);
-    assertThat(resultTag, is(tag));
-  }
+        // assert
+        Mockito.verify(tagDao).update(tag);
+        assertThat(resultTag, is(tag));
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testMergeWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testMergeWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.tagDao.findById(Tag.class, testId)).thenReturn(null);
-    Tag tag = new Tag();
+        // arrange
+        Mockito.when(this.tagDao.findById(testId)).thenReturn(null);
+        Tag tag = new Tag();
 
-    // act
-    this.tagServiceImpl.merge(testId, tag);
+        // act
+        this.tagServiceImpl.merge(testId, tag);
 
-  }
+    }
 
-  @Test
-  public void testMergeWhenIdIsValidAndObjectIsValid() {
+    @Test
+    public void testMergeWhenIdIsValidAndObjectIsValid() {
 
-    // arrange
-    Tag tagNew = this.buildTag();
-    Tag tagOld = this.buildTag();
-    tagOld.setTitle("Title old");
-    Mockito.when(tagDao.findById(Tag.class, testId)).thenReturn(tagOld);
+        // arrange
+        Tag tagNew = this.buildTag();
+        Tag tagOld = this.buildTag();
+        tagOld.setTitle("Title old");
+        Mockito.when(tagDao.findById(testId)).thenReturn(tagOld);
 
-    // act
-    this.tagServiceImpl.merge(testId, tagNew);
+        // act
+        this.tagServiceImpl.merge(testId, tagNew);
 
-    // assert
-    assertThat(tagOld.getTitle(), is(tagNew.getTitle()));
-    Mockito.verify(tagDao).findById(Tag.class, testId);
-    Mockito.verify(tagServiceImpl).update(tagOld);
-  }
+        // assert
+        assertThat(tagOld.getTitle(), is(tagNew.getTitle()));
+        Mockito.verify(tagDao).findById(testId);
+        Mockito.verify(tagServiceImpl).update(tagOld);
+    }
 
-  @Test
-  public void testRemove() {
+    @Test
+    public void testRemove() {
 
-    // arrange
-    Tag tag = new Tag();
-    Mockito.doNothing().when(tagDao).remove(tag);
+        // arrange
+        Tag tag = new Tag();
+        Mockito.doNothing().when(tagDao).remove(tag);
 
-    // act
-    this.tagServiceImpl.remove(tag);
+        // act
+        this.tagServiceImpl.remove(tag);
 
-    // assert
-    Mockito.verify(tagDao).remove(tag);
-  }
+        // assert
+        Mockito.verify(tagDao).remove(tag);
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testRemoveByIdWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testRemoveByIdWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.tagServiceImpl.findById(testId)).thenReturn(null);
+        // arrange
+        Mockito.when(this.tagServiceImpl.findById(testId)).thenReturn(null);
 
-    // act
-    this.tagServiceImpl.removeById(testId);
-  }
+        // act
+        this.tagServiceImpl.removeById(testId);
+    }
 
-  @Test
-  public void testRemoveByIdWhenIdIsValid() {
+    @Test
+    public void testRemoveByIdWhenIdIsValid() {
 
-    // arrange
-    Tag tag = this.buildTag();
-    Mockito.when(tagDao.findById(Tag.class, testId)).thenReturn(tag);
-    Mockito.doNothing().when(tagServiceImpl).remove(tag);
+        // arrange
+        Tag tag = this.buildTag();
+        Mockito.when(tagDao.findById(testId)).thenReturn(tag);
+        Mockito.doNothing().when(tagServiceImpl).remove(tag);
 
-    // act
-    this.tagServiceImpl.removeById(testId);
+        // act
+        this.tagServiceImpl.removeById(testId);
 
-    // assert
-    Mockito.verify(this.tagServiceImpl).remove(tag);
-    Mockito.verify(this.tagDao).findById(Tag.class, testId);
-  }
+        // assert
+        Mockito.verify(this.tagServiceImpl).remove(tag);
+        Mockito.verify(this.tagDao).findById(testId);
+    }
 
-  @Test
-  public void testfindById() {
+    @Test
+    public void testfindById() {
 
-    // arrange
-    Mockito.when(tagDao.findById(Tag.class, testId)).thenReturn(new Tag());
+        // arrange
+        Mockito.when(tagDao.findById(testId)).thenReturn(new Tag());
 
-    // act
-    this.tagServiceImpl.findById(testId);
+        // act
+        this.tagServiceImpl.findById(testId);
 
-    // assert
-    Mockito.verify(tagDao).findById(Tag.class, testId);
-  }
+        // assert
+        Mockito.verify(tagDao).findById(testId);
+    }
 
-  @Test
-  public void testFindAll() {
+    @Test
+    public void testFindAll() {
 
-    // arrange
-    Mockito.when(tagDao.findAll()).thenReturn(new ArrayList<Tag>());
+        // arrange
+        Mockito.when(tagDao.findAll()).thenReturn(new ArrayList<Tag>());
 
-    // act
-    this.tagServiceImpl.findAll();
+        // act
+        this.tagServiceImpl.findAll();
 
-    // assert
-    Mockito.verify(tagDao).findAll();
-  }
+        // assert
+        Mockito.verify(tagDao).findAll();
+    }
 
-  @Test
-  public void testCount() {
+    @Test
+    public void testCount() {
 
-    // arrange
-    Mockito.when(tagDao.count()).thenReturn(10L);
+        // arrange
+        Mockito.when(tagDao.count()).thenReturn(10L);
 
-    // act
-    Long result = this.tagServiceImpl.count();
+        // act
+        Long result = this.tagServiceImpl.count();
 
-    // assert
-    Mockito.verify(tagDao).count();
-    assertThat(result, is(Long.valueOf(10)));
-  }
+        // assert
+        Mockito.verify(tagDao).count();
+        assertThat(result, is(Long.valueOf(10)));
+    }
 
-  @Test
-  public void testFind() {
+    @Test
+    public void testFind() {
 
-    // arrange
-    Mockito.when(tagDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Tag>());
+        // arrange
+        Mockito.when(tagDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Tag>());
 
-    // act
-    this.tagServiceImpl.find(2, 20);
+        // act
+        this.tagServiceImpl.find(2, 20);
 
-    // assert
-    Mockito.verify(tagDao).find(Matchers.anyInt(), Matchers.anyInt());
+        // assert
+        Mockito.verify(tagDao).find(Matchers.anyInt(), Matchers.anyInt());
 
-  }
+    }
 
-  private Tag buildTag() {
-    Tag tag = new Tag();
-    User user = this.buildUser();
-    tag.setId("1");
-    tag.setTitle("Test Title");
-    tag.setCreatedBy(user);
-    tag.setUpdatedAt(LocalDateTime.now());
-    tag.setCreatedAt(LocalDateTime.now());
-    return tag;
-  }
+    private Tag buildTag() {
+        Tag tag = new Tag();
+        User user = this.buildUser();
+        tag.setId("1");
+        tag.setTitle("Test Title");
+        tag.setCreatedBy(user);
+        tag.setUpdatedAt(LocalDateTime.now());
+        tag.setCreatedAt(LocalDateTime.now());
+        return tag;
+    }
 
-  private User buildUser() {
-    User user = new User();
-    user.setEmail("achyutpokhrel@lftechnology.com");
-    user.setId("12345");
-    user.setName("achyut pokhrel");
-    return user;
-  }
+    private User buildUser() {
+        User user = new User();
+        user.setEmail("achyutpokhrel@lftechnology.com");
+        user.setId("12345");
+        user.setName("achyut pokhrel");
+        return user;
+    }
 }

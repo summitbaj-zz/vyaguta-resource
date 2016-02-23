@@ -12,5 +12,5 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
  */
 public interface TagService extends CrudService<Tag, String> {
 
-  List<Tag> findByTitle(String title);
+    List<Tag> findByTitle(String title);
 }
