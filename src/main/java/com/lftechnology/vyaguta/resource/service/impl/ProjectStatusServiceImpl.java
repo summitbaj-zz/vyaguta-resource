@@ -51,7 +51,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Override
     public ProjectStatus findById(String id) {
-        return projectStatusDao.findById(ProjectStatus.class, id);
+        return projectStatusDao.findById(id);
     }
 
     @Override

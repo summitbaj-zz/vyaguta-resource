@@ -27,192 +27,191 @@ import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
  */
 public class ProjectStatusServiceImplTest {
 
-  @Spy
-  @InjectMocks
-  private ProjectStatusServiceImpl projectStatusServiceImpl;
+    @Spy
+    @InjectMocks
+    private ProjectStatusServiceImpl projectStatusServiceImpl;
 
-  @Mock
-  private ProjectStatusDao projectStatusDao;
+    @Mock
+    private ProjectStatusDao projectStatusDao;
 
-  private final String testId = "asdf";
+    private final String testId = "asdf";
 
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-  }
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-  @Test
-  public void testSaveWhenProjectStatusIsValidObject() {
+    @Test
+    public void testSaveWhenProjectStatusIsValidObject() {
 
-    // arrange
-    ProjectStatus projectStatus = this.buildProjectStatus();
-    Mockito.when(projectStatusDao.save(projectStatus)).thenReturn(projectStatus);
+        // arrange
+        ProjectStatus projectStatus = this.buildProjectStatus();
+        Mockito.when(projectStatusDao.save(projectStatus)).thenReturn(projectStatus);
 
-    // act
-    ProjectStatus resultProjectStatus = this.projectStatusServiceImpl.save(projectStatus);
+        // act
+        ProjectStatus resultProjectStatus = this.projectStatusServiceImpl.save(projectStatus);
 
-    // assert
-    Mockito.verify(projectStatusDao).save(projectStatus);
-    assertThat(resultProjectStatus, is(projectStatus));
-  }
+        // assert
+        Mockito.verify(projectStatusDao).save(projectStatus);
+        assertThat(resultProjectStatus, is(projectStatus));
+    }
 
-  @Test
-  public void testUpdate() {
+    @Test
+    public void testUpdate() {
 
-    // arrange
-    ProjectStatus projectStatus = this.buildProjectStatus();
-    Mockito.when(this.projectStatusDao.update(projectStatus)).thenReturn(projectStatus);
+        // arrange
+        ProjectStatus projectStatus = this.buildProjectStatus();
+        Mockito.when(this.projectStatusDao.update(projectStatus)).thenReturn(projectStatus);
 
-    // act
-    ProjectStatus resultProjectStatus = this.projectStatusServiceImpl.update(projectStatus);
+        // act
+        ProjectStatus resultProjectStatus = this.projectStatusServiceImpl.update(projectStatus);
 
-    // assert
-    Mockito.verify(projectStatusDao).update(projectStatus);
-    assertThat(resultProjectStatus, is(projectStatus));
-  }
+        // assert
+        Mockito.verify(projectStatusDao).update(projectStatus);
+        assertThat(resultProjectStatus, is(projectStatus));
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testMergeWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testMergeWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.projectStatusDao.findById(ProjectStatus.class, testId)).thenReturn(null);
-    ProjectStatus projectStatus = new ProjectStatus();
+        // arrange
+        Mockito.when(this.projectStatusDao.findById(testId)).thenReturn(null);
+        ProjectStatus projectStatus = new ProjectStatus();
 
-    // act
-    this.projectStatusServiceImpl.merge(testId, projectStatus);
+        // act
+        this.projectStatusServiceImpl.merge(testId, projectStatus);
 
-  }
+    }
 
-  @Test
-  public void testMergeWhenIdIsValidAndObjectIsValid() {
+    @Test
+    public void testMergeWhenIdIsValidAndObjectIsValid() {
 
-    // arrange
-    ProjectStatus projectStatusNew = this.buildProjectStatus();
-    ProjectStatus projectStatusOld = this.buildProjectStatus();
-    projectStatusOld.setTitle("Title old");
-    Mockito.when(projectStatusDao.findById(ProjectStatus.class, testId)).thenReturn(projectStatusOld);
+        // arrange
+        ProjectStatus projectStatusNew = this.buildProjectStatus();
+        ProjectStatus projectStatusOld = this.buildProjectStatus();
+        projectStatusOld.setTitle("Title old");
+        Mockito.when(projectStatusDao.findById(testId)).thenReturn(projectStatusOld);
 
-    // act
-    this.projectStatusServiceImpl.merge(testId, projectStatusNew);
+        // act
+        this.projectStatusServiceImpl.merge(testId, projectStatusNew);
 
-    // assert
-    assertThat(projectStatusOld.getTitle(), is(projectStatusNew.getTitle()));
-    Mockito.verify(projectStatusDao).findById(ProjectStatus.class, testId);
-    Mockito.verify(projectStatusServiceImpl).update(projectStatusOld);
-  }
+        // assert
+        assertThat(projectStatusOld.getTitle(), is(projectStatusNew.getTitle()));
+        Mockito.verify(projectStatusDao).findById(testId);
+        Mockito.verify(projectStatusServiceImpl).update(projectStatusOld);
+    }
 
-  @Test
-  public void testRemove() {
+    @Test
+    public void testRemove() {
 
-    // arrange
-    ProjectStatus projectStatus = new ProjectStatus();
-    Mockito.doNothing().when(projectStatusDao).remove(projectStatus);
+        // arrange
+        ProjectStatus projectStatus = new ProjectStatus();
+        Mockito.doNothing().when(projectStatusDao).remove(projectStatus);
 
-    // act
-    this.projectStatusServiceImpl.remove(projectStatus);
+        // act
+        this.projectStatusServiceImpl.remove(projectStatus);
 
-    // assert
-    Mockito.verify(projectStatusDao).remove(projectStatus);
-  }
+        // assert
+        Mockito.verify(projectStatusDao).remove(projectStatus);
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testRemoveByIdWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testRemoveByIdWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.projectStatusServiceImpl.findById(testId)).thenReturn(null);
+        // arrange
+        Mockito.when(this.projectStatusServiceImpl.findById(testId)).thenReturn(null);
 
-    // act
-    this.projectStatusServiceImpl.removeById(testId);
-  }
+        // act
+        this.projectStatusServiceImpl.removeById(testId);
+    }
 
-  @Test
-  public void testRemoveByIdWhenIdIsValid() {
+    @Test
+    public void testRemoveByIdWhenIdIsValid() {
 
-    // arrange
-    ProjectStatus projectStatus = this.buildProjectStatus();
-    Mockito.when(projectStatusDao.findById(ProjectStatus.class, testId)).thenReturn(projectStatus);
-    Mockito.doNothing().when(projectStatusServiceImpl).remove(projectStatus);
+        // arrange
+        ProjectStatus projectStatus = this.buildProjectStatus();
+        Mockito.when(projectStatusDao.findById(testId)).thenReturn(projectStatus);
+        Mockito.doNothing().when(projectStatusServiceImpl).remove(projectStatus);
 
-    // act
-    this.projectStatusServiceImpl.removeById(testId);
+        // act
+        this.projectStatusServiceImpl.removeById(testId);
 
-    // assert
-    Mockito.verify(this.projectStatusServiceImpl).remove(projectStatus);
-    Mockito.verify(this.projectStatusDao).findById(ProjectStatus.class, testId);
-  }
+        // assert
+        Mockito.verify(this.projectStatusServiceImpl).remove(projectStatus);
+        Mockito.verify(this.projectStatusDao).findById(testId);
+    }
 
-  @Test
-  public void testfindById() {
+    @Test
+    public void testfindById() {
 
-    // arrange
-    Mockito.when(projectStatusDao.findById(ProjectStatus.class, testId)).thenReturn(new ProjectStatus());
+        // arrange
+        Mockito.when(projectStatusDao.findById(testId)).thenReturn(new ProjectStatus());
 
-    // act
-    this.projectStatusServiceImpl.findById(testId);
+        // act
+        this.projectStatusServiceImpl.findById(testId);
 
-    // assert
-    Mockito.verify(projectStatusDao).findById(ProjectStatus.class, testId);
-  }
+        // assert
+        Mockito.verify(projectStatusDao).findById(testId);
+    }
 
-  @Test
-  public void testFindAll() {
+    @Test
+    public void testFindAll() {
 
-    // arrange
-    Mockito.when(projectStatusDao.findAll()).thenReturn(new ArrayList<ProjectStatus>());
+        // arrange
+        Mockito.when(projectStatusDao.findAll()).thenReturn(new ArrayList<ProjectStatus>());
 
-    // act
-    this.projectStatusDao.findAll();
+        // act
+        this.projectStatusDao.findAll();
 
-    // assert
-    Mockito.verify(projectStatusDao).findAll();
-  }
+        // assert
+        Mockito.verify(projectStatusDao).findAll();
+    }
 
-  @Test
-  public void testCount() {
+    @Test
+    public void testCount() {
 
-    // arrange
-    Mockito.when(projectStatusDao.count()).thenReturn(10L);
+        // arrange
+        Mockito.when(projectStatusDao.count()).thenReturn(10L);
 
-    // act
-    Long result = this.projectStatusDao.count();
+        // act
+        Long result = this.projectStatusDao.count();
 
-    // assert
-    Mockito.verify(projectStatusDao).count();
-    assertThat(result, is(Long.valueOf(10)));
-  }
+        // assert
+        Mockito.verify(projectStatusDao).count();
+        assertThat(result, is(Long.valueOf(10)));
+    }
 
-  @Test
-  public void testFind() {
+    @Test
+    public void testFind() {
 
-    // arrange
-    Mockito.when(projectStatusDao.find(Matchers.anyInt(), Matchers.anyInt()))
-        .thenReturn(new ArrayList<ProjectStatus>());
+        // arrange
+        Mockito.when(projectStatusDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectStatus>());
 
-    // act
-    this.projectStatusServiceImpl.find(2, 20);
+        // act
+        this.projectStatusServiceImpl.find(2, 20);
 
-    // assert
-    Mockito.verify(projectStatusDao).find(Matchers.anyInt(), Matchers.anyInt());
+        // assert
+        Mockito.verify(projectStatusDao).find(Matchers.anyInt(), Matchers.anyInt());
 
-  }
+    }
 
-  private ProjectStatus buildProjectStatus() {
-    ProjectStatus projectStatus = new ProjectStatus();
-    User user = this.buildUser();
-    projectStatus.setId("1");
-    projectStatus.setTitle("Test Title");
-    projectStatus.setCreatedBy(user);
-    projectStatus.setUpdatedAt(LocalDateTime.now());
-    projectStatus.setCreatedAt(LocalDateTime.now());
-    return projectStatus;
-  }
+    private ProjectStatus buildProjectStatus() {
+        ProjectStatus projectStatus = new ProjectStatus();
+        User user = this.buildUser();
+        projectStatus.setId("1");
+        projectStatus.setTitle("Test Title");
+        projectStatus.setCreatedBy(user);
+        projectStatus.setUpdatedAt(LocalDateTime.now());
+        projectStatus.setCreatedAt(LocalDateTime.now());
+        return projectStatus;
+    }
 
-  private User buildUser() {
-    User user = new User();
-    user.setEmail("achyutpokhrel@lftechnology.com");
-    user.setId("12345");
-    user.setName("achyut pokhrel");
-    return user;
-  }
+    private User buildUser() {
+        User user = new User();
+        user.setEmail("achyutpokhrel@lftechnology.com");
+        user.setId("12345");
+        user.setName("achyut pokhrel");
+        return user;
+    }
 
 }

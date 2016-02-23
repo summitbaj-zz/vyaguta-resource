@@ -35,4 +35,9 @@ public class ProjectTypeDaoImpl extends BaseDao<ProjectType, String>implements P
         return criteriaUtil.find(ProjectType.class, start, offset);
     }
 
+    @Override
+    public ProjectType findById(String id) {
+        return em.find(ProjectType.class, id);
+    }
+
 }

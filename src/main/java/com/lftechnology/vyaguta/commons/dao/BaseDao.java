@@ -45,8 +45,7 @@ public abstract class BaseDao<T, Pk> {
             em.persist(entity);
             em.flush();
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-                    persistenceException.getCause());
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
         }
         return entity;
     }
@@ -56,8 +55,7 @@ public abstract class BaseDao<T, Pk> {
             em.merge(entity);
             em.flush();
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-                    persistenceException.getCause());
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
         }
         return entity;
     }
@@ -66,12 +64,7 @@ public abstract class BaseDao<T, Pk> {
         try {
             em.remove(em.merge(entity));
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(constructErrorMessage(persistenceException).toString(),
-                    persistenceException.getCause());
+            throw new DataAccessException(constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
         }
-    }
-
-    public T findById(Class<T> entity, Pk id) {
-        return em.find(entity, id);
     }
 }

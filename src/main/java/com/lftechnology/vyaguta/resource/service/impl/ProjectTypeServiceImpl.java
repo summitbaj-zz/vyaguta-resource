@@ -55,7 +55,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 
     @Override
     public ProjectType findById(String id) {
-        return projectTypeDao.findById(ProjectType.class, id);
+        return projectTypeDao.findById(id);
     }
 
     @Override

@@ -27,190 +27,190 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;;
  */
 public class ProjectTypeServiceImplTest {
 
-  @Spy
-  @InjectMocks
-  private ProjectTypeServiceImpl projectTypeServiceImpl;
+    @Spy
+    @InjectMocks
+    private ProjectTypeServiceImpl projectTypeServiceImpl;
 
-  @Mock
-  private ProjectTypeDao projectTypeDao;
+    @Mock
+    private ProjectTypeDao projectTypeDao;
 
-  private final String testId = "asdf";
+    private final String testId = "asdf";
 
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-  }
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-  @Test
-  public void testSaveWhenProjectTypeIsValidObject() {
+    @Test
+    public void testSaveWhenProjectTypeIsValidObject() {
 
-    // arrange
-    ProjectType projectType = this.buildProjectType();
-    Mockito.when(projectTypeDao.save(projectType)).thenReturn(projectType);
+        // arrange
+        ProjectType projectType = this.buildProjectType();
+        Mockito.when(projectTypeDao.save(projectType)).thenReturn(projectType);
 
-    // act
-    ProjectType resultProjectType = this.projectTypeServiceImpl.save(projectType);
+        // act
+        ProjectType resultProjectType = this.projectTypeServiceImpl.save(projectType);
 
-    // assert
-    Mockito.verify(projectTypeDao).save(projectType);
-    assertThat(resultProjectType, is(projectType));
-  }
+        // assert
+        Mockito.verify(projectTypeDao).save(projectType);
+        assertThat(resultProjectType, is(projectType));
+    }
 
-  @Test
-  public void testUpdate() {
+    @Test
+    public void testUpdate() {
 
-    // arrange
-    ProjectType projectType = this.buildProjectType();
-    Mockito.when(this.projectTypeDao.update(projectType)).thenReturn(projectType);
+        // arrange
+        ProjectType projectType = this.buildProjectType();
+        Mockito.when(this.projectTypeDao.update(projectType)).thenReturn(projectType);
 
-    // act
-    ProjectType resultProjectType = this.projectTypeServiceImpl.update(projectType);
+        // act
+        ProjectType resultProjectType = this.projectTypeServiceImpl.update(projectType);
 
-    // assert
-    Mockito.verify(projectTypeDao).update(projectType);
-    assertThat(resultProjectType, is(projectType));
-  }
+        // assert
+        Mockito.verify(projectTypeDao).update(projectType);
+        assertThat(resultProjectType, is(projectType));
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testMergeWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testMergeWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.projectTypeDao.findById(ProjectType.class, testId)).thenReturn(null);
-    ProjectType projectType = new ProjectType();
+        // arrange
+        Mockito.when(this.projectTypeDao.findById(testId)).thenReturn(null);
+        ProjectType projectType = new ProjectType();
 
-    // act
-    this.projectTypeServiceImpl.merge(testId, projectType);
+        // act
+        this.projectTypeServiceImpl.merge(testId, projectType);
 
-  }
+    }
 
-  @Test
-  public void testMergeWhenIdIsValidAndObjectIsValid() {
+    @Test
+    public void testMergeWhenIdIsValidAndObjectIsValid() {
 
-    // arrange
-    ProjectType projectTypeNew = this.buildProjectType();
-    ProjectType projectTypeOld = this.buildProjectType();
-    projectTypeOld.setTitle("Title old");
-    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(projectTypeOld);
+        // arrange
+        ProjectType projectTypeNew = this.buildProjectType();
+        ProjectType projectTypeOld = this.buildProjectType();
+        projectTypeOld.setTitle("Title old");
+        Mockito.when(projectTypeDao.findById(testId)).thenReturn(projectTypeOld);
 
-    // act
-    this.projectTypeServiceImpl.merge(testId, projectTypeNew);
+        // act
+        this.projectTypeServiceImpl.merge(testId, projectTypeNew);
 
-    // assert
-    assertThat(projectTypeOld.getTitle(), is(projectTypeNew.getTitle()));
-    Mockito.verify(projectTypeDao).findById(ProjectType.class, testId);
-    Mockito.verify(projectTypeServiceImpl).update(projectTypeOld);
-  }
+        // assert
+        assertThat(projectTypeOld.getTitle(), is(projectTypeNew.getTitle()));
+        Mockito.verify(projectTypeDao).findById(testId);
+        Mockito.verify(projectTypeServiceImpl).update(projectTypeOld);
+    }
 
-  @Test
-  public void testRemove() {
+    @Test
+    public void testRemove() {
 
-    // arrange
-    ProjectType projectType = new ProjectType();
-    Mockito.doNothing().when(projectTypeDao).remove(projectType);
+        // arrange
+        ProjectType projectType = new ProjectType();
+        Mockito.doNothing().when(projectTypeDao).remove(projectType);
 
-    // act
-    this.projectTypeServiceImpl.remove(projectType);
+        // act
+        this.projectTypeServiceImpl.remove(projectType);
 
-    // assert
-    Mockito.verify(projectTypeDao).remove(projectType);
-  }
+        // assert
+        Mockito.verify(projectTypeDao).remove(projectType);
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testRemoveByIdWhenIdIsNotValid() {
+    @Test(expected = ObjectNotFoundException.class)
+    public void testRemoveByIdWhenIdIsNotValid() {
 
-    // arrange
-    Mockito.when(this.projectTypeServiceImpl.findById(testId)).thenReturn(null);
+        // arrange
+        Mockito.when(this.projectTypeServiceImpl.findById(testId)).thenReturn(null);
 
-    // act
-    this.projectTypeServiceImpl.removeById(testId);
-  }
+        // act
+        this.projectTypeServiceImpl.removeById(testId);
+    }
 
-  @Test
-  public void testRemoveByIdWhenIdIsValid() {
+    @Test
+    public void testRemoveByIdWhenIdIsValid() {
 
-    // arrange
-    ProjectType projectType = this.buildProjectType();
-    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(projectType);
-    Mockito.doNothing().when(projectTypeServiceImpl).remove(projectType);
+        // arrange
+        ProjectType projectType = this.buildProjectType();
+        Mockito.when(projectTypeDao.findById(testId)).thenReturn(projectType);
+        Mockito.doNothing().when(projectTypeServiceImpl).remove(projectType);
 
-    // act
-    this.projectTypeServiceImpl.removeById(testId);
+        // act
+        this.projectTypeServiceImpl.removeById(testId);
 
-    // assert
-    Mockito.verify(this.projectTypeServiceImpl).remove(projectType);
-    Mockito.verify(this.projectTypeDao).findById(ProjectType.class, testId);
-  }
+        // assert
+        Mockito.verify(this.projectTypeServiceImpl).remove(projectType);
+        Mockito.verify(this.projectTypeDao).findById(testId);
+    }
 
-  @Test
-  public void testfindById() {
+    @Test
+    public void testfindById() {
 
-    // arrange
-    Mockito.when(projectTypeDao.findById(ProjectType.class, testId)).thenReturn(new ProjectType());
+        // arrange
+        Mockito.when(projectTypeDao.findById(testId)).thenReturn(new ProjectType());
 
-    // act
-    this.projectTypeServiceImpl.findById(testId);
+        // act
+        this.projectTypeServiceImpl.findById(testId);
 
-    // assert
-    Mockito.verify(projectTypeDao).findById(ProjectType.class, testId);
-  }
+        // assert
+        Mockito.verify(projectTypeDao).findById(testId);
+    }
 
-  @Test
-  public void testFindAll() {
+    @Test
+    public void testFindAll() {
 
-    // arrange
-    Mockito.when(projectTypeDao.findAll()).thenReturn(new ArrayList<ProjectType>());
+        // arrangepublic T findById(Class<T> t, Pk id);
+        Mockito.when(projectTypeDao.findAll()).thenReturn(new ArrayList<ProjectType>());
 
-    // act
-    this.projectTypeServiceImpl.findAll();
+        // act
+        this.projectTypeServiceImpl.findAll();
 
-    // assert
-    Mockito.verify(projectTypeDao).findAll();
-  }
+        // assert
+        Mockito.verify(projectTypeDao).findAll();
+    }
 
-  @Test
-  public void testCount() {
+    @Test
+    public void testCount() {
 
-    // arrange
-    Mockito.when(projectTypeDao.count()).thenReturn(10L);
+        // arrange
+        Mockito.when(projectTypeDao.count()).thenReturn(10L);
 
-    // act
-    Long result = this.projectTypeServiceImpl.count();
+        // act
+        Long result = this.projectTypeServiceImpl.count();
 
-    // assert
-    Mockito.verify(projectTypeDao).count();
-    assertThat(result, is(Long.valueOf(10)));
-  }
+        // assert
+        Mockito.verify(projectTypeDao).count();
+        assertThat(result, is(Long.valueOf(10)));
+    }
 
-  @Test
-  public void testFind() {
+    @Test
+    public void testFind() {
 
-    // arrange
-    Mockito.when(projectTypeDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectType>());
+        // arrange
+        Mockito.when(projectTypeDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectType>());
 
-    // act
-    this.projectTypeServiceImpl.find(2, 20);
+        // act
+        this.projectTypeServiceImpl.find(2, 20);
 
-    // assert
-    Mockito.verify(projectTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
+        // assert
+        Mockito.verify(projectTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
 
-  }
+    }
 
-  private ProjectType buildProjectType() {
-    ProjectType projectType = new ProjectType();
-    User user = this.buildUser();
-    projectType.setId("1");
-    projectType.setTitle("Test Title");
-    projectType.setCreatedBy(user);
-    projectType.setUpdatedAt(LocalDateTime.now());
-    projectType.setCreatedAt(LocalDateTime.now());
-    return projectType;
-  }
+    private ProjectType buildProjectType() {
+        ProjectType projectType = new ProjectType();
+        User user = this.buildUser();
+        projectType.setId("1");
+        projectType.setTitle("Test Title");
+        projectType.setCreatedBy(user);
+        projectType.setUpdatedAt(LocalDateTime.now());
+        projectType.setCreatedAt(LocalDateTime.now());
+        return projectType;
+    }
 
-  private User buildUser() {
-    User user = new User();
-    user.setEmail("achyutpokhrel@lftechnology.com");
-    user.setId("12345");
-    user.setName("achyut pokhrel");
-    return user;
-  }
+    private User buildUser() {
+        User user = new User();
+        user.setEmail("achyutpokhrel@lftechnology.com");
+        user.setId("12345");
+        user.setName("achyut pokhrel");
+        return user;
+    }
 }

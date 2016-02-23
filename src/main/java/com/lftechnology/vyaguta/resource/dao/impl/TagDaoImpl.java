@@ -44,4 +44,9 @@ public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
         querySearchByTitle.setParameter("title", "%" + title.toUpperCase() + "%");
         return querySearchByTitle.getResultList();
     }
+
+    @Override
+    public Tag findById(String id) {
+        return em.find(Tag.class, id);
+    }
 }

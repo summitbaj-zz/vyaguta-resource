@@ -36,4 +36,9 @@ public class ProjectStatusDaoImpl extends BaseDao<ProjectStatus, String>implemen
         return criteriaUtil.find(ProjectStatus.class, start, offset);
     }
 
+    @Override
+    public ProjectStatus findById(String id) {
+        return em.find(ProjectStatus.class, id);
+    }
+
 }
