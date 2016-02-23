@@ -1,13 +1,14 @@
-;(function() {
+;(function () {
     'use strict';
 
     var React = require('react');
     var ProjectStatusHeader = require('./ProjectStatusHeader');
     var history = require('react-router').History;
-    var ApiUtil = require('../../api-util/ApiUtil');
+    var ApiUtil = require('../../util/ApiUtil');
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
     var Toastr = require('toastr');
+    var formValidator = require('../../util/FormValidator');
 
     var PAGE_TITLE = 'Project Status';
     var projectStatusId = null;
@@ -38,16 +39,32 @@
             var submittedProjectStatus = {
                 name: this.refs.name.value
             }
-            if (this.props.params.id) {
-                ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.props.params.id, function (data) {
-                    Toastr.success('Project Status Successfully Edited');
-                    that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
-                });
+
+            if (formValidator.isValid(submittedProjectStatus)) {
+                if (this.projectStatusId) {
+                    ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.projectStatusId, function (data) {
+                        document.querySelector('#save-btn').disabled = true;
+                        that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
+                        Toastr.success("Project Status Successfully Edited");
+                    });
+                } else {
+                    ApiUtil.create(resourceConstant.PROJECT_STATUS, submittedProjectStatus, function (data) {
+                        document.querySelector('#save-btn').disabled = true;
+                        that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
+                        Toastr.success("Project Status Successfully Added");
+                    });
+                }
             } else {
-                ApiUtil.create(resourceConstant.PROJECT_STATUS, submittedProjectStatus, function (data) {
-                    Toastr.success('Project Status Successfully Added');
-                    that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
-                });
+                this.showErrors(formValidator.errors)
+            }
+        },
+
+        showErrors: function (errors) {
+            for (var elementId in errors) {
+                var parentElement = document.querySelector('#' + elementId).parentElement;
+
+                parentElement.className += " has-error";
+                parentElement.querySelector('span').innerHTML = errors[elementId];
             }
         },
 
@@ -72,11 +89,13 @@
                                 <input type="text" ref="name" name="name" value={this.state.projectStatus.name}
                                        onChange={this.fieldChange}
                                        placeholder="Project Status Name"
-                                       className="form-control" required/>
+                                       className="form-control"
+                                        id="name"/>
+                                <span className="help-block"></span>
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit"><i
+                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
                                         className="fa fa-angle-right"></i>{action}
                                     </button>
                                     <button className="btn btn-sm btn-default" type="reset"><i

@@ -2,7 +2,7 @@
     'use strict';
 
     var store = require('../store');
-    var ApiUtil = require('../api-util/ApiUtil');
+    var ApiUtil = require('../util/ApiUtil');
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
     var _ = require('lodash');
@@ -11,7 +11,6 @@
     var crudActions = {
         fetchAll: function (entity) {
             var dispatchListIntoStore = function (response) {
-                console.warn('bishal');
                 return (
                     store.dispatch({
                         type: actionTypeConstant.LIST,
@@ -35,6 +34,7 @@
                 return (
                     store.dispatch({
                         type: actionTypeConstant.DELETE,
+                        data: data,
                         entity: entity
                     })
                 );

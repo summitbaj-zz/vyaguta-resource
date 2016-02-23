@@ -6,7 +6,7 @@ jest.dontMock('../../src/js/actions/crudActions')
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 var CrudActions = require('../../src/js/actions/crudActions');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 var actionTypeConstant = require('../../src/js/constants/actionTypeConstant');
 var store = require('../../src/js/store');
 
@@ -70,6 +70,7 @@ describe('Actions', function () {
         CrudActions.deleteItem('mock', 14, projectStatusArray);
         expect(store.dispatch).toBeCalledWith({
             type: actionTypeConstant.DELETE,
+            data: projectStatusArray,
             entity: 'mock'
         });
     });

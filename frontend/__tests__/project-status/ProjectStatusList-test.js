@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../src/js/components/project-status/ProjectStatusList')
     .dontMock('lodash')
     .dontMock('../../src/js/store')
@@ -8,6 +7,7 @@ var TestUtils = require('react-addons-test-utils');
 var List = require('../../src/js/components/project-status/ProjectStatusList').WrappedComponent;
 
 var ProjectStatus = require('../../src/js/components/project-status/ProjectStatusRow');
+
 var crudActions = require('../../src/js/actions/crudActions');
 var store = require('../../src/js/store');
 
@@ -60,4 +60,3 @@ describe('List', function () {
         expect(crudActions.deleteItem).toBeCalled();
     });
 });
-*/

@@ -13,7 +13,7 @@ var TestUtils = require('react-addons-test-utils');
 
 var BudgetTypeList = require('../../src/js/components/budget-type/BudgetTypeList');
 var BudgetTypeRow = require('../../src/js/components/budget-type/BudgetTypeRow');
-var ApiUtil = require('../../src/js/api-util/ApiUtil');
+var ApiUtil = require('../../src/js/util/ApiUtil');
 
 var List; //testBudgetTypeList
 

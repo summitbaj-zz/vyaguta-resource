@@ -5,7 +5,7 @@
     var Link = require('react-router').Link;
 
     var BreadCrumb = React.createClass({
-        getInitialState(){
+        getInitialState: function () {
             return {
                 paths: []
             }
@@ -18,7 +18,7 @@
         setPathState: function () {
             var routes = this.props.routes;
             var newRoute = '';
-            var arrays = [];
+
             for (var i in routes) {
                 if (routes[i].path && routes[i].name) {
                     if (i > 1)
