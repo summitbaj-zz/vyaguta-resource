@@ -25,7 +25,7 @@
             NEW: BASE_PATH + '/projecttypes/new',
             EDIT: BASE_PATH + '/projecttypes/edit/'
         },
-        resourceServer: '/api/resource'
+        RESOURCE_SERVER: '/api/resource'
     };
 
     module.exports = urlConstant;
