@@ -3,14 +3,14 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/18/16.
  */
-jest.dontMock('../../src/js/components/budget-type/BudgetTypeForm');
-jest.dontMock('../../src/js/util/FormValidator');
+jest.dontMock('../../../src/js/components/budget-type/BudgetTypeForm');
+jest.dontMock('../../../src/js/util/FormValidator');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
-var BudgetTypeForm = require('../../src/js/components/budget-type/BudgetTypeForm');
-var ApiUtil = require('../../src/js/util/ApiUtil');
+var BudgetTypeForm = require('../../../src/js/components/budget-type/BudgetTypeForm');
+var ApiUtil = require('../../../src/js/util/ApiUtil');
 
 var budgetType = [
     {

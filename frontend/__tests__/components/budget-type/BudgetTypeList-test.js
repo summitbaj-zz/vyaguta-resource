@@ -5,19 +5,19 @@
  */
 
 
-jest.dontMock('../../src/js/components/budget-type/BudgetTypeList')
+jest.dontMock('../../../src/js/components/budget-type/BudgetTypeList')
     .dontMock('lodash')
-    .dontMock('../../src/js/store/store')
-    .dontMock('../../src/js/reducers/crudReducer');
+    .dontMock('../../../src/js/store/store')
+    .dontMock('../../../src/js/reducers/crudReducer');
 
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 
-var BudgetTypeList = require('../../src/js/components/budget-type/BudgetTypeList').WrappedComponent;
-var BudgetTypeRow = require('../../src/js/components/budget-type/BudgetTypeRow');
-var ApiUtil = require('../../src/js/util/ApiUtil');
-var store = require('../../src/js/store/store');
-var crudActions = require('../../src/js/actions/crudActions');
+var BudgetTypeList = require('../../../src/js/components/budget-type/BudgetTypeList').WrappedComponent;
+var BudgetTypeRow = require('../../../src/js/components/budget-type/BudgetTypeRow');
+var ApiUtil = require('../../../src/js/util/ApiUtil');
+var store = require('../../../src/js/store/store');
+var crudActions = require('../../../src/js/actions/crudActions');
 
 var List; //testBudgetTypeList
 
