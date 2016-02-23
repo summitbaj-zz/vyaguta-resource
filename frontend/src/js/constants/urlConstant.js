@@ -24,7 +24,8 @@
             INDEX: BASE_PATH + '/projecttypes',
             NEW: BASE_PATH + '/projecttypes/new',
             EDIT: BASE_PATH + '/projecttypes/edit/'
-        }
+        },
+        resourceServer: '/api/resource'
     };
 
     module.exports = urlConstant;
