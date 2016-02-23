@@ -4,7 +4,6 @@
     var React = require('react');
     var Link = require('react-router').Link;
 
-    var store = require('../../store');
     var connect = require('react-redux').connect;
 
     var ProjectStatus = require('./ProjectStatusRow');

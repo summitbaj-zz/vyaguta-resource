@@ -6,7 +6,9 @@
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
     var initialState = Immutable.Map(
-        {projectStatus: []}
+        {projectStatus: [],
+        budgetTypes: []}
+
     );
 
     var crudReducer = function (state, action) {

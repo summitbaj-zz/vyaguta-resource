@@ -1,6 +1,6 @@
 jest.dontMock('../../src/js/actions/crudActions')
     .dontMock('lodash')
-    .dontMock('../../src/js/store')
+    .dontMock('../../src/js/store/store')
     .dontMock('../../src/js/reducers/crudReducer');
 
 var React = require('react');
@@ -8,7 +8,7 @@ var TestUtils = require('react-addons-test-utils');
 var CrudActions = require('../../src/js/actions/crudActions');
 var ApiUtil = require('../../src/js/util/ApiUtil');
 var actionTypeConstant = require('../../src/js/constants/actionTypeConstant');
-var store = require('../../src/js/store');
+var store = require('../../src/js/store/store');
 
 var projectStatusArray = [
     {

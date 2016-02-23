@@ -8,7 +8,6 @@
         createBrowserHistory = require('history/lib/createBrowserHistory'),
         IndexRoute = ReactRouter.IndexRoute;
 
-
     var routes = (
 
         <Router history={createBrowserHistory()}>

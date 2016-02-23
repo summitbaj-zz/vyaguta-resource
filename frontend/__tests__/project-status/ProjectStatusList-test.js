@@ -1,6 +1,6 @@
 jest.dontMock('../../src/js/components/project-status/ProjectStatusList')
     .dontMock('lodash')
-    .dontMock('../../src/js/store')
+    .dontMock('../../src/js/store/store')
     .dontMock('../../src/js/reducers/crudReducer');
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
@@ -9,7 +9,7 @@ var List = require('../../src/js/components/project-status/ProjectStatusList').W
 var ProjectStatus = require('../../src/js/components/project-status/ProjectStatusRow');
 
 var crudActions = require('../../src/js/actions/crudActions');
-var store = require('../../src/js/store');
+var store = require('../../src/js/store/store');
 
 var projectStatusArray = [
     {
@@ -35,8 +35,8 @@ describe('List', function () {
     it('calls getAll method of crudAction on component mount', function(){
         list.componentDidMount();
         expect(crudActions.fetchAll).toBeCalled();
-
     });
+
     it('returns one project Status component when list function is called', function () {
         var key = 1;
         var actual = <ProjectStatus key={key} index={key} projectStatus={list.props.projectStatus[key]}
@@ -47,7 +47,6 @@ describe('List', function () {
     });
 
     it('doesnot call deleteItem function of crudActions when confirmation is cancelled', function () {
-
         var ab = spyOn(window, 'confirm').andReturn(false);
         list.delete();
         expect(crudActions.deleteItem).not.toBeCalled();

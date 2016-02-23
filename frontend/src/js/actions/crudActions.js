@@ -1,7 +1,7 @@
 ;(function () {
     'use strict';
 
-    var store = require('../store');
+    var store = require('../store/store');
     var ApiUtil = require('../util/ApiUtil');
     var actionTypeConstant = require('../constants/actionTypeConstant');
 

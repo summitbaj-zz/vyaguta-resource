@@ -12,7 +12,7 @@
     var routes = require('./routes');
 
     var Provider = require('react-redux').Provider;
-    var store = require('./store');
+    var store = require('./store/store');
 
     ReactDOM.render(
         <Provider store={store}>
