@@ -20,3 +20,5 @@ frontend/coverage
 frontend/app/vendor
 .tmp
 frontend/test/scripts/
+
+src/main/resources/META-INF/persistence.xml

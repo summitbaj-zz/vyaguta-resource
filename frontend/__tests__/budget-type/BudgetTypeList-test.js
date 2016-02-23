@@ -4,14 +4,20 @@
  * on 2/18/16.
  */
 
-jest.dontMock('../../src/js/components/budget-type/BudgetTypeList');
+
+jest.dontMock('../../src/js/components/budget-type/BudgetTypeList')
+    .dontMock('lodash')
+    .dontMock('../../src/js/store/store')
+    .dontMock('../../src/js/reducers/crudReducer');
 
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 
-var BudgetTypeList = require('../../src/js/components/budget-type/BudgetTypeList');
+var BudgetTypeList = require('../../src/js/components/budget-type/BudgetTypeList').WrappedComponent;
 var BudgetTypeRow = require('../../src/js/components/budget-type/BudgetTypeRow');
 var ApiUtil = require('../../src/js/util/ApiUtil');
+var store = require('../../src/js/store/store');
+var crudActions = require('../../src/js/actions/crudActions');
 
 var List; //testBudgetTypeList
 
@@ -28,47 +34,33 @@ var budgetTypes = [
 
 describe('BudgetTypeList', function () {
     beforeEach(function () {
-        List = TestUtils.renderIntoDocument(<BudgetTypeList />);
+        List = TestUtils.renderIntoDocument(<BudgetTypeList budgetTypes={budgetTypes}/>);
     });
 
-    it('updates the store correctly with the fetched data', function () {
-        List.updateState(budgetTypes);
-        expect(List.state.budgetTypes).toEqual(budgetTypes);
-    });
-
-    it('successfully deletes the data from state', function () {
-        var id = 1;
-        List.updateState(budgetTypes);
-        List.removeFromState(id);
-        expect(List.state.budgetTypes.length).toEqual(1);
-    });
-
-    it('calls the fetchAll method of ApiUtil when component is mounted', function () {
+    it('calls getAll method of crudAction on component mount', function(){
         List.componentDidMount();
-        expect(ApiUtil.fetchAll).toBeCalled();
+        expect(crudActions.fetchAll).toBeCalled();
     });
 
     it('renders one BudgetType Row with correct props', function () {
         var key = 1;
-        var actual = <BudgetTypeRow key={key} index={key} budgetType={List.state.budgetTypes[key]} deleteBudgetType={List.deleteBudgetType}/>
+        var actual = <BudgetTypeRow key={key} index={key} budgetType={List.props.budgetTypes[key]} deleteBudgetType={List.deleteBudgetType}/>
         var expected = List.renderBudgetType(key);
         expect(expected).toEqual(actual);
     });
 
     it('doesnot delete when confirmation is cancelled', function () {
-        var id = 1;
         spyOn(window, 'confirm').andReturn(false);
         List.deleteBudgetType(1);
-        expect(ApiUtil.delete).not.toBeCalled();
+        expect(crudActions.deleteItem).not.toBeCalled();
     })
 
     it('deletes when confirmation is accepted', function () {
-        var id = 1;
         spyOn(window, 'confirm').andReturn(true);
         List.deleteBudgetType(1);
-        expect(ApiUtil.delete).toBeCalled();
+        expect(crudActions.deleteItem).toBeCalled();
     })
 
-})
 
 
+});

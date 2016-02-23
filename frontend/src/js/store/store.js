@@ -1,24 +1,26 @@
-/**
- * Created by
- * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 2/22/16.
- */
+;(function () {
+    'use strict';
 
-var redux = require('redux');
-var createStore = redux.createStore;
-var applyMiddleware = redux.applyMiddleware;
-var compose = redux.compose;
-var logger = require('redux-logger');
-var thunk = require('redux-thunk');
-var combineReducers = redux.combineReducers;
-var budgetTypeReducer = require('../reducers/budgetTypeReducer');
+    var redux = require('redux');
+    var thunk = require('redux-thunk');
+    var logger = require('redux-logger');
 
-var createStoreWithMiddleWare = compose(
-    applyMiddleware(thunk, logger())
-)(createStore);
+    var crudReducer = require('../reducers/crudReducer');
+    var createStore = redux.createStore;
+    var applyMiddleware = redux.applyMiddleware;
+    var combineReducers = redux.combineReducers;
 
-var reducers = combineReducers ({
-    budgetTypeReducer: budgetTypeReducer
-})
+//Apply middleware to createStore
+    var createStoreWithMiddleware = applyMiddleware(thunk, logger())(createStore);
 
-module.exports = createStoreWithMiddleWare(reducers);
+//Combine Reducers
+    var reducers = combineReducers({
+        crudReducer: crudReducer
+        //add for each reducers...
+    });
+
+    var store = createStoreWithMiddleware(reducers);
+
+    module.exports = store;
+
+})();

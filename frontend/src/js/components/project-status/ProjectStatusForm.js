@@ -37,12 +37,12 @@
 
             var that = this;
             var submittedProjectStatus = {
-                name: this.refs.name.value
+                title: this.refs.name.value
             }
 
             if (formValidator.isValid(submittedProjectStatus)) {
-                if (this.projectStatusId) {
-                    ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.projectStatusId, function (data) {
+                if (this.props.params.id) {
+                    ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.props.params.id, function (data) {
                         document.querySelector('#save-btn').disabled = true;
                         that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
                         Toastr.success("Project Status Successfully Edited");
@@ -62,7 +62,6 @@
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = document.querySelector('#' + elementId).parentElement;
-
                 parentElement.className += " has-error";
                 parentElement.querySelector('span').innerHTML = errors[elementId];
             }
@@ -90,7 +89,7 @@
                                        onChange={this.fieldChange}
                                        placeholder="Project Status Name"
                                        className="form-control"
-                                        id="name"/>
+                                       id="title"/>
                                 <span className="help-block"></span>
                             </div>
                             <div className="form-group form-actions clearfix">
@@ -109,5 +108,7 @@
             );
         }
     });
+
     module.exports = ProjectStatusForm;
+
 })();

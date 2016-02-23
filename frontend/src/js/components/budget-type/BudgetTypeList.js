@@ -12,7 +12,7 @@
     var BudgetTypeRow = require('./BudgetTypeRow');
     var BudgetTypeHeader = require('./BudgetTypeHeader');
     var ApiUtil = require('../../util/ApiUtil');
-    var budgetTypeActions = require('../../actions/budgetTypeActions');
+    var crudActions = require('../../actions/crudActions');
 
     var _ = require('lodash');
 
@@ -21,8 +21,8 @@
     var urlConstant = require('../../constants/urlConstant');
 
     var BudgetTypeList = React.createClass({
-        componentWillMount: function () {
-            budgetTypeActions.fetchAllBudgetType(resourceConstant.BUDGET_TYPES);
+        componentDidMount: function () {
+            crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
         },
 
         updateState: function (budgetTypes) {
@@ -33,7 +33,7 @@
             var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
 
             if (confirm('Are you sure?')) {
-                budgetTypeActions.deleteBudgetType(resourceConstant.BUDGET_TYPES, id, data);
+                crudActions.deleteItem(resourceConstant.BUDGET_TYPES, id, data);
             }
         },
 
@@ -79,7 +79,7 @@
 
     var selectStore = function (store) {
         return {
-            budgetTypes: store.budgetTypeReducer.get('budgetTypes')
+            budgetTypes: store.crudReducer.get(resourceConstant.BUDGET_TYPES)
         }
     }
 
