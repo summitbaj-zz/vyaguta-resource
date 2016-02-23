@@ -77,9 +77,9 @@
         }
     });
 
-    var selectStore = function (reducers) {
+    var selectStore = function (store) {
         return {
-            budgetTypes: reducers.budgetTypeReducer.get('budgetTypes')
+            budgetTypes: store.budgetTypeReducer.get('budgetTypes')
         }
     }
 

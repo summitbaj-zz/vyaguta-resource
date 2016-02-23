@@ -5,7 +5,7 @@
  */
 var Immutable = require('immutable');
 
-var initialState = Immutable.Map({budgetTypes: [{title:"check", id:1}]});
+var initialState = Immutable.Map({budgetTypes: [{}]});
 
 var budgetTypeReducer = function (state, action) {
     state = state || initialState;

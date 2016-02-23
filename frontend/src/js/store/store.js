@@ -20,4 +20,5 @@ var createStoreWithMiddleWare = compose(
 var reducers = combineReducers ({
     budgetTypeReducer: budgetTypeReducer
 })
+
 module.exports = createStoreWithMiddleWare(reducers);
