@@ -40,7 +40,7 @@ public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
   @Override
   @SuppressWarnings("unchecked")
   public List<Tag> findByTitle(String title) {
-    Query querySearchByTitle = em.createNamedQuery("Tags.SearchbyTitle", Tag.class);
+    Query querySearchByTitle = em.createNamedQuery(Tag.searchByTitle, Tag.class);
     querySearchByTitle.setParameter("title", "%" + title.toUpperCase() + "%");
     return querySearchByTitle.getResultList();
   }
