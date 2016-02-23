@@ -76,6 +76,4 @@ describe('BudgetTypeForm', function () {
         TestUtils.Simulate.change(input, {target: {name: 'name', value: value}})
         expect(Form.state.budgetType.name).toEqual(value);
     });
-})
-
-
+});

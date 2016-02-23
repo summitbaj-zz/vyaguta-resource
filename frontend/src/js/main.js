@@ -11,6 +11,13 @@
     var ReactDOM = require('react-dom');
     var routes = require('./routes');
 
-    ReactDOM.render(routes, document.querySelector('#vyaguta-body'));
+    var Provider = require('react-redux').Provider;
+    var store = require('./store');
+
+    ReactDOM.render(
+        <Provider store={store}>
+            {routes}
+        </Provider>,
+        document.querySelector('#vyaguta-body'));
 
 })();

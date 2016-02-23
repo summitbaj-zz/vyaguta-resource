@@ -6,7 +6,7 @@
 
 ;(function () {
     var resourceConstant = {
-        BUDGET_TYPES: 'budgettypes',
+        BUDGET_TYPES: 'budgetTypes',
         PROJECT_STATUS: 'projectStatus'
     };
 

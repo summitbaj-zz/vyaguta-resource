@@ -1,4 +1,5 @@
 jest.dontMock('../../src/js/components/project-status/ProjectStatusForm')
+    .dontMock('../../src/js/util/FormValidator');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -46,14 +47,20 @@ describe('Form', function () {
     });
     it('call edit function of ApiUtil when id is not null', function () {
         var form = TestUtils.renderIntoDocument(<Form params={params}/>)
-        var statusForm = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(form, 'form'));
+        var statusForm = TestUtils.findRenderedDOMComponentWithTag(form, 'form');
+        var formTitle = form.refs.name.getDOMNode();
+
+        formTitle.value = 'test';
         TestUtils.Simulate.submit(statusForm);
         expect(ApiUtil.edit).toBeCalled();
     });
 
     it('call create function of ApiUtil when id is null', function () {
         var form = TestUtils.renderIntoDocument(<Form params = {[]}/>);
-        var statusForm = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(form, 'form'));
+        var statusForm = TestUtils.findRenderedDOMComponentWithTag(form, 'form');
+        var formTitle = form.refs.name.getDOMNode();
+
+        formTitle.value = 'test';
         TestUtils.Simulate.submit(statusForm);
         expect(ApiUtil.create).toBeCalled();
 
