@@ -15,9 +15,10 @@ import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
  *
  */
 public class ProjectTypeServiceImpl implements ProjectTypeService {
+
   @Inject
-  ProjectTypeDao projectTypeDao;
-  
+  private ProjectTypeDao projectTypeDao;
+
   @Override
   public ProjectType save(ProjectType projectType) {
     return projectTypeDao.save(projectType);
