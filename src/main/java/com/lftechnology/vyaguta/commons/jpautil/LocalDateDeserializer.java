@@ -20,7 +20,8 @@ public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
     private final static DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
-    public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException {
         if (jp.hasCurrentToken()) {
             try {
                 LocalDate dateTime = LocalDate.parse(jp.getValueAsString(), DATETIME_FORMAT);

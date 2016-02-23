@@ -19,29 +19,29 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 @Stateless
 public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
 
-  @Inject
-  private CriteriaUtil<Tag> criteriaUtil;
+    @Inject
+    private CriteriaUtil<Tag> criteriaUtil;
 
-  @Override
-  public List<Tag> findAll() {
-    return criteriaUtil.findAll(Tag.class);
-  }
+    @Override
+    public List<Tag> findAll() {
+        return criteriaUtil.findAll(Tag.class);
+    }
 
-  @Override
-  public Long count() {
-    return criteriaUtil.count(Tag.class);
-  }
+    @Override
+    public Long count() {
+        return criteriaUtil.count(Tag.class);
+    }
 
-  @Override
-  public List<Tag> find(Integer start, Integer offset) {
-    return criteriaUtil.find(Tag.class, start, offset);
-  }
+    @Override
+    public List<Tag> find(Integer start, Integer offset) {
+        return criteriaUtil.find(Tag.class, start, offset);
+    }
 
-  @Override
-  @SuppressWarnings("unchecked")
-  public List<Tag> findByTitle(String title) {
-    Query querySearchByTitle = em.createNamedQuery("Tags.SearchbyTitle", Tag.class);
-    querySearchByTitle.setParameter("title", "%" + title.toUpperCase() + "%");
-    return querySearchByTitle.getResultList();
-  }
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Tag> findByTitle(String title) {
+        Query querySearchByTitle = em.createNamedQuery("Tags.SearchbyTitle", Tag.class);
+        querySearchByTitle.setParameter("title", "%" + title.toUpperCase() + "%");
+        return querySearchByTitle.getResultList();
+    }
 }

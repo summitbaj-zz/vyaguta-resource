@@ -14,60 +14,60 @@ import com.lftechnology.vyaguta.resource.service.BudgetTypeService;
  */
 public class BudgetTypeServiceImpl implements BudgetTypeService {
 
-  @Inject
-  BudgetTypeDao budgetTypeDao;
+    @Inject
+    BudgetTypeDao budgetTypeDao;
 
-  @Override
-  public BudgetType save(BudgetType budgetType) {
-    return budgetTypeDao.save(budgetType);
-  }
-
-  @Override
-  public BudgetType update(BudgetType budgetType) {
-    return budgetTypeDao.update(budgetType);
-  }
-
-  @Override
-  public BudgetType merge(String id, BudgetType obj) {
-    BudgetType budgetType = this.findById(id);
-    if (budgetType == null) {
-      throw new ObjectNotFoundException();
+    @Override
+    public BudgetType save(BudgetType budgetType) {
+        return budgetTypeDao.save(budgetType);
     }
-    budgetType.setTitle(obj.getTitle());
-    return this.update(budgetType);
-  }
 
-  @Override
-  public void remove(BudgetType budgetType) {
-    budgetTypeDao.remove(budgetType);
-  }
-
-  @Override
-  public void removeById(String id) {
-    BudgetType budgetType = this.findById(id);
-    if (budgetType == null) {
-      throw new ObjectNotFoundException();
+    @Override
+    public BudgetType update(BudgetType budgetType) {
+        return budgetTypeDao.update(budgetType);
     }
-    this.remove(budgetType);
-  }
 
-  @Override
-  public BudgetType findById(String id) {
-    return budgetTypeDao.findById(id);
-  }
+    @Override
+    public BudgetType merge(String id, BudgetType obj) {
+        BudgetType budgetType = this.findById(id);
+        if (budgetType == null) {
+            throw new ObjectNotFoundException();
+        }
+        budgetType.setTitle(obj.getTitle());
+        return this.update(budgetType);
+    }
 
-  @Override
-  public List<BudgetType> findAll() {
-    return budgetTypeDao.findAll();
-  }
+    @Override
+    public void remove(BudgetType budgetType) {
+        budgetTypeDao.remove(budgetType);
+    }
 
-  @Override
-  public Long count() {
-    return budgetTypeDao.count();
-  }
+    @Override
+    public void removeById(String id) {
+        BudgetType budgetType = this.findById(id);
+        if (budgetType == null) {
+            throw new ObjectNotFoundException();
+        }
+        this.remove(budgetType);
+    }
 
-  @Override
-  public List<BudgetType> find(Integer start, Integer offset) {
-    return budgetTypeDao.find(start, offset);
-  }
+    @Override
+    public BudgetType findById(String id) {
+        return budgetTypeDao.findById(id);
+    }
+
+    @Override
+    public List<BudgetType> findAll() {
+        return budgetTypeDao.findAll();
+    }
+
+    @Override
+    public Long count() {
+        return budgetTypeDao.count();
+    }
+
+    @Override
+    public List<BudgetType> find(Integer start, Integer offset) {
+        return budgetTypeDao.find(start, offset);
+    }
 }

@@ -16,10 +16,11 @@ import com.lftechnology.vyaguta.commons.exception.DataAccessException;
 @Provider
 public class DataAccessExceptionMapper implements ExceptionMapper<DataAccessException> {
 
-  @Override
-  public Response toResponse(DataAccessException exception) {
-    return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).type(MediaType.APPLICATION_JSON).build();
-    
-  }
+    @Override
+    public Response toResponse(DataAccessException exception) {
+        return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage())
+                .type(MediaType.APPLICATION_JSON).build();
+
+    }
 
 }
