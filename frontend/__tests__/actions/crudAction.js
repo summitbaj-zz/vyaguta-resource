@@ -27,30 +27,29 @@ var projectStatusArray = [
 
 describe('Actions', function () {
     it('calls fetchAll function of ApiUtil', function () {
-        var mock = function () {
-        }
-        CrudActions.fetchAll('mock');
-        expect(ApiUtil.fetchAll).toBeCalledWith('mock', mock);
+        var callback = function () {}
+        CrudActions.fetchAll('projectstatus');
+        expect(ApiUtil.fetchAll).toBeCalledWith('projectstatus', callback);
     });
 
     it('calls dispatch function of store on successful fetching of data', function () {
         store.dispatch = jest.genMockFunction();
         ApiUtil.fetchAll = function (entity, callback) {
-            callback('mockdata');
+            callback('mock data');
         }
-        CrudActions.fetchAll('mock');
+        CrudActions.fetchAll('projectStatus');
         expect(store.dispatch).toBeCalledWith({
             type: actionTypeConstant.LIST,
-            data: 'mockdata',
-            entity: 'mock'
+            data: 'mock data',
+            entity: 'projectStatus'
         });
     });
 
     it('calls delete function of ApiUtil', function () {
         var mock = function () {
         }
-        CrudActions.deleteItem('mock', 3, 'mock');
-        expect(ApiUtil.delete).toBeCalledWith('mock', 3, mock);
+        CrudActions.deleteItem('projectStatus', 3, 'mockdata');
+        expect(ApiUtil.delete).toBeCalledWith('projectStatus', 3, mock);
     });
 
     it('deletes data item before calling dispatch', function(){
@@ -58,7 +57,7 @@ describe('Actions', function () {
         ApiUtil.delete = function (entity, id, callback) {
             callback(id);
         }
-        CrudActions.deleteItem('mock', 13, projectStatusArray);
+        CrudActions.deleteItem('projectStatus', 13, projectStatusArray);
         expect(projectStatusArray.length).toEqual(2);
     });
 
@@ -67,14 +66,11 @@ describe('Actions', function () {
         ApiUtil.delete = function (entity, id, callback) {
             callback(id);
         }
-        CrudActions.deleteItem('mock', 14, projectStatusArray);
+        CrudActions.deleteItem('projectStatus', 14, projectStatusArray);
         expect(store.dispatch).toBeCalledWith({
             type: actionTypeConstant.DELETE,
             data: projectStatusArray,
-            entity: 'mock'
+            entity: 'projectStatus'
         });
     });
-
-
-
 });

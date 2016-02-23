@@ -3,7 +3,6 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/18/16.
  */
-/*
 jest.dontMock('../../src/js/components/budget-type/BudgetTypeForm');
 jest.dontMock('../../src/js/util/FormValidator');
 
@@ -77,7 +76,4 @@ describe('BudgetTypeForm', function () {
         TestUtils.Simulate.change(input, {target: {name: 'name', value: value}})
         expect(Form.state.budgetType.name).toEqual(value);
     });
-})
-
-
-*/
+});

@@ -11,7 +11,7 @@ describe('Crud Reducer', function () {
     });
 
     it('returns correct state', function () {
-        var state = crudReducer('mock', 'DELETE');
-        expect(state).toEqual('mock');
+        var state = crudReducer('some state', 'DELETE');
+        expect(state).toEqual('some state');
     });
 });
