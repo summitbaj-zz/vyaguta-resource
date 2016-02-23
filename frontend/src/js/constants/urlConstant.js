@@ -15,6 +15,11 @@
             INDEX: '/projectstatus',
             NEW: '/projectstatus/new',
             EDIT: '/projectstatus/edit/'
+        },
+        PROJECT_TYPES: {
+            INDEX: '/projecttypes',
+            NEW: '/projecttypes/new',
+            EDIT: '/projecttypes/edit/'
         }
     };
 

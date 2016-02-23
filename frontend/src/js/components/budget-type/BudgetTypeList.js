@@ -29,7 +29,7 @@
             this.setState({budgetTypes: budgetTypes});
         },
 
-       deleteBudgetType: function (id) {
+        deleteBudgetType: function (id) {
             var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
 
             if (confirm('Are you sure?')) {
@@ -52,7 +52,7 @@
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.BUDGET_TYPES.NEW} title="Add Project" data-toggle="tooltip"
+                                <Link to={urlConstant.BUDGET_TYPES.NEW} title="Add Budget Type" data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Budget Type</Link>
                             </div>
