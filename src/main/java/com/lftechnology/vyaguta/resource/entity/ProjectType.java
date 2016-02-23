@@ -17,16 +17,16 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 @Table(name = "project_types")
 public class ProjectType extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 832909736494541803L;
-  
-  @NotNull(message = "Title cannot be blank.")
-  private String title;
+    private static final long serialVersionUID = 832909736494541803L;
 
-  public String getTitle() {
-    return title;
-  }
+    @NotNull(message = "Title cannot be blank.")
+    private String title;
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

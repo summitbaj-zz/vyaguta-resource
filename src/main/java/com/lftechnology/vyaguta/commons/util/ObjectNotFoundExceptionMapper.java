@@ -16,11 +16,11 @@ import com.lftechnology.vyaguta.commons.pojo.ErrorMessage;
 @Provider
 public class ObjectNotFoundExceptionMapper implements ExceptionMapper<ObjectNotFoundException> {
 
-  @Override
-  public Response toResponse(ObjectNotFoundException exception) {
-    ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
-    return Response.status(Response.Status.NOT_FOUND).entity(errorMessage.toString()).type(MediaType.APPLICATION_JSON)
-        .build();
-  }
+    @Override
+    public Response toResponse(ObjectNotFoundException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
+        return Response.status(Response.Status.NOT_FOUND).entity(errorMessage.toString())
+                .type(MediaType.APPLICATION_JSON).build();
+    }
 
 }
