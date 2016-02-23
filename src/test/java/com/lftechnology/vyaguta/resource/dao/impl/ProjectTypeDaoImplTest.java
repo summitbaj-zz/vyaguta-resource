@@ -30,10 +30,10 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
 public class ProjectTypeDaoImplTest {
 
   @Mock
-  EntityManager em;
+  private EntityManager em;
 
   @Mock
-  CriteriaUtil<ProjectType> criteriaUtil;
+  private CriteriaUtil<ProjectType> criteriaUtil;
 
   @InjectMocks
   private ProjectTypeDaoImpl projectTypeDaoImpl;
@@ -124,7 +124,7 @@ public class ProjectTypeDaoImplTest {
     this.projectTypeDaoImpl.remove(projectType);
   }
 
-//  @Test
+  // @Test
   public void testFindById() {
 
     // arrange
@@ -132,10 +132,10 @@ public class ProjectTypeDaoImplTest {
     Mockito.when(em.find(Matchers.anyObject(), Matchers.anyString())).thenReturn(projectType);
 
     // act
-//    ProjectType resultProjectType = this.projectTypeDaoImpl.findById("asdf");
+    ProjectType resultProjectType = this.projectTypeDaoImpl.findById(ProjectType.class, "asdf");
 
     // assert
-//    assertThat(resultProjectType, is(projectType));
+    assertThat(resultProjectType, is(projectType));
   }
 
   @Test

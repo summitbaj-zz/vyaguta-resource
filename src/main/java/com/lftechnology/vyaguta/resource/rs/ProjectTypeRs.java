@@ -32,8 +32,9 @@ import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
  */
 @Path("/projecttypes")
 public class ProjectTypeRs {
+
   @Inject
-  ProjectTypeService projectTypeService;
+  private ProjectTypeService projectTypeService;
 
   @Path("/")
   @GET

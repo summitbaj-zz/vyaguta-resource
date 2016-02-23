@@ -42,7 +42,7 @@ describe('BreadCrumb', function () {
         var key = 1;
         var actual = breadCrumb.getComponent(key);
         var expected = (<li key={key}>
-            <Link to={breadCrumb.state.paths[key].route} key={key}>{breadCrumb.state.paths[key].name} </Link>
+            <Link to={breadCrumb.state.paths[key].route}>{breadCrumb.state.paths[key].name} </Link>
         </li>);
         expect(expected).toEqual(actual);
     });

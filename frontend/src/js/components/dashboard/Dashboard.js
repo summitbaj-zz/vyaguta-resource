@@ -319,8 +319,9 @@
                     </div>
                 </div>
             )
-            }
-            });
+        }
+    });
 
-            module.exports = Dashboard
-            })();
+    module.exports = Dashboard
+    
+})();

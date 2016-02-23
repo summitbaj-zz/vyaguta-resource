@@ -161,7 +161,7 @@ public class ProjectTypeServiceImplTest {
     Mockito.when(projectTypeDao.findAll()).thenReturn(new ArrayList<ProjectType>());
 
     // act
-    this.projectTypeDao.findAll();
+    this.projectTypeServiceImpl.findAll();
 
     // assert
     Mockito.verify(projectTypeDao).findAll();
@@ -174,7 +174,7 @@ public class ProjectTypeServiceImplTest {
     Mockito.when(projectTypeDao.count()).thenReturn(10L);
 
     // act
-    Long result = this.projectTypeDao.count();
+    Long result = this.projectTypeServiceImpl.count();
 
     // assert
     Mockito.verify(projectTypeDao).count();

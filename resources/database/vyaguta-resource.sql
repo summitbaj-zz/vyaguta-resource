@@ -42,6 +42,20 @@ ALTER TABLE ONLY project_types
     ADD CONSTRAINT project_types_title_key UNIQUE (title);
 
 
+CREATE TABLE tags (
+    id character varying(32) NOT NULL,
+    title character varying(255) NOT NULL,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE tags OWNER TO frieddust;
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags PRIMARY KEY (id);
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_title_key UNIQUE (title);
+    
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;

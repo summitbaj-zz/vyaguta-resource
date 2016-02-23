@@ -13,7 +13,13 @@
         concat = require('gulp-concat'),
         imagemin = require('gulp-imagemin'),
         iconfont = require('gulp-iconfont'),
-        runTimestamp = Math.round(Date.now() / 1000);
+        runTimestamp = Math.round(Date.now() / 1000),
+        uglify = require('gulp-uglify'),
+        buffer = require('vinyl-buffer'),
+        envify = require('envify/custom'),
+        gulpif = require('gulp-if'),
+        minifyCss = require('gulp-minify-css'),
+        eslint = require('gulp-eslint');
 
     var config = {
         paths: {
@@ -40,11 +46,16 @@
             appJsPath: './src/js/routes',
             appJs: './src/js/main',
             customUI: [
-                './src/custom-ui/bootstrap.js',
+                './src/custom-ui/bootstrap.js'
             ]
-
+        },
+        env:{
+            development: 'development'
         }
     };
+
+    var env = process.env.NODE_ENV || config.env.development;
+    var isProduction = process.env.NODE_ENV === 'production';
 
     gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
@@ -65,14 +76,14 @@
                 formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
-            .pipe(imagemin({
+            .pipe(gulpif(isProduction,imagemin({
                 progressive: true,
                 interlaced: true,
                 svgoPlugins: [
                     {removeViewBox: false},
                     {cleanupIDs: false}
                 ]
-            }))
+            })))
             .pipe(gulp.dest(config.paths.distImg));
     });
 
@@ -80,6 +91,7 @@
         // Compiles CSS
         gulp.src(config.paths.css)
             .pipe(concat('bundle.css'))
+            .pipe(gulpif(isProduction,minifyCss()))
             .pipe(gulp.dest(config.paths.distCss))
             .pipe(reload({stream: true}))
     });
@@ -116,7 +128,7 @@
     function buildScript(watch) {
         var props = {
             entries: [config.paths.appJs],
-            debug: true,
+            debug: env=== config.env.development,
             cache: {},
             packageCache: {},
             transform: [babelify]
@@ -126,10 +138,16 @@
         var bundler = watch ? watchify(browserify(props)) : browserify(props);
 
         function rebundle() {
-            var stream = bundler.bundle();
+            var stream = bundler
+                .transform(envify({
+                    NODE_ENV: env
+                }))
+                .bundle();
             return stream
                 .on('error', handleErrors)
                 .pipe(source('vyaguta.min.js'))
+                .pipe(buffer())
+                .pipe(gulpif(isProduction,uglify()).on('error', gutil.log))
                 .pipe(gulp.dest(config.paths.distJs))
                 .pipe(reload({stream: true}))
         }
@@ -150,6 +168,7 @@
 
     // run 'scripts' task first, then watch for future changes
     gulp.task('default', ['styles', 'scripts', 'browser-sync', 'images', 'fonts', 'custom_ui'], function () {
+        gulp.watch(config.paths.css, ['styles']); // gulp watch for css changes
         return buildScript(true); // browserify watch for JS changes
     });
 
