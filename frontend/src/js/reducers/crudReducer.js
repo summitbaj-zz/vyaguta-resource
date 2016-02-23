@@ -1,25 +1,27 @@
-var Immutable = require('immutable');
-var _ = require('lodash');
+;(function () {
+    'use strict';
 
-var actionTypeConstant = require('../constants/actionTypeConstant');
+    var Immutable = require('immutable');
 
-var initialState = Immutable.Map(
-    {projectStatus: [{'name':'bish', id:2}]}
-);
+    var actionTypeConstant = require('../constants/actionTypeConstant');
 
-var PROJECT_STATUS = 'projectStatus';
-crudReducer = function (state, action) {
+    var initialState = Immutable.Map(
+        {projectStatus: []}
+    );
 
-    state = state || initialState;
-    switch (action.type) {
-        case actionTypeConstant.LIST:
-            return state.set('projectStatus', action.data);
-        case actionTypeConstant.DELETE:
-            return state.set('projectStatus', action.data);
+    var crudReducer = function (state, action) {
+        state = state || initialState;
 
-        default:
-            return state;
+        switch (action.type) {
+            case actionTypeConstant.LIST:
+            case actionTypeConstant.DELETE:
+                return state.set(action.entity, action.data);
+
+            default:
+                return state;
+        }
     }
-}
 
-module.exports = crudReducer;
+    module.exports = crudReducer;
+
+})();

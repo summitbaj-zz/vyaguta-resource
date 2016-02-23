@@ -21,4 +21,5 @@
     var store = createStoreWithMiddleware(reducers);
 
     module.exports = store;
+
 })();

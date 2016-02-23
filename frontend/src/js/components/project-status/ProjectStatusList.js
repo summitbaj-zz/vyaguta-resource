@@ -18,9 +18,8 @@
 
     var ProjectStatusList = React.createClass({
 
-        componentWillMount: function () {
-            console.warn(this.props);
-           crudActions.getAll(resourceConstant.PROJECT_STATUS);
+        componentDidMount: function () {
+            crudActions.fetchAll(resourceConstant.PROJECT_STATUS);
         },
 
         list: function (key) {
@@ -71,12 +70,13 @@
             );
         }
     });
+
     var storeSelector = function (store) {
-        console.warn('bisha');
         return {
-            projectStatus: store.crudReducer.get('projectStatus')
+            projectStatus: store.crudReducer.get(resourceConstant.PROJECT_STATUS)
         }
     }
 
-    module.exports = connect(storeSelector, ProjectStatusList.list)(ProjectStatusList);
+    module.exports = connect(storeSelector)(ProjectStatusList);
+
 })();

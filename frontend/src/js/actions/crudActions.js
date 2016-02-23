@@ -1,36 +1,48 @@
-var store = require('../store');
-var ApiUtil = require('../api-util/ApiUtil');
-var actionTypeConstant = require('../constants/actionTypeConstant');
+;(function () {
+    'use strict';
 
-var _ = require('lodash');
-var Toastr = require('toastr');
+    var store = require('../store');
+    var ApiUtil = require('../api-util/ApiUtil');
+    var actionTypeConstant = require('../constants/actionTypeConstant');
 
-var crudActions = {
-    getAll: function (entity) {
-        var dispatchListIntoStore = function (response) {
-            return (
-                store.dispatch({
-                    type: actionTypeConstant.LIST,
-                    data: response
-                })
-            );
+    var _ = require('lodash');
+    var Toastr = require('toastr');
+
+    var crudActions = {
+        fetchAll: function (entity) {
+            var dispatchListIntoStore = function (response) {
+                console.warn('bishal');
+                return (
+                    store.dispatch({
+                        type: actionTypeConstant.LIST,
+                        data: response,
+                        entity: entity
+                    })
+                );
+            }
+            ApiUtil.fetchAll(entity, dispatchListIntoStore);
+
+        },
+
+        deleteItem: function (entity, id, data) {
+
+            var deleteItemFromStore = function (id) {
+                var index = _.indexOf(data, _.find(data, {id: id}));
+                data.splice(index, 1);
+
+                Toastr.success('Project Status Successfully Deleted');
+
+                return (
+                    store.dispatch({
+                        type: actionTypeConstant.DELETE,
+                        entity: entity
+                    })
+                );
+            }
+            ApiUtil.delete(entity, id, deleteItemFromStore);
         }
-        ApiUtil.fetchAll(entity, dispatchListIntoStore);
-
-    },
-    deleteItem: function (entity, id, data) {
-        var deleteItemFromStore = function (id) {
-        var index = _.indexOf(data, _.find(data, {id: id}));
-        data.splice(index, 1);
-            Toastr.success('Project Status Successfully Deleted');
-        return (
-                store.dispatch({
-                    type: actionTypeConstant.DELETE,
-                    data: data
-                })
-        );
-        }
-        ApiUtil.delete(entity, id, deleteItemFromStore);
     }
-}
-module.exports = crudActions;
+
+    module.exports = crudActions;
+
+})();

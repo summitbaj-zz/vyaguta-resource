@@ -13,7 +13,7 @@
     var ApiUtil = {
         fetchById: function (resourceName, id, callback) {
             request
-                .get(url + resourceName + "/" + id)
+                .get(url + resourceName.toLowerCase() + "/" + id)
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
                     if (!err) {
@@ -27,7 +27,7 @@
 
         fetchAll: function (resourceName, callback) {
             request
-                .get(url + resourceName)
+                .get(url + resourceName.toLowerCase())
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
                     if (!err) {
@@ -40,7 +40,7 @@
 
         create: function (resourceName, data, callback) {
             request
-                .post(url + resourceName)
+                .post(url + resourceName.toLowerCase())
                 .send(data)
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
@@ -54,7 +54,7 @@
 
         edit: function (resourceName, data, dataId, callback) {
             request
-                .put(url + resourceName + '/' + dataId)
+                .put(url + resourceName.toLowerCase() + '/' + dataId)
                 .send(data)
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
@@ -68,7 +68,7 @@
 
         delete: function (resourceName, dataId, callback) {
             request
-                .delete(url + resourceName + '/' + dataId)
+                .delete(url + resourceName.toLowerCase() + '/' + dataId)
                 .end(function (err, res) {
                     if (!err) {
                         callback(dataId);
