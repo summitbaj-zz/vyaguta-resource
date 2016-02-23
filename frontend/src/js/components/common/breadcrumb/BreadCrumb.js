@@ -21,7 +21,7 @@
 
             for (var i in routes) {
                 if (routes[i].path && routes[i].name) {
-                    if (i > 1)
+                    if (i > 0)
                         newRoute = newRoute.concat('/');
                     newRoute = newRoute.concat(routes[i].path);
 
