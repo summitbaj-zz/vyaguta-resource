@@ -2,16 +2,18 @@ package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -30,7 +32,7 @@ public class Project extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 6415143172601079320L;
 
-    @NotNull(message = "Title cannot be blank.")
+    @NotBlank(message = "Title cannot be blank.")
     private String title;
 
     private String description;
@@ -57,9 +59,9 @@ public class Project extends BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
-    private Set<Tag> tag;
+    private List<Tag> tag;
 
     public String getTitle() {
         return title;
@@ -117,11 +119,11 @@ public class Project extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public Set<Tag> getTag() {
+    public List<Tag> getTag() {
         return tag;
     }
 
-    public void setTag(Set<Tag> tag) {
+    public void setTag(List<Tag> tag) {
         this.tag = tag;
     }
 
