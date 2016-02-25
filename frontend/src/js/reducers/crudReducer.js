@@ -8,7 +8,8 @@
     var initialState = Immutable.Map(
         {projectStatus: [],
         budgetTypes: [],
-        projectTypes: []}
+        projectTypes: [],
+        projects: []}
 
     );
 
