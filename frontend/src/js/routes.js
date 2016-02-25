@@ -11,7 +11,7 @@
     var routes = (
 
         <Router history={createBrowserHistory()}>
-            <Route path="/resource" name="Dashboard" component={require('./components/App')}>
+            <Route path="/" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
                 <Route path="budgettypes" name="Budget Types"
                        component={require('./components/budget-type/BudgetTypeMain')}>
@@ -35,6 +35,13 @@
                            component={require('./components/project-type/ProjectTypeForm')}/>
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/project-type/ProjectTypeForm')}/>
+                </Route>
+                <Route path="projects" name="Projects" component={require('./components/project/ProjectMain')}>
+                    <IndexRoute component={require('./components/project/ProjectList')} />
+                    <Route path="new" name="Add"
+                           component={require('./components/project/ProjectForm')}/>
+                    <Route path="edit/:id" name="Edit"
+                           component={require('./components/project/ProjectForm')}/>
                 </Route>
             </Route>
         </Router>
