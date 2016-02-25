@@ -36,8 +36,9 @@
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/project-type/ProjectTypeForm')}/>
                 </Route>
-                <Route path="projects" name="Projects" component={require('./components/project/ProjectMain')}>
-                    <IndexRoute component={require('./components/project/ProjectList')} />
+                <Route path="projects" name="Projects"
+                       component={require('./components/project/ProjectMain')}>
+                    <IndexRoute component={require('./components/project/ProjectList')}/>
                     <Route path="new" name="Add"
                            component={require('./components/project/ProjectForm')}/>
                     <Route path="edit/:id" name="Edit"
