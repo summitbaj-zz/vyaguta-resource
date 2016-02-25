@@ -28,10 +28,4 @@
     });
 
     module.exports = ProjectHeader;
-<<<<<<< HEAD
 })();
-=======
-
-})();
-
->>>>>>> 988f434ce3f20636d0df881d31f80d5c0fcf41dd
