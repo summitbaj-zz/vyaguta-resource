@@ -1,3 +1,8 @@
+/**
+ * Created by
+ * Pratish Shrestha <pratishshrestha@lftechnology.com>
+ * on 2/25/16.
+ */
 ;(function () {
     'use-strict';
 
