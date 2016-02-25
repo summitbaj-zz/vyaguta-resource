@@ -33,54 +33,55 @@ import com.lftechnology.vyaguta.resource.service.ProjectService;
 @Path("/projects")
 public class ProjectRs {
 
-  @Inject
-  private ProjectService projectService;
+    @Inject
+    private ProjectService projectService;
 
-  @Path("/")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response list(@Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-      @QueryParam("offset") Integer offset) {
-    Page page = PageUtil.page(pageNum, offset);
-    List<Project> projects = projectService.find(page.getStart(), page.getOffset());
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projects)).build();
-  }
-
-  @Path("/")
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response create(@NotNull(message = "Request body expected") @Valid Project project) {
-    project = projectService.save(project);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
-  }
-
-  @Path("/{id}")
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response update(@PathParam("id") String id, @NotNull @Valid Project projectNew) {
-    Project project = projectService.merge(id, projectNew);
-    return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
-  }
-
-  @Path("/{id}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response findById(@PathParam("id") String id) {
-    Project project = projectService.findById(id);
-    if (project != null) {
-      return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
-    } else {
-      throw new ObjectNotFoundException();
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(
+            @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
+            @QueryParam("offset") Integer offset) {
+        Page page = PageUtil.page(pageNum, offset);
+        List<Project> projects = projectService.find(page.getStart(), page.getOffset());
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projects)).build();
     }
-  }
 
-  @Path("/{id}")
-  @DELETE
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response remove(@PathParam("id") String id) {
-    projectService.removeById(id);
-    return Response.status(Response.Status.OK).build();
-  }
+    @Path("/")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(@NotNull(message = "Request body expected") @Valid Project project) {
+        project = projectService.save(project);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") String id, @NotNull @Valid Project projectNew) {
+        Project project = projectService.merge(id, projectNew);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
+    }
+
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) {
+        Project project = projectService.findById(id);
+        if (project != null) {
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
+        } else {
+            throw new ObjectNotFoundException();
+        }
+    }
+
+    @Path("/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam("id") String id) {
+        projectService.removeById(id);
+        return Response.status(Response.Status.OK).build();
+    }
 }
