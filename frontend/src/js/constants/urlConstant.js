@@ -25,6 +25,11 @@
             NEW: BASE_PATH + '/projecttypes/new',
             EDIT: BASE_PATH + '/projecttypes/edit/'
         },
+        PROJECTS: {
+            INDEX: BASE_PATH + '/projects',
+            NEW: BASE_PATH + '/projects/new',
+            EDIT: BASE_PATH + '/projects/edit/'
+        },
         RESOURCE_SERVER: '/api/resource'
     };
 
