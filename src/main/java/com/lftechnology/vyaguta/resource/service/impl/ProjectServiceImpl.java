@@ -1,12 +1,15 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
@@ -19,9 +22,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Inject
     private ProjectDao projectDao;
 
+    @Inject
+    private TagDao tagDao;
+
     @Override
     public Project save(Project project) {
-        return projectDao.save(project);
+        return projectDao.save(this.fixTags(project));
     }
 
     @Override
@@ -42,6 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setBudgetType(obj.getBudgetType());
         project.setStartDate(obj.getStartDate());
         project.setEndDate(obj.getEndDate());
+        project.setTag(this.fixTags(obj).getTag());
         return this.update(project);
     }
 
@@ -77,5 +84,25 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> find(Integer start, Integer offset) {
         return projectDao.find(start, offset);
+    }
+
+    private Project fixTags(Project project) {
+        List<Tag> newTagList = new ArrayList<>();
+        try {
+            for (Tag tempTag : project.getTag()) {
+                if (tempTag.getId() == null && tempTag.getTitle() != null) {
+                    tempTag = tagDao.save(tempTag);
+                } else {
+                    if (tagDao.findById(tempTag.getId()) == null) {
+                        throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
+                    }
+                }
+                newTagList.add(tempTag);
+            }
+            project.setTag(newTagList);
+            return project;
+        } catch (NullPointerException e) {
+            return project;
+        }
     }
 }
