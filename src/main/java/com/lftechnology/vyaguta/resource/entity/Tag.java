@@ -1,14 +1,16 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 
 /**
@@ -26,8 +28,9 @@ public class Tag extends BaseEntity implements Serializable {
     @NotNull(message = "Title cannot be blank.")
     private String title;
 
-    @ManyToMany(mappedBy = "tag")
-    private Set<Project> project;
+    @ManyToMany(mappedBy = "tag", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Project> project;
 
     public String getTitle() {
         return title;
@@ -37,11 +40,12 @@ public class Tag extends BaseEntity implements Serializable {
         this.title = title;
     }
 
-    public Set<Project> getProjects() {
+    public List<Project> getProject() {
         return project;
     }
 
-    public void setProjects(Set<Project> projects) {
-        this.project = projects;
+    public void setProject(List<Project> project) {
+        this.project = project;
     }
+
 }
