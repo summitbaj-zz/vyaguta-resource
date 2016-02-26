@@ -25,10 +25,6 @@
             crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
         },
 
-        updateState: function (budgetTypes) {
-            this.setState({budgetTypes: budgetTypes});
-        },
-
         deleteBudgetType: function (id) {
             var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
 

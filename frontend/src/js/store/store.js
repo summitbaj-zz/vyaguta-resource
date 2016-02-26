@@ -3,7 +3,6 @@
 
     var redux = require('redux');
     var thunk = require('redux-thunk');
-    var logger = require('redux-logger');
 
     var crudReducer = require('../reducers/crudReducer');
     var createStore = redux.createStore;
@@ -11,7 +10,7 @@
     var combineReducers = redux.combineReducers;
 
 //Apply middleware to createStore
-    var createStoreWithMiddleware = applyMiddleware(thunk, logger())(createStore);
+    var createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 //Combine Reducers
     var reducers = combineReducers({

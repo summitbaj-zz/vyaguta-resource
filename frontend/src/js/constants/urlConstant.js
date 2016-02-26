@@ -5,7 +5,7 @@
  */
 
 ;(function () {
-    var BASE_PATH = '';
+    var BASE_PATH = '/resource';
 
     var urlConstant = {
         BASE_PATH: BASE_PATH,
