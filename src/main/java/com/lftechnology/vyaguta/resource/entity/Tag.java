@@ -5,7 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 
@@ -21,7 +22,7 @@ public class Tag extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -6816451300075198342L;
 
-    @NotNull(message = "Title cannot be blank.")
+    @NotBlank(message = "Title cannot be blank.")
     private String title;
 
     public String getTitle() {
