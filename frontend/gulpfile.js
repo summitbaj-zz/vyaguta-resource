@@ -174,7 +174,10 @@
     gulp.task('html', function(){
         var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
         gulp.src('./index.html')
-            .pipe(inject(sources, {ignorePath: 'dist'}))
+            .pipe(inject(sources, {
+                ignorePath: 'dist',
+                addRootSlash: false
+            }))
             .pipe(gulp.dest('./dist'))
     });
 
