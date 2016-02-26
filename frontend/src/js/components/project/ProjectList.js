@@ -43,7 +43,7 @@
             var projectIds = Object.keys(this.props.projects);
             return (
                 <div>
-                    <ProjectHeader header={PAGE_TITLE} routes={this.props.routes}/>
+                    <ProjectHeader title={PAGE_TITLE} routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Type Details</h2>

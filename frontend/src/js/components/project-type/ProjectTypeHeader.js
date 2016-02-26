@@ -12,6 +12,9 @@
                         <div className="content-header">
                             <div className="header-section">
                                 <h1>{this.props.header}</h1>
+                                <span className="ajax-loader">
+                                    <img src="/dist/img/ajax-loader.gif"/>
+                                </span>
                             </div>
                         </div>
                         <BreadCrumb routes={this.props.routes}/>
