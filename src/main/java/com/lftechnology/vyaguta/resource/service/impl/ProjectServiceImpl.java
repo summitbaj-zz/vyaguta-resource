@@ -1,7 +1,9 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -88,8 +90,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Project fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
+        List<Tag> validTagList = new ArrayList<>();
         try {
-            for (Tag tempTag : project.getTag()) {
+            /*
+             * Eliminate redundant Tag objects, which is evaluated comparing id
+             * and title fields
+             */
+            Set<Tag> tagSet = new HashSet<>();
+            tagSet.addAll(project.getTag());
+            validTagList.addAll(tagSet);
+
+            for (Tag tempTag : validTagList) {
                 if (tempTag.getId() == null && tempTag.getTitle() != null) {
                     tempTag = tagDao.save(tempTag);
                 } else {
