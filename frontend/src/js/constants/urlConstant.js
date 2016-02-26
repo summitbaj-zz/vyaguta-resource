@@ -5,22 +5,32 @@
  */
 
 ;(function () {
+    var BASE_PATH = '';
+
     var urlConstant = {
+        BASE_PATH: BASE_PATH,
+
         BUDGET_TYPES: {
-            INDEX: '/budgettypes',
-            NEW: '/budgettypes/new',
-            EDIT: '/budgettypes/edit'
+            INDEX: BASE_PATH + '/budgettypes',
+            NEW: BASE_PATH + '/budgettypes/new',
+            EDIT: BASE_PATH + '/budgettypes/edit'
         },
         PROJECT_STATUS: {
-            INDEX: '/projectstatus',
-            NEW: '/projectstatus/new',
-            EDIT: '/projectstatus/edit/'
+            INDEX: BASE_PATH + '/projectstatus',
+            NEW: BASE_PATH + '/projectstatus/new',
+            EDIT: BASE_PATH + '/projectstatus/edit/'
         },
         PROJECT_TYPES: {
-            INDEX: '/projecttypes',
-            NEW: '/projecttypes/new',
-            EDIT: '/projecttypes/edit/'
-        }
+            INDEX: BASE_PATH + '/projecttypes',
+            NEW: BASE_PATH + '/projecttypes/new',
+            EDIT: BASE_PATH + '/projecttypes/edit/'
+        },
+        PROJECTS: {
+            INDEX: BASE_PATH + '/projects',
+            NEW: BASE_PATH + '/projects/new',
+            EDIT: BASE_PATH + '/projects/edit/'
+        },
+        RESOURCE_SERVER: '/api/resource'
     };
 
     module.exports = urlConstant;

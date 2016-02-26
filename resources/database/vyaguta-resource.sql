@@ -22,7 +22,7 @@ CREATE TABLE budget_types (
 );
 ALTER TABLE budget_types OWNER TO frieddust;
 ALTER TABLE ONLY budget_types
-    ADD CONSTRAINT budget_types PRIMARY KEY (id);
+    ADD CONSTRAINT budget_types_pk PRIMARY KEY (id);
 ALTER TABLE ONLY budget_types
     ADD CONSTRAINT budget_types_title_key UNIQUE (title);
 
@@ -37,10 +37,24 @@ CREATE TABLE project_types (
 );
 ALTER TABLE project_types OWNER TO frieddust;
 ALTER TABLE ONLY project_types
-    ADD CONSTRAINT project_types PRIMARY KEY (id);
+    ADD CONSTRAINT project_types_pk PRIMARY KEY (id);
 ALTER TABLE ONLY project_types
     ADD CONSTRAINT project_types_title_key UNIQUE (title);
 
+    
+CREATE TABLE project_status (
+    id character varying(32) NOT NULL,
+    title character varying(255) NOT NULL,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE project_status OWNER TO frieddust;
+ALTER TABLE ONLY project_status
+    ADD CONSTRAINT project_status_pk PRIMARY KEY (id);
+ALTER TABLE ONLY project_status
+    ADD CONSTRAINT project_status_title_key UNIQUE (title);
 
 CREATE TABLE tags (
     id character varying(32) NOT NULL,
