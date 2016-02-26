@@ -22,7 +22,7 @@
 
                     <li className="dropdown"><a href="javascript:void(0)" className="dropdown-toggle"
                                                 data-toggle="dropdown">
-                        <img className="profile-img img-circle" src="dist/img/placeholders/avatar.png" alt="avatar"/> <i
+                        <img className="profile-img img-circle" src="img/placeholders/avatar.png" alt="avatar"/> <i
                         className="fa fa-angle-down"></i> </a>
                         <ul className="dropdown-menu dropdown-user">
                             <li><a href="#"><i className="fa fa-user fa-fw"></i> User Profile</a></li>

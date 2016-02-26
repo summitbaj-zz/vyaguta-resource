@@ -181,7 +181,7 @@
                                                     </li>
                                                     <li><a href="#" className="profile-img img-lg"><img
                                                         className="img-circle" alt="avatar"
-                                                        src="dist/img/placeholders/avatar.png"/></a></li>
+                                                        src="img/placeholders/avatar.png"/></a></li>
                                                 </ul>
                                             </div>
                                         </div>
