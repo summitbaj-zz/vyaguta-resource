@@ -19,7 +19,8 @@
         envify = require('envify/custom'),
         gulpif = require('gulp-if'),
         minifyCss = require('gulp-minify-css'),
-        eslint = require('gulp-eslint');
+        eslint = require('gulp-eslint'),
+        inject = require('gulp-inject');
 
     var config = {
         paths: {
@@ -41,14 +42,15 @@
             ],
             fonts: './src/css/fonts/*',
             distJs: './dist/js',
-            distCss: './dist/css/',
+            distCss: './dist/css',
             distImg: './dist/img',
             distFonts: './dist/css/fonts',
             appJsPath: './src/js/routes',
             appJs: './src/js/main',
             customUI: [
                 './src/custom-ui/bootstrap.js'
-            ]
+            ],
+            html: './index.html'
         },
         env:{
             development: 'development'
@@ -111,7 +113,9 @@
     gulp.task('browser-sync', function () {
         browserSync({
             // we need to disable clicks and forms for when we test multiple rooms
-            server: {},
+            server: {
+                baseDir: 'dist'
+            },
             middleware: [historyApiFallback()],
             ghostMode: false
         });
@@ -164,13 +168,40 @@
     }
 
     gulp.task('scripts', function () {
-        return buildScript(false); // this will run once because we set watch to false
+        return buildScript(false);
     });
 
-    // run 'scripts' task first, then watch for future changes
-    gulp.task('default', ['styles', 'scripts', 'browser-sync', 'images', 'fonts', 'custom_ui'], function () {
+    gulp.task('html', function(){
+        var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
+        gulp.src('./index.html')
+            .pipe(inject(sources, {ignorePath: 'dist'}))
+            .pipe(gulp.dest('./dist'))
+    });
+
+    gulp.task('watch', function(){
         gulp.watch(config.paths.css, ['styles']); // gulp watch for css changes
         return buildScript(true); // browserify watch for JS changes
     });
+
+    gulp.task('default', [
+        'styles',
+        'scripts',
+        'browser-sync',
+        'images',
+        'fonts',
+        'custom_ui',
+        'watch',
+        'html'
+    ]
+    );
+
+    gulp.task('build',[
+        'styles',
+        'scripts',
+        'images',
+        'fonts',
+        'custom_ui',
+        'html'
+        ])
 
 })();
