@@ -6,11 +6,13 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
@@ -41,10 +43,10 @@ public class ProjectMember extends BaseEntity implements Serializable {
     public static final String findByEmployee = ProjectMember.PREFIX + "findByEmployee";
     public static final String findByProjectAndEmployee = ProjectMember.PREFIX + "findbyProjectAndEmployee";
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "project_id", referencedColumnName = "id")
-    // @ApiModelProperty(value = "Involved Project", required = true)
-    // // @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @ApiModelProperty(value = "Involved Project", required = true)
+    @JsonBackReference
     private Project project;
 
     @ApiModelProperty(value = "Employee Id", required = true)
