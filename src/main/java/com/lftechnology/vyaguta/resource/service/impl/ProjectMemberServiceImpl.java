@@ -37,7 +37,10 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         if (projectMember == null) {
             throw new ObjectNotFoundException();
         }
-        // TODO decide whether to keep update feature or not
+        projectMember.setActive(obj.isActive());
+        projectMember.setBilled(obj.isBilled());
+        projectMember.setAllocation(obj.getAllocation());
+        this.update(projectMember);
         return projectMember;
     }
 
