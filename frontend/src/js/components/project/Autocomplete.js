@@ -1,12 +1,12 @@
 var React = require('react');
 var suggestions = document.getElementsByClassName('suggestion');
 var selectedIndex = -1;
-var input;
+var input = 2;
 
 var AutoComplete = React.createClass({
 
     componentDidMount: function () {
-        input = document.getElementsByClassName(this.props.inputField)[0]
+        var input = document.getElementsByClassName(this.props.inputField)[0];
         input.addEventListener('keydown', this.keyPressed);
         input.addEventListener('blur', this.focusOut);
     },
@@ -16,9 +16,18 @@ var AutoComplete = React.createClass({
         selectedIndex = -1;
     },
 
-    keyPressed: function () {
+    getSelectedIndex: function(){
+        return selectedIndex;
+    },
+
+    setSelectedIndex: function(index){
+        selectedIndex = index;
+    },
+
+    keyPressed: function (event) {
+
         var key = event.keyCode;
-        if (this.props.suggestions && (key == 40 || key == 38)) {
+        if (this.props.suggestions.length && (key == 40 || key == 38)) {
             event.preventDefault();
             this.arrowKeyPressed(key);
         } else if (key == 13) {
@@ -28,13 +37,14 @@ var AutoComplete = React.createClass({
     },
 
     arrowKeyPressed: function (key) {
+        console.warn(key, selectedIndex);
         if (key == 38) {
             if (selectedIndex == 0 || selectedIndex == -1) {
                 selectedIndex = suggestions.length - 1;
             } else {
                 selectedIndex -= 1;
             }
-        } else {
+        } else if(key == 40){
             if (selectedIndex == suggestions.length - 1) {
                 selectedIndex = 0;
             } else {

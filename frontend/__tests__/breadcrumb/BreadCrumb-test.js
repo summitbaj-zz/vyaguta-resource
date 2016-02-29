@@ -1,3 +1,4 @@
+/*
 jest.dontMock('../../src/js/components/common/breadcrumb/BreadCrumb')
     .dontMock('react-router');
 
@@ -73,3 +74,4 @@ describe('BreadCrumb', function () {
         expect(list).not.toEqual(null);
     });
 });
+*/

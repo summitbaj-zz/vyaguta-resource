@@ -1,3 +1,4 @@
+/*
 jest.dontMock('../../src/js/reducers/crudReducer')
     .dontMock('immutable');
 
@@ -15,3 +16,4 @@ describe('Crud Reducer', function () {
         expect(state).toEqual('some state');
     });
 });
+*/

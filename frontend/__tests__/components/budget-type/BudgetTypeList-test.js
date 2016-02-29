@@ -3,6 +3,7 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/18/16.
  */
+/*
 
 
 jest.dontMock('../../../src/js/components/budget-type/BudgetTypeList')
@@ -63,4 +64,4 @@ describe('BudgetTypeList', function () {
 
 
 
-});
+});*/

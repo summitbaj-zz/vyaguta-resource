@@ -18,7 +18,35 @@
 
 
     var ProjectForm = React.createClass({
+        getInitialState: function () {
+            return {
+                technologyStack: [],
+            }
+        },
 
+        checkTag: function (value) {
+            var techStack = this.state.technologyStack;
+            for (var i = 0; i < techStack.length; i++) {
+                if (techStack[i].toLowerCase() == value.toLowerCase()) {
+                    return i;
+                }
+            }
+            return null;
+        },
+
+        addNewTag: function (value) {
+            this.state.technologyStack.push(value);
+            this.setState({technologyStack: this.state.technologyStack});
+        },
+
+        removeTag: function (tag) {
+            var techStack = this.state.technologyStack;
+            var index = this.checkTag(tag);
+            if (index != null) {
+                techStack.splice(index, 1);
+            }
+            this.setState({technologyStack: techStack});
+        },
 
         render: function () {
             return (
@@ -92,9 +120,8 @@
                                     </div>
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
-                                        <TechnologyStack updateSuggestions={this.updateSuggestions}
-                                                         technologyStack={this.state.technologyStack}
-                                                         suggestions={this.state.suggestions} checkTag={this.checkTag}
+                                        <TechnologyStack technologyStack={this.state.technologyStack}
+                                                         checkTag={this.checkTag}
                                                          removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                     </div>
                                     <div className="form-group">

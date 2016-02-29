@@ -11,9 +11,6 @@
     var config = require('../../../config/config');
     var urlConstants = require('../constants/urlConstant');
 
-    /* var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';*/
-    var url = "http://localhost:3000/";
-
     var ApiUtil = {
         fetchById: function (resourceName, id, callback) {
             request
