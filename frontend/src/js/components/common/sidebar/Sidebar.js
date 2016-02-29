@@ -29,7 +29,7 @@
                                 <li><Link to={urlConstant.PROJECT_TYPES.INDEX} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Types</span>
                                 </Link></li>
-                                <li><Link to={urlConstant.PROJECT.INDEX} className="sidebar-nav-menu"><i
+                                <li><Link to={urlConstant.PROJECTS.INDEX} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Projects</span>
                                 </Link></li>
                             </ul>

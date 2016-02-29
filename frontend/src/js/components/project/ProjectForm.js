@@ -7,8 +7,59 @@
 ;(function () {
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
+    var TechnologyStack = require('./TechnologyStack');
+    var ApiUtil = require('../../util/ApiUtil');
+
+    var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
+
+    var ReactTags = require('react-tag-input').WithContext;
+    var abc = require('./jqueryfile');
+
 
     var ProjectForm = React.createClass({
+        getInitialState: function () {
+            return {
+                technologyStack: [],
+                suggestions: []
+            }
+        },
+
+        checkTag: function (value) {
+            var techStack = this.state.technologyStack;
+            for (var i = 0; i < techStack.length; i++) {
+                if (techStack[i].toLowerCase() == value.toLowerCase()) {
+                    return i;
+                }
+            }
+            return null;
+        },
+
+        addNewTag: function (value) {
+            this.state.technologyStack.push(value);
+            this.setState({technologyStack: this.state.technologyStack});
+        },
+
+        removeTag: function (tag) {
+            var techStack = this.state.technologyStack;
+            var index = this.checkTag(tag);
+            if (index != null) {
+                techStack.splice(index, 1);
+            }
+            this.setState({technologyStack: techStack});
+        },
+
+        changeTagState: function (data) {
+            this.setState({suggestions: data.names});
+            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'block';
+        },
+
+        updateSuggestions: function (input) {
+            this.setState({suggestions: []});
+            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'none';
+            ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
+        },
+
         render: function () {
             return (
                 <div>
@@ -81,10 +132,10 @@
                                     </div>
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
-                                        <div className="text-wrap"><span className="label label-blue-grey">Angular JS<a
-                                            href="#"><i className="fa fa-close"></i></a></span> <span
-                                            className="label label-blue-grey">React.js<a href="#"><i
-                                            className="fa fa-close"></i></a></span></div>
+                                        <TechnologyStack updateSuggestions={this.updateSuggestions}
+                                                         technologyStack={this.state.technologyStack}
+                                                         suggestions={this.state.suggestions} checkTag={this.checkTag}
+                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                     </div>
                                     <div className="form-group">
                                         <label className="control-label">Resources</label>
