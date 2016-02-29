@@ -18,47 +18,7 @@
 
 
     var ProjectForm = React.createClass({
-        getInitialState: function () {
-            return {
-                technologyStack: [],
-                suggestions: []
-            }
-        },
 
-        checkTag: function (value) {
-            var techStack = this.state.technologyStack;
-            for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i].toLowerCase() == value.toLowerCase()) {
-                    return i;
-                }
-            }
-            return null;
-        },
-
-        addNewTag: function (value) {
-            this.state.technologyStack.push(value);
-            this.setState({technologyStack: this.state.technologyStack});
-        },
-
-        removeTag: function (tag) {
-            var techStack = this.state.technologyStack;
-            var index = this.checkTag(tag);
-            if (index != null) {
-                techStack.splice(index, 1);
-            }
-            this.setState({technologyStack: techStack});
-        },
-
-        changeTagState: function (data) {
-            this.setState({suggestions: data.names});
-            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'block';
-        },
-
-        updateSuggestions: function (input) {
-            this.setState({suggestions: []});
-            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'none';
-            ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
-        },
 
         render: function () {
             return (
