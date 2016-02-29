@@ -64,12 +64,11 @@ public class Project extends BaseEntity implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
-    private List<Tag> tag;
+    private List<Tag> tags;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "project")
     @JsonManagedReference
-    List<ProjectMember> projectMember;
+    private List<ProjectMember> projectMembers;
 
     public String getTitle() {
         return title;
@@ -127,20 +126,19 @@ public class Project extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public List<Tag> getTag() {
-        return tag;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTag(List<Tag> tag) {
-        this.tag = tag;
+    public void setTags(List<Tag> tag) {
+        this.tags = tag;
     }
 
-    public List<ProjectMember> getProjectMember() {
-        return projectMember;
+    public List<ProjectMember> getProjectMembers() {
+        return projectMembers;
     }
 
-    public void setProjectmember(List<ProjectMember> projectMember) {
-        this.projectMember = projectMember;
+    public void setProjectmembers(List<ProjectMember> projectMembers) {
+        this.projectMembers = projectMembers;
     }
-
 }
