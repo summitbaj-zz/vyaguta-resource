@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.commons.util;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +15,7 @@ import com.lftechnology.vyaguta.commons.pojo.ErrorMessage;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-// @Provider
+@Provider
 public class JacksonUnrecognizedExceptionMapper implements ExceptionMapper<UnrecognizedPropertyException> {
 
     @Override
