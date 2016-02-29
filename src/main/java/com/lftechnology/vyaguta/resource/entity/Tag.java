@@ -31,7 +31,7 @@ public class Tag extends BaseEntity implements Serializable {
     @NotBlank(message = "Title cannot be blank.")
     private String title;
 
-    @ManyToMany(mappedBy = "tag", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Project> project;
 
