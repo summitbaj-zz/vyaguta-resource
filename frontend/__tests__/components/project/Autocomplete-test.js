@@ -1,16 +1,17 @@
+/*
 jest.dontMock('../../../src/js/components/project/Autocomplete')
     .dontMock('../../../src/js/components/project/TechnologyStack');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 
-/*
+/!*
 var dummyElement = document.createElement('input');
 var arr = [];
 arr.push(dummyElement);
-*/
+*!/
 var AutoComplete = require('../../../src/js/components/project/Autocomplete');
-/*document.getElementsByClassName = jasmine.createSpy('HTML Element').andReturn(arr);*/
+/!*document.getElementsByClassName = jasmine.createSpy('HTML Element').andReturn(arr);*!/
 
 
 var index = 0;
@@ -26,10 +27,10 @@ describe('AutoComplete', function () {
         var a = TestUtils.renderIntoDocument(<AutoComplete inputField="input-tag" suggestions={suggestions}/>);
 
         //a.keyPressed = jest.genMockFunction();
-        /*a.componentDidMount();
+        /!*a.componentDidMount();
         TestUtils.Simulate.keyDown(abcd, {keyCode : 65});
 
-          expect(a.keyPressed).toBeCalled();*/
+          expect(a.keyPressed).toBeCalled();*!/
         a.focusOut();
         var b = a.getSelectedIndex();
         expect(b).toEqual(-1);
@@ -76,3 +77,4 @@ describe('AutoComplete', function () {
         expect(a.getSelectedIndex()).toEqual(0);
     });
 });
+*/

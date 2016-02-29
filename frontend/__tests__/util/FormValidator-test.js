@@ -4,7 +4,6 @@
  * on 2/21/16.
  */
 
-/*
 jest.dontMock('../../src/js/util/FormValidator');
 
 var formValidator = require('../../src/js/util/FormValidator');
@@ -27,4 +26,4 @@ describe('FormValidator', function() {
         expect(formValidator.isValid(invalidData)).toBe(false);
     });
 
-});*/
+});

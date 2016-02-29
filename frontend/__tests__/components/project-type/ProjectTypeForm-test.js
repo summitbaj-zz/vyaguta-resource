@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../../src/js/components/project-type/ProjectTypeForm')
     .dontMock('../../../src/js/util/FormValidator');
 
@@ -67,4 +66,3 @@ describe('Form', function () {
 
     });
 });
-*/
