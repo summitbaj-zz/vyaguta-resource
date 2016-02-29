@@ -15,9 +15,9 @@
                 <div id="sidebar">
                     <div className="sidebar-scroll">
                         <div className="sidebar-content">
-                            <h1><Link to="/" className="sidebar-brand">Leapfrog Management System</Link></h1>
+                            <h1><Link to={urlConstant.BASE_PATH} className="sidebar-brand">Leapfrog Management System</Link></h1>
                             <ul className="sidebar-nav">
-                                <li><Link to="/" className="sidebar-nav-menu"><i
+                                <li><Link to={urlConstant.BASE_PATH} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Dashboard</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.BUDGET_TYPES.INDEX} className="sidebar-nav-menu"><i

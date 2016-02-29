@@ -438,6 +438,7 @@ header.navbar-inverse.navbar-fixed-bottom {
     margin: 0;
     font-size: 26px;
     line-height: 32px;
+    float: left;
 }
 
 .content-header small .content-header small {
@@ -1187,7 +1188,6 @@ li.dropdown-header {
     .sidebar-partial #sidebar:hover + #main-container header.navbar-fixed-top, .sidebar-partial #sidebar:hover + #main-container header.navbar-fixed-bottom, .sidebar-partial #sidebar:hover + #main-container #page-content + footer, .sidebar-visible-lg.header-fixed-top header.navbar-fixed-top, .sidebar-visible-lg.header-fixed-bottom header.navbar-fixed-bottom, .sidebar-visible-lg.footer-fixed #main-container #page-content + footer {
         left: 200px;
     }
-
 }
 
 /* Large devices, Desktops (>1199px) */
@@ -1246,10 +1246,9 @@ li.dropdown-header {
     font-size: 12px;
 }
 
-
 /* auto-complete suggestion */
 
-.autocomplete-suggestions{
+.autocomplete-suggestions {
     position: absolute;
     width: 100px;
     top: 27px;
@@ -1263,11 +1262,22 @@ li.dropdown-header {
     display: none;
 }
 
-.suggestion{
+.suggestion {
     padding-left: 10px;
 }
 
-.hover{
+/*ajax-loader*/
+.ajax-loader {
+    margin: 0 20px;
+    visibility: hidden;
+}
+
+/*date-picker*/
+.input-group {
+    z-index: 0;
+}
+
+.hover {
     background: rgb(250, 84, 22);
     cursor: pointer;
     color: white;

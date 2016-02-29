@@ -7,6 +7,7 @@
 ;(function () {
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
+
     var TechnologyStack = require('./TechnologyStack');
     var ApiUtil = require('../../util/ApiUtil');
 
@@ -16,11 +17,23 @@
     var ReactTags = require('react-tag-input').WithContext;
     var abc = require('./jqueryfile');
 
+    var crudActions = require('../../actions/crudActions');
+    var connect = require('react-redux').connect;
+
+    //datepicker
+    var DatePicker = require('react-datepicker');
+    var moment = require('moment');
+
+    var DropDownOption = require('./DropDownOption');
+
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
+
                 technologyStack: [],
+                startDate: moment(),
+                endDate: ''
             }
         },
 
@@ -48,6 +61,42 @@
             this.setState({technologyStack: techStack});
         },
 
+        componentDidMount: function () {
+            crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
+            crudActions.fetchAll(resourceConstant.PROJECT_STATUS);
+            crudActions.fetchAll(resourceConstant.PROJECT_TYPES);
+        },
+
+        handleChangeStartDate: function (date) {
+            this.setState({
+                startDate: date
+            });
+        },
+
+        handleChangeEndDate: function(date) {
+            this.setState({
+                endDate: date
+            })
+        },
+
+        renderBudgetType: function (key) {
+            return (
+                <DropDownOption key={key} index={key} entity={this.props.budgetTypes[key]}/>
+            )
+        },
+
+        renderProjectType: function (key) {
+            return (
+                <DropDownOption key={key} index={key} entity={this.props.projectTypes[key]}/>
+            )
+        },
+
+        renderProjectStatus: function (key) {
+            return (
+                <DropDownOption key={key} index={key} entity={this.props.projectStatus[key]}/>
+            )
+        },
+
         render: function () {
             return (
                 <div>
@@ -57,10 +106,10 @@
                             <div className="block">
                                 <div className="block-title-border">Project Details</div>
                                 <form className="form-bordered" method="post">
-                                    <div className="form-group has-success">
+                                    <div className="form-group">
                                         <label>Project Name</label>
                                         <input type="text" placeholder="Project Name" className="form-control"/>
-                                        <span className="help-block">Project name available</span></div>
+                                    </div>
                                     <div className="form-group">
                                         <label>Description</label>
                                     <textarea placeholder="Short description about the project."
@@ -71,18 +120,15 @@
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Project Type</label>
                                                 <select className="form-control">
-                                                    <option value="0">Please select</option>
-                                                    <option value="1">Service</option>
-                                                    <option value="2">Product</option>
-                                                    <option value="3">Internal</option>
+                                                    <option value="">Please Select</option>
+                                                    {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
                                                 </select>
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className=" control-label">Budget Type</label>
                                                 <select className="form-control">
-                                                    <option value="0">Please select</option>
-                                                    <option value="1">Fixed</option>
-                                                    <option value="2">Resource Based</option>
+                                                    <option value="">Please Select</option>
+                                                    {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
@@ -95,25 +141,21 @@
                                     <div className="form-group clearfix">
                                         <div className="row multiple-element">
                                             <div className="col-md-6 col-lg-4 element">
-                                                <label for="example-select" className="control-label">Project
+                                                <label htmlFor="example-select" className="control-label">Project
                                                     Status</label>
                                                 <select className="form-control">
-                                                    <option value="0">Please select</option>
-                                                    <option value="1">Pending</option>
-                                                    <option value="2">Executing</option>
-                                                    <option value="3">Closed</option>
+                                                    <option value="">Please Select</option>
+                                                    {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
                                                 </select>
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Contract Date</label>
                                                 <div data-date-format="mm/dd/yyyy"
                                                      className="input-group input-daterange">
-                                                    <input type="text" placeholder="From"
-                                                           className="form-control text-center"/>
+                                                    <DatePicker selected={this.state.startDate} onChange={this.handleChangeStartDate} className="form-control"/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
-                                                    <input type="text" placeholder="To"
-                                                           className="form-control text-center"/>
+                                                    <DatePicker selected={this.state.endDate} onChange={this.handleChangeEndDate} minDate={this.state.startDate} className="form-control"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,7 +215,7 @@
                                                     </li>
                                                     <li><a href="#" className="profile-img img-lg"><img
                                                         className="img-circle" alt="avatar"
-                                                        src="dist/img/placeholders/avatar.png"/></a></li>
+                                                        src="img/placeholders/avatar.png"/></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -197,5 +239,13 @@
         }
     });
 
-    module.exports = ProjectForm
+    var mapStateToProps = function (store) {
+        return {
+            budgetTypes: store.crudReducer.get(resourceConstant.BUDGET_TYPES),
+            projectTypes: store.crudReducer.get(resourceConstant.PROJECT_TYPES),
+            projectStatus: store.crudReducer.get(resourceConstant.PROJECT_STATUS)
+        }
+    }
+
+    module.exports = connect(mapStateToProps)(ProjectForm);
 })();
