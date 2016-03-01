@@ -9,7 +9,8 @@
         BUDGET_TYPES: 'budgetTypes',
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
-        PROJECTS: 'projects'
+        PROJECTS: 'projects',
+        TAGS: 'tags'
     };
 
     module.exports = resourceConstant;

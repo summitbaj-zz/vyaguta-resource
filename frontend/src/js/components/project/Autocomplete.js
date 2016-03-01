@@ -27,24 +27,23 @@
 
         keyPressed: function (event) {
             var key = event.keyCode;
-            if (this.props.suggestions.length && (key == 40 || key == 38)) {
+            if (this.props.suggestions.length && (key === 40 || key === 38)) {
                 event.preventDefault();
                 this.arrowKeyPressed(key);
-            } else if (key == 13) {
+            } else if (key === 13) {
                 event.preventDefault();
                 this.enterKeyPressed();
             }
         },
 
         arrowKeyPressed: function (key) {
-            console.warn(key, selectedIndex);
-            if (key == 38) {
+            if (key === 38) {
                 if (selectedIndex == 0 || selectedIndex == -1) {
                     selectedIndex = suggestions.length - 1;
                 } else {
                     selectedIndex -= 1;
                 }
-            } else if (key == 40) {
+            } else if (key === 40) {
                 if (selectedIndex == suggestions.length - 1) {
                     selectedIndex = 0;
                 } else {

@@ -15,9 +15,6 @@
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
-    var ReactTags = require('react-tag-input').WithContext;
-    var abc = require('./jqueryfile');
-
     var crudActions = require('../../actions/crudActions');
     var connect = require('react-redux').connect;
 

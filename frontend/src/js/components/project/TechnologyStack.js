@@ -5,6 +5,8 @@
     var ApiUtil = require('../../util/ApiUtil');
     var AutoComplete = require('./Autocomplete');
 
+    var resourceConstant = require('../../constants/resourceConstant');
+
     var TechnologyStack = React.createClass({
             getInitialState: function () {
                 return {
@@ -21,7 +23,7 @@
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
                 document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'none';
-                ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
+                ApiUtil.fetchById(resourceConstant.TAGS, input, this.changeTagState);
             },
 
             autoFocus: function () {
@@ -29,16 +31,15 @@
             },
 
             inputTag: function (event) {
-                //var inputValue = this.refs.inputTag.value;
                 var techStack = this.props.technologyStack;
                 var key = event.keyCode;
 
-                if (key == 13) {
+                if (key === 13) {
                     event.preventDefault();
                     this.enterKeyPressed();
-                } else if (key == 8) {
+                } else if (key === 8) {
                     this.backSpacePressed();
-                } else if (key == 32 && !this.refs.inputTag.value) {
+                } else if (key === 32 && !this.refs.inputTag.value) {
                     event.preventDefault();
                 } else {
                     var inputValue = this.refs.inputTag.value;
@@ -59,7 +60,7 @@
                 var inputValue = this.refs.inputTag.value;
 
                 if (inputValue) {
-                    if (this.props.checkTag(inputValue) == null && this.isValid(inputValue)) {
+                    if (this.props.checkTag(inputValue) === null && this.isValid(inputValue)) {
                         this.props.addNewTag(inputValue);
                     }
                     this.refs.inputTag.value = '';
