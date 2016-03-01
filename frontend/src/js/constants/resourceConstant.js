@@ -9,7 +9,9 @@
         BUDGET_TYPES: 'budgetTypes',
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
-        PROJECTS: 'projects'
+        PROJECTS: 'projects',
+        ERROR_MESSAGE: 'errorMessage',
+        VISIBLE: 'visible'
     };
 
     module.exports = resourceConstant;
