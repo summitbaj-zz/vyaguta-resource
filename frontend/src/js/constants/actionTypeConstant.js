@@ -2,9 +2,9 @@
     var actionTypeConstant = {
         LIST : 'LIST',
         DELETE : 'DELETE',
+        ERROR: 'ERROR',
         ADD: 'ADD',
         EDIT: 'EDIT',
-
         //create project actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',
         DELETE_TEAM_MEMBER: 'DELETE_TEAM_MEMBER',

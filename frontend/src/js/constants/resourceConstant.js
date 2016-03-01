@@ -10,6 +10,8 @@
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
         PROJECTS: 'projects',
+        ERROR_MESSAGE: 'errorMessage',
+        VISIBLE: 'visible',
         TAGS: 'tags',
         ACCOUNT_MANAGERS: 'accountManagers'
     };

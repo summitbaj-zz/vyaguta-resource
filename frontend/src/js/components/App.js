@@ -5,6 +5,7 @@ var $ = require('jquery'),
     Sidebar = require('./common/sidebar/Sidebar'),
     Header = require('./common/header/Header'),
     Footer = require('./common/footer/Footer'),
+    ErrorMessage = require('./common/error-message/ErrorMessage'),
     routes = require('./../routes.js');
 
 var App = React.createClass({
@@ -14,6 +15,7 @@ var App = React.createClass({
                 <Sidebar/>
                 <div id="main-container">
                     <Header/>
+                    <ErrorMessage />
                     {this.props.children}
                     <Footer/>
                 </div>

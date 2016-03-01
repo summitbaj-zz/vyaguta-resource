@@ -13,6 +13,7 @@
 
     //reducers
     var crudReducer = require('../reducers/crudReducer');
+    var errorReducer = require('../reducers/errorReducer');
     var createProjectReducer = require('../reducers/createProjectReducer');
 
 
@@ -22,6 +23,7 @@
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
+        errorReducer: errorReducer,
         createProject: createProjectReducer
         //add for each reducers...
     });

@@ -1287,5 +1287,10 @@ li.dropdown-header {
     color: white;
 }
 
+.error-container{
+	padding: 10px;
+	color: red;
+}
+
 
 
