@@ -145,9 +145,9 @@
             var project = {
                 'title': this.refs.title.value,
                 'description': this.refs.description.value,
-                'projectType': this.refs.projectType.value,
-                'projectStatus': this.refs.projectStatus.value,
-                'budgetType': this.refs.budgetType.value,
+                'projectType': {"id": this.refs.projectType.value},
+                'projectStatus': {"id": this.refs.projectStatus.value},
+                'budgetType': {"id": this.refs.budgetType.value},
                 'startDate': this.state.startDate.format('YYYY-MM-DD'),
                 'endDate': this.state.endDate.format('YYYY-MM-DD'),
                 'tag': this.state.technologyStack,
