@@ -22,7 +22,7 @@
     var TeamMemberForm = React.createClass({
         getInitialState: function () {
             return {
-                startDate: moment(),
+                joinDate: moment(),
                 endDate: moment(),
                 isChecked: false,
                 member: {},
@@ -50,10 +50,10 @@
 
         handleChangeStartDate: function (date) {
             if (this.props.memberIndexInModal) {
-                this.state.member.startDate = date;
+                this.state.member.joinDate = date;
             }
             this.setState({
-                startDate: date
+                joinDate: date
             });
         },
 
@@ -77,7 +77,7 @@
             var member = {
                 employee: {"id": this.refs.employee.value},
                 memberRole: this.refs.role.value,
-                startDate: this.state.startDate,
+                joinDate: this.state.joinDate,
                 endDate: this.state.endDate,
                 allocation: this.refs.allocation.value,
                 billed: this.state.isChecked,
@@ -123,7 +123,7 @@
             if (this.props.memberIndexInModal) {
                 this.state.member = this.props.teamMembers[this.props.memberIndexInModal];
                 this.state.isChecked = this.state.member.billed;
-                this.state.startDate = this.state.member.startDate;
+                this.state.joinDate = this.state.member.joinDate;
                 this.state.endDate = this.state.member.endDate;
 
                 this.setSelectOption(this.state.member.memberRole);
@@ -172,7 +172,7 @@
                                         <label className="control-label col-md-4">Estimated Duration</label>
                                         <div className="col-md-8">
                                             <div className="input-group input-daterange">
-                                                <DatePicker selected={this.state.startDate}
+                                                <DatePicker selected={this.state.joinDate}
                                                             onChange={this.handleChangeStartDate}
                                                             className="form-control" placeholderText="From"
                                                             popoverTargetOffset='40px 0px'/>
@@ -180,7 +180,7 @@
                                                     className="fa fa-angle-right"></i></span>
                                                 <DatePicker selected={this.state.endDate}
                                                             onChange={this.handleChangeEndDate}
-                                                            minDate={this.state.startDate} className="form-control"
+                                                            minDate={this.state.joinDate} className="form-control"
                                                             placeholderText="To" popoverTargetOffset='40px 0px'/>
                                             </div>
                                         </div>
