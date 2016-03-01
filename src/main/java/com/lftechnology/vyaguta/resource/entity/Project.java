@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,10 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
@@ -61,7 +64,11 @@ public class Project extends BaseEntity implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
-    private List<Tag> tag;
+    private List<Tag> tags;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "project")
+    @JsonManagedReference
+    private List<ProjectMember> projectMembers;
 
     public String getTitle() {
         return title;
@@ -119,12 +126,19 @@ public class Project extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public List<Tag> getTag() {
-        return tag;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTag(List<Tag> tag) {
-        this.tag = tag;
+    public void setTags(List<Tag> tag) {
+        this.tags = tag;
     }
 
+    public List<ProjectMember> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public void setProjectmembers(List<ProjectMember> projectMembers) {
+        this.projectMembers = projectMembers;
+    }
 }
