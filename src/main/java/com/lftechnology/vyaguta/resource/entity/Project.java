@@ -26,6 +26,8 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
+import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
@@ -67,6 +69,10 @@ public class Project extends BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
+    @Column(name = "account_manager")
+    @Convert(converter = EmployeeConverter.class)
+    private Employee accountManager;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
     private List<Tag> tags;
@@ -105,6 +111,14 @@ public class Project extends BaseEntity implements Serializable {
 
     public void setBudgetType(BudgetType budgetType) {
         this.budgetType = budgetType;
+    }
+
+    public Employee getAccountManager() {
+        return accountManager;
+    }
+
+    public void setAccountManager(Employee accountManager) {
+        this.accountManager = accountManager;
     }
 
     public ProjectStatus getProjectStatus() {

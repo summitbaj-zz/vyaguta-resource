@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,9 +17,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -50,20 +55,23 @@ public class ProjectMember extends BaseEntity implements Serializable {
     private Project project;
 
     @ApiModelProperty(value = "Employee Id", required = true)
-    @Column(name = "employee_id")
-    private User employee;
+    @Convert(converter = EmployeeConverter.class)
+    @Column(name = "employee")
+    private Employee employee;
 
     @ApiModelProperty(value = "Project member's allocation to project", required = false)
     @Column(name = "allocation")
     private float allocation;
 
     @Column(name = "join_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @ApiModelProperty(value = "Date from which member is assigned to project", required = false)
     private LocalDate joinDate;
 
     @Column(name = "end_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @ApiModelProperty(value = "Date upto which member is assigned to project", required = false)
@@ -74,11 +82,11 @@ public class ProjectMember extends BaseEntity implements Serializable {
     @Column(name = "role_id")
     private String role;
 
-    @Column(name = "is_billed")
+    @Column(name = "billed")
     @ApiModelProperty(value = "Billing type of member", required = false)
     private boolean billed;
 
-    @Column(name = "is_active")
+    @Column(name = "active")
     @ApiModelProperty(value = "Current status of member", required = false)
     private boolean active;
 
@@ -90,11 +98,11 @@ public class ProjectMember extends BaseEntity implements Serializable {
         this.project = project;
     }
 
-    public User getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(User employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
