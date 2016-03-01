@@ -1277,8 +1277,8 @@ li.dropdown-header {
 }
 
 /*date-picker*/
-.input-group {
-    z-index: 0;
+.datepicker__tether-element {
+    z-index: 1052;
 }
 
 .hover {
@@ -1286,4 +1286,6 @@ li.dropdown-header {
     cursor: pointer;
     color: white;
 }
+
+
 

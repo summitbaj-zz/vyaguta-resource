@@ -8,7 +8,7 @@
     'use-strict';
     var React = require('react');
 
-    var DropDownOption = React.createClass({
+    var SelectOption = React.createClass({
         render: function () {
             return (
                 <option value={this.props.entity.title}>{this.props.entity.title}</option>
@@ -16,5 +16,5 @@
         }
     });
 
-    module.exports = DropDownOption;
+    module.exports = SelectOption;
 })();
