@@ -8,21 +8,28 @@
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
     var ApiUtil = require('../../util/ApiUtil');
-    var crudActions = require('../../actions/crudActions');
     var resourceConstant = require('../../constants/resourceConstant');
+    var SelectOption = require('./SelectOption');
+
+    var crudActions = require('../../actions/crudActions');
+    var createProjectActions = require('../../actions/createProjectActions');
+    var store = require('../../store/store');
     var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
+
+    //Team Member
+    var TeamMemberForm = require('./member/TeamMemberForm');
+    var TeamMember = require('./member/TeamMember');
 
     //datepicker
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
-    var DropDownOption = require('./DropDownOption');
-
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
                 startDate: moment(),
-                endDate: ''
+                endDate: moment()
             };
         },
 
@@ -38,7 +45,7 @@
             });
         },
 
-        handleChangeEndDate: function(date) {
+        handleChangeEndDate: function (date) {
             this.setState({
                 endDate: date
             })
@@ -46,20 +53,31 @@
 
         renderBudgetType: function (key) {
             return (
-                <DropDownOption key={key} index={key} entity={this.props.budgetTypes[key]}/>
+                <SelectOption key={key} index={key} entity={this.props.budgetTypes[key]}/>
             )
         },
 
         renderProjectType: function (key) {
             return (
-                <DropDownOption key={key} index={key} entity={this.props.projectTypes[key]}/>
+                <SelectOption key={key} index={key} entity={this.props.projectTypes[key]}/>
             )
         },
 
         renderProjectStatus: function (key) {
             return (
-                <DropDownOption key={key} index={key} entity={this.props.projectStatus[key]}/>
+                <SelectOption key={key} index={key} entity={this.props.projectStatus[key]}/>
             )
+        },
+
+        renderTeamMember: function (key) {
+            return (
+                <TeamMember key={key} index={key} actions={this.props.actions}/>
+            )
+        },
+
+        clearMemberIndexInModal: function(){
+            this.props.actions.clearMemberIndex();
+            document.querySelector('#team-member-form').reset();
         },
 
         render: function () {
@@ -117,10 +135,16 @@
                                                 <label className="control-label">Contract Date</label>
                                                 <div data-date-format="mm/dd/yyyy"
                                                      className="input-group input-daterange">
-                                                    <DatePicker selected={this.state.startDate} onChange={this.handleChangeStartDate} className="form-control"/>
+                                                    <DatePicker selected={this.state.startDate}
+                                                                onChange={this.handleChangeStartDate}
+                                                                className="form-control" placeholderText="From"
+                                                                popoverTargetOffset='40px 0px'/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
-                                                    <DatePicker selected={this.state.endDate} onChange={this.handleChangeEndDate} minDate={this.state.startDate} className="form-control"/>
+                                                    <DatePicker selected={this.state.endDate}
+                                                                onChange={this.handleChangeEndDate}
+                                                                className="form-control" minDate={this.state.startDate}
+                                                                placeholderText="To" popoverTargetOffset='40px 0px'/>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,14 +198,13 @@
                                             <div className="col-sm-12">
                                                 <ul className="team-list clearfix">
                                                     <li><a href="#" className="profile-img img-lg add-team"
-                                                           data-toggle="modal" data-target="#addTeam"><i
-                                                        className="fa fa-plus"></i> <span
-                                                        className="on-hover circular-block"></span> </a>
-
+                                                           data-toggle="modal" data-target="#addTeam" onClick={this.clearMemberIndexInModal}><i
+                                                        className="fa fa-plus" ></i> <span
+                                                        className="on-hover circular-block" ></span> </a>
                                                     </li>
-                                                    <li><a href="#" className="profile-img img-lg"><img
-                                                        className="img-circle" alt="avatar"
-                                                        src="img/placeholders/avatar.png"/></a></li>
+
+                                                    {Object.keys(this.props.teamMembers).map(this.renderTeamMember)}
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -200,18 +223,28 @@
                             </div>
                         </div>
                     </div>
+                    <TeamMemberForm actions={this.props.actions} teamMembers={this.props.teamMembers} memberIndexInModal={this.props.memberIndexInModal}/>
                 </div>
             )
         }
     });
 
-    var mapStateToProps = function (store) {
+    var mapStateToProps = function (state) {
         return {
-            budgetTypes: store.crudReducer.get(resourceConstant.BUDGET_TYPES),
-            projectTypes: store.crudReducer.get(resourceConstant.PROJECT_TYPES),
-            projectStatus: store.crudReducer.get(resourceConstant.PROJECT_STATUS)
+            budgetTypes: state.crudReducer.get(resourceConstant.BUDGET_TYPES),
+            projectTypes: state.crudReducer.get(resourceConstant.PROJECT_TYPES),
+            projectStatus: state.crudReducer.get(resourceConstant.PROJECT_STATUS),
+            teamMembers: state.createProject.teamMembers,
+            memberIndexInModal: state.createProject.memberIndexInModal
+        }
+
+    };
+
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(createProjectActions, dispatch)
         }
     }
 
-    module.exports = connect(mapStateToProps)(ProjectForm);
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectForm);
 })();
