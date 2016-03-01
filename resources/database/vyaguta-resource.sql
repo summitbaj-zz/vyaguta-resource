@@ -75,6 +75,7 @@ CREATE TABLE projects (
     id character varying(32) NOT NULL,
     title character varying(255) NOT NULL,
     description text,
+    account_manager_id character varying(32),
     project_type_id character varying(32),
     budget_type_id character varying(32),
     project_status_id character varying(32),
@@ -109,6 +110,28 @@ ALTER TABLE ONLY projects_tags
 	ADD CONSTRAINT project_id_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 ALTER TABLE ONLY projects_tags
 	ADD CONSTRAINT tag_id_fk FOREIGN KEY(tag_id) REFERENCES tags ON DELETE CASCADE;
+
+
+CREATE TABLE project_members (
+    id character varying(32) NOT NULL,
+    project_id character varying(32) NOT NULL,
+    employee_id character varying(32) NOT NULL,
+    role_id character varying(32),
+    allocation decimal(2,2),
+    billed boolean,
+    active boolean,
+    join_date date,
+    end_date date,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone  
+);
+ALTER TABLE project_members OWNER TO frieddust;
+ALTER TABLE ONLY project_members
+    ADD CONSTRAINT project_members_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY project_members 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
