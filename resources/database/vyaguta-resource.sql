@@ -75,7 +75,7 @@ CREATE TABLE projects (
     id character varying(32) NOT NULL,
     title character varying(255) NOT NULL,
     description text,
-    account_manager_id character varying(32),
+    account_manager character varying(32),
     project_type_id character varying(32),
     budget_type_id character varying(32),
     project_status_id character varying(32),
@@ -115,7 +115,7 @@ ALTER TABLE ONLY projects_tags
 CREATE TABLE project_members (
     id character varying(32) NOT NULL,
     project_id character varying(32) NOT NULL,
-    employee_id character varying(32) NOT NULL,
+    employee character varying(32) NOT NULL,
     role_id character varying(32),
     allocation decimal(2,2),
     billed boolean,
