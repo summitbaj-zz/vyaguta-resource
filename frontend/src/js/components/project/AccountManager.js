@@ -27,7 +27,7 @@
                 ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
             },
 
-            inputTag: function (event) {
+            input: function (event) {
                 var key = event.keyCode;
 
                 if (key == 13) {
@@ -55,7 +55,7 @@
                     }
                 }
                 input.parentElement.parentElement.className += ' has-error';
-                this.props.setIsManagerValid(true);
+                this.props.setIsManagerValid(false);
                 this.refs.availableMessage.innerHTML = 'Invalid name';
             },
 
@@ -66,7 +66,7 @@
                         <label className="control-label">Account Manager</label>
                         <div className="manager-parent">
                             <input type="text" placeholder="Account Manager Name" ref="inputTag"
-                                   className="form-control manager-input" onKeyDown={this.inputTag}
+                                   className="form-control manager-input" onKeyDown={this.input}
                                    onBlur={this.validateManager}/>
                             <AutoComplete inputField="manager-input" suggestions={this.state.suggestions}/>
                         </div>

@@ -13,7 +13,6 @@
         },
 
         focusOut: function () {
-            console.log('abcd');
             this.refs.suggestions.style.display = 'none';
             selectedIndex = -1;
         },
