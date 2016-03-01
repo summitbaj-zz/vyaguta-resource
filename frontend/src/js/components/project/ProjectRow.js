@@ -10,9 +10,9 @@
                 <tr>
                     <td>{++this.props.index}</td>
                     <td>{this.props.project.title}</td>
-                    <td>{this.props.project.projectType}</td>
-                    <td>{this.props.project.projectStatus}</td>
-                    <td>{this.props.project.budgetType}</td>
+                    <td>{this.props.project.projectType.title}</td>
+                    <td>{this.props.project.projectStatus.title}</td>
+                    <td>{this.props.project.budgetType.title}</td>
                     <td>{this.props.project.startDate}</td>
                     <td>{this.props.project.endDate}</td>
 

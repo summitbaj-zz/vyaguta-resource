@@ -13,7 +13,8 @@
         ERROR_MESSAGE: 'errorMessage',
         VISIBLE: 'visible',
         TAGS: 'tags',
-        ACCOUNT_MANAGERS: 'accountManagers'
+        ACCOUNT_MANAGERS: 'accountManagers',
+        EMPLOYEES: 'employees'
     };
 
     module.exports = resourceConstant;
