@@ -9,14 +9,15 @@
 
     var config = require('../../../config/config');
     var urlConstants = require('../constants/urlConstant');
+
     //var actionTypeConstant = require('../constants/actionTypeConstant');
     var errorActions = require('../actions/errorActions');
-    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    //var url = "http://localhost:3000/";
+
+    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var url = "http://localhost:3000/";
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
     var ajaxLoader = require('./ajaxLoader');
-
     var ApiUtil = {
 
         fetchById: function (resourceName, id, callback) {
@@ -92,7 +93,7 @@
         delete: function (resourceName, dataId, callback) {
             ajaxLoader.show();
             request
-                .delete(url + resourceName.toLowerCase() + '/' + dataId)
+                .del(url + resourceName.toLowerCase() + '/' + dataId)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {

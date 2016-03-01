@@ -62,12 +62,14 @@
 
         addMember: function () {
             var member = {
+                employee: {"id": 1 + Date.now()},
                 memberName: this.refs.memberName.value,
                 memberRole: this.refs.role.value,
                 startDate: this.state.startDate,
                 endDate: this.state.endDate,
                 allocation: this.refs.allocation.value,
-                billed: this.state.isChecked
+                billed: this.state.isChecked,
+                active : true
             };
 
             if (this.props.memberIndexInModal) {

@@ -9,12 +9,12 @@
             return (
                 <tr>
                     <td>{++this.props.index}</td>
-                    <td>{this.props.project.projects}</td>
-                    <td>{this.props.project.type}</td>
-                    <td>{this.props.project.status}</td>
-                    <td>{this.props.project.budget_type}</td>
-                    <td>{this.props.project.start_date}</td>
-                    <td>{this.props.project.end_date}</td>
+                    <td>{this.props.project.title}</td>
+                    <td>{this.props.project.projectType}</td>
+                    <td>{this.props.project.projectStatus}</td>
+                    <td>{this.props.project.budgetType}</td>
+                    <td>{this.props.project.startDate}</td>
+                    <td>{this.props.project.endDate}</td>
 
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.PROJECTS.EDIT + id} data-toggle="tooltip"
