@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../../src/js/components/project-type/ProjectTypeList')
     .dontMock('lodash')
     .dontMock('../../../src/js/store/store')
@@ -60,4 +59,3 @@ describe('List', function () {
         expect(crudActions.deleteItem).toBeCalled();
     });
 });
-*/

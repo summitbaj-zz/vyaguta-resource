@@ -5,63 +5,76 @@
 
     var ApiUtil = require('../../util/ApiUtil');
     var AutoComplete = require('./Autocomplete');
+    var AUTOCOMPLETE_CLASS = 'autocomplete-suggestions';
+
+    var resourceConstant = require('../../constants/resourceConstant');
 
     var AccountManager = React.createClass({
-        getInitialState: function () {
-            return {
-                suggestions: ['hari', 'ram']
-            }
-        },
-        changeTagState: function (data) {
-            // this.setState({suggestions: data.names});
-            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'block';
-        },
+            getInitialState: function () {
+                return {
+                    suggestions: []
+                }
+            },
 
-        updateSuggestions: function (input) {
-            //this.setState({suggestions: []});
+            changeSuggestionState: function (data) {
+                this.setState({suggestions: data.names});
+                document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
+            },
 
-            //change back to none
-            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'block';
-            //ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
-        },
-        inputTag: function (event) {
-            var key = event.keyCode;
+            updateSuggestions: function (input) {
+                this.setState({suggestions: []});
+                document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
+                ApiUtil.fetchById(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
+            },
 
-            if (key == 13) {
-                event.preventDefault();
-                //this.enterKeyPressed();
-            } else if (key == 8) {
-                //this.backSpacePressed();
-            } else if (key == 32 && !this.refs.inputTag.value) {
-                event.preventDefault();
-            } else {
-                var inputValue = this.refs.inputTag.value;
-                var pressed = String.fromCharCode(key);
+            inputTag: function (event) {
+                var key = event.keyCode;
 
-                //if (this.isValid(pressed)) {
-                // inputValue += pressed;
-                this.updateSuggestions(inputValue.toLowerCase());
-                //}
-            }
-        },
-        /*
-         isValid: function (pressed) {
-         return (pressed.match(/[a-zA-Z0-9 .-]+/));
+                if (key == 13) {
+                    event.preventDefault();
+                } else if (key == 32 && !this.refs.inputTag.value) {
+                    event.preventDefault();
+                } else {
+                    var inputValue = this.refs.inputTag.value;
+                    var pressed = String.fromCharCode(key);
 
-         },*/
+                    inputValue += pressed;
+                    this.updateSuggestions(inputValue.toLowerCase());
 
-        render: function () {
-            return (
-                <div className="col-md-6 col-lg-4 element">
-                    <label className="control-label">Account Manager</label>
-                    <div className="manager-parent">
-                        <input type="text" placeholder="Account Manager Name" ref="inputTag"
-                               className="form-control manager-input" onKeyDown={this.inputTag}/>
-                        <AutoComplete inputField="manager-input" suggestions={this.state.suggestions}/>
+                }
+            },
+
+            validateManager: function () {
+                var input = this.refs.inputTag;
+                for (var i = 0; i < this.state.suggestions.length; i++) {
+                    if (input.value === this.state.suggestions[i]) {
+                        input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
+                        this.props.setIsManagerValid(true);
+                        this.refs.availableMessage.innerHTML = 'Valid name';
+                        return;
+                    }
+                }
+                input.parentElement.parentElement.className += ' has-error';
+                this.props.setIsManagerValid(true);
+                this.refs.availableMessage.innerHTML = 'Invalid name';
+            },
+
+
+            render: function () {
+                return (
+                    <div className="col-md-6 col-lg-4 element">
+                        <label className="control-label">Account Manager</label>
+                        <div className="manager-parent">
+                            <input type="text" placeholder="Account Manager Name" ref="inputTag"
+                                   className="form-control manager-input" onKeyDown={this.inputTag}
+                                   onBlur={this.validateManager}/>
+                            <AutoComplete inputField="manager-input" suggestions={this.state.suggestions}/>
+                        </div>
+                        <span className="help-block" ref="availableMessage"></span>
                     </div>
-                </div>
-            );
-        }
-    });
+                );
+            }
+        })
+        ;
     module.exports = AccountManager;
 })();

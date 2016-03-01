@@ -5,6 +5,7 @@
  */
 
 ;(function () {
+    'use-strict';
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
 
@@ -13,9 +14,6 @@
 
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
-
-    var ReactTags = require('react-tag-input').WithContext;
-    var abc = require('./jqueryfile');
 
     var crudActions = require('../../actions/crudActions');
     var connect = require('react-redux').connect;
@@ -27,6 +25,7 @@
     var DropDownOption = require('./DropDownOption');
     var AccountManager = require('./AccountManager');
 
+    var isManagerValid = false;
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -35,6 +34,10 @@
                 startDate: moment(),
                 endDate: ''
             }
+       },
+
+        setIsManagerValid: function(value){
+            isManagerValid = value;
         },
 
         checkTag: function (value) {
@@ -108,7 +111,7 @@
                                 <form className="form-bordered" method="post">
                                     <div className="form-group">
                                         <label>Project Name</label>
-                                        <input type="text" placeholder="Project Name" className="form-control"/>
+                                        <input type="text" placeholder="Project Name" ref="projectName" onBlur={this.validateProjectName} className="form-control"/>
                                     </div>
                                     <div className="form-group">
                                         <label>Description</label>
@@ -131,7 +134,7 @@
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                             </div>
-                                            <AccountManager/>
+                                            <AccountManager setIsManagerValid={this.setIsManagerValid}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">

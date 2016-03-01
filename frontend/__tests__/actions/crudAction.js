@@ -1,4 +1,3 @@
-/*
 jest.dontMock('../../src/js/actions/crudActions')
     .dontMock('lodash')
     .dontMock('../../src/js/store/store')
@@ -75,4 +74,3 @@ describe('Actions', function () {
         });
     });
 });
-*/

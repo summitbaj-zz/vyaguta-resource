@@ -5,6 +5,7 @@
  */
 
 ;(function () {
+    'use-strict';
     var React = require('react');
 
     var DropDownOption = React.createClass({
