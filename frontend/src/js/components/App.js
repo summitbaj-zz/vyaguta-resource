@@ -15,7 +15,7 @@ var App = React.createClass({
                 <Sidebar/>
                 <div id="main-container">
                     <Header/>
-                    <ErrorMessage delay={5000} />
+                    <ErrorMessage />
                     {this.props.children}
                     <Footer/>
                 </div>
