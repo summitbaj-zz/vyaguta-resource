@@ -5,11 +5,17 @@
  */
 
 ;(function () {
+    'use-strict';
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
+
+    var TechnologyStack = require('./TechnologyStack');
     var ApiUtil = require('../../util/ApiUtil');
-    var crudActions = require('../../actions/crudActions');
+
     var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
+
+    var crudActions = require('../../actions/crudActions');
     var connect = require('react-redux').connect;
 
     //datepicker
@@ -18,12 +24,39 @@
 
     var DropDownOption = require('./DropDownOption');
 
+
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
+
+                technologyStack: [],
                 startDate: moment(),
                 endDate: ''
-            };
+            }
+        },
+
+        checkTag: function (value) {
+            var techStack = this.state.technologyStack;
+            for (var i = 0; i < techStack.length; i++) {
+                if (techStack[i].toLowerCase() == value.toLowerCase()) {
+                    return i;
+                }
+            }
+            return null;
+        },
+
+        addNewTag: function (value) {
+            this.state.technologyStack.push(value);
+            this.setState({technologyStack: this.state.technologyStack});
+        },
+
+        removeTag: function (tag) {
+            var techStack = this.state.technologyStack;
+            var index = this.checkTag(tag);
+            if (index != null) {
+                techStack.splice(index, 1);
+            }
+            this.setState({technologyStack: techStack});
         },
 
         componentDidMount: function () {
@@ -127,10 +160,9 @@
                                     </div>
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
-                                        <div className="text-wrap"><span className="label label-blue-grey">Angular JS<a
-                                            href="#"><i className="fa fa-close"></i></a></span> <span
-                                            className="label label-blue-grey">React.js<a href="#"><i
-                                            className="fa fa-close"></i></a></span></div>
+                                        <TechnologyStack technologyStack={this.state.technologyStack}
+                                                         checkTag={this.checkTag}
+                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                     </div>
                                     <div className="form-group">
                                         <label className="control-label">Resources</label>
