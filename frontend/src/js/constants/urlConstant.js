@@ -29,7 +29,8 @@
             NEW: BASE_PATH + '/projects/new',
             EDIT: BASE_PATH + '/projects/edit/'
         },
-        RESOURCE_SERVER: '/api/resource'
+        RESOURCE_SERVER: '/api/resource',
+        CORE_SERVER: '/api/core'
     };
 
     module.exports = urlConstant;

@@ -67,7 +67,7 @@
                         <div className="manager-parent">
                             <input type="text" placeholder="Account Manager Name" ref="inputTag"
                                    className="form-control manager-input" onKeyDown={this.input}
-                                   onBlur={this.validateManager}/>
+                                   onBlur={this.validateManager} id="account-manager"/>
                             <AutoComplete inputField="manager-input" suggestions={this.state.suggestions}/>
                         </div>
                         <span className="help-block" ref="availableMessage"></span>

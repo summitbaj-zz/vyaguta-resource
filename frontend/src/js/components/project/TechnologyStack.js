@@ -96,7 +96,7 @@
                             {this.props.technologyStack.map(this.renderTag)}
 
                             <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputTag}
-                                                                className="input-tag"/>
+                                                                className="input-tag" id="title"/>
                                 <AutoComplete inputField="input-tag" suggestions={this.state.suggestions}/>
                             </li>
                         </ul>

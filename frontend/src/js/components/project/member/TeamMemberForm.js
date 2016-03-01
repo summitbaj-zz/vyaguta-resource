@@ -7,6 +7,7 @@
 ;(function () {
     'use strict';
 
+    var $ = require('jquery');
     var React = require('react');
     var TeamMemberAddButtons = require('./TeamMemberAddButtons');
     var TeamMemberEditButtons = require('./TeamMemberEditButtons');
@@ -15,14 +16,26 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
+    var ApiUtil = require('../../../util/ApiUtil');
+    var resourceConstant = require('../../../constants/resourceConstant');
+
     var TeamMemberForm = React.createClass({
         getInitialState: function () {
             return {
                 startDate: moment(),
                 endDate: moment(),
                 isChecked: false,
-                member: {}
+                member: {},
+                employees: []
             };
+        },
+
+        componentDidMount: function () {
+            var that = this;
+
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, function (data) {
+                that.setState({employees: data});
+            })
         },
 
         handleInputChange: function (event) {
@@ -62,12 +75,13 @@
 
         addMember: function () {
             var member = {
-                memberName: this.refs.memberName.value,
+                employee: {"id": this.refs.employee.value},
                 memberRole: this.refs.role.value,
                 startDate: this.state.startDate,
                 endDate: this.state.endDate,
                 allocation: this.refs.allocation.value,
-                billed: this.state.isChecked
+                billed: this.state.isChecked,
+                active: true
             };
 
             if (this.props.memberIndexInModal) {
@@ -85,9 +99,19 @@
             document.querySelector('#close-btn').click();
         },
 
-        setSelectOption: function (index) {
-            var roleOptions = document.querySelector('#role');
-            roleOptions.options[index].selected = true;
+        setSelectOption: function (value) {
+            $("#role").val(value).selected = true;
+        },
+
+        setEmployee: function (value) {
+            $("#employee").val(value).selected = true;
+        },
+
+        renderEmployee: function (key) {
+            return (
+                <option key={key} index={key}
+                        value={this.state.employees[key].id}>{this.state.employees[key].firstName}</option>
+            )
         },
 
         render: function () {
@@ -103,6 +127,8 @@
                 this.state.endDate = this.state.member.endDate;
 
                 this.setSelectOption(this.state.member.memberRole);
+                this.setEmployee(this.state.member.employee.id);
+
                 buttons = <TeamMemberEditButtons addMember={this.addMember} removeMember={this.removeMember}/>;
             } else {
                 buttons = <TeamMemberAddButtons addMember={this.addMember}/>;
@@ -122,9 +148,11 @@
                                     <div className="form-group">
                                         <label className="control-label col-md-4">Team Member</label>
                                         <div className="col-md-8">
-                                            <input type="text" ref="memberName" name="memberName"
-                                                   className="form-control" value={this.state.member.memberName}
-                                                   onChange={this.handleInputChange}/>
+                                            <select ref="employee" id="employee" name="employee"
+                                                    className="form-control">
+                                                <option value="0">Please select</option>
+                                                {Object.keys(this.state.employees).map(this.renderEmployee)}
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="form-group">
@@ -146,10 +174,12 @@
                                             <div className="input-group input-daterange">
                                                 <DatePicker selected={this.state.startDate}
                                                             onChange={this.handleChangeStartDate}
-                                                            className="form-control" placeholderText="From" popoverTargetOffset='40px 0px'/>
+                                                            className="form-control" placeholderText="From"
+                                                            popoverTargetOffset='40px 0px'/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
-                                                <DatePicker selected={this.state.endDate} onChange={this.handleChangeEndDate}
+                                                <DatePicker selected={this.state.endDate}
+                                                            onChange={this.handleChangeEndDate}
                                                             minDate={this.state.startDate} className="form-control"
                                                             placeholderText="To" popoverTargetOffset='40px 0px'/>
                                             </div>
