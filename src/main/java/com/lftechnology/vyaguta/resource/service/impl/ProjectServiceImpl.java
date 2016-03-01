@@ -5,12 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.entity.ProjectMember;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -19,6 +21,7 @@ import com.lftechnology.vyaguta.resource.service.ProjectService;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
+@Stateless
 public class ProjectServiceImpl implements ProjectService {
 
     @Inject
@@ -29,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project save(Project project) {
-        return projectDao.save(this.fixTags(project));
+        return projectDao.save(this.fixTags(this.fixProjectMembers(project)));
     }
 
     @Override
@@ -50,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setBudgetType(obj.getBudgetType());
         project.setStartDate(obj.getStartDate());
         project.setEndDate(obj.getEndDate());
-        project.setTag(this.fixTags(obj).getTag());
+        project.setTags(this.fixTags(obj).getTags());
         return this.update(project);
     }
 
@@ -97,7 +100,7 @@ public class ProjectServiceImpl implements ProjectService {
              * and title fields
              */
             Set<Tag> tagSet = new HashSet<>();
-            tagSet.addAll(project.getTag());
+            tagSet.addAll(project.getTags());
             validTagList.addAll(tagSet);
 
             for (Tag tempTag : validTagList) {
@@ -110,10 +113,21 @@ public class ProjectServiceImpl implements ProjectService {
                 }
                 newTagList.add(tempTag);
             }
-            project.setTag(newTagList);
+            project.setTags(newTagList);
             return project;
         } catch (NullPointerException e) {
             return project;
         }
+    }
+
+    private Project fixProjectMembers(Project project) {
+        try {
+            for (ProjectMember pm : project.getProjectMembers()) {
+                pm.setProject(project);
+            }
+        } catch (NullPointerException e) {
+            return project;
+        }
+        return project;
     }
 }

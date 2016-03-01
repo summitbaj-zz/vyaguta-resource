@@ -2,7 +2,6 @@ package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
@@ -15,7 +14,6 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-@Stateless
 public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDao {
 
     @Inject
@@ -40,5 +38,4 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
     public Project findById(String id) {
         return em.find(Project.class, id);
     }
-
 }

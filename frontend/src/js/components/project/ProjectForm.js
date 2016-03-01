@@ -23,16 +23,21 @@
     var moment = require('moment');
 
     var DropDownOption = require('./DropDownOption');
+    var AccountManager = require('./AccountManager');
 
+    var isManagerValid = false;
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
-
                 technologyStack: [],
                 startDate: moment(),
                 endDate: ''
             }
+       },
+
+        setIsManagerValid: function(value){
+            isManagerValid = value;
         },
 
         checkTag: function (value) {
@@ -106,7 +111,7 @@
                                 <form className="form-bordered" method="post">
                                     <div className="form-group">
                                         <label>Project Name</label>
-                                        <input type="text" placeholder="Project Name" className="form-control"/>
+                                        <input type="text" placeholder="Project Name" ref="projectName" onBlur={this.validateProjectName} className="form-control"/>
                                     </div>
                                     <div className="form-group">
                                         <label>Description</label>
@@ -129,11 +134,7 @@
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                             </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className="control-label">Account Manager</label>
-                                                <input type="text" placeholder="Account Manager Name"
-                                                       className="form-control"/>
-                                            </div>
+                                            <AccountManager setIsManagerValid={this.setIsManagerValid}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">

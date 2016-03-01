@@ -4,6 +4,7 @@
     var React = require('react');
     var ApiUtil = require('../../util/ApiUtil');
     var AutoComplete = require('./Autocomplete');
+    var AUTOCOMPLETE_CLASS = 'autocomplete-suggestions';
 
     var resourceConstant = require('../../constants/resourceConstant');
 
@@ -17,13 +18,13 @@
 
             changeTagState: function (data) {
                 this.setState({suggestions: data.names});
-                document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'block';
+                document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
             },
 
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
-                document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'none';
-                ApiUtil.fetchById(resourceConstant.TAGS, input, this.changeTagState);
+                document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'none';
+                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
             },
 
             autoFocus: function () {
@@ -51,6 +52,7 @@
                     }
                 }
             },
+
             isValid: function (pressed) {
                 return (pressed.match(/[a-zA-Z0-9 .-]+/));
 
@@ -85,7 +87,6 @@
                 );
             },
 
-
             render: function () {
                 return (
                     <div
@@ -102,8 +103,6 @@
                     </div>
                 );
             }
-
-        })
-        ;
+        });
     module.exports = TechnologyStack;
 })();
