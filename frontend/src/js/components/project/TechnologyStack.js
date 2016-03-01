@@ -17,7 +17,7 @@
             },
 
             changeTagState: function (data) {
-                this.setState({suggestions: data.names});
+                this.setState({suggestions: data});
                 document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
             },
 
@@ -60,7 +60,7 @@
 
         checkTagInSuggestion:function(input){
             for(var i = 0; i < this.state.suggestions.length; i++){
-                if(input == this.state.suggestions[i]){
+                if(input == this.state.suggestions[i].title){
                     return this.state.suggestions[i];
                 }
             }
