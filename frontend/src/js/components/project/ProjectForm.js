@@ -156,7 +156,6 @@
             };
 
             var that = this;
-            console.log(project);
 
             if (formValidator.isValid(project)) {
 
