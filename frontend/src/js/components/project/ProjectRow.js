@@ -21,11 +21,10 @@
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>
-                            <button
-                                onClick={this.props.deleteProject.bind(null, id)} data-toggle="tooltip"
-                                title="Delete"
-                                className="btn btn-sm btn-default"><i className="glyphicon glyphicon-trash"></i>
-                            </button>
+                            <Link to={urlConstant.PROJECTS.DETAILS +'/' + id} data-toggle="tooltip"
+                                  title="View Details"
+                                  className="btn btn-sm btn-default"><i
+                                className="fa fa-eye"></i></Link>
                         </div>
                     </td>
                 </tr>
