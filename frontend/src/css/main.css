@@ -1226,6 +1226,10 @@ li.dropdown-header {
 
 }
 
+.manager-parent{
+    position: relative;
+}
+
 .tag-wrapper {
     height: auto;
     position: relative;
@@ -1250,8 +1254,8 @@ li.dropdown-header {
 
 .autocomplete-suggestions {
     position: absolute;
-    width: 100px;
-    top: 27px;
+    width: 100%;
+    top: 100%;
     left: 0px;
     max-height: 300px;
     z-index: 9999;

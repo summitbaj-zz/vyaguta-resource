@@ -10,7 +10,8 @@
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
         PROJECTS: 'projects',
-        TAGS: 'tags'
+        TAGS: 'tags',
+        ACCOUNT_MANAGERS: 'accountManagers'
     };
 
     module.exports = resourceConstant;

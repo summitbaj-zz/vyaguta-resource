@@ -34,6 +34,22 @@
 
                 });
         },
+        fetchByQuery: function (resourceName, data, callback) {
+            ajaxLoader.show();
+            request
+                .get(url + resourceName.toLowerCase() + "?title=" + data)
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+                .end(function (err, res) {
+                    if (!err) {
+                        ajaxLoader.hide();
+                        callback(res.body);
+                    } else {
+                        console.log('error');
+                    }
+
+                });
+        },
 
         fetchAll: function (resourceName, callback) {
             ajaxLoader.show();
