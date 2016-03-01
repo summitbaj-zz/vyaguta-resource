@@ -24,7 +24,7 @@
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
                 document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
-                ApiUtil.fetchById(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
+                ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
             },
 
             inputTag: function (event) {

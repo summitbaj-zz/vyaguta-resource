@@ -24,7 +24,7 @@
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
                 document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'none';
-                ApiUtil.fetchById(resourceConstant.TAGS, input, this.changeTagState);
+                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
             },
 
             autoFocus: function () {
