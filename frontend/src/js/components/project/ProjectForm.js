@@ -5,6 +5,7 @@
  */
 
 ;(function () {
+    'use-strict';
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
 
