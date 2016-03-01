@@ -30,4 +30,5 @@ public class ProjectType extends BaseEntity implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

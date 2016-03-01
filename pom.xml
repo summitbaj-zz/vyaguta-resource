@@ -77,6 +77,12 @@
 			<version>1.5.7</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.lftechnology</groupId>
+			<artifactId>vyaguta-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>vyaguta-resource</finalName>
