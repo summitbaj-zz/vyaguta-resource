@@ -19,7 +19,7 @@
         getInitialState: function () {
             return {
                 startDate: moment(),
-                endDate: '',
+                endDate: moment(),
                 isChecked: false,
                 member: {}
             };
