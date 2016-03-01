@@ -3,8 +3,6 @@
 
     var redux = require('redux');
 
-    var crudReducer = require('../reducers/crudReducer');
-    var errorReducer = require('../reducers/errorReducer');
     var createStore = redux.createStore;
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
@@ -15,6 +13,7 @@
 
     //reducers
     var crudReducer = require('../reducers/crudReducer');
+    var errorReducer = require('../reducers/errorReducer');
     var createProjectReducer = require('../reducers/createProjectReducer');
 
 

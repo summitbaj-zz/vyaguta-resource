@@ -11,8 +11,8 @@
     var urlConstants = require('../constants/urlConstant');
     //var actionTypeConstant = require('../constants/actionTypeConstant');
     var errorActions = require('../actions/errorActions');
-    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    var url = "http://localhost:3000/";
+    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    //var url = "http://localhost:3000/";
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
     var ajaxLoader = require('./ajaxLoader');
