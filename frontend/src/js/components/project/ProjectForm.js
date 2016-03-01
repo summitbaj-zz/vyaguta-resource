@@ -5,15 +5,21 @@
  */
 
 ;(function () {
+    'use-strict';
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
+
+    var TechnologyStack = require('./TechnologyStack');
     var ApiUtil = require('../../util/ApiUtil');
+
     var resourceConstant = require('../../constants/resourceConstant');
     var SelectOption = require('./SelectOption');
+    var urlConstant = require('../../constants/urlConstant');
 
     var crudActions = require('../../actions/crudActions');
     var createProjectActions = require('../../actions/createProjectActions');
     var store = require('../../store/store');
+
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
 
@@ -25,12 +31,45 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
+    var AccountManager = require('./AccountManager');
+
+    var isManagerValid = false;
+
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
+                technologyStack: [],
                 startDate: moment(),
                 endDate: moment()
-            };
+            }
+       },
+
+        setIsManagerValid: function(value){
+            isManagerValid = value;
+        },
+
+        checkTag: function (value) {
+            var techStack = this.state.technologyStack;
+            for (var i = 0; i < techStack.length; i++) {
+                if (techStack[i].toLowerCase() == value.toLowerCase()) {
+                    return i;
+                }
+            }
+            return null;
+        },
+
+        addNewTag: function (value) {
+            this.state.technologyStack.push(value);
+            this.setState({technologyStack: this.state.technologyStack});
+        },
+
+        removeTag: function (tag) {
+            var techStack = this.state.technologyStack;
+            var index = this.checkTag(tag);
+            if (index != null) {
+                techStack.splice(index, 1);
+            }
+            this.setState({technologyStack: techStack});
         },
 
         componentDidMount: function () {
@@ -91,7 +130,7 @@
                                 <form className="form-bordered" method="post">
                                     <div className="form-group">
                                         <label>Project Name</label>
-                                        <input type="text" placeholder="Project Name" className="form-control"/>
+                                        <input type="text" placeholder="Project Name" ref="projectName" onBlur={this.validateProjectName} className="form-control"/>
                                     </div>
                                     <div className="form-group">
                                         <label>Description</label>
@@ -114,11 +153,7 @@
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                             </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className="control-label">Account Manager</label>
-                                                <input type="text" placeholder="Account Manager Name"
-                                                       className="form-control"/>
-                                            </div>
+                                            <AccountManager setIsManagerValid={this.setIsManagerValid}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">
@@ -151,10 +186,9 @@
                                     </div>
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
-                                        <div className="text-wrap"><span className="label label-blue-grey">Angular JS<a
-                                            href="#"><i className="fa fa-close"></i></a></span> <span
-                                            className="label label-blue-grey">React.js<a href="#"><i
-                                            className="fa fa-close"></i></a></span></div>
+                                        <TechnologyStack technologyStack={this.state.technologyStack}
+                                                         checkTag={this.checkTag}
+                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                     </div>
                                     <div className="form-group">
                                         <label className="control-label">Resources</label>

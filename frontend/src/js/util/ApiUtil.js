@@ -22,7 +22,23 @@
             ajaxLoader.show();
             request
                 .get(url + resourceName.toLowerCase() + "/" + id)
-                /* .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))*/
+                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+                .end(function (err, res) {
+                    if (!err) {
+                        ajaxLoader.hide();
+                        callback(res.body);
+                    } else {
+                        console.log('error');
+                    }
+
+                });
+        },
+        fetchByQuery: function (resourceName, data, callback) {
+            ajaxLoader.show();
+            request
+                .get(url + resourceName.toLowerCase() + "?title=" + data)
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
                     if (!err) {
@@ -39,8 +55,8 @@
             ajaxLoader.show();
             request
                 .get(url + resourceName.toLowerCase())
-                /* .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                 .set('API-Key', 'foobar')*/
+                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                 .set('API-Key', 'foobar')
                 .set('Accept', 'application/json')
                 .end(function (err, res) {
                     if (!err) {
