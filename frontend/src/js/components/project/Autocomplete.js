@@ -64,7 +64,7 @@
 
         enterKeyPressed: function () {
             if (selectedIndex > -1) {
-                this.setInputValue(this.props.suggestions[selectedIndex].title);
+                this.setInputValue(this.props.suggestions[selectedIndex]);
                 selectedIndex = -1;
                 this.removeHoverState();
             }
@@ -81,8 +81,8 @@
         listSuggestions: function (value) {
             return (
                 <div className='suggestion' key={value}
-                     onMouseDown={this.suggestionClicked.bind(null, this.props.suggestions[value].title)}
-                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.props.suggestions[value].title}</div>
+                     onMouseDown={this.suggestionClicked.bind(null, this.props.suggestions[value])}
+                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.props.suggestions[value]}</div>
             );
         },
 
