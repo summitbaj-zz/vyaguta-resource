@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.Query;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.CriteriaUtil;
@@ -38,11 +37,9 @@ public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Tag> findByTitle(String title) {
-        Query querySearchByTitle = em.createNamedQuery("Tags.SearchbyTitle", Tag.class);
-        querySearchByTitle.setParameter("title", "%" + title.toUpperCase() + "%");
-        return querySearchByTitle.getResultList();
+        return em.createNamedQuery(Tag.findByTitle, Tag.class).setParameter("title", "%" + title.toUpperCase() + "%")
+                .getResultList();
     }
 
     @Override

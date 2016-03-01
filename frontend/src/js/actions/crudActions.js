@@ -26,15 +26,12 @@
         deleteItem: function (entity, id, data) {
 
             var deleteItemFromStore = function (id) {
-                var index = _.indexOf(data, _.find(data, {id: id}));
-                data.splice(index, 1);
-
                 Toastr.success('Project Status Successfully Deleted');
 
                 return (
                     store.dispatch({
                         type: actionTypeConstant.DELETE,
-                        data: data,
+                        id: id,
                         entity: entity
                     })
                 );

@@ -4,20 +4,21 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Entity
 @Table(name = "budget_types")
+@Entity
 public class BudgetType extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -3510694911514582414L;
 
-    @NotNull(message = "Title cannot be blank.")
+    @NotBlank(message = "Title cannot be blank.")
     private String title;
 
     public String getTitle() {
