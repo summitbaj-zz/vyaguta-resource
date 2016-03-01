@@ -64,10 +64,7 @@
                 input.parentElement.parentElement.className += ' has-error';
                 this.props.setIsManagerValid(false);
                 this.refs.availableMessage.innerHTML = 'Invalid name';
-            }
-
-            ,
-
+            },
 
             render: function () {
                 var suggestionName = this.getSuggestionName();

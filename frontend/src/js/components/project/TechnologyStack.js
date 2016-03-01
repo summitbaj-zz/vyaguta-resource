@@ -67,6 +67,7 @@
             }
             return {title: input};
         },
+
         enterKeyPressed: function () {
             var inputValue = this.refs.inputTag.value;
 
