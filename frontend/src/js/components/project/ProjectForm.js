@@ -25,12 +25,12 @@
     var moment = require('moment');
 
     var DropDownOption = require('./DropDownOption');
+    var AccountManager = require('./AccountManager');
 
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
-
                 technologyStack: [],
                 startDate: moment(),
                 endDate: ''
@@ -131,11 +131,7 @@
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                             </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className="control-label">Account Manager</label>
-                                                <input type="text" placeholder="Account Manager Name"
-                                                       className="form-control"/>
-                                            </div>
+                                            <AccountManager/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">

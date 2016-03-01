@@ -8,7 +8,7 @@ var TechnologyStack = React.createClass({
         getInitialState: function () {
             return {
                 technologyStack: [],
-                suggestions: []
+                suggestions: ['a','b']
             }
         },
 
@@ -18,9 +18,9 @@ var TechnologyStack = React.createClass({
         },
 
         updateSuggestions: function (input) {
-            this.setState({suggestions: []});
-            document.getElementsByClassName('autocomplete-suggestions')[0].style.display = 'none';
-            ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
+            //this.setState({suggestions: []});
+            document.getElementsByClassName('autocomplete-suggestions')[1].style.display = 'block';
+            //ApiUtil.fetchById('technologyStacks', input, this.changeTagState);
         },
 
         autoFocus: function () {

@@ -1,7 +1,6 @@
 var React = require('react');
-var suggestions = document.getElementsByClassName('suggestion');
+
 var selectedIndex = -1;
-var input = 2;
 
 var AutoComplete = React.createClass({
 
@@ -37,7 +36,7 @@ var AutoComplete = React.createClass({
     },
 
     arrowKeyPressed: function (key) {
-        console.warn(key, selectedIndex);
+      var suggestions = this.refs.suggestions.childNodes;
         if (key == 38) {
             if (selectedIndex == 0 || selectedIndex == -1) {
                 selectedIndex = suggestions.length - 1;
@@ -56,8 +55,8 @@ var AutoComplete = React.createClass({
     },
 
     removeHoverState: function () {
-        for (var i = 0; i <= suggestions.length - 1; i++) {
-            suggestions[i].className = 'suggestion';
+        for (var i = 0; i <= this.refs.suggestions.childNodes.length - 1; i++) {
+            this.refs.suggestions.childNodes[i].className = 'suggestion';
         }
     },
 
@@ -65,7 +64,7 @@ var AutoComplete = React.createClass({
         if (selectedIndex > -1) {
             input.value = this.props.suggestions[selectedIndex];
             selectedIndex = -1;
-            this.removeHoverState(suggestions);
+            this.removeHoverState();
         }
         this.refs.suggestions.style.display = 'none';
         selectedIndex = -1;
@@ -84,9 +83,9 @@ var AutoComplete = React.createClass({
     },
 
     suggestionHovered: function (key) {
-        this.removeHoverState(suggestions);
+        this.removeHoverState();
         selectedIndex = parseInt(key);
-        suggestions[selectedIndex].className = 'suggestion hover';
+        this.refs.suggestions.childNodes[selectedIndex].className = 'suggestion hover';
     },
 
 
