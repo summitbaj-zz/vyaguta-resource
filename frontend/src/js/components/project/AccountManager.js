@@ -17,7 +17,7 @@
             },
 
             changeSuggestionState: function (data) {
-                this.setState({suggestions: data.names});
+                this.setState({suggestions: data});
                 document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
             },
 
@@ -43,11 +43,18 @@
 
                 }
             },
+            getSuggestionName: function () {
+                var names = [];
+                for (var i = 0; i < this.state.suggestions.length; i++) {
+                    names.push(this.state.suggestions[i].firstName);
+                }
+                return names;
+            },
 
             validateManager: function () {
                 var input = this.refs.inputTag;
                 for (var i = 0; i < this.state.suggestions.length; i++) {
-                    if (input.value === this.state.suggestions[i]) {
+                    if (input.value === this.state.suggestions[i].firstName) {
                         input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
                         this.props.setIsManagerValid(true);
                         this.refs.availableMessage.innerHTML = 'Valid name';
@@ -59,8 +66,8 @@
                 this.refs.availableMessage.innerHTML = 'Invalid name';
             },
 
-
             render: function () {
+                var suggestionName = this.getSuggestionName();
                 return (
                     <div className="col-md-6 col-lg-4 element">
                         <label className="control-label">Account Manager</label>
@@ -68,7 +75,7 @@
                             <input type="text" placeholder="Account Manager Name" ref="inputTag"
                                    className="form-control manager-input" onKeyDown={this.input}
                                    onBlur={this.validateManager} id="account-manager"/>
-                            <AutoComplete inputField="manager-input" suggestions={this.state.suggestions}/>
+                            <AutoComplete inputField="manager-input" suggestions={suggestionName}/>
                         </div>
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
@@ -77,4 +84,5 @@
         })
         ;
     module.exports = AccountManager;
-})();
+})
+();
