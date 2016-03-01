@@ -1014,5 +1014,10 @@ article p {
 }
 }
 
+.error-container{
+	padding: 10px;
+	color: red;
+}
+
 
 

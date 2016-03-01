@@ -6,6 +6,7 @@
     var logger = require('redux-logger');
 
     var crudReducer = require('../reducers/crudReducer');
+    var errorReducer = require('../reducers/errorReducer');
     var createStore = redux.createStore;
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
@@ -15,7 +16,8 @@
 
 //Combine Reducers
     var reducers = combineReducers({
-        crudReducer: crudReducer
+        crudReducer: crudReducer,
+        errorReducer: errorReducer
         //add for each reducers...
     });
 

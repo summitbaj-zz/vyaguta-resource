@@ -7,41 +7,37 @@
 ;(function () {
     'use strict';
 
-    var request = require('superagent');
     var config = require('../../../config/config');
     var urlConstants = require('../constants/urlConstant');
-
-    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    //var url = "http://localhost:3000/";
+    //var actionTypeConstant = require('../constants/actionTypeConstant');
+    var errorActions = require('../actions/errorActions');
+    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var url = "http://localhost:3000/";
+    var Promise = require('promise');
+    var request = require('superagent-promise')(require('superagent'), Promise);
 
     var ApiUtil = {
         fetchById: function (resourceName, id, callback) {
             request
                 .get(url + resourceName.toLowerCase() + "/" + id)
-               /* .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))*/
+                /* */
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .end(function (err, res) {
-                    if (!err) {
-                        callback(res.body);
-                    } else {
-                        console.log('error');
-                    }
-
+                .then(function (response) {
+                    callback(response.body);
+                },function(error){
+                    errorActions.getError(error);
                 });
         },
 
         fetchAll: function (resourceName, callback) {
             request
                 .get(url + resourceName.toLowerCase())
-               /* .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('API-Key', 'foobar')*/
                 .set('Accept', 'application/json')
-                .end(function (err, res) {
-                    if (!err) {
-                        callback(res.body);
-                    } else {
-                        console.log('error');
-                    }
+                .then(function (res) {
+                    callback(res.body);
+                },function(error){
+                    errorActions.getError(error)
                 });
         },
 
@@ -51,12 +47,10 @@
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .end(function (err, res) {
-                    if (!err) {
-                        callback(res.body);
-                    } else {
-                        console.log('error')
-                    }
+                .then(function (response) {
+                    callback(response.body);
+                },function(error){
+                    errorActions.getError(error);
                 });
         },
 
@@ -66,24 +60,20 @@
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .end(function (err, res) {
-                    if (!err) {
-                        callback(res.body);
-                    } else {
-                        console.log('error')
-                    }
+                .then(function (response) {
+                    callback(response.body);
+                },function(error){
+                    errorActions.getError(error);
                 });
         },
 
         delete: function (resourceName, dataId, callback) {
             request
                 .delete(url + resourceName.toLowerCase() + '/' + dataId)
-                .end(function (err, res) {
-                    if (!err) {
-                        callback(dataId);
-                    } else {
-                        console.log('error');
-                    }
+                .then(function (response) {
+                    callback(response.body);
+                },function(error){
+                    errorActions.getError(error);
                 });
         }
     };

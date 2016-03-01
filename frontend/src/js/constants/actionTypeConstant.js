@@ -1,7 +1,8 @@
 ;(function () {
     var actionTypeConstant = {
         LIST : 'LIST',
-        DELETE : 'DELETE'
+        DELETE : 'DELETE',
+        ERROR: 'ERROR'
     };
     module.exports = actionTypeConstant;
 })();

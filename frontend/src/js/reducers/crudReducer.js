@@ -20,11 +20,10 @@
             case actionTypeConstant.LIST:
             case actionTypeConstant.DELETE:
                 return state.set(action.entity, action.data);
-
             default:
                 return state;
         }
-    }
+    };
 
     module.exports = crudReducer;
 

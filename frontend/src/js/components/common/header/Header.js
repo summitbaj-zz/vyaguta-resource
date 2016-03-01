@@ -5,7 +5,8 @@
         ReactDOM = require('react-dom'),
         DropDownList = require('./DropDownList'),
         Hamburger = require('./Hamburger'),
-        SearchBar = require('./SearchBar');
+        SearchBar = require('./SearchBar'),
+        ErrorMessage = require('../error-message/ErrorMessage');
 
     var Header = React.createClass({
 
