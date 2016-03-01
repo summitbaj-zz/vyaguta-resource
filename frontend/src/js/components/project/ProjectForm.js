@@ -57,7 +57,7 @@
         checkTag: function (value) {
             var techStack = this.state.technologyStack;
             for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i].toLowerCase() == value.toLowerCase()) {
+                if (techStack[i]['title'].toLowerCase() == value['title'].toLowerCase()) {
                     return i;
                 }
             }
@@ -138,8 +138,9 @@
             var tempProjectMember = _.cloneDeep(this.props.teamMembers);
 
             for (var key in tempProjectMember) {
-                tempProjectMember[key].startDate = tempProjectMember[key].startDate.format('YYYY-MM-DD');
+                tempProjectMember[key].joinDate = tempProjectMember[key].joinDate.format('YYYY-MM-DD');
                 tempProjectMember[key].endDate = tempProjectMember[key].endDate.format('YYYY-MM-DD');
+                delete tempProjectMember[key]['memberRole'];
             }
 
             var project = {
@@ -150,13 +151,14 @@
                 'budgetType': {"id": this.refs.budgetType.value},
                 'startDate': this.state.startDate.format('YYYY-MM-DD'),
                 'endDate': this.state.endDate.format('YYYY-MM-DD'),
-                'tag': this.state.technologyStack,
-                'projectMember': tempProjectMember
+                'tags': this.state.technologyStack,
+                'projectMembers': tempProjectMember
             };
 
             var that = this;
 
             if (formValidator.isValid(project)) {
+
                 ApiUtil.create(resourceConstant.PROJECTS, project, function (data) {
                     document.querySelector('#save-btn').disabled = true;
                     that.history.pushState(null, urlConstant.PROJECTS.INDEX);

@@ -58,12 +58,21 @@
 
             },
 
-            enterKeyPressed: function () {
+        checkTagInSuggestion:function(input){
+            for(var i = 0; i < this.state.suggestions.length; i++){
+                if(input == this.state.suggestions[i]){
+                    return this.state.suggestions[i];
+                }
+            }
+            return {title : input};
+        },
+        enterKeyPressed: function () {
                 var inputValue = this.refs.inputTag.value;
 
                 if (inputValue) {
-                    if (this.props.checkTag(inputValue) === null && this.isValid(inputValue)) {
-                        this.props.addNewTag(inputValue);
+                    var value = this.checkTagInSuggestion(inputValue);
+                    if (this.props.checkTag(value) === null && this.isValid(inputValue)) {
+                        this.props.addNewTag(value);
                     }
                     this.refs.inputTag.value = '';
                 }
@@ -80,7 +89,7 @@
                 return (
                     <li className="newtag" key={value}>
                 <span className="label label-blue-grey">
-                    <label>{value}</label>
+                    <label>{this.props.technologyStack[value].title}</label>
                     <i className="fa fa-close" onClick={this.props.removeTag.bind(null, value)}></i>
                 </span>
                     </li>
@@ -88,12 +97,13 @@
             },
 
             render: function () {
+                var technologyStackIds = Object.keys(this.props.technologyStack);
                 return (
                     <div
                         className="form-control tag-wrapper"
                         onClick={this.autoFocus}>
                         <ul id="tag-list" className="clearfix">
-                            {this.props.technologyStack.map(this.renderTag)}
+                            {technologyStackIds.map(this.renderTag)}
 
                             <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputTag}
                                                                 className="input-tag" id="title"/>
