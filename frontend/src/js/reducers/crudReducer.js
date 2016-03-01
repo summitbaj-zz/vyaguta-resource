@@ -1,16 +1,16 @@
-;(function () {
+    ;(function () {
     'use strict';
 
     var Immutable = require('immutable');
 
     var actionTypeConstant = require('../constants/actionTypeConstant');
+    var _ = require('lodash');
 
     var initialState = Immutable.Map(
         {projectStatus: [],
         budgetTypes: [],
         projectTypes: [],
         projects: []}
-
     );
 
     var crudReducer = function (state, action) {
@@ -18,8 +18,14 @@
 
         switch (action.type) {
             case actionTypeConstant.LIST:
-            case actionTypeConstant.DELETE:
                 return state.set(action.entity, action.data);
+            case actionTypeConstant.DELETE:
+                var data = JSON.parse(JSON.stringify(state.get(action.entity)));
+                var index = _.indexOf(data, _.find(data, {id: action.id}));
+
+                data.splice(index, 1);
+
+                return state.set(action.entity, data);
             default:
                 return state;
         }

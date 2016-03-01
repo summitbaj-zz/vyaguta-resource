@@ -2,8 +2,6 @@
     'use strict';
 
     var redux = require('redux');
-    var thunk = require('redux-thunk');
-    var logger = require('redux-logger');
 
     var crudReducer = require('../reducers/crudReducer');
     var errorReducer = require('../reducers/errorReducer');
@@ -11,13 +9,23 @@
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
 
-//Apply middleware to createStore
+    //middlewares
+    var thunk = require('redux-thunk');
+    var logger = require('redux-logger');
+
+    //reducers
+    var crudReducer = require('../reducers/crudReducer');
+    var createProjectReducer = require('../reducers/createProjectReducer');
+
+
+    //Apply middleware to createStore
     var createStoreWithMiddleware = applyMiddleware(thunk, logger())(createStore);
 
-//Combine Reducers
+    //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
-        errorReducer: errorReducer
+        errorReducer: errorReducer,
+        createProject: createProjectReducer
         //add for each reducers...
     });
 

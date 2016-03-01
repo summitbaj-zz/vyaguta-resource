@@ -33,7 +33,8 @@
                 './src/css/custom.css',
                 './src/css/font-awesome.css',
                 './src/css/glyphicons.css',
-                'node_modules/toastr/build/toastr.css'
+                'node_modules/toastr/build/toastr.css',
+                'node_modules/react-datepicker/dist/react-datepicker.css'
             ],
             img: [
                 './src/img/*',
@@ -173,7 +174,10 @@
     gulp.task('html', function(){
         var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
         gulp.src('./index.html')
-            .pipe(inject(sources, {ignorePath: 'dist'}))
+            .pipe(inject(sources, {
+                ignorePath: 'dist',
+                addRootSlash: false
+            }))
             .pipe(gulp.dest('./dist'))
     });
 
