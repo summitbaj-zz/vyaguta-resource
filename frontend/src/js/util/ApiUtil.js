@@ -37,7 +37,7 @@
         fetchByQuery: function (resourceName, data, callback) {
             ajaxLoader.show();
             request
-                .get(url + resourceName.toLowerCase() + "?title=" + data)
+                .get(url + resourceName.toLowerCase() + "/title/" + data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {

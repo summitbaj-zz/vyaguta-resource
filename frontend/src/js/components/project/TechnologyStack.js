@@ -19,12 +19,12 @@
 
         changeTagState: function (data) {
             this.setState({suggestions: data});
-            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'block';
+            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[1].style.display = 'block';
         },
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[0].style.display = 'none';
+            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[1].style.display = 'none';
             ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
         },
 
