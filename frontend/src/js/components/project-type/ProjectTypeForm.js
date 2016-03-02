@@ -62,7 +62,7 @@
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = document.querySelector('#' + elementId).parentElement;
-                parentElement.className += 'has-error';
+                parentElement.className += ' ' + 'has-error';
                 parentElement.querySelector('span').innerHTML = errors[elementId];
             }
         },
