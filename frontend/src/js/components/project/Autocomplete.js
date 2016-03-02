@@ -3,6 +3,7 @@
     var React = require('react');
     var selectedIndex = -1;
 
+    var $ = require('jquery');
     var AutoComplete = React.createClass({
 
         componentDidMount: function () {

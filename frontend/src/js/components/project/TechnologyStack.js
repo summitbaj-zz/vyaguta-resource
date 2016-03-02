@@ -11,7 +11,6 @@
     var TechnologyStack = React.createClass({
         getInitialState: function () {
             return {
-                technologyStack: [],
                 suggestions: []
             }
         },
@@ -19,13 +18,18 @@
 
         changeTagState: function (data) {
             this.setState({suggestions: data});
-            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[1].style.display = 'block';
+            if(this.state.suggestions)
+                this.displaySuggestionOption('block');
         },
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[1].style.display = 'none';
+            this.displaySuggestionOption('none');
             ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
+        },
+
+        displaySuggestionOption(value){
+            document.getElementsByClassName(AUTOCOMPLETE_CLASS)[1].style.display = value;
         },
 
         autoFocus: function () {
@@ -78,6 +82,8 @@
                 }
                 this.refs.inputTag.value = '';
             }
+            this.props.suggestions = [];
+            this.displaySuggestionOption('none');
         },
 
         backSpacePressed: function () {
@@ -85,6 +91,9 @@
             if (!this.refs.inputTag.value && techStack.length > 0) {
                 this.props.removeTag(techStack[techStack.length - 1]);
             }
+            this.props.suggestions = [];
+            this.displaySuggestionOption('none');
+
         },
 
         renderTag: function (value) {
@@ -92,7 +101,7 @@
                 <li className="newtag" key={value}>
                 <span className="label label-blue-grey">
                     <label>{this.props.technologyStack[value].title}</label>
-                    <i className="fa fa-close" onClick={this.props.removeTag.bind(null, value)}></i>
+                    <i className="fa fa-close" onClick={this.props.removeTag.bind(null, this.props.technologyStack[value])}></i>
                 </span>
                 </li>
             );
@@ -117,7 +126,7 @@
                         {technologyStackIds.map(this.renderTag)}
 
                         <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputTag}
-                                                            className="input-tag" id="title"/>
+                                                            className="input-tag" id="title" autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={suggestionTitle}/>
                         </li>
                     </ul>
