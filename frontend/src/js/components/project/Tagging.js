@@ -9,12 +9,6 @@
     var resourceConstant = require('../../constants/resourceConstant');
 
     var Tagging = React.createClass({
-        getInitialState: function () {
-            return {
-                suggestions: []
-            }
-        },
-
         autoFocus: function () {
             this.refs.inputTag.focus();
         },
@@ -30,35 +24,17 @@
                 this.backSpacePressed();
             } else if (key === 32 && !this.refs.inputTag.value) {
                 event.preventDefault();
-            } else {
-                var inputValue = this.refs.inputTag.value;
-                var pressed = String.fromCharCode(key);
-
-                if (this.isValid(pressed)) {
-                    inputValue += pressed;
-                    this.props.updateSuggestions(inputValue.toLowerCase());
-                }
             }
         },
 
         isValid: function (pressed) {
-            return (pressed.match(/[a-zA-Z0-9 .-]+/));
-
-        },
-
-        checkTagInSuggestion: function (input) {
-            for (var i = 0; i < this.state.suggestions.length; i++) {
-                if (input == this.state.suggestions[i].title) {
-                    return this.state.suggestions[i];
-                }
-            }
-            return {title: input};
+            return (pressed.match(/[\x20-\x7E]+/g));
         },
 
         checkTag: function (value) {
-            var techStack = this.state.technologyStack;
-            for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i]['title'].toLowerCase() == value['title'].toLowerCase()) {
+            var tags = this.props.tags;
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i].toLowerCase() == value.toLowerCase()) {
                     return i;
                 }
             }
@@ -67,58 +43,56 @@
 
         enterKeyPressed: function () {
             var inputValue = this.refs.inputTag.value;
-
             if (inputValue) {
-                var value = this.checkTagInSuggestion(inputValue);
-                if (this.props.checkTag(value) === null && this.isValid(inputValue)) {
-                    this.props.addNewTag(value);
+                if (this.checkTag(inputValue) === null && this.isValid(inputValue)) {
+                    this.props.addNewTag(inputValue);
                 }
                 this.refs.inputTag.value = '';
             }
-            this.props.suggestions = [];
-            this.state.suggestions = [];
-           },
+        },
+
+        generateSuggestions: function (event) {
+            var pressed = String.fromCharCode(event.keyCode);
+            if(event.keyCode >= 35 && event.keyCode <= 40){
+                return;
+            }
+            else if (this.isValid(pressed) || event.keyCode === 8) {
+                this.props.updateSuggestions(this.refs.inputTag.value.toLowerCase());
+            }
+        },
 
         backSpacePressed: function () {
-            var techStack = this.props.technologyStack;
-            if (!this.refs.inputTag.value && techStack.length > 0) {
-                this.props.removeTag(techStack[techStack.length - 1]);
+            var tags = this.props.tags;
+            if (!this.refs.inputTag.value && tags.length > 0) {
+                this.props.removeTag(tags.length - 1);
             }
             this.props.suggestions = [];
         },
 
-        renderTag: function (value) {
+        renderTag: function (key) {
             return (
-                <li className="newtag" key={value}>
+                <li className="newtag" key={key}>
                 <span className="label label-blue-grey">
-                    <label>{this.props.technologyStack[value].title}</label>
-                    <i className="fa fa-close" onClick={this.props.removeTag.bind(null, this.props.technologyStack[value])}></i>
+                    <label>{this.props.tags[key]}</label>
+                    <i className="fa fa-close" onClick={this.props.removeTag.bind(null, key)}></i>
                 </span>
                 </li>
             );
         },
 
-        getSuggestionTitle: function () {
-            var titles = [];
-            for(var i = 0; i < this.state.suggestions.length; i++){
-                titles.push(this.state.suggestions[i].title);
-            }
-        return titles;
-        },
-
         render: function () {
-            var technologyStackIds = Object.keys(this.props.technologyStack);
-            var suggestionTitle = this.getSuggestionTitle();
+            var tagIds = Object.keys(this.props.tags);
             return (
                 <div
                     className="form-control tag-wrapper"
                     onClick={this.autoFocus}>
                     <ul id="tag-list" className="clearfix">
-                        {technologyStackIds.map(this.renderTag)}
+                        {tagIds.map(this.renderTag)}
 
                         <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputKey}
+                                                            onKeyUp={this.generateSuggestions}
                                                             className="input-tag" id="title" autoComplete="off"/>
-                            <AutoComplete inputField="input-tag" suggestions={suggestionTitle}/>
+                            <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}/>
                         </li>
                     </ul>
                 </div>

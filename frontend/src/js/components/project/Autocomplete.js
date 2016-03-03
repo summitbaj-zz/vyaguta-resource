@@ -26,7 +26,8 @@
         },
 
         componentWillReceiveProps: function(nextProps){
-            if(nextProps.suggestions.length){
+            var input = document.getElementsByClassName(this.props.inputField)[0];
+            if(nextProps.suggestions.length && input.value){
                 this.refs.suggestions.style.display = 'block';
             }else{
                 this.refs.suggestions.style.display = 'none';

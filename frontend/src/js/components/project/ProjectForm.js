@@ -55,13 +55,13 @@
         },
 
         addNewTag: function (value) {
-            this.state.technologyStack.push(value);
+            var newTag = {title: value};
+            this.state.technologyStack.push(newTag);
             this.setState({technologyStack: this.state.technologyStack});
         },
 
-        removeTag: function (tag) {
+        removeTag: function (index) {
             var techStack = this.state.technologyStack;
-            var index = this.checkTag(tag);
             if (index != null) {
                 techStack.splice(index, 1);
             }
