@@ -3,7 +3,6 @@
     var React = require('react');
     var selectedIndex = -1;
 
-    var $ = require('jquery');
     var AutoComplete = React.createClass({
 
         componentDidMount: function () {
@@ -24,6 +23,14 @@
 
         setSelectedIndex: function (index) {
             selectedIndex = index;
+        },
+
+        componentWillReceiveProps: function(nextProps){
+            if(nextProps.suggestions.length){
+                this.refs.suggestions.style.display = 'block';
+            }else{
+                this.refs.suggestions.style.display = 'none';
+            }
         },
 
         keyPressed: function (event) {

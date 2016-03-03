@@ -54,16 +54,6 @@
             isManagerValid = value;
         },
 
-        checkTag: function (value) {
-            var techStack = this.state.technologyStack;
-            for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i]['title'].toLowerCase() == value['title'].toLowerCase()) {
-                    return i;
-                }
-            }
-            return null;
-        },
-
         addNewTag: function (value) {
             this.state.technologyStack.push(value);
             this.setState({technologyStack: this.state.technologyStack});
@@ -249,7 +239,6 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         checkTag={this.checkTag}
                                                          removeTag={this.removeTag} addNewTag={this.addNewTag} />
                                         <span className="help-block"></span>
 
