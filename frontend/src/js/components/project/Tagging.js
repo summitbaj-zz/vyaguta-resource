@@ -4,7 +4,6 @@
     var React = require('react');
 
     var AutoComplete = require('./Autocomplete');
-    var AUTOCOMPLETE_CLASS = 'autocomplete-suggestions';
 
     var resourceConstant = require('../../constants/resourceConstant');
 
@@ -48,15 +47,13 @@
                     this.props.addNewTag(inputValue);
                 }
                 this.refs.inputTag.value = '';
+                this.refs.inputTag.focus();
             }
         },
 
         generateSuggestions: function (event) {
             var pressed = String.fromCharCode(event.keyCode);
-            if(event.keyCode >= 35 && event.keyCode <= 40){
-                return;
-            }
-            else if (this.isValid(pressed) || event.keyCode === 8) {
+            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || event.keyCode === 8 || event.keyCode === 46) {
                 this.props.updateSuggestions(this.refs.inputTag.value.toLowerCase());
             }
         },
@@ -67,6 +64,10 @@
                 this.props.removeTag(tags.length - 1);
             }
             this.props.suggestions = [];
+        },
+
+        focusOut: function(){
+            this.enterKeyPressed();
         },
 
         renderTag: function (key) {
@@ -90,7 +91,7 @@
                         {tagIds.map(this.renderTag)}
 
                         <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputKey}
-                                                            onKeyUp={this.generateSuggestions}
+                                                            onKeyUp={this.generateSuggestions} onBlur={this.focusOut}
                                                             className="input-tag" id="title" autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}/>
                         </li>

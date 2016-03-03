@@ -12,10 +12,10 @@
 
     var errorActions = require('../actions/errorActions');
 
-    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    //var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
+    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
-    var url = "http://localhost:3000/";
+    //var url = "http://localhost:3000/";
 
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
@@ -34,10 +34,10 @@
                     errorActions.getError(error);
                 })
         },
-        fetchByQuery: function (data, callback) {
+        fetchByQuery: function (resourceName, data, callback) {
             ajaxLoader.show();
             request
-                .get(url + data)
+                .get(url + resourceName.toLowerCase() + "/title/" + data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
@@ -52,6 +52,7 @@
             request
                 .get(url + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('API-Key', 'foobar')
                 .set('Accept', 'application/json')
                 .then(function (response) {
                     ajaxLoader.hide();
@@ -63,17 +64,17 @@
 
         fetchAllFromCore: function (resourceName, callback) {
             ajaxLoader.show();
-            /*request
-             .get(coreUrl + resourceName.toLowerCase())
-             .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-             .set('API-Key', 'foobar')
-             .set('Accept', 'application/json')
-             .then(function (response) {
-             ajaxLoader.hide();
-             callback(response.body);
-             }, function (error) {
-             errorActions.getError(error);
-             })*/
+            request
+                .get(coreUrl + resourceName.toLowerCase())
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('API-Key', 'foobar')
+                .set('Accept', 'application/json')
+                .then(function (response) {
+                    ajaxLoader.hide();
+                    callback(response.body);
+                }, function (error) {
+                    errorActions.getError(error);
+                })
         },
 
         create: function (resourceName, data, callback) {
