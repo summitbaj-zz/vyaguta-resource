@@ -7,8 +7,10 @@
 ;(function () {
     'use strict';
 
+    //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
+    //libraries
     var _ = require('lodash');
 
     var initialState = {
@@ -35,9 +37,9 @@
                 newState.teamMembers.splice(action.index, 1);
                 return newState;
 
-            case actionTypeConstant.CLEAR_MEMBER_INDEX:
-                var newState = _.cloneDeep(state);
-                newState.memberIndexInModal = '';
+                case actionTypeConstant.CLEAR_MEMBER_INDEX:
+                    var newState = _.cloneDeep(state);
+                    newState.memberIndexInModal = '';
                 return newState;
 
             case actionTypeConstant.EDIT_TEAM_MEMBER_INDEX_IN_MODAL:

@@ -5,24 +5,31 @@
  */
 
 ;(function () {
+    'use strict';
+
+    //React and Redux dependencies
     var React = require('react');
     var Link = require('react-router').Link;
     var connect = require('react-redux').connect;
-
-    var BudgetTypeRow = require('./BudgetTypeRow');
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
-    var ApiUtil = require('../../util/ApiUtil');
     var crudActions = require('../../actions/crudActions');
-
-    var _ = require('lodash');
+    var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //libraries
+    var _ = require('lodash');
+
+    //components
+    var BudgetTypeRow = require('./BudgetTypeRow');
+    var BudgetTypeHeader = require('./BudgetTypeHeader');
+
+
     var BudgetTypeList = React.createClass({
         componentDidMount: function () {
-            crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
+            //crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
+            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
         },
 
         deleteBudgetType: function (id) {
@@ -73,12 +80,18 @@
         }
     });
 
-    var selectStore = function (store) {
+    var mapStateToProps = function (state) {
         return {
-            budgetTypes: store.crudReducer.get(resourceConstant.BUDGET_TYPES)
+            budgetTypes: state.crudReducer.budgetTypes
         }
-    }
+    };
 
-    module.exports = connect(selectStore)(BudgetTypeList);
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(BudgetTypeList);
 
 })();

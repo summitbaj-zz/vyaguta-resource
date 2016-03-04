@@ -1,15 +1,15 @@
 ;(function () {
     'use strict';
 
-    var Immutable = require('immutable');
-
     //constants
     var resourceConstant = require('../constants/resourceConstant');
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
+    //libraries
+    var Immutable = require('immutable');
+
     var initialState = Immutable.Map(
         {errorMessage:[]}
-
     );
 
     var errorReducer = function (state, action) {

@@ -11,7 +11,7 @@
     var routes = (
 
         <Router history={createBrowserHistory()}>
-            <Route path="/resource" name="Dashboard" component={require('./components/App')}>
+            <Route path="/" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
                 <Route path="budgettypes" name="Budget Types"
                        component={require('./components/budget-type/BudgetTypeMain')}>

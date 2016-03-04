@@ -12,16 +12,16 @@
 
     var errorActions = require('../actions/errorActions');
 
-    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
+    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    //var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
-    //var url = "http://localhost:3000/";
+    var url = "http://localhost:3000/";
+    var coreUrl = "http://localhost:3000/";
 
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
     var ajaxLoader = require('./ajaxLoader');
     var ApiUtil = {
-
         fetchById: function (resourceName, id, callback) {
             ajaxLoader.show();
             request
@@ -47,19 +47,14 @@
                     errorActions.getError(error);
                 })
         },
-        fetchAll: function (resourceName, callback) {
+        fetchAll: function (resourceName) {
+
             ajaxLoader.show();
-            request
+            return request
                 .get(url + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('API-Key', 'foobar')
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    ajaxLoader.hide();
-                    callback(response.body);
-                }, function (error) {
-                    errorActions.getError(error);
-                })
+                .set('Accept', 'application/json');
         },
 
         fetchAllFromCore: function (resourceName, callback) {

@@ -1,11 +1,12 @@
 ;(function () {
     'use strict';
 
+    //redux dependencies
     var redux = require('redux');
-
     var createStore = redux.createStore;
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
+    var compose = redux.compose;
 
     //middlewares
     var thunk = require('redux-thunk');
@@ -15,20 +16,23 @@
     var crudReducer = require('../reducers/crudReducer');
     var errorReducer = require('../reducers/errorReducer');
     var createProjectReducer = require('../reducers/createProjectReducer');
-
-
-    //Apply middleware to createStore
-    var createStoreWithMiddleware = applyMiddleware(thunk, logger())(createStore);
+    var apiReducer = require('../reducers/apiReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
         errorReducer: errorReducer,
-        createProject: createProjectReducer
+        createProject: createProjectReducer,
+        apiState: apiReducer
         //add for each reducers...
     });
 
-    var store = createStoreWithMiddleware(reducers);
+    var store = createStore(reducers, compose(
+        applyMiddleware(thunk,logger()),
+
+        //For working redux dev tools in chrome (https://github.com/zalmoxisus/redux-devtools-extension)
+        window.devToolsExtension ? window.devToolsExtension() : function(f) { return f }
+    ));
 
     module.exports = store;
 
