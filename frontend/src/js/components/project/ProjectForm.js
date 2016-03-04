@@ -54,24 +54,14 @@
             isManagerValid = value;
         },
 
-        checkTag: function (value) {
-            var techStack = this.state.technologyStack;
-            for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i]['title'].toLowerCase() == value['title'].toLowerCase()) {
-                    return i;
-                }
-            }
-            return null;
-        },
-
         addNewTag: function (value) {
-            this.state.technologyStack.push(value);
+            var newTag = {title: value};
+            this.state.technologyStack.push(newTag);
             this.setState({technologyStack: this.state.technologyStack});
         },
 
-        removeTag: function (tag) {
+        removeTag: function (index) {
             var techStack = this.state.technologyStack;
-            var index = this.checkTag(tag);
             if (index != null) {
                 techStack.splice(index, 1);
             }
@@ -249,7 +239,6 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         checkTag={this.checkTag}
                                                          removeTag={this.removeTag} addNewTag={this.addNewTag} />
                                         <span className="help-block"></span>
 
