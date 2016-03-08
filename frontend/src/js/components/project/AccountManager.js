@@ -55,7 +55,7 @@
             getAppendedName: function (index) {
                 var name;
                 var suggestions = this.state.suggestions;
-                var name = suggestions[index].firstName;
+                name = suggestions[index].firstName;
                 if (suggestions[index].middleName) {
                     name = name.concat(' ', suggestions[index].middleName);
                 }
@@ -80,7 +80,6 @@
 
             render: function () {
                 var suggestionTitle = this.getSuggestionName();
-                console.log(suggestionTitle);
                 return (
                     <div className="col-md-6 col-lg-4 element">
                         <label className="control-label">Account Manager</label>
