@@ -37,14 +37,6 @@
             }
         },
 
-        add: function () {
-
-        },
-
-        update: function () {
-
-        },
-
         delete: function (entity, id) {
             return {
                 type: actionTypeConstant.DELETE,
@@ -71,8 +63,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
-                    //errorActions.getError(error);
-                    console.log('error');
+                    dispatch(apiActions.apiError(error));
                 }));
             }
         },
@@ -86,8 +77,7 @@
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
                 }, function (error) {
-                    //errorActions.getError(error);
-                    console.log('error');
+                    dispatch(apiActions.apiError(error));
                 }));
             }
         },
@@ -101,7 +91,7 @@
                     Toastr.success('Successfully updated item');
                     browserHistory.goBack();
                 }, function (error) {
-                    //errorActions.getError(error);
+                    dispatch(apiActions.apiError(error));
                 }))
             }
         },
@@ -114,8 +104,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
-                    //errorActions.getError(error);
-                    console.log(error);
+                    dispatch(apiActions.apiError(error));
                 }))
             }
         },
@@ -129,8 +118,7 @@
                     Toastr.success('Successfully deleted item');
                     dispatch(actions.delete(entity, id));
                 }, function (error) {
-                    //errorActions.getError(error);
-                    console.log('error');
+                    dispatch(apiActions.apiError(error));
                 }))
             }
         },

@@ -19,6 +19,7 @@
         switch (action.type) {
             case actionTypeConstant.ERROR:
                 return state.set(resourceConstant.ERROR_MESSAGE, action.data);
+
             default:
                 return state.set(resourceConstant.ERROR_MESSAGE, '');
         }

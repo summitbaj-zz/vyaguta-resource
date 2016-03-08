@@ -1,58 +1,41 @@
 ;(function () {
     'use strict';
 
+    //React and Redux dependencies
     var React = require('react');
-    var ProjectStatusHeader = require('./ProjectStatusHeader');
-    var history = require('react-router').History;
-    var ApiUtil = require('../../util/ApiUtil');
+    var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
+
+    //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
-    var Toastr = require('toastr');
-    var formValidator = require('../../util/FormValidator');
 
-    var PAGE_TITLE = 'Project Status';
-    var projectStatusId = null;
+    //components
+    var ProjectStatusHeader = require('./ProjectStatusHeader');
+    var formValidator = require('../../util/FormValidator');
+    var crudActions = require('../../actions/crudActions');
+
+
 
     var ProjectStatusForm = React.createClass({
-        mixins: [history],
-
-        getInitialState: function () {
-            return {
-                projectStatus: {}
-            }
-        },
-
         componentDidMount: function () {
             if (this.props.params.id) {
-                ApiUtil.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id, this.changeState);
+                this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
             }
         },
 
-        changeState: function (status) {
-            this.setState({projectStatus: status});
-        },
-
-        submitForm: function (event) {
+        saveProjectStatus: function (event) {
             event.preventDefault();
 
-            var that = this;
-            var submittedProjectStatus = {
+            var projectStatus = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(submittedProjectStatus)) {
+            if (formValidator.isValid(projectStatus)) {
                 if (this.props.params.id) {
-                    ApiUtil.edit(resourceConstant.PROJECT_STATUS, submittedProjectStatus, this.props.params.id, function (data) {
-                        document.querySelector('#save-btn').disabled = true;
-                        that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
-                        Toastr.success("Project Status Successfully Edited");
-                    });
+                    this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {
-                    ApiUtil.create(resourceConstant.PROJECT_STATUS, submittedProjectStatus, function (data) {
-                        document.querySelector('#save-btn').disabled = true;
-                        that.history.pushState(null, urlConstant.PROJECT_STATUS.INDEX);
-                        Toastr.success("Project Status Successfully Added");
-                    });
+                    this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
                 }
             } else {
                 this.showErrors(formValidator.errors)
@@ -62,31 +45,30 @@
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = document.querySelector('#' + elementId).parentElement;
+
                 parentElement.className += " has-error";
                 parentElement.querySelector('span').innerHTML = errors[elementId];
             }
         },
 
-        fieldChange: function (event) {
-            var field = event.target.name;
+        handleChange: function (event) {
+            var key = event.target.name;
             var value = event.target.value;
 
-            this.state.projectStatus[field] = value;
-            return this.setState({projectStatus: this.state.projectStatus});
+            this.props.actions.updateSelectedItem(key, value);
         },
 
         render: function () {
-            var action = this.props.params.id ? 'Edit ' : 'Add ';
             return (
                 <div>
-                    <ProjectStatusHeader header={action + PAGE_TITLE} routes={this.props.routes}/>
+                    <ProjectStatusHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'} routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>
-                        <form className="form-bordered" method="post" onSubmit={this.submitForm}>
+                        <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
                             <div className="form-group">
                                 <label>Project Status</label>
-                                <input type="text" ref="title" name="title" value={this.state.projectStatus.title}
-                                       onChange={this.fieldChange}
+                                <input type="text" ref="title" name="title" value={this.props.selectedItem.title}
+                                       onChange={this.handleChange}
                                        placeholder="Project Status"
                                        className="form-control"
                                        id="title"/>
@@ -109,6 +91,18 @@
         }
     });
 
-    module.exports = ProjectStatusForm;
 
+    var mapStateToProps = function (state) {
+        return {
+            selectedItem: state.crudReducer.selectedItem
+        }
+    };
+
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusForm)
 })();

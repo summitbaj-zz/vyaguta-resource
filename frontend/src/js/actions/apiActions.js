@@ -36,7 +36,8 @@
         apiError: function () {
             //When there is an error in the response from the API, this action gets called
             return {
-                type: actionTypeConstant.API_ERROR
+                type: actionTypeConstant.ERROR,
+                data: error.message
             }
         }
     }

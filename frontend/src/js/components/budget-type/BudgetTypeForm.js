@@ -7,18 +7,19 @@
 ;(function () {
     'use strict';
 
+    //React and Redux dependencies
     var React = require('react');
-    var ApiUtil = require('../../util/ApiUtil');
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
     var connect = require('react-redux').connect;
-    var toastr = require('toastr');
-    var formValidator = require('../../util/FormValidator');
-    var crudActions = require('../../actions/crudActions');
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+
+    //components
+    var BudgetTypeHeader = require('./BudgetTypeHeader');
+    var formValidator = require('../../util/FormValidator');
+    var crudActions = require('../../actions/crudActions');
 
     var BudgetTypeForm = React.createClass({
         componentDidMount: function () {
