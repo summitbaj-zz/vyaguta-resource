@@ -45,13 +45,14 @@
         getInitialState: function () {
             return {
                 technologyStack: [],
+                accountManager: [],
                 startDate: moment(),
                 endDate: moment()
             }
         },
 
-        setIsManagerValid: function (value) {
-            isManagerValid = value;
+        setManager: function (value) {
+            this.setState({accountManager: value});
         },
 
         addNewTag: function (value) {
@@ -203,7 +204,7 @@
                                                 <span className="help-block"></span>
 
                                             </div>
-                                            <AccountManager setIsManagerValid={this.setIsManagerValid}/>
+                                            <AccountManager setManager={this.setManager}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">

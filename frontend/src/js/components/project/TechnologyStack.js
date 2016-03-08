@@ -32,7 +32,6 @@
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            console.log('called');
             ApiUtil.fetchByQuery(input, this.changeTagState);
         },
 
