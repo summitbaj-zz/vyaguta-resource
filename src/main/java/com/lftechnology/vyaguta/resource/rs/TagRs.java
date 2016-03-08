@@ -93,12 +93,4 @@ public class TagRs {
         return Response.status(Response.Status.OK).build();
     }
 
-    @Path("/title/{title}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Search tag by its name")
-    public Response findByTitle(@ApiParam(value = "Tag name", required = true) @PathParam("title") String title) {
-        List<Tag> tags = tagService.findByTitle(title);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
-    }
 }

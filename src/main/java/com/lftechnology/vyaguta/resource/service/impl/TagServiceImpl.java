@@ -76,11 +76,6 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> findByTitle(String title) {
-        return tagDao.findByTitle(title);
-    }
-
-    @Override
     public List<Tag> findByFilter(MultivaluedMap<String, String> queryParameters) {
         return tagDao.findByFilter(queryParameters);
     }
