@@ -8,6 +8,7 @@
     'use-strict';
     var React = require('react');
     var ProjectHeader = require('./ProjectHeader');
+    var $=require('jquery');
 
     var TechnologyStack = require('./TechnologyStack');
     var ApiUtil = require('../../util/ApiUtil');
