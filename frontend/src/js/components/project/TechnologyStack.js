@@ -3,7 +3,7 @@
 
     var React = require('react');
     var ApiUtil = require('../../util/ApiUtil');
-    var Tagging = require('./Tagging');
+    var Tagging = require('../common/tag/Tagging');
     var resourceConstant = require('../../constants/resourceConstant');
 
     var TechnologyStack = React.createClass({
@@ -14,8 +14,8 @@
             }
         },
 
-        componentWillReceiveProps: function (props) {
-            this.setState({tags: this.getTitle(this.props.technologyStack)});
+        componentWillReceiveProps: function (nextProps) {
+            this.setState({tags: this.getTitle(nextProps.technologyStack)});
         },
 
         getTitle: function (technologyStack) {

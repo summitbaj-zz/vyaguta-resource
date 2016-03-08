@@ -4,7 +4,7 @@
     var React = require('react');
 
     var ApiUtil = require('../../util/ApiUtil');
-    var AutoComplete = require('./Autocomplete');
+    var AutoComplete = require('../common/autocomplete/Autocomplete');
 
     var resourceConstant = require('../../constants/resourceConstant');
 

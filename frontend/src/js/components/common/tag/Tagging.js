@@ -3,9 +3,7 @@
 
     var React = require('react');
 
-    var AutoComplete = require('./Autocomplete');
-
-    var resourceConstant = require('../../constants/resourceConstant');
+    var AutoComplete = require('../autocomplete/Autocomplete');
 
     var Tagging = React.createClass({
         autoFocus: function () {
@@ -48,7 +46,7 @@
 
         generateSuggestions: function (event) {
             var pressed = String.fromCharCode(event.keyCode);
-            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || event.keyCode === 8 || 46) {
+            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || event.keyCode === 8 || event.keyCode === 46) {
                 this.props.updateSuggestions(this.refs.inputTag.value.toLowerCase());
             }
         },
