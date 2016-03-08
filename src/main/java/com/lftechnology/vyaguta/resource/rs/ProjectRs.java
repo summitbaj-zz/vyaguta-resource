@@ -19,9 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.Page;
 import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
-import com.lftechnology.vyaguta.commons.util.PageUtil;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -35,20 +33,6 @@ public class ProjectRs {
 
     @Inject
     private ProjectService projectService;
-
-    // @Path("/")
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public Response list(
-    // @Min(value = 1, message = "Page must be greater than zero.")
-    // @QueryParam("page") Integer pageNum,
-    // @QueryParam("offset") Integer offset) {
-    // Page page = PageUtil.page(pageNum, offset);
-    // List<Project> projects = projectService.find(page.getStart(),
-    // page.getOffset());
-    // return
-    // Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projects)).build();
-    // }
 
     @Path("/")
     @GET
