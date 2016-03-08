@@ -72,8 +72,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Override
     public List<ProjectStatus> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        return projectStatusDao.findByFilter(queryParameters);
     }
 
 }

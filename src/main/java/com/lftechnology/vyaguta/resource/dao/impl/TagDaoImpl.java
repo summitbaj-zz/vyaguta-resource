@@ -1,7 +1,5 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
@@ -20,8 +18,4 @@ public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
         super(Tag.class);
     }
 
-    @Override
-    public List<Tag> findByTitle(String title) {
-        return em.createNamedQuery(Tag.findByTitle, Tag.class).setParameter("title", "%" + title.toUpperCase() + "%").getResultList();
-    }
 }

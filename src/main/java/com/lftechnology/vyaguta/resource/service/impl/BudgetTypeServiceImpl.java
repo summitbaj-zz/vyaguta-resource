@@ -74,7 +74,6 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
 
     @Override
     public List<BudgetType> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        return budgetTypeDao.findByFilter(queryParameters);
     }
 }

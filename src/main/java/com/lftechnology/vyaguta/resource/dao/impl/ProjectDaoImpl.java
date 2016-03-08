@@ -14,7 +14,9 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
 
 /**
@@ -79,6 +81,24 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
 
             Join<Project, ProjectType> pt = root.join("projectType");
             Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), projectType);
+            predicates.add(predicate);
+        }
+
+        // get list of projects with projectStatus
+        if (queryParameters.containsKey("projectStatus")) {
+            String projectStatus = queryParameters.getFirst("projectStatus").toUpperCase();
+
+            Join<Project, ProjectStatus> pt = root.join("projectStatus");
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), projectStatus);
+            predicates.add(predicate);
+        }
+
+        // get list of projects with BudgetType
+        if (queryParameters.containsKey("budgetType")) {
+            String budgetType = queryParameters.getFirst("budgetType").toUpperCase();
+
+            Join<Project, BudgetType> pt = root.join("budgetType");
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), budgetType);
             predicates.add(predicate);
         }
 
