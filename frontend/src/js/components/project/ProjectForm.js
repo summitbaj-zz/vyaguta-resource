@@ -159,6 +159,23 @@
                 this.showErrors(formValidator.errors)
             }
         },
+        checkTitle: function (title) {
+            if (title.length > 0) {
+                this.refs.title.parentElement.className = 'form-group has-success';
+                this.refs.availableMessage.innerHTML = 'Valid name';
+                return;
+            } else {
+                this.refs.title.parentElement.className += ' has-error';
+                this.props.setManager(null);
+                this.refs.availableMessage.innerHTML = 'Invalid name';
+            }
+        },
+
+        validateTitle: function () {
+            var title = this.refs.title.value;
+
+            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle);
+        },
 
         render: function () {
             return (
@@ -172,8 +189,8 @@
                                     <div className="form-group">
                                         <label>Project Name</label>
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
-                                               className="form-control" id="title"/>
-                                        <span className="help-block"></span>
+                                               className="form-control" id="title" onBlur={this.validateTitle}/>
+                                        <span className="help-block" ref="availableMessage"></span>
 
                                     </div>
                                     <div className="form-group">
@@ -240,7 +257,7 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         removeTag={this.removeTag} addNewTag={this.addNewTag} />
+                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                         <span className="help-block"></span>
 
                                     </div>
