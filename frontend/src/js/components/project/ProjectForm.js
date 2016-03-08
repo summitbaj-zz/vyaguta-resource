@@ -163,10 +163,8 @@
             if (title.length > 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
                 this.refs.availableMessage.innerHTML = 'Valid name';
-                return;
             } else {
                 this.refs.title.parentElement.className += ' has-error';
-                this.props.setManager(null);
                 this.refs.availableMessage.innerHTML = 'Invalid name';
             }
         },
