@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
@@ -77,5 +78,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> findByTitle(String title) {
         return tagDao.findByTitle(title);
+    }
+
+    @Override
+    public List<Tag> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
