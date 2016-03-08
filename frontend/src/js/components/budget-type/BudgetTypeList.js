@@ -12,7 +12,7 @@
     var Link = require('react-router').Link;
     var connect = require('react-redux').connect;
     var crudActions = require('../../actions/crudActions');
-    var bindActionCreators = require('redux').bindActionCreators;
+        var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
@@ -28,15 +28,12 @@
 
     var BudgetTypeList = React.createClass({
         componentDidMount: function () {
-            //crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
         },
 
         deleteBudgetType: function (id) {
-            var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
-
             if (confirm('Are you sure?')) {
-                crudActions.deleteItem(resourceConstant.BUDGET_TYPES, id, data);
+                this.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id);
             }
         },
 

@@ -4,7 +4,9 @@
         DELETE : 'DELETE',
         ERROR: 'ERROR',
         ADD: 'ADD',
-        EDIT: 'EDIT',
+        UPDATE: 'UPDATE',
+        SELECT_ITEM: 'SELECT_ITEM',
+        UPDATE_SELECTED_ITEM: 'UPDATE_SELECTED_ITEM',
 
         //create project actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',

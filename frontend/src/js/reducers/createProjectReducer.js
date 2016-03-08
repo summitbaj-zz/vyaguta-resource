@@ -13,6 +13,7 @@
     //libraries
     var _ = require('lodash');
 
+
     var initialState = {
         teamMembers: [],
         memberIndexInModal: ''

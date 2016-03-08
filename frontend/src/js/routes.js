@@ -5,12 +5,12 @@
         ReactRouter = require('react-router'),
         Router = ReactRouter.Router,
         Route = ReactRouter.Route,
-        createBrowserHistory = require('history/lib/createBrowserHistory'),
+        browserHistory = ReactRouter.browserHistory,
         IndexRoute = ReactRouter.IndexRoute;
 
     var routes = (
 
-        <Router history={createBrowserHistory()}>
+        <Router history={browserHistory}>
             <Route path="/" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
                 <Route path="budgettypes" name="Budget Types"

@@ -21,19 +21,16 @@
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
     var ajaxLoader = require('./ajaxLoader');
+
     var ApiUtil = {
-        fetchById: function (resourceName, id, callback) {
+        fetchById: function (resourceName, id) {
             ajaxLoader.show();
-            request
+            return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response.body);
-                }, function (error) {
-                    errorActions.getError(error);
-                })
+                .set('Accept', 'application/json');
         },
+
         fetchByQuery: function (resourceName, data, callback) {
             ajaxLoader.show();
             request
@@ -47,8 +44,8 @@
                     errorActions.getError(error);
                 })
         },
-        fetchAll: function (resourceName) {
 
+        fetchAll: function (resourceName) {
             ajaxLoader.show();
             return request
                 .get(url + resourceName.toLowerCase())
@@ -74,46 +71,28 @@
 
         create: function (resourceName, data, callback) {
             ajaxLoader.show();
-            request
+            return  request
                 .post(url + resourceName.toLowerCase())
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    ajaxLoader.hide();
-                    callback(response.body);
-                }, function (error) {
-                    errorActions.getError(error);
-                })
+                .set('Accept', 'application/json');
         },
 
-        edit: function (resourceName, data, dataId, callback) {
+        edit: function (resourceName, data, dataId) {
             ajaxLoader.show();
-            request
+            return request
                 .put(url + resourceName.toLowerCase() + '/' + dataId)
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    ajaxLoader.hide();
-                    callback(response.body);
-                }, function (error) {
-                    errorActions.getError(error);
-                })
+                .set('Accept', 'application/json');
         },
 
-        delete: function (resourceName, dataId, callback) {
+        delete: function (resourceName, dataId) {
             ajaxLoader.show();
-            request
+            return request
                 .del(url + resourceName.toLowerCase() + '/' + dataId)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .then(function (response) {
-                    ajaxLoader.hide();
-                    callback(response.body);
-                }, function (error) {
-                    errorActions.getError(error);
-                })
         }
     };
 

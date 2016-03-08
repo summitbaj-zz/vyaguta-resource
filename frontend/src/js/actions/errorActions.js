@@ -10,7 +10,6 @@
                 type: actionTypeConstant.ERROR,
                 data: error.message
             })
-
         }
     };
 
