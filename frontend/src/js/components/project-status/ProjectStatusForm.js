@@ -16,7 +16,6 @@
     var crudActions = require('../../actions/crudActions');
 
 
-
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
             if (this.props.params.id) {
@@ -67,7 +66,7 @@
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
                             <div className="form-group">
                                 <label>Project Status</label>
-                                <input type="text" ref="title" name="title" value={this.props.selectedItem.title}
+                                <input type="text" ref="title" name="title" value={this.props.selectedItem.projectStatus.title}
                                        onChange={this.handleChange}
                                        placeholder="Project Status"
                                        className="form-control"

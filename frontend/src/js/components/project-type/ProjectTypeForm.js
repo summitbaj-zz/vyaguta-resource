@@ -65,7 +65,7 @@
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>
                             <div className="form-group">
                                 <label>Project Type</label>
-                                <input type="text" ref="title" name="title" value={this.props.selectedItem.title}
+                                <input type="text" ref="title" name="title" value={this.props.selectedItem.projectTypes.title}
                                        onChange={this.fieldChange}
                                        placeholder="Project Type"
                                        className="form-control"

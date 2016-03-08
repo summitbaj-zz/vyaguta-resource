@@ -7,17 +7,21 @@
 ;(function () {
     'use strict';
 
-    var $ = require('jquery');
+    //React and Redux dependencies
     var React = require('react');
-    var TeamMemberAddButtons = require('./TeamMemberAddButtons');
-    var TeamMemberEditButtons = require('./TeamMemberEditButtons');
 
-    //datepicker
+    //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
+    var $ = require('jquery');
 
-    var ApiUtil = require('../../../util/ApiUtil');
+    //constants
     var resourceConstant = require('../../../constants/resourceConstant');
+
+    //components
+    var TeamMemberAddButtons = require('./TeamMemberAddButtons');
+    var TeamMemberEditButtons = require('./TeamMemberEditButtons');
+    var ApiUtil = require('../../../util/ApiUtil');
 
     var TeamMemberForm = React.createClass({
         getInitialState: function () {
@@ -209,9 +213,7 @@
                                     </div>
                                 </form>
                             </div>
-
                             {buttons}
-
                         </div>
                     </div>
                 </div>

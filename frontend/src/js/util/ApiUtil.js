@@ -20,11 +20,9 @@
 
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
-    var ajaxLoader = require('./ajaxLoader');
 
     var ApiUtil = {
         fetchById: function (resourceName, id) {
-            ajaxLoader.show();
             return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
@@ -32,13 +30,11 @@
         },
 
         fetchByQuery: function (resourceName, data, callback) {
-            ajaxLoader.show();
             request
                 .get(url + resourceName.toLowerCase() + '/title/' + data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
-                    ajaxLoader.hide();
                     callback(response.body);
                 }, function (error) {
                     errorActions.getError(error);
@@ -46,7 +42,6 @@
         },
 
         fetchAll: function (resourceName) {
-            ajaxLoader.show();
             return request
                 .get(url + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
@@ -55,7 +50,6 @@
         },
 
         fetchAllFromCore: function (resourceName, callback) {
-            ajaxLoader.show();
             request
                 .get(coreUrl + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
@@ -70,7 +64,6 @@
         },
 
         create: function (resourceName, data, callback) {
-            ajaxLoader.show();
             return  request
                 .post(url + resourceName.toLowerCase())
                 .send(data)
@@ -79,7 +72,6 @@
         },
 
         edit: function (resourceName, data, dataId) {
-            ajaxLoader.show();
             return request
                 .put(url + resourceName.toLowerCase() + '/' + dataId)
                 .send(data)
@@ -88,7 +80,6 @@
         },
 
         delete: function (resourceName, dataId) {
-            ajaxLoader.show();
             return request
                 .del(url + resourceName.toLowerCase() + '/' + dataId)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))

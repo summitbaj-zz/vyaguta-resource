@@ -3,11 +3,11 @@
 
     //Redux dependencies
     var store = require('../store/store');
-    var apiActions = require('./apiActions');
     var browserHistory = require('react-router').browserHistory;
 
     //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
+    var resourceConstant = require('../constants/resourceConstant');
 
     //libraries
     var _ = require('lodash');
@@ -15,6 +15,10 @@
 
     //API utility
     var ApiUtil = require('../util/ApiUtil');
+
+    //actions
+    var apiActions = require('./apiActions');
+    var teamMemberActions = require('./teamMemberActions');
 
     /**
      * These are the actions every CRUD in the application uses.
@@ -76,6 +80,11 @@
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
+
+                    //clear Team Member state after saving project form
+                    if(entity == resourceConstant.PROJECTS) {
+                        dispatch(teamMemberActions.clearMemberState());
+                    }
                 }, function (error) {
                     dispatch(apiActions.apiError(error));
                 }));
@@ -90,6 +99,11 @@
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully updated item');
                     browserHistory.goBack();
+
+                    //clear Team Member state after saving project form
+                    if(entity == resourceConstant.PROJECTS) {
+                        dispatch(teamMemberActions.clearMemberState());
+                    }
                 }, function (error) {
                     dispatch(apiActions.apiError(error));
                 }))

@@ -2,6 +2,7 @@
     'use strict';
 
     var React = require('react');
+
     var ProjectTypeMain = React.createClass({
         render: function () {
             return (

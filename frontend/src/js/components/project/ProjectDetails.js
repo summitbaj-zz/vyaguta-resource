@@ -6,31 +6,25 @@
 
 ;(function () {
     'use-strict';
+
+    //React and Redux dependencies
     var React = require('react');
-    var ProjectHeader = require('./ProjectHeader');
+    var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
 
-    var ApiUtil = require('../../util/ApiUtil');
-
+    //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //components
+    var ProjectHeader = require('./ProjectHeader');
+    var crudActions = require('../../actions/crudActions');
+
     var ProjectDetails = React.createClass({
-        getInitialState: function () {
-            return {
-                project: {
-                    budgetType:{},
-                    projectType:{},
-                    projectStatus:{},
-                    accountManager:{}
-                }
-            }
-        },
         componentDidMount: function () {
-            ApiUtil.fetchById(resourceConstant.PROJECTS, this.props.params.id, this.updateState);
+            this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
         },
-        updateState: function(project){
-            this.setState({project: project});
-        },
+
         render: function () {
             return (
                 <div>
@@ -47,35 +41,35 @@
                                         <tbody>
                                         <tr>
                                             <th>Project Name</th>
-                                            <td>{this.state.project.title}</td>
+                                            <td>{this.props.selectedItem.projects.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Description</th>
-                                            <td>{this.state.project.description}</td>
+                                            <td>{this.props.selectedItem.projects.description}</td>
                                         </tr>
                                         <tr>
                                             <th>Start Date</th>
-                                            <td>{this.state.project.startDate}</td>
+                                            <td>{this.props.selectedItem.projects.startDate}</td>
                                         </tr>
                                         <tr>
                                             <th>End Date</th>
-                                            <td>{this.state.project.endDate}</td>
+                                            <td>{this.props.selectedItem.projects.endDate}</td>
                                         </tr>
                                         <tr>
                                             <th>Budget Type</th>
-                                            <td>{this.state.project.budgetType.title}</td>
+                                            <td>{this.props.selectedItem.projects.budgetType.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Project Type</th>
-                                            <td>{this.state.project.projectType.title}</td>
+                                            <td>{this.props.selectedItem.projects.projectType.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Project Status</th>
-                                            <td>{this.state.project.projectStatus.title}</td>
+                                            <td>{this.props.selectedItem.projects.projectStatus.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Account Manager</th>
-                                            <td>{this.state.project.accountManager.firstName}</td>
+                                            <td></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -88,6 +82,18 @@
         }
     });
 
+    var mapStateToProps = function (state) {
+        return {
+            selectedItem: state.crudReducer.selectedItem
+        }
+    };
 
-    module.exports = ProjectDetails;
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
+
 })();

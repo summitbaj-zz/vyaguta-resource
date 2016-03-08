@@ -13,8 +13,19 @@
             budgetTypes: [],
             projectTypes: [],
             projects: [],
-            selectedItem: {} //for editing or viewing purposes
+            selectedItem: { //for editing or viewing purposes
+                projects: {
+                    budgetType: {},
+                    projectType: {},
+                    projectStatus: {},
+                    accountManager: {}
+                },
+                budgetTypes: {},
+                projectTypes: {},
+                projectStatus: {}
+            }
         };
+
 
     var crudReducer = function (state, action) {
         state = state || initialState;
@@ -28,7 +39,7 @@
 
             case actionTypeConstant.SELECT_ITEM:
                 var newState = _.cloneDeep(state);
-                newState.selectedItem = action.data;
+                newState.selectedItem[action.entity] = action.data;
 
                 return newState;
 

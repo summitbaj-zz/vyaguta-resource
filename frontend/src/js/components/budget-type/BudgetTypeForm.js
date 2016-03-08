@@ -77,7 +77,7 @@
                                 <label>Budget Type</label>
                                 <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
                                        className="form-control"
-                                       value={this.props.selectedItem.title}
+                                       value={this.props.selectedItem.budgetTypes.title}
                                        id="title"
                                        onChange={this.handleChange}/>
                                 <span className="help-block"></span>

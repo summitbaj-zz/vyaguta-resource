@@ -8,7 +8,7 @@
     'use strict';
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
-    var createProjectActions = {
+    var teamMemberActions = {
         addTeamMember: function (teamMember) {
             return {
                 type: actionTypeConstant.ADD_TEAM_MEMBER,
@@ -42,9 +42,16 @@
             return {
                 type: actionTypeConstant.CLEAR_MEMBER_INDEX
             }
+        },
+
+        clearMemberState: function() {
+            return {
+                type: actionTypeConstant.CLEAR_MEMBER_STATE
+            }
+
         }
     }
 
-    module.exports = createProjectActions;
+    module.exports = teamMemberActions;
 
 })();

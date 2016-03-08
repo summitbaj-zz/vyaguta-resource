@@ -15,14 +15,14 @@
     //reducers
     var crudReducer = require('../reducers/crudReducer');
     var errorReducer = require('../reducers/errorReducer');
-    var createProjectReducer = require('../reducers/createProjectReducer');
+    var teamMemberReducer = require('../reducers/teamMemberReducer');
     var apiReducer = require('../reducers/apiReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
         errorReducer: errorReducer,
-        createProject: createProjectReducer,
+        teamMemberReducer: teamMemberReducer,
         apiState: apiReducer
         //add for each reducers...
     });
