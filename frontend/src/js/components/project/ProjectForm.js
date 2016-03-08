@@ -45,33 +45,24 @@
         getInitialState: function () {
             return {
                 technologyStack: [],
+                accountManager: [],
                 startDate: moment(),
                 endDate: moment()
             }
         },
 
-        setIsManagerValid: function (value) {
-            isManagerValid = value;
-        },
-
-        checkTag: function (value) {
-            var techStack = this.state.technologyStack;
-            for (var i = 0; i < techStack.length; i++) {
-                if (techStack[i]['title'].toLowerCase() == value['title'].toLowerCase()) {
-                    return i;
-                }
-            }
-            return null;
+        setManager: function (value) {
+            this.setState({accountManager: value});
         },
 
         addNewTag: function (value) {
-            this.state.technologyStack.push(value);
+            var newTag = {title: value};
+            this.state.technologyStack.push(newTag);
             this.setState({technologyStack: this.state.technologyStack});
         },
 
-        removeTag: function (tag) {
+        removeTag: function (index) {
             var techStack = this.state.technologyStack;
-            var index = this.checkTag(tag);
             if (index != null) {
                 techStack.splice(index, 1);
             }
@@ -168,6 +159,21 @@
                 this.showErrors(formValidator.errors)
             }
         },
+        checkTitle: function (title) {
+            if (title.length > 0) {
+                this.refs.title.parentElement.className = 'form-group has-success';
+                this.refs.availableMessage.innerHTML = 'Valid name';
+            } else {
+                this.refs.title.parentElement.className += ' has-error';
+                this.refs.availableMessage.innerHTML = 'Invalid name';
+            }
+        },
+
+        validateTitle: function () {
+            var title = this.refs.title.value;
+
+            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle);
+        },
 
         render: function () {
             return (
@@ -181,8 +187,8 @@
                                     <div className="form-group">
                                         <label>Project Name</label>
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
-                                               className="form-control" id="title"/>
-                                        <span className="help-block"></span>
+                                               className="form-control" id="title" onBlur={this.validateTitle}/>
+                                        <span className="help-block" ref="availableMessage"></span>
 
                                     </div>
                                     <div className="form-group">
@@ -213,7 +219,7 @@
                                                 <span className="help-block"></span>
 
                                             </div>
-                                            <AccountManager setIsManagerValid={this.setIsManagerValid}/>
+                                            <AccountManager setManager={this.setManager}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">
@@ -249,8 +255,7 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         checkTag={this.checkTag}
-                                                         removeTag={this.removeTag} addNewTag={this.addNewTag} />
+                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
                                         <span className="help-block"></span>
 
                                     </div>
