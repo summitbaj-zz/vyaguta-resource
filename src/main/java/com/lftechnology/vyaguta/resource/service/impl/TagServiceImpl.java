@@ -82,7 +82,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        return tagDao.findByFilter(queryParameters);
     }
 }

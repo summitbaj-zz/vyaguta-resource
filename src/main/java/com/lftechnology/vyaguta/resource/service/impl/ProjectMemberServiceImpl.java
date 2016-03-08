@@ -104,8 +104,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public List<ProjectMember> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        return projectMemberDao.findByFilter(queryParameters);
     }
 
 }

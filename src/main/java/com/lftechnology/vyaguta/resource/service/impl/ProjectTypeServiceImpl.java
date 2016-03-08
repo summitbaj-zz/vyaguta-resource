@@ -76,7 +76,6 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 
     @Override
     public List<ProjectType> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        return projectTypeDao.findByFilter(queryParameters);
     }
 }

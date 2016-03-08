@@ -38,7 +38,6 @@ public class ProjectRs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-
         List<Project> projects = projectService.findByFilter(uriInfo.getQueryParameters());
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projects)).build();
     }
