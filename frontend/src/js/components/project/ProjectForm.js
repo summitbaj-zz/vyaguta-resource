@@ -173,7 +173,7 @@
         validateTitle: function () {
             var title = this.refs.title.value;
 
-            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle);
+            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
         },
 
         render: function () {

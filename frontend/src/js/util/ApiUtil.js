@@ -34,10 +34,10 @@
                     errorActions.getError(error);
                 })
         },
-        fetchByQuery: function (resourceName, data, callback) {
+        fetchByQuery: function (resourceName, data, callback, searchMode) {
             ajaxLoader.show();
             request
-                .get(url + resourceName.toLowerCase() + '/title/' + data)
+                .get(url + resourceName.toLowerCase() + '?title=' + data+'&searchMode='+ searchMode)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {

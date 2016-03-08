@@ -3,9 +3,7 @@
 
     var React = require('react');
 
-    var AutoComplete = require('./Autocomplete');
-
-    var resourceConstant = require('../../constants/resourceConstant');
+    var AutoComplete = require('../autocomplete/Autocomplete');
 
     var Tagging = React.createClass({
         autoFocus: function () {
@@ -18,9 +16,9 @@
 
             if (key === 13) {
                 event.preventDefault();
-                this.enterKeyPressed();
+                this.insertTag();
             } else if (key === 8) {
-                this.backSpacePressed();
+                this.deleteTag();
             } else if (key === 32 && !this.refs.inputTag.value) {
                 event.preventDefault();
             }
@@ -40,7 +38,7 @@
             return null;
         },
 
-        enterKeyPressed: function () {
+        insertTag: function () {
             var inputValue = this.refs.inputTag.value;
             if (inputValue) {
                 if (this.checkTag(inputValue) === null && this.isValid(inputValue)) {
@@ -58,25 +56,24 @@
             }
         },
 
-        backSpacePressed: function () {
+        deleteTag: function () {
             var tags = this.props.tags;
             if (!this.refs.inputTag.value && tags.length > 0) {
                 this.props.removeTag(tags.length - 1);
             }
-            this.props.suggestions = [];
         },
 
         focusOut: function(){
-            this.enterKeyPressed();
+            this.insertTag();
         },
 
         renderTag: function (key) {
             return (
                 <li className="newtag" key={key}>
-                <span className="label label-blue-grey">
-                    <label>{this.props.tags[key]}</label>
-                    <i className="fa fa-close" onClick={this.props.removeTag.bind(null, key)}></i>
-                </span>
+                    <span className="label label-blue-grey">
+                        <label>{this.props.tags[key]}</label>
+                        <i className="fa fa-close" onClick={this.props.removeTag.bind(null, key)}></i>
+                    </span>
                 </li>
             );
         },
@@ -90,7 +87,8 @@
                     <ul id="tag-list" className="clearfix">
                         {tagIds.map(this.renderTag)}
 
-                        <li className="newtag-input"><input type="text" ref="inputTag" onKeyDown={this.inputKey}
+                        <li className="newtag-input">
+                            <input type="text" ref="inputTag" onKeyDown={this.inputKey}
                                                             onKeyUp={this.generateSuggestions} onBlur={this.focusOut}
                                                             className="input-tag" id="title" autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}/>
