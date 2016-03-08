@@ -15,7 +15,7 @@
     var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
     var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
-    //var url = "http://localhost:3000/";
+    var url = "http://localhost:3000/";
 
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);

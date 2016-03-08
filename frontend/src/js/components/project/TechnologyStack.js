@@ -4,6 +4,7 @@
     var React = require('react');
     var ApiUtil = require('../../util/ApiUtil');
     var Tagging = require('./Tagging');
+    var resourceConstant = require('../../constants/resourceConstant');
 
     var TechnologyStack = React.createClass({
         getInitialState: function () {
@@ -32,7 +33,7 @@
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            ApiUtil.fetchByQuery(input, this.changeTagState);
+            ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeTagState);
         },
 
         render: function () {
