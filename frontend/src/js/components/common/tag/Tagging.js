@@ -30,13 +30,18 @@
 
         checkTag: function (value) {
             var tags = this.props.tags;
-            return tags.indexOf(value) > -1;
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i].toLowerCase() == value.toLowerCase()) {
+                    return i;
+                }
+            }
+            return null;
         },
 
         insertTag: function () {
             var inputValue = this.refs.inputTag.value;
             if (inputValue) {
-                if (!this.checkTag(inputValue) && this.isValid(inputValue)) {
+                if (this.checkTag(inputValue) === null && this.isValid(inputValue)) {
                     this.props.addNewTag(inputValue);
                 }
                 this.refs.inputTag.value = '';
