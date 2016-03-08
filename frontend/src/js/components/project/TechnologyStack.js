@@ -33,7 +33,7 @@
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeTagState);
+            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
         },
 
         render: function () {

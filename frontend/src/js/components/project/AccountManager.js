@@ -21,7 +21,7 @@
 
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
-                ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
+                ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState, 'all');
             },
 
             input: function (event) {
