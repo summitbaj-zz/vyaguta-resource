@@ -5,10 +5,10 @@
     var React = require('react');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
+    var resourceConstant = require('../../../constants/resourceConstant');
 
     //components
-    var AutoComplete = require('./Autocomplete');
+    var AutoComplete = require('../autocomplete/Autocomplete');
 
     var Tagging = React.createClass({
         autoFocus: function () {
