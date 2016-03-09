@@ -17,7 +17,7 @@
 
             for(var key in formDatas) {
                 if(formDatas[key] == '' && key != 'projectMembers' && key != 'tags') {
-                    that.errors[key] = "Should not be left empty";
+                    that.errors[key] = 'Should not be left empty';
                 }
             }
             return ((Object.keys(that.errors).length == 0)? true : false);
