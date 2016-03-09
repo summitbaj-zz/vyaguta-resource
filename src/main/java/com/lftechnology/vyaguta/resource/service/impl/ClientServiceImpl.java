@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ClientDao;
@@ -74,5 +75,11 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public List<Client> find(Integer start, Integer offset) {
     return clientDao.find(start, offset);
+  }
+
+  @Override
+  public List<Client> findByFilter(
+      MultivaluedMap<String, String> queryParameters) {
+    return clientDao.findByFilter(queryParameters);
   }
 }

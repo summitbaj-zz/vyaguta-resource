@@ -15,8 +15,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.Page;
@@ -37,12 +39,9 @@ public class ClientRs {
   @Path("/")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response list(
-      @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-      @QueryParam("offset") Integer offset) {
-    Page page = PageUtil.page(pageNum, offset);
-    List<Client> clients = clientService
-        .find(page.getStart(), page.getOffset());
+  public Response list(@Context UriInfo uriInfo) {
+    List<Client> clients = clientService.findByFilter(uriInfo
+        .getQueryParameters());
     return Response.status(Response.Status.OK)
         .entity(JsonToStringBuilder.toString(clients)).build();
   }
