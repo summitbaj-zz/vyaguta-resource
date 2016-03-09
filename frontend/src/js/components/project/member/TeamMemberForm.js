@@ -13,7 +13,6 @@
     //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
-    var $ = require('jquery');
 
     //constants
     var resourceConstant = require('../../../constants/resourceConstant');

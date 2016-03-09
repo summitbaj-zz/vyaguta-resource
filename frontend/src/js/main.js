@@ -3,8 +3,8 @@
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 2/15/16.
  */
-;(function () {
 
+;(function () {
     'use strict';
 
     //React and Redux dependencies
