@@ -1294,5 +1294,6 @@ li.dropdown-header {
 	color: red;
 }
 
-
-
+.billed-resource input:checked span {
+    background-color: #6CC068;
+}
