@@ -33,58 +33,58 @@ import com.lftechnology.vyaguta.resource.service.ClientService;
 @Path("/clients")
 public class ClientRs {
 
-  @Inject
-  ClientService clientService;
+    @Inject
+    ClientService clientService;
 
-  @Path("/")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response list(@Context UriInfo uriInfo) {
-    List<Client> clients = clientService.findByFilter(uriInfo
-        .getQueryParameters());
-    return Response.status(Response.Status.OK)
-        .entity(JsonToStringBuilder.toString(clients)).build();
-  }
-
-  @Path("/")
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response create(@NotNull @Valid Client client) {
-    client = clientService.save(client);
-    return Response.status(Response.Status.OK)
-        .entity(JsonToStringBuilder.toString(client)).build();
-  }
-
-  @Path("/{id}")
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response update(@PathParam("id") String id,
-      @NotNull @Valid Client clientNew) {
-    Client client = clientService.merge(id, clientNew);
-    return Response.status(Response.Status.OK)
-        .entity(JsonToStringBuilder.toString(client)).build();
-  }
-
-  @Path("/{id}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response findById(@PathParam("id") String id) {
-    Client client = clientService.findById(id);
-    if (client != null) {
-      return Response.status(Response.Status.OK)
-          .entity(JsonToStringBuilder.toString(client)).build();
-    } else {
-      throw new ObjectNotFoundException();
+    @Path("/")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(@Context UriInfo uriInfo) {
+        List<Client> clients = clientService.findByFilter(uriInfo
+                .getQueryParameters());
+        return Response.status(Response.Status.OK)
+                .entity(JsonToStringBuilder.toString(clients)).build();
     }
-  }
 
-  @Path("/{id}")
-  @DELETE
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response remove(@PathParam("id") String id) {
-    clientService.removeById(id);
-    return Response.status(Response.Status.OK).build();
-  }
+    @Path("/")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(@NotNull @Valid Client client) {
+        client = clientService.save(client);
+        return Response.status(Response.Status.OK)
+                .entity(JsonToStringBuilder.toString(client)).build();
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") String id,
+            @NotNull @Valid Client clientNew) {
+        Client client = clientService.merge(id, clientNew);
+        return Response.status(Response.Status.OK)
+                .entity(JsonToStringBuilder.toString(client)).build();
+    }
+
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) {
+        Client client = clientService.findById(id);
+        if (client != null) {
+            return Response.status(Response.Status.OK)
+                    .entity(JsonToStringBuilder.toString(client)).build();
+        } else {
+            throw new ObjectNotFoundException();
+        }
+    }
+
+    @Path("/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam("id") String id) {
+        clientService.removeById(id);
+        return Response.status(Response.Status.OK).build();
+    }
 }

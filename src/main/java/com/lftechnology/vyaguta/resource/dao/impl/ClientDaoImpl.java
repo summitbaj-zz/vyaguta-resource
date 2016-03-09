@@ -19,52 +19,54 @@ import com.lftechnology.vyaguta.resource.entity.Client;
 @Stateless
 public class ClientDaoImpl extends BaseDao<Client, String> implements ClientDao {
 
-  public ClientDaoImpl() {
-    super(Client.class);
-  }
-
-  /**
-   * This method defines predicates for Criteria query on the basis of query
-   * parameters.
-   * 
-   * @param MultiValued
-   *          <String, String> queryParameters
-   * @param CriteriaBuilder
-   *          criteriaBuilder
-   * @param Root
-   *          <Entity> root
-   * @return Predicate[]
-   */
-  @Override
-  protected Predicate[] extractPredicates(
-      MultivaluedMap<String, String> queryParameters,
-      CriteriaBuilder criteriaBuilder, Root<Client> root) {
-    List<Predicate> predicates = new ArrayList<>();
-
-    if (queryParameters.containsKey("name")) {
-      String name = queryParameters.getFirst("name").toUpperCase();
-      Predicate predicate = criteriaBuilder.equal(
-          criteriaBuilder.upper(root.get("name")), name);
-      if (queryParameters.containsKey("searchMode")) {
-        if (queryParameters.getFirst("searchMode").equals("searchMode")) {
-          predicate = criteriaBuilder.like(
-              criteriaBuilder.upper(root.get("name")), "%" + name + "%");
-        }
-      }
-      predicates.add(predicate);
+    public ClientDaoImpl() {
+        super(Client.class);
     }
-    if (queryParameters.containsKey("email")) {
-      String email = queryParameters.getFirst("email").toUpperCase();
-      Predicate predicate = criteriaBuilder.equal(
-          criteriaBuilder.upper(root.get("email")), email);
-      if (queryParameters.containsKey("searchMode")) {
-        if (queryParameters.getFirst("searchMode").equals("searchMode")) {
-          predicate = criteriaBuilder.like(
-              criteriaBuilder.upper(root.get("email")), "%" + email + "%");
+
+    /**
+     * This method defines predicates for Criteria query on the basis of query
+     * parameters.
+     * 
+     * @param MultiValued
+     *            <String, String> queryParameters
+     * @param CriteriaBuilder
+     *            criteriaBuilder
+     * @param Root
+     *            <Entity> root
+     * @return Predicate[]
+     */
+    @Override
+    protected Predicate[] extractPredicates(
+            MultivaluedMap<String, String> queryParameters,
+            CriteriaBuilder criteriaBuilder, Root<Client> root) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (queryParameters.containsKey("name")) {
+            String name = queryParameters.getFirst("name").toUpperCase();
+            Predicate predicate = criteriaBuilder.equal(
+                    criteriaBuilder.upper(root.get("name")), name);
+            if (queryParameters.containsKey("searchMode")) {
+                if (queryParameters.getFirst("searchMode").equals("searchMode")) {
+                    predicate = criteriaBuilder.like(
+                            criteriaBuilder.upper(root.get("name")), "%" + name
+                                    + "%");
+                }
+            }
+            predicates.add(predicate);
         }
-      }
-      predicates.add(predicate);
+        if (queryParameters.containsKey("email")) {
+            String email = queryParameters.getFirst("email").toUpperCase();
+            Predicate predicate = criteriaBuilder.equal(
+                    criteriaBuilder.upper(root.get("email")), email);
+            if (queryParameters.containsKey("searchMode")) {
+                if (queryParameters.getFirst("searchMode").equals("searchMode")) {
+                    predicate = criteriaBuilder.like(
+                            criteriaBuilder.upper(root.get("email")), "%"
+                                    + email + "%");
+                }
+            }
+            predicates.add(predicate);
+        }
+        return predicates.toArray(new Predicate[] {});
     }
-    return predicates.toArray(new Predicate[] {});
-  }
 }

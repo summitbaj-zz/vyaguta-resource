@@ -29,196 +29,197 @@ import com.lftechnology.vyaguta.resource.entity.Client;
 @RunWith(MockitoJUnitRunner.class)
 public class ClientServiceImplTest {
 
-  private static final String ID = "542aecf1e87a4e018d67e58e4d30298f";
-  private static final Long COUNT = 20L;
+    private static final String ID = "542aecf1e87a4e018d67e58e4d30298f";
+    private static final Long COUNT = 20L;
 
-  @Mock
-  private ClientDao clientDao;
+    @Mock
+    private ClientDao clientDao;
 
-  @InjectMocks
-  @Spy
-  private ClientServiceImpl clientService;
+    @InjectMocks
+    @Spy
+    private ClientServiceImpl clientService;
 
-  @Before
-  public void setup() {
+    @Before
+    public void setup() {
 
-    MockitoAnnotations.initMocks(this);
-  }
+        MockitoAnnotations.initMocks(this);
+    }
 
-  @Test
-  public void testSaveClient() {
-    // arrange
-    Client client = this.buildClient();
-    Mockito.when(this.clientDao.save(client)).thenReturn(client);
+    @Test
+    public void testSaveClient() {
+        // arrange
+        Client client = this.buildClient();
+        Mockito.when(this.clientDao.save(client)).thenReturn(client);
 
-    // act
-    Client resultClient = this.clientService.save(client);
+        // act
+        Client resultClient = this.clientService.save(client);
 
-    // assert
-    Mockito.verify(clientDao).save(client);
-    assertThat(resultClient, is(client));
-  }
+        // assert
+        Mockito.verify(clientDao).save(client);
+        assertThat(resultClient, is(client));
+    }
 
-  @Test
-  public void testUpdateClient() {
-    // arrange
-    Client client = new Client();
-    Mockito.when(this.clientDao.update(Matchers.any(Client.class))).thenReturn(
-        client);
+    @Test
+    public void testUpdateClient() {
+        // arrange
+        Client client = new Client();
+        Mockito.when(this.clientDao.update(Matchers.any(Client.class)))
+                .thenReturn(client);
 
-    // act
-    this.clientService.update(client);
+        // act
+        this.clientService.update(client);
 
-    // assert
-    Mockito.verify(clientDao).update(client);
+        // assert
+        Mockito.verify(clientDao).update(client);
 
-  }
+    }
 
-  @Test
-  public void testMergeClient() {
-    // arrange
-    Client client = this.buildClient();
-    Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-        client);
-    Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(
-        client);
+    @Test
+    public void testMergeClient() {
+        // arrange
+        Client client = this.buildClient();
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
+                client);
+        Mockito.when(this.clientService.findById(Matchers.anyString()))
+                .thenReturn(client);
 
-    // act
-    this.clientService.merge(ID, client);
+        // act
+        this.clientService.merge(ID, client);
 
-    // assert
-    Mockito.verify(clientDao).update(client);
-  }
+        // assert
+        Mockito.verify(clientDao).update(client);
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testMergeWhenObjectNotFoundException() {
-    // arrange
-    Client client = new Client();
-    Mockito.when(this.clientDao.findById(Matchers.anyString()))
-        .thenReturn(null);
+    @Test(expected = ObjectNotFoundException.class)
+    public void testMergeWhenObjectNotFoundException() {
+        // arrange
+        Client client = new Client();
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
+                null);
 
-    // act
-    this.clientService.merge(ID, client);
+        // act
+        this.clientService.merge(ID, client);
 
-    // assert
-    Mockito.verify(clientDao).update(client);
+        // assert
+        Mockito.verify(clientDao).update(client);
 
-  }
+    }
 
-  @Test
-  public void testRemoveClient() {
-    // arrange
-    Client client = this.buildClient();
-    Mockito.doNothing().when(this.clientDao).remove(client);
+    @Test
+    public void testRemoveClient() {
+        // arrange
+        Client client = this.buildClient();
+        Mockito.doNothing().when(this.clientDao).remove(client);
 
-    // act
-    this.clientService.remove(client);
+        // act
+        this.clientService.remove(client);
 
-    // assert
-    Mockito.verify(clientDao).remove(client);
-  }
+        // assert
+        Mockito.verify(clientDao).remove(client);
+    }
 
-  @Test
-  public void testRemoveClientById() {
-    // arrange
-    Client client = this.buildClient();
-    Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-        client);
-    Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(
-        client);
+    @Test
+    public void testRemoveClientById() {
+        // arrange
+        Client client = this.buildClient();
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
+                client);
+        Mockito.when(this.clientService.findById(Matchers.anyString()))
+                .thenReturn(client);
 
-    // act
-    this.clientService.removeById(ID);
+        // act
+        this.clientService.removeById(ID);
 
-    // assert
-    Mockito.verify(clientService).remove(client);
+        // assert
+        Mockito.verify(clientService).remove(client);
 
-  }
+    }
 
-  @Test(expected = ObjectNotFoundException.class)
-  public void testRemoveClientByIdWhenObjectNotFoundException() {
-    // arrange
-    Client client = this.buildClient();
-    Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(
-        null);
+    @Test(expected = ObjectNotFoundException.class)
+    public void testRemoveClientByIdWhenObjectNotFoundException() {
+        // arrange
+        Client client = this.buildClient();
+        Mockito.when(this.clientService.findById(Matchers.anyString()))
+                .thenReturn(null);
 
-    // act
-    this.clientService.removeById(ID);
+        // act
+        this.clientService.removeById(ID);
 
-    // assert
-    Mockito.verify(clientService).remove(client);
-  }
+        // assert
+        Mockito.verify(clientService).remove(client);
+    }
 
-  @Test
-  public void findClientById() {
-    // arrange
-    Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-        new Client());
+    @Test
+    public void findClientById() {
+        // arrange
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
+                new Client());
 
-    // act
-    this.clientService.findById(ID);
+        // act
+        this.clientService.findById(ID);
 
-    // assert
-    Mockito.verify(clientDao).findById(Matchers.anyString());
+        // assert
+        Mockito.verify(clientDao).findById(Matchers.anyString());
 
-  }
+    }
 
-  @Test
-  public void testFindAllClient() {
-    // arrange
-    Mockito.when(this.clientDao.findAll()).thenReturn(new ArrayList<Client>());
+    @Test
+    public void testFindAllClient() {
+        // arrange
+        Mockito.when(this.clientDao.findAll()).thenReturn(
+                new ArrayList<Client>());
 
-    // act
-    this.clientService.findAll();
+        // act
+        this.clientService.findAll();
 
-    // assert
-    Mockito.verify(clientDao).findAll();
-  }
+        // assert
+        Mockito.verify(clientDao).findAll();
+    }
 
-  @Test
-  public void testCountClient() {
-    // arrange
-    Mockito.when(this.clientDao.count()).thenReturn(COUNT);
+    @Test
+    public void testCountClient() {
+        // arrange
+        Mockito.when(this.clientDao.count()).thenReturn(COUNT);
 
-    // act
-    Long result = this.clientService.count();
+        // act
+        Long result = this.clientService.count();
 
-    // assert
-    Mockito.verify(clientDao).count();
-    assertEquals(Long.valueOf("20"), result);
-  }
+        // assert
+        Mockito.verify(clientDao).count();
+        assertEquals(Long.valueOf("20"), result);
+    }
 
-  @Test
-  public void testFindClient() {
-    // arrange
-    Mockito.when(this.clientDao.find(Matchers.anyInt(), Matchers.anyInt()))
-        .thenReturn(new ArrayList<Client>());
+    @Test
+    public void testFindClient() {
+        // arrange
+        Mockito.when(this.clientDao.find(Matchers.anyInt(), Matchers.anyInt()))
+                .thenReturn(new ArrayList<Client>());
 
-    // act
-    this.clientService.find(Matchers.anyInt(), Matchers.anyInt());
+        // act
+        this.clientService.find(Matchers.anyInt(), Matchers.anyInt());
 
-    // assert
-    Mockito.verify(clientDao).find(Matchers.anyInt(), Matchers.anyInt());
-  }
+        // assert
+        Mockito.verify(clientDao).find(Matchers.anyInt(), Matchers.anyInt());
+    }
 
-  private Client buildClient() {
-    Client client = new Client();
-    User user = this.buildUser();
-    client.setId(ID);
-    client.setName("Krishna Timilsina");
-    client.setEmail("krishnatimilsina2@lftechnology.com");
-    client.setPhoneNo("42342342342");
-    client.setCreatedBy(user);
-    client.setUpdatedAt(LocalDateTime.now());
-    client.setCreatedAt(LocalDateTime.now());
-    return client;
-  }
+    private Client buildClient() {
+        Client client = new Client();
+        User user = this.buildUser();
+        client.setId(ID);
+        client.setName("Krishna Timilsina");
+        client.setEmail("krishnatimilsina2@lftechnology.com");
+        client.setPhoneNo("42342342342");
+        client.setCreatedBy(user);
+        client.setUpdatedAt(LocalDateTime.now());
+        client.setCreatedAt(LocalDateTime.now());
+        return client;
+    }
 
-  private User buildUser() {
-    User user = new User();
-    user.setEmail("krishnatimilsina@lftechnology.com");
-    user.setId(ID);
-    user.setName("Krishna Timilsina");
-    return user;
-  }
+    private User buildUser() {
+        User user = new User();
+        user.setEmail("krishnatimilsina@lftechnology.com");
+        user.setId(ID);
+        user.setName("Krishna Timilsina");
+        return user;
+    }
 }
