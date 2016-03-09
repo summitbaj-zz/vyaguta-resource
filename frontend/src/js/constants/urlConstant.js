@@ -5,7 +5,7 @@
  */
 
 ;(function () {
-    var BASE_PATH = '';
+    var BASE_PATH = '/resource';
 
     var urlConstant = {
         BASE_PATH: BASE_PATH,
@@ -28,7 +28,7 @@
             INDEX: BASE_PATH + '/projects',
             NEW: BASE_PATH + '/projects/new',
             EDIT: BASE_PATH + '/projects/edit/',
-            DETAILS: BASE_PATH +'/projects/details'
+            DETAILS: BASE_PATH + '/projects/details'
         },
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core'

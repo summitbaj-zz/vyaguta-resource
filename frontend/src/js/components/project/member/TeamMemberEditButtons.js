@@ -4,13 +4,14 @@
  * on 3/1/16.
  */
 
-;(function() {
+;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
 
     var TeamMemberEditButtons = React.createClass({
-        render:function() {
+        render: function () {
             return (
                 <div className="modal-footer">
                     <button type="button" className="btn btn-sm btn-ghost" id="close-btn"

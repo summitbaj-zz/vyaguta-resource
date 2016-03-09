@@ -1,9 +1,8 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom'),
-        $ = require('jquery');
+    //React dependencies
+    var React = require('react');
 
     var DropDownList = React.createClass({
         render: function () {

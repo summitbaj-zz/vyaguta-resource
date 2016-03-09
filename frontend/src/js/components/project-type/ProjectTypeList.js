@@ -18,7 +18,6 @@
 
 
     var ProjectTypeList = React.createClass({
-
         componentDidMount: function () {
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
         },

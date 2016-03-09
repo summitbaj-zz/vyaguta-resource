@@ -1,11 +1,14 @@
 ;(function () {
     'use-strict';
 
+    //React dependencies
     var React = require('react');
 
-    var AutoComplete = require('./Autocomplete');
-
+    //constants
     var resourceConstant = require('../../constants/resourceConstant');
+
+    //components
+    var AutoComplete = require('./Autocomplete');
 
     var Tagging = React.createClass({
         autoFocus: function () {
@@ -66,7 +69,7 @@
             this.props.suggestions = [];
         },
 
-        focusOut: function(){
+        focusOut: function () {
             this.enterKeyPressed();
         },
 

@@ -117,6 +117,7 @@
             }
         },
 
+        //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
 

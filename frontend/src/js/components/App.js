@@ -1,12 +1,13 @@
 'use strict';
-var $ = require('jquery'),
-    React = require('react'),
-    ReactDOM = require('react-dom'),
-    Sidebar = require('./common/sidebar/Sidebar'),
-    Header = require('./common/header/Header'),
-    Footer = require('./common/footer/Footer'),
-    ErrorMessage = require('./common/error-message/ErrorMessage'),
-    routes = require('./../routes.js');
+
+//React dependencies
+var React = require('react');
+
+//components
+var Sidebar = require('./common/sidebar/Sidebar');
+var Header = require('./common/header/Header');
+var Footer = require('./common/footer/Footer');
+var ErrorMessage = require('./common/error-message/ErrorMessage');
 
 var App = React.createClass({
     render: function () {

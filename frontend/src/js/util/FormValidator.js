@@ -12,15 +12,15 @@
 
         var that = this;
 
-        this.isValid = function(formDatas) {
+        this.isValid = function (formDatas) {
             that.errors = {};
 
-            for(var key in formDatas) {
-                if(formDatas[key] == "" && key != 'projectMember' && key != 'tag') {
+            for (var key in formDatas) {
+                if (formDatas[key] == "" && key != 'projectMember' && key != 'tag') {
                     that.errors[key] = "Should not be left empty";
                 }
             }
-            return ((Object.keys(that.errors).length == 0)?true:false);
+            return ((Object.keys(that.errors).length == 0) ? true : false);
         }
 
     }

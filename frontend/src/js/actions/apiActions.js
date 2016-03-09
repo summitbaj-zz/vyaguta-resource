@@ -15,8 +15,6 @@
 
     /**
      * These are the actions dispatched whenever the API is used
-     *
-     * @type {{apiRequest: apiActions.apiRequest, apiResponse: apiActions.apiResponse, apiError: apiActions.apiError}}
      */
 
     var apiActions = {
@@ -30,7 +28,7 @@
         },
 
         apiResponse: function (entity) {
-            //Everytime a response is received from the API, this action gets called
+            //Everytime a response is received, this action gets called
             ajaxLoader.hide();
             return {
                 type: actionTypeConstant.API_RESPONSE,

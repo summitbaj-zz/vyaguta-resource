@@ -7,24 +7,23 @@
     //libraries
     var _ = require('lodash');
 
-
     var initialState = {
-            projectStatus: [],
-            budgetTypes: [],
-            projectTypes: [],
-            projects: [],
-            selectedItem: { //for editing or viewing purposes
-                projects: {
-                    budgetType: {},
-                    projectType: {},
-                    projectStatus: {},
-                    accountManager: {}
-                },
-                budgetTypes: {},
-                projectTypes: {},
-                projectStatus: {}
-            }
-        };
+        projectStatus: [],
+        budgetTypes: [],
+        projectTypes: [],
+        projects: [],
+        selectedItem: { //for editing or viewing purposes
+            projects: {
+                budgetType: {},
+                projectType: {},
+                projectStatus: {},
+                accountManager: {}
+            },
+            budgetTypes: {},
+            projectTypes: {},
+            projectStatus: {}
+        }
+    };
 
 
     var crudReducer = function (state, action) {

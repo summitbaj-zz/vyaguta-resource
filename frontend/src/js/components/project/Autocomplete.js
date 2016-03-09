@@ -1,10 +1,12 @@
 ;(function () {
     'use-strict';
+
+    //React Dependencies
     var React = require('react');
+
     var selectedIndex = -1;
 
     var AutoComplete = React.createClass({
-
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
@@ -25,11 +27,11 @@
             selectedIndex = index;
         },
 
-        componentWillReceiveProps: function(nextProps){
+        componentWillReceiveProps: function (nextProps) {
             var input = document.getElementsByClassName(this.props.inputField)[0];
-            if(nextProps.suggestions.length && input.value){
+            if (nextProps.suggestions.length && input.value) {
                 this.refs.suggestions.style.display = 'block';
-            }else{
+            } else {
                 this.refs.suggestions.style.display = 'none';
             }
         },

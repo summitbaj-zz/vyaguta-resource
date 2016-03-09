@@ -8,9 +8,8 @@
     //libraries
     var Immutable = require('immutable');
 
-
     var initialState = Immutable.Map(
-        {errorMessage:[]}
+        {errorMessage: []}
     );
 
     var errorReducer = function (state, action) {

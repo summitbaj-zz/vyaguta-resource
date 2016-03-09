@@ -7,7 +7,7 @@
 ;(function () {
     'use strict';
 
-    //React and Redux dependencies
+    //React dependencies
     var React = require('react');
 
     //libraries
@@ -52,6 +52,7 @@
             }
         },
 
+        //for DatePicker
         handleChangeStartDate: function (date) {
             if (this.props.memberIndexInModal) {
                 this.state.member.joinDate = date;
@@ -61,6 +62,7 @@
             });
         },
 
+        //for DatePicker
         handleChangeEndDate: function (date) {
             if (this.props.memberIndexInModal) {
                 this.state.member.endDate = date;
@@ -77,6 +79,7 @@
             this.setState({isChecked: !this.state.isChecked});
         },
 
+        //called when member form is submitted
         addMember: function () {
             var member = {
                 employee: {"id": this.refs.employee.value},
@@ -103,10 +106,12 @@
             document.querySelector('#close-btn').click();
         },
 
+        //set value of Select Dropdown on Edit
         setSelectOption: function (value) {
             $("#role").val(value).selected = true;
         },
 
+        //set value of Select Dropdown on Edit
         setEmployee: function (value) {
             $("#employee").val(value).selected = true;
         },

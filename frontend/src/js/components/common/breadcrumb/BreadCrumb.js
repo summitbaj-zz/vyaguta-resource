@@ -1,6 +1,7 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
     var Link = require('react-router').Link;
 
@@ -29,7 +30,7 @@
                         name: routes[i].name,
                         route: newRoute
                     };
-                    this.state.paths.push(  newPath);
+                    this.state.paths.push(newPath);
                 }
             }
             this.setState({paths: this.state.paths});

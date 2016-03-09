@@ -1,11 +1,11 @@
-;(function(){
+;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom');
+    //React dependencies
+    var React = require('react');
 
     var Footer = React.createClass({
-        render: function(){
+        render: function () {
             return (
                 <footer className="clearfix">
                     <span></span> &copy;

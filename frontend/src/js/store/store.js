@@ -1,7 +1,7 @@
 ;(function () {
     'use strict';
 
-    //redux dependencies
+    //react and redux dependencies
     var redux = require('redux');
     var createStore = redux.createStore;
     var applyMiddleware = redux.applyMiddleware;
@@ -28,10 +28,12 @@
     });
 
     var store = createStore(reducers, compose(
-        applyMiddleware(thunk,logger()),
+        applyMiddleware(thunk, logger()),
 
         //For working redux dev tools in chrome (https://github.com/zalmoxisus/redux-devtools-extension)
-        window.devToolsExtension ? window.devToolsExtension() : function(f) { return f }
+        window.devToolsExtension ? window.devToolsExtension() : function (f) {
+            return f
+        }
     ));
 
     module.exports = store;

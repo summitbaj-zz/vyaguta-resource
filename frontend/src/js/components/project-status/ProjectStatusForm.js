@@ -23,6 +23,7 @@
             }
         },
 
+        //called when form is submitted
         saveProjectStatus: function (event) {
             event.preventDefault();
 
@@ -60,13 +61,15 @@
         render: function () {
             return (
                 <div>
-                    <ProjectStatusHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'} routes={this.props.routes}/>
+                    <ProjectStatusHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
+                                         routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
                             <div className="form-group">
                                 <label>Project Status</label>
-                                <input type="text" ref="title" name="title" value={this.props.selectedItem.projectStatus.title}
+                                <input type="text" ref="title" name="title"
+                                       value={this.props.selectedItem.projectStatus.title}
                                        onChange={this.handleChange}
                                        placeholder="Project Status"
                                        className="form-control"

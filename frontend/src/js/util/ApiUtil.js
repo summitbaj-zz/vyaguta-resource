@@ -7,19 +7,23 @@
 ;(function () {
     'use strict';
 
+    //environment configuration
     var config = require('../../../config/config');
+
+    //constants
     var urlConstants = require('../constants/urlConstant');
+    var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
-    var errorActions = require('../actions/errorActions');
+    //var url = "http://localhost:3000/";
+    //var coreUrl = "http://localhost:3000/";
 
-    //var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    //var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
-
-    var url = "http://localhost:3000/";
-    var coreUrl = "http://localhost:3000/";
-
+    //libraries
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
+
+    //components
+    var errorActions = require('../actions/errorActions');
 
     var ApiUtil = {
         fetchById: function (resourceName, id) {
@@ -56,7 +60,6 @@
                 .set('API-Key', 'foobar')
                 .set('Accept', 'application/json')
                 .then(function (response) {
-                    ajaxLoader.hide();
                     callback(response.body);
                 }, function (error) {
                     errorActions.getError(error);
@@ -64,7 +67,7 @@
         },
 
         create: function (resourceName, data, callback) {
-            return  request
+            return request
                 .post(url + resourceName.toLowerCase())
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))

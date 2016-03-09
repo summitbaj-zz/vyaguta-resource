@@ -22,7 +22,6 @@
     var BudgetTypeHeader = require('./BudgetTypeHeader');
     var crudActions = require('../../actions/crudActions');
 
-    
     var BudgetTypeList = React.createClass({
         componentDidMount: function () {
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);

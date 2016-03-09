@@ -1,6 +1,7 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
 
     var ProjectTypeMain = React.createClass({

@@ -1,8 +1,13 @@
+/**
+ * Created by
+ * Pratish Shrestha <pratishshrestha@lftechnology.com>
+ * on 2/29/16.
+ */
+
 ;(function () {
     'use strict';
 
-    //Redux dependencies
-    var store = require('../store/store');
+    //React dependencies
     var browserHistory = require('react-router').browserHistory;
 
     //constants
@@ -21,15 +26,7 @@
     var teamMemberActions = require('./teamMemberActions');
 
     /**
-     * These are the actions every CRUD in the application uses.
-     * Thunk Middleware is used that allows return of functions from action creators instead of
-     * just actions.
-     * Everytime an action that requires the API is called, it first Dispatches an "apiRequest" action.
-     * ApiUtil returns a promise. After getting the response, it Dispatches another
-     * action "apiResponse" .
-     * Here "entity" represents (budgetTypes, projectTypes, projects,etc..)
-     *
-     * @type {{list: actions.list}}
+     * Actions that are dispatched from crudActions
      */
 
     var actions = {
@@ -58,6 +55,16 @@
         }
     };
 
+    /**
+     * These are the actions every CRUD in the application uses.
+     *
+     * Everytime an action that requires the API is called, it first Dispatches an "apiRequest" action.
+     *
+     * ApiUtil returns a promise which dispatches another action "apiResponse" on success and "apiError" on error.
+     *
+     * entity = 'budgetTypes', 'projectTypes', 'projectStatus', 'projects', ...
+     */
+
     var crudActions = {
         fetchAll: function (entity) {
             return function (dispatch) {
@@ -82,7 +89,7 @@
                     browserHistory.goBack();
 
                     //clear Team Member state after saving project form
-                    if(entity == resourceConstant.PROJECTS) {
+                    if (entity == resourceConstant.PROJECTS) {
                         dispatch(teamMemberActions.clearMemberState());
                     }
                 }, function (error) {
@@ -101,7 +108,7 @@
                     browserHistory.goBack();
 
                     //clear Team Member state after saving project form
-                    if(entity == resourceConstant.PROJECTS) {
+                    if (entity == resourceConstant.PROJECTS) {
                         dispatch(teamMemberActions.clearMemberState());
                     }
                 }, function (error) {
@@ -137,7 +144,7 @@
             }
         },
 
-        updateSelectedItem: function(key, value) {
+        updateSelectedItem: function (key, value) {
             return {
                 type: actionTypeConstant.UPDATE_SELECTED_ITEM,
                 key: key,

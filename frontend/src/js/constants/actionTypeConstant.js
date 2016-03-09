@@ -1,7 +1,7 @@
 ;(function () {
     var actionTypeConstant = {
-        LIST : 'LIST',
-        DELETE : 'DELETE',
+        LIST: 'LIST',
+        DELETE: 'DELETE',
         ERROR: 'ERROR',
         ADD: 'ADD',
         UPDATE: 'UPDATE',
@@ -17,8 +17,8 @@
         EDIT_TEAM_MEMBER_INDEX_IN_MODAL: 'EDIT_TEAM_MEMBER_INDEX_IN_MODAL',
 
         //API actions
-        API_REQUEST : 'API_REQUEST',
-        API_RESPONSE : 'API_RESPONSE',
+        API_REQUEST: 'API_REQUEST',
+        API_RESPONSE: 'API_RESPONSE',
         API_ERROR: 'API_ERROR'
 
     };

@@ -23,11 +23,13 @@
 
     var BudgetTypeForm = React.createClass({
         componentDidMount: function () {
+            //fill form with data for editing
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id);
             }
         },
 
+        //call when form is submitted
         saveBudgetType: function (event) {
             event.preventDefault();
 
@@ -44,9 +46,10 @@
             } else {
                 this.showErrors(formValidator.errors)
             }
-
         },
 
+
+        //call when validation fails
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = document.querySelector('#' + elementId).parentElement;
@@ -56,6 +59,7 @@
             }
         },
 
+        //handle change over every key press in the input fields
         handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;

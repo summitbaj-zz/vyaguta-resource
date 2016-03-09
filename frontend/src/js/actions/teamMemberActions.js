@@ -6,7 +6,13 @@
 
 ;(function () {
     'use strict';
+
+    //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
+
+    /**
+     * TeamMember CRUD actions inside of Create Project
+     */
 
     var teamMemberActions = {
         addTeamMember: function (teamMember) {
@@ -44,7 +50,7 @@
             }
         },
 
-        clearMemberState: function() {
+        clearMemberState: function () {
             return {
                 type: actionTypeConstant.CLEAR_MEMBER_STATE
             }

@@ -5,10 +5,13 @@
  */
 
 ;(function () {
-    var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
-    var React = require('react');
-    var IndexLink = require('react-router').IndexLink;
+    'use strict';
 
+    //React dependencies
+    var React = require('react');
+
+    //components
+    var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
     var BudgetTypeHeader = React.createClass({
         render: function () {

@@ -22,6 +22,7 @@
             }
         },
 
+        //called when form is submitted
         saveProjectType: function (event) {
             event.preventDefault();
 
@@ -59,13 +60,15 @@
         render: function () {
             return (
                 <div>
-                    <ProjectTypeHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'} routes={this.props.routes}/>
+                    <ProjectTypeHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'}
+                                       routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Type Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>
                             <div className="form-group">
                                 <label>Project Type</label>
-                                <input type="text" ref="title" name="title" value={this.props.selectedItem.projectTypes.title}
+                                <input type="text" ref="title" name="title"
+                                       value={this.props.selectedItem.projectTypes.title}
                                        onChange={this.fieldChange}
                                        placeholder="Project Type"
                                        className="form-control"
