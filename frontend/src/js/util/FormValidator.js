@@ -16,11 +16,11 @@
             that.errors = {};
 
             for(var key in formDatas) {
-                if(formDatas[key] == "" && key != 'projectMembers' && key != 'tags') {
+                if(formDatas[key] == '' && key != 'projectMembers' && key != 'tags') {
                     that.errors[key] = "Should not be left empty";
                 }
             }
-            return ((Object.keys(that.errors).length == 0)?true:false);
+            return ((Object.keys(that.errors).length == 0)? true : false);
         }
 
     }
