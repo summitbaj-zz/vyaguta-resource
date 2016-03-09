@@ -45,26 +45,13 @@ public class ClientDaoImpl extends BaseDao<Client, String> implements ClientDao 
             String name = queryParameters.getFirst("name").toUpperCase();
             Predicate predicate = criteriaBuilder.equal(
                     criteriaBuilder.upper(root.get("name")), name);
-            if (queryParameters.containsKey("searchMode")) {
-                if (queryParameters.getFirst("searchMode").equals("searchMode")) {
-                    predicate = criteriaBuilder.like(
-                            criteriaBuilder.upper(root.get("name")), "%" + name
-                                    + "%");
-                }
-            }
             predicates.add(predicate);
         }
         if (queryParameters.containsKey("email")) {
             String email = queryParameters.getFirst("email").toUpperCase();
             Predicate predicate = criteriaBuilder.equal(
                     criteriaBuilder.upper(root.get("email")), email);
-            if (queryParameters.containsKey("searchMode")) {
-                if (queryParameters.getFirst("searchMode").equals("searchMode")) {
-                    predicate = criteriaBuilder.like(
-                            criteriaBuilder.upper(root.get("email")), "%"
-                                    + email + "%");
-                }
-            }
+
             predicates.add(predicate);
         }
         return predicates.toArray(new Predicate[] {});
