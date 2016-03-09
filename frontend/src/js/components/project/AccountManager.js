@@ -9,7 +9,7 @@
 
     //components
     var ApiUtil = require('../../util/ApiUtil');
-    var AutoComplete = require('./Autocomplete');
+    var AutoComplete = require('../common/autocomplete/Autocomplete');
 
 
     var AccountManager = React.createClass({
@@ -25,7 +25,7 @@
 
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
-                ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState);
+                ApiUtil.fetchByQuery(resourceConstant.ACCOUNT_MANAGERS, input, this.changeSuggestionState, 'all');
             },
 
             input: function (event) {

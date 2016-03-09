@@ -1233,7 +1233,9 @@ li.dropdown-header {
 .tag-wrapper {
     height: auto;
     position: relative;
+    cursor: text;
 }
+
 
 #tag-list {
     margin-bottom: 0;

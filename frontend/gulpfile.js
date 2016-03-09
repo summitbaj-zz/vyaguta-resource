@@ -48,7 +48,8 @@
             appJsPath: './src/js/routes',
             appJs: './src/js/main',
             customUI: [
-                './src/custom-ui/bootstrap.js'
+                './src/custom-ui/bootstrap.js',
+                './src/custom-ui/app.js'
             ],
             html: './index.html'
         },

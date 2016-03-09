@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
@@ -71,5 +72,10 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
     @Override
     public List<ProjectType> find(Integer start, Integer offset) {
         return projectTypeDao.find(start, offset);
+    }
+
+    @Override
+    public List<ProjectType> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return projectTypeDao.findByFilter(queryParameters);
     }
 }

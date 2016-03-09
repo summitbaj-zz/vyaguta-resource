@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
@@ -129,5 +130,10 @@ public class ProjectServiceImpl implements ProjectService {
             return project;
         }
         return project;
+    }
+
+    @Override
+    public List<Project> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return projectDao.findByFilter(queryParameters);
     }
 }

@@ -151,7 +151,7 @@
         },
 
         checkTitle: function (title) {
-            if (title.length > 0) {
+            if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
                 this.refs.availableMessage.innerHTML = 'Valid name';
             } else {
@@ -163,7 +163,7 @@
         validateTitle: function () {
             var title = this.refs.title.value;
 
-            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle);
+            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
         },
 
         render: function () {

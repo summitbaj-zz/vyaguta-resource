@@ -6,7 +6,8 @@
 
     //components
     var ApiUtil = require('../../util/ApiUtil');
-    var Tagging = require('./Tagging');
+    var Tagging = require('../common/tag/Tagging');
+    var resourceConstant = require('../../constants/resourceConstant');
 
     var TechnologyStack = React.createClass({
         getInitialState: function () {
@@ -16,8 +17,8 @@
             }
         },
 
-        componentWillReceiveProps: function (props) {
-            this.setState({tags: this.getTitle(this.props.technologyStack)});
+        componentWillReceiveProps: function (nextProps) {
+            this.setState({tags: this.getTitle(nextProps.technologyStack)});
         },
 
         getTitle: function (technologyStack) {
@@ -35,7 +36,7 @@
 
         updateSuggestions: function (input) {
             this.setState({suggestions: []});
-            ApiUtil.fetchByQuery(input, this.changeTagState);
+            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
         },
 
         render: function () {

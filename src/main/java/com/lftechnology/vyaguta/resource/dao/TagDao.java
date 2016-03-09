@@ -1,7 +1,5 @@
 package com.lftechnology.vyaguta.resource.dao;
 
-import java.util.List;
-
 import com.lftechnology.vyaguta.commons.dao.CrudDao;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 
@@ -12,5 +10,4 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
  */
 public interface TagDao extends CrudDao<Tag, String> {
 
-  List<Tag> findByTitle(String title);
 }
