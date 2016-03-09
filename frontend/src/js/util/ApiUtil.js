@@ -22,9 +22,6 @@
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
 
-    //components
-    var errorActions = require('../actions/errorActions');
-
     var ApiUtil = {
         fetchById: function (resourceName, id) {
             return request
@@ -41,7 +38,7 @@
                 .then(function (response) {
                     callback(response.body);
                 }, function (error) {
-                    errorActions.getError(error);
+                    //handle error
                 })
         },
 
@@ -62,7 +59,7 @@
                 .then(function (response) {
                     callback(response.body);
                 }, function (error) {
-                    errorActions.getError(error);
+                    //handle error
                 })
         },
 
