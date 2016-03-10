@@ -12,7 +12,7 @@
             if (this.props.errorMessage) {
                 $('#page-content').css("min-height", 'Calc(100% - 122px)');
                 return (
-                    <div id="abcd" className="row error-message">
+                    <div className="row error-message">
                         <div className="col-lg-12">
                             <div className="error-container">
                                 {this.props.errorMessage}
