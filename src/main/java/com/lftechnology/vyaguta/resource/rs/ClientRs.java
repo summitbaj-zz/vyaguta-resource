@@ -18,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.Client;
@@ -32,10 +34,14 @@ public class ClientRs {
     @Inject
     ClientService clientService;
 
+    @Inject
+    private Logger log;
+
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
+        log.debug("client list parameters: {}", uriInfo.getQueryParameters());
         List<Client> clients = clientService.findByFilter(uriInfo
                 .getQueryParameters());
         return Response.status(Response.Status.OK)
@@ -58,6 +64,7 @@ public class ClientRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id,
             @NotNull @Valid Client clientNew) {
+        log.debug("client Id: {}", id);
         Client client = clientService.merge(id, clientNew);
         return Response.status(Response.Status.OK)
                 .entity(JsonToStringBuilder.toString(client)).build();
@@ -67,6 +74,7 @@ public class ClientRs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
+        log.debug("client Id: {}", id);
         Client client = clientService.findById(id);
         if (client != null) {
             return Response.status(Response.Status.OK)
@@ -80,6 +88,7 @@ public class ClientRs {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
+        log.debug("client Id: {}", id);
         clientService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }
