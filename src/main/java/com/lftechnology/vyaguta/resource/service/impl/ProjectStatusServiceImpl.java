@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
@@ -71,7 +72,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public List<ProjectStatus> findByFilter(MultivaluedMap<String, String> queryParameters) {
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         return projectStatusDao.findByFilter(queryParameters);
     }
 

@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
@@ -73,7 +74,7 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
     }
 
     @Override
-    public List<BudgetType> findByFilter(MultivaluedMap<String, String> queryParameters) {
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         return budgetTypeDao.findByFilter(queryParameters);
     }
 }

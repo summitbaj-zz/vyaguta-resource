@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -46,7 +47,7 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class, responseContainer = "List")
     public Response list(@Context UriInfo uriInfo) {
-        List<ProjectMember> projectMembers = projectMemberService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> projectMembers = projectMemberService.findByFilter(uriInfo.getQueryParameters());
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMembers)).build();
     }
 

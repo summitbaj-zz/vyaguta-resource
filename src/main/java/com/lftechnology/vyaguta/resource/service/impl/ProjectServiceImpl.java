@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -133,7 +134,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findByFilter(MultivaluedMap<String, String> queryParameters) {
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         return projectDao.findByFilter(queryParameters);
     }
 }

@@ -1,6 +1,6 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -38,7 +38,7 @@ public class ProjectRs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        List<Project> projects = projectService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> projects = projectService.findByFilter(uriInfo.getQueryParameters());
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projects)).build();
     }
 
