@@ -47,7 +47,7 @@
             var inputValue = this.refs.inputTag.value;
             if (inputValue) {
                 if (this.checkTag(inputValue) === null && this.isValid(inputValue)) {
-                    this.props.addNewTag(inputValue);
+                    this.props.addTag(inputValue);
                 }
                 this.refs.inputTag.value = '';
                 this.refs.inputTag.focus();
@@ -56,8 +56,9 @@
 
         generateSuggestions: function (event) {
             var pressed = String.fromCharCode(event.keyCode);
-            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || event.keyCode === 8 || event.keyCode === 46) {
-                this.props.updateSuggestions(this.refs.inputTag.value.toLowerCase());
+            var inputValue = this.refs.inputTag.value;
+            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue)) {
+                this.props.updateSuggestions(inputValue.toLowerCase());
             }
         },
 
@@ -84,7 +85,7 @@
         },
 
         render: function () {
-            var tagIds = Object.keys(this.props.tags);
+           var tagIds = Object.keys(this.props.tags);
             return (
                 <div
                     className="form-control tag-wrapper"

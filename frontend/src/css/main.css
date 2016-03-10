@@ -22,7 +22,7 @@ body {
 
 #sidebar {
     width: 0;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     background: url(../img/bg-sidebar.png) repeat-y 0 0;
     border-right: 1px solid #e4ebf1;
@@ -118,6 +118,9 @@ header.navbar-default {
     min-width: 320px;
     border: none;
     border-radius: 0;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
 }
 
 header.navbar-default.navbar-fixed-top {
@@ -1181,6 +1184,15 @@ li.dropdown-header {
         margin-left: 250px;
     }
 
+    /* Header */
+    .sidebar-partial #main-container #header {
+        padding-right: 60px;
+    }
+
+    .sidebar-partial #sidebar:hover + #main-container #header, .sidebar-visible-lg #main-container #header {
+        padding-right: 250px;
+    }
+
     .sidebar-partial.footer-fixed #main-container #page-content + footer, .sidebar-partial.header-fixed-top header.navbar-fixed-top, .sidebar-partial.header-fixed-bottom header.navbar-fixed-bottom {
         left: 65px;
     }
@@ -1296,4 +1308,17 @@ li.dropdown-header {
 
 .billed-resource input:checked + span {
     background-color: #6CC068;
+}
+
+/* error message space */
+.row{
+    min-height: 50px;
+}
+.error-message{
+    padding: 10px;
+    padding-top: 60px;
+}
+
+.error-container{
+    color: red;
 }
