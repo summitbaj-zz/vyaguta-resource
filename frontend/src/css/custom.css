@@ -6,7 +6,7 @@ h1, h2, h3 {
 ul{
 	list-style: none;
 	}
-body, html, #page-container, #sidebar, .sidebar-scroll, .sidebar-content, .sidebar-nav, #main-container {
+body, html, #page-container, #vyaguta-body, #sidebar, .sidebar-scroll, .sidebar-content, .sidebar-nav, #main-container {
 	height: 100%;
 }
 .breadcrumb{
