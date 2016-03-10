@@ -12,7 +12,7 @@
 
         var that = this;
 
-        this.isValid = function(formDatas) {
+        this.isValid = function (formDatas) {
             that.errors = {};
 
             for(var key in formDatas) {

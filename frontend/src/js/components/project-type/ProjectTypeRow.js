@@ -1,6 +1,10 @@
 ;(function () {
+
+    //React dependencies
     var React = require('react');
     var Link = require('react-router').Link;
+
+    //constants
     var urlConstant = require('../../constants/urlConstant');
 
     var ProjectTypeRow = React.createClass({

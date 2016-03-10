@@ -7,10 +7,10 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
 
     var BudgetMain = React.createClass({
-
         render: function () {
             return (
                 <div id="page-content">

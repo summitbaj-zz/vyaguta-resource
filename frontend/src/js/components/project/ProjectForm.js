@@ -6,43 +6,35 @@
 
 ;(function () {
     'use-strict';
+
+    //React and Redux dependencies
     var React = require('react');
-    var ProjectHeader = require('./ProjectHeader');
-    var $=require('jquery');
-
-    var TechnologyStack = require('./TechnologyStack');
-    var ApiUtil = require('../../util/ApiUtil');
-    var history = require('react-router').History;
-
-    var resourceConstant = require('../../constants/resourceConstant');
-    var SelectOption = require('./SelectOption');
-    var urlConstant = require('../../constants/urlConstant');
-
-    var crudActions = require('../../actions/crudActions');
-    var createProjectActions = require('../../actions/createProjectActions');
-    var store = require('../../store/store');
-
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
 
-    //Team Member
-    var TeamMemberForm = require('./member/TeamMemberForm');
-    var TeamMember = require('./member/TeamMember');
+    //constants
+    var resourceConstant = require('../../constants/resourceConstant');
+    var urlConstant = require('../../constants/urlConstant');
 
-    //datepicker
+    //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
+    var _ = require('lodash');
 
-    var Toastr = require('toastr');
-
+    //components
+    var ProjectHeader = require('./ProjectHeader');
+    var TechnologyStack = require('./TechnologyStack');
+    var SelectOption = require('./SelectOption');
+    var TeamMemberForm = require('./member/TeamMemberForm');
+    var TeamMember = require('./member/TeamMember');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/FormValidator');
+    var crudActions = require('../../actions/crudActions');
+    var teamMemberActions = require('../../actions/teamMemberActions');
+    var ApiUtil = require('../../util/ApiUtil');
 
-    var isManagerValid = false;
 
     var ProjectForm = React.createClass({
-        mixins: [history],
-
         getInitialState: function () {
             return {
                 technologyStack: [],
@@ -50,6 +42,12 @@
                 startDate: moment(),
                 endDate: moment()
             }
+        },
+
+        componentDidMount: function () {
+            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
+            this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
+            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
         },
 
         setManager: function (value) {
@@ -68,12 +66,6 @@
                 techStack.splice(index, 1);
             }
             this.setState({technologyStack: techStack});
-        },
-
-        componentDidMount: function () {
-            crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
-            crudActions.fetchAll(resourceConstant.PROJECT_STATUS);
-            crudActions.fetchAll(resourceConstant.PROJECT_TYPES);
         },
 
         handleChangeStartDate: function (date) {
@@ -125,8 +117,12 @@
             }
         },
 
+        //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
+
+            //temporary fix until backEnd tasks are completed
+
             var tempProjectMember = _.cloneDeep(this.props.teamMembers);
 
             for (var key in tempProjectMember) {
@@ -147,19 +143,13 @@
                 'projectMembers': tempProjectMember
             };
 
-            var that = this;
-
             if (formValidator.isValid(project)) {
-
-                ApiUtil.create(resourceConstant.PROJECTS, project, function (data) {
-                    document.querySelector('#save-btn').disabled = true;
-                    that.history.pushState(null, urlConstant.PROJECTS.INDEX);
-                    Toastr.success("Project Successfully Added");
-                });
+                this.props.actions.addItem(resourceConstant.PROJECTS, project);
             } else {
                 this.showErrors(formValidator.errors)
             }
         },
+
         checkTitle: function (title) {
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
@@ -190,7 +180,6 @@
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
                                                className="form-control" id="title" onBlur={this.validateTitle}/>
                                         <span className="help-block" ref="availableMessage"></span>
-
                                     </div>
                                     <div className="form-group">
                                         <label>Description</label>
@@ -337,18 +326,17 @@
 
     var mapStateToProps = function (state) {
         return {
-            budgetTypes: state.crudReducer.get(resourceConstant.BUDGET_TYPES),
-            projectTypes: state.crudReducer.get(resourceConstant.PROJECT_TYPES),
-            projectStatus: state.crudReducer.get(resourceConstant.PROJECT_STATUS),
-            teamMembers: state.createProject.teamMembers,
-            memberIndexInModal: state.createProject.memberIndexInModal
+            budgetTypes: state.crudReducer.budgetTypes,
+            projectTypes: state.crudReducer.projectTypes,
+            projectStatus: state.crudReducer.projectStatus,
+            teamMembers: state.teamMemberReducer.teamMembers,
+            memberIndexInModal: state.teamMemberReducer.memberIndexInModal
         }
-
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(createProjectActions, dispatch)
+            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions), dispatch)
         }
     }
 

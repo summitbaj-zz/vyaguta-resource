@@ -1,45 +1,44 @@
 ;(function () {
     'use-strict';
 
+    //React and Redux dependencies
     var React = require('react');
     var Link = require('react-router').Link;
-
     var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
 
-    var ProjectStatus = require('./ProjectStatusRow');
-    var ProjectStatusHeader = require('./ProjectStatusHeader');
-
+    //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //components
+    var ProjectStatus = require('./ProjectStatusRow');
+    var ProjectStatusHeader = require('./ProjectStatusHeader');
     var crudActions = require('../../actions/crudActions');
-    var PAGE_TITLE = 'Project Status';
+
 
     var ProjectStatusList = React.createClass({
-
         componentDidMount: function () {
-            crudActions.fetchAll(resourceConstant.PROJECT_STATUS);
+            this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
         },
 
-        list: function (key) {
-            return (
-                <ProjectStatus key={key} index={key} projectStatus={this.props.projectStatus[key]}
-                               deleteProjectStatus={this.delete}/>
-            );
-        },
-
-        delete: function (key) {
-            var data = JSON.parse(JSON.stringify(this.props.projectStatus));
+        deleteProjectStatus: function (id) {
             if (confirm('Are you sure?')) {
-                crudActions.deleteItem(resourceConstant.PROJECT_STATUS, key, data);
+                this.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id);
             }
         },
 
+        renderProjectStatus: function (key) {
+            return (
+                <ProjectStatus key={key} index={key} projectStatus={this.props.projectStatus[key]}
+                               deleteProjectStatus={this.deleteProjectStatus}/>
+            );
+        },
+
         render: function () {
-            var projectStatusIds = Object.keys(this.props.projectStatus);
             return (
                 <div>
-                    <ProjectStatusHeader header={PAGE_TITLE} routes={this.props.routes}/>
+                    <ProjectStatusHeader header="Project Status" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
@@ -60,7 +59,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {projectStatusIds.map(this.list)}
+                                {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
                                 </tbody>
                             </table>
                         </div>
@@ -70,12 +69,18 @@
         }
     });
 
-    var storeSelector = function (store) {
+
+    var mapStateToProps = function (state) {
         return {
-            projectStatus: store.crudReducer.get(resourceConstant.PROJECT_STATUS)
+            projectStatus: state.crudReducer.projectStatus
         }
-    }
+    };
 
-    module.exports = connect(storeSelector)(ProjectStatusList);
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
 
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusList);
 })();

@@ -1,16 +1,16 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactRouter = require('react-router'),
-        Router = ReactRouter.Router,
-        Route = ReactRouter.Route,
-        createBrowserHistory = require('history/lib/createBrowserHistory'),
-        IndexRoute = ReactRouter.IndexRoute;
+    //React and Redux depencies
+    var React = require('react');
+    var ReactRouter = require('react-router');
+    var Router = ReactRouter.Router;
+    var Route = ReactRouter.Route;
+    var browserHistory = ReactRouter.browserHistory;
+    var IndexRoute = ReactRouter.IndexRoute;
 
     var routes = (
-
-        <Router history={createBrowserHistory()}>
+        <Router history={browserHistory}>
             <Route path="/resource" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
                 <Route path="budgettypes" name="Budget Types"
@@ -48,7 +48,6 @@
                 </Route>
             </Route>
         </Router>
-
     );
 
     module.exports = routes;

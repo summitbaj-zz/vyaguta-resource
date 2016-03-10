@@ -1,11 +1,10 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom');
+    //React Dependencies
+    var React = require('react');
 
     var Dashboard = React.createClass({
-
         render: function () {
             return (
                 <div id="page-content">
@@ -323,5 +322,5 @@
     });
 
     module.exports = Dashboard
-    
+
 })();

@@ -1,10 +1,10 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom'),
-        ReactRouter = require('react-router'),
-        Link = ReactRouter.Link;
+    //React Dependencies
+    var React = require('react');
+    var ReactRouter = require('react-router');
+    var Link = ReactRouter.Link;
 
     //constants
     var urlConstant = require('../../../constants/urlConstant');
@@ -15,7 +15,8 @@
                 <div id="sidebar">
                     <div className="sidebar-scroll">
                         <div className="sidebar-content">
-                            <h1><Link to={urlConstant.BASE_PATH} className="sidebar-brand">Leapfrog Management System</Link></h1>
+                            <h1><Link to={urlConstant.BASE_PATH} className="sidebar-brand">Leapfrog Management
+                                System</Link></h1>
                             <ul className="sidebar-nav">
                                 <li><Link to={urlConstant.BASE_PATH} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Dashboard</span>
@@ -24,7 +25,8 @@
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Budget Types</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_STATUS.INDEX} className="sidebar-nav-menu"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Status</span>
+                                    className="fa fa-dashboard fa-fw"></i><span
+                                    className="xn-text">Project Status</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_TYPES.INDEX} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Types</span>

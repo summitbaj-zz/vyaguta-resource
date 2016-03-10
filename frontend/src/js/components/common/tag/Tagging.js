@@ -1,8 +1,13 @@
 ;(function () {
     'use-strict';
 
+    //React dependencies
     var React = require('react');
 
+    //constants
+    var resourceConstant = require('../../../constants/resourceConstant');
+
+    //components
     var AutoComplete = require('../autocomplete/Autocomplete');
 
     var Tagging = React.createClass({

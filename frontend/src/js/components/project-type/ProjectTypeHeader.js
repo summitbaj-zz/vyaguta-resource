@@ -1,7 +1,10 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
+
+    //components
     var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
     var ProjectTypeHeader = React.createClass({

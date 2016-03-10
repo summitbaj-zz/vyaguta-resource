@@ -1,7 +1,10 @@
 ;(function () {
     'use strict';
 
+    //React and Redux dependencies
     var React = require('react');
+
+    //components
     var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
     var ProjectStatusHeader = React.createClass({

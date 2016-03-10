@@ -1,12 +1,16 @@
 ;(function () {
     'use-strict';
 
+    //React dependencies
     var React = require('react');
 
+    //constants
+    var resourceConstant = require('../../constants/resourceConstant');
+
+    //components
     var ApiUtil = require('../../util/ApiUtil');
     var AutoComplete = require('../common/autocomplete/Autocomplete');
 
-    var resourceConstant = require('../../constants/resourceConstant');
 
     var AccountManager = React.createClass({
             getInitialState: function () {

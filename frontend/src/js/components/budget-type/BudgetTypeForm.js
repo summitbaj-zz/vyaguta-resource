@@ -7,39 +7,31 @@
 ;(function () {
     'use strict';
 
+    //React and Redux dependencies
     var React = require('react');
-    var ApiUtil = require('../../util/ApiUtil');
-    var History = require('react-router').History;
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
-    var toastr = require('toastr');
-    var formValidator = require('../../util/FormValidator');
+    var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //components
+    var BudgetTypeHeader = require('./BudgetTypeHeader');
+    var formValidator = require('../../util/FormValidator');
+    var crudActions = require('../../actions/crudActions');
+
     var BudgetTypeForm = React.createClass({
-        mixins: [History],
-
-        getInitialState: function () {
-            return {
-                budgetType: {}
-            }
-        },
-
         componentDidMount: function () {
+            //fill form with data for editing
             if (this.props.params.id) {
-                ApiUtil.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id, this.updateState);
+                this.props.actions.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id);
             }
         },
 
-        updateState: function (budgetType) {
-            this.setState({budgetType: budgetType});
-        },
-
+        //call when form is submitted
         saveBudgetType: function (event) {
             event.preventDefault();
-            var that = this;
 
             var budgetType = {
                 title: this.refs.budgetType.value
@@ -47,24 +39,17 @@
 
             if (formValidator.isValid(budgetType)) {
                 if (this.props.params.id) {
-                    ApiUtil.edit(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id, function (data) {
-                        document.querySelector('#save-btn').disabled = true;
-                        that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
-                        toastr.success('Budget Type Successfully Edited');
-                    })
+                    this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {
-                    ApiUtil.create(resourceConstant.BUDGET_TYPES, budgetType, function (data) {
-                        document.querySelector('#save-btn').disabled = true;
-                        that.history.pushState(null, urlConstant.BUDGET_TYPES.INDEX);
-                        toastr.success('Budget Type Successfully Added');
-                    });
+                    this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
             } else {
                 this.showErrors(formValidator.errors)
             }
-
         },
 
+
+        //call when validation fails
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = document.querySelector('#' + elementId).parentElement;
@@ -74,18 +59,19 @@
             }
         },
 
+        //handle change over every key press in the input fields
         handleChange: function (event) {
-            var name = event.target.name;
+            var key = event.target.name;
             var value = event.target.value;
 
-            this.state.budgetType[name] = value;
-            this.setState({budgetType: this.state.budgetType});
+            this.props.actions.updateSelectedItem(key, value);
         },
 
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'} routes={this.props.routes}/>
+                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
+                                      routes={this.props.routes}/>
                     <div className="block">
                         <div
                             className="block-title-border">Budget Type Details
@@ -95,8 +81,9 @@
                                 <label>Budget Type</label>
                                 <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
                                        className="form-control"
-                                       value={this.state.budgetType.title} onChange={this.handleChange}
-                                       id="title"/>
+                                       value={this.props.selectedItem.budgetTypes.title}
+                                       id="title"
+                                       onChange={this.handleChange}/>
                                 <span className="help-block"></span>
                             </div>
                             <div className="form-group form-actions clearfix">
@@ -116,5 +103,18 @@
         }
     });
 
-    module.exports = BudgetTypeForm;
+    var mapStateToProps = function (state) {
+        return {
+            selectedItem: state.crudReducer.selectedItem
+        }
+    };
+
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(BudgetTypeForm);
+
 })();

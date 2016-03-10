@@ -1,9 +1,10 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
     var connect = require('react-redux').connect;
-    var errorActions = require('../../../actions/errorActions');
+
     //constants
     var resourceConstant = require('../../../constants/resourceConstant');
 
