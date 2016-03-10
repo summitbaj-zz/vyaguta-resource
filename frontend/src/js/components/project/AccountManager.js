@@ -69,17 +69,23 @@
 
             validateManager: function () {
                 var input = this.refs.inputTag;
-                for (var i = 0; i < this.state.suggestions.length; i++) {
-                    if (input.value === this.getAppendedName(i)) {
-                        input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
-                        this.props.setManager({'id': this.state.suggestions[i].id});
-                        this.refs.availableMessage.innerHTML = 'Valid name';
-                        return;
+                if(input.value) {
+                    for (var i = 0; i < this.state.suggestions.length; i++) {
+                        if (input.value === this.getAppendedName(i)) {
+                            input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
+                            this.props.setManager({'id': this.state.suggestions[i].id});
+                            this.refs.availableMessage.innerHTML = 'Valid name';
+                            return;
+                        }
                     }
+                    input.parentElement.parentElement.className += ' has-error';
+                    this.props.setManager(null);
+                    this.refs.availableMessage.innerHTML = 'Invalid name';
+                }else{
+                    input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element';
+                    this.props.setManager(null);
+                    this.refs.availableMessage.innerHTML = '';
                 }
-                input.parentElement.parentElement.className += ' has-error';
-                this.props.setManager(null);
-                this.refs.availableMessage.innerHTML = 'Invalid name';
             },
 
             render: function () {

@@ -21,8 +21,9 @@
             this.setState({tags: this.getTitle(nextProps.technologyStack)});
         },
 
-        getTitle: function (technologyStack) {
+        getTitle: function (tags) {
             var tagTitle = [];
+            var technologyStack = tags || [];
             for (var i = 0; i < technologyStack.length; i++) {
                 tagTitle[i] = technologyStack[i].title;
             }
@@ -30,8 +31,7 @@
         },
 
         changeTagState: function (data) {
-            var suggestionTitle = this.getTitle(data);
-            this.setState({suggestions: suggestionTitle});
+            this.setState({suggestions: data});
         },
 
         updateSuggestions: function (input) {
@@ -39,10 +39,22 @@
             ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
         },
 
+        addTag: function (tag) {
+            var suggestions = this.state.suggestions || [];
+            for (var i = 0; i < suggestions.length; i++) {
+                if (tag == suggestions[i].title) {
+                    this.props.addTag(suggestions[i]);
+                    return;
+                }
+            }
+            this.props.addTag({title: tag});
+        },
+
         render: function () {
+            var suggestionTitles = this.getTitle(this.state.suggestions);
             return (
-                <Tagging tags={this.state.tags} suggestions={this.state.suggestions}
-                         removeTag={this.props.removeTag} addNewTag={this.props.addNewTag}
+                <Tagging tags={this.state.tags} suggestions={suggestionTitles}
+                         removeTag={this.props.removeTag} addTag={this.addTag}
                          updateSuggestions={this.updateSuggestions}/>
             );
         }
