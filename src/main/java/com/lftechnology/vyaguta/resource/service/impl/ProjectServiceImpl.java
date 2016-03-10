@@ -93,41 +93,41 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private Project fixTags(Project project) {
-        List<Tag> newTagList = new ArrayList<>();
-        List<Tag> validTagList = new ArrayList<>();
-        try {
-            /*
-             * Eliminate redundant Tag objects, which is evaluated comparing id
-             * and title fields
-             */
-            Set<Tag> tagSet = new HashSet<>();
-            tagSet.addAll(project.getTags());
-            validTagList.addAll(tagSet);
-
-            for (Tag tempTag : validTagList) {
-                if (tempTag.getId() == null && tempTag.getTitle() != null) {
-                    tempTag = tagDao.save(tempTag);
-                } else {
-                    if (tagDao.findById(tempTag.getId()) == null) {
-                        throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
-                    }
-                }
-                newTagList.add(tempTag);
-            }
-            project.setTags(newTagList);
-            return project;
-        } catch (NullPointerException e) {
+        if (project.getTags() == null) {
             return project;
         }
+
+        List<Tag> newTagList = new ArrayList<>();
+        List<Tag> uniqueTagList = new ArrayList<>();
+        /*
+         * Eliminate redundant Tag objects, which is evaluated comparing id and
+         * title fields
+         */
+        Set<Tag> tagSet = new HashSet<>();
+        tagSet.addAll(project.getTags());
+        uniqueTagList.addAll(tagSet);
+
+        for (Tag tempTag : uniqueTagList) {
+            if (tempTag.getId() == null && tempTag.getTitle() != null) {
+                tempTag = tagDao.save(tempTag);
+            } else {
+                if (tagDao.findById(tempTag.getId()) == null) {
+                    throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
+                }
+            }
+            newTagList.add(tempTag);
+        }
+        project.setTags(newTagList);
+        return project;
     }
 
     private Project fixProjectMembers(Project project) {
-        try {
-            for (ProjectMember pm : project.getProjectMembers()) {
-                pm.setProject(project);
-            }
-        } catch (NullPointerException e) {
+        if (project.getProjectMembers() == null) {
             return project;
+        }
+
+        for (ProjectMember pm : project.getProjectMembers()) {
+            pm.setProject(project);
         }
         return project;
     }
