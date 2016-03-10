@@ -1,8 +1,11 @@
 ;(function(){
     'use strict';
+    //constants
+    var urlConstants = require('../src/js/constants/urlConstant');
 
     var config = {
-        server: 'http://dev.vyaguta.lftechnology.com/resources/'
+        resourceServer: window.location.origin + urlConstants.RESOURCE_SERVER + '/',
+        coreServer: window.location.origin + urlConstants.RESOURCE_SERVER + '/'
     };
     module.exports = config;
 
