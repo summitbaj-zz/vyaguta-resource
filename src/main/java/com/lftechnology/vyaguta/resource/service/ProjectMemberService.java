@@ -14,7 +14,4 @@ public interface ProjectMemberService extends CrudService<ProjectMember, String>
 
     List<ProjectMember> findByProjectId(String projectId);
 
-    List<ProjectMember> findByEmployeeId(String employeeId);
-
-    List<ProjectMember> findByProjectIdAndEmployeeId(String projectId, String employeeId);
 }
