@@ -74,7 +74,7 @@
                         if (input.value === this.getAppendedName(i)) {
                             input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
                             this.props.setManager({'id': this.state.suggestions[i].id});
-                            this.refs.availableMessage.innerHTML = 'Valid name';
+                            this.refs.availableMessage.innerHTML = '';
                             return;
                         }
                     }

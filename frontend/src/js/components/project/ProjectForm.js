@@ -153,10 +153,10 @@
         checkTitle: function (title) {
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
-                this.refs.availableMessage.innerHTML = 'Valid Name';
+                this.refs.availableMessage.innerHTML = '';
             } else {
                 this.refs.title.parentElement.className += ' has-error';
-                this.refs.availableMessage.innerHTML = 'Sorry, this project name already exists!';
+                this.refs.availableMessage.innerHTML = 'Project name already exists.';
             }
         },
 
