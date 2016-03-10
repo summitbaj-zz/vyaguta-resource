@@ -1301,11 +1301,6 @@ li.dropdown-header {
     color: white;
 }
 
-.error-container{
-	padding: 10px;
-	color: red;
-}
-
 .billed-resource input:checked + span {
     background-color: #6CC068;
 }
