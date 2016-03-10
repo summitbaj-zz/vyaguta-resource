@@ -144,9 +144,10 @@
             }
         },
 
-        updateSelectedItem: function (key, value) {
+        updateSelectedItem: function (entity, key, value) {
             return {
                 type: actionTypeConstant.UPDATE_SELECTED_ITEM,
+                entity: entity,
                 key: key,
                 value: value
             }

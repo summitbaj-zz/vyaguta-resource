@@ -64,7 +64,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.BUDGET_TYPES, key, value);
         },
 
         render: function () {

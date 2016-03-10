@@ -51,8 +51,9 @@
                 return newState;
 
             case actionTypeConstant.UPDATE_SELECTED_ITEM:
+                console.log(action.entity);
                 var newState = _.cloneDeep(state);
-                newState.selectedItem[action.key] = action.value;
+                newState.selectedItem[action.entity][action.key] = action.value;
 
                 return newState;
 
