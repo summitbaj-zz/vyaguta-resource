@@ -472,8 +472,3 @@ $(function () {
     App.init();
 });
 
-console.log($('#burgerMenu'));
-$('#burgerMenu').on('click', function () {
-    alert('abc');
-    App.sidebar('toggle-sidebar');
-});

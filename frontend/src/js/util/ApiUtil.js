@@ -12,10 +12,10 @@
 
     //constants
     var urlConstants = require('../constants/urlConstant');
-    var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    //var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
     var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
-    //var url = "http://localhost:3000/";
+    var url = "http://localhost:3000/";
     //var coreUrl = "http://localhost:3000/";
 
     //libraries

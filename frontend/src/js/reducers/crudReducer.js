@@ -12,6 +12,7 @@
         budgetTypes: [],
         projectTypes: [],
         projects: [],
+        projectRoles: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
                 budgetType: {},
@@ -19,6 +20,7 @@
                 projectStatus: {},
                 accountManager: {}
             },
+            projectRoles: {},
             budgetTypes: {},
             projectTypes: {},
             projectStatus: {}
@@ -52,6 +54,8 @@
 
             case actionTypeConstant.UPDATE_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
+                console.log('bsi')
+                console.log(action.key, action.value)
                 newState.selectedItem[action.key] = action.value;
 
                 return newState;

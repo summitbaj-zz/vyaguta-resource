@@ -24,6 +24,11 @@
             NEW: BASE_PATH + '/projecttypes/new',
             EDIT: BASE_PATH + '/projecttypes/edit/'
         },
+        PROJECT_ROLES: {
+            INDEX: BASE_PATH + '/projectroles',
+            NEW: BASE_PATH + '/projectroles/new',
+            EDIT: BASE_PATH + '/projectroles/edit/'
+        },
         PROJECTS: {
             INDEX: BASE_PATH + '/projects',
             NEW: BASE_PATH + '/projects/new',

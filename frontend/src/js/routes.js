@@ -46,6 +46,14 @@
                     <Route path="details/:id" name="Details"
                            component={require('./components/project/ProjectDetails')}/>
                 </Route>
+                <Route path="projectRoles" name="ProjectRoles"
+                       component={require('./components/project-role/ProjectRoleMain')}>
+                    <IndexRoute component={require('./components/project-role/ProjectRoleList')}/>
+                    <Route path="new" name="Add"
+                           component={require('./components/project-role/ProjectRoleForm')}/>
+                    <Route path="edit/:id" name="Edit"
+                           component={require('./components/project-role/ProjectRoleForm')}/>
+                </Route>
             </Route>
         </Router>
     );
