@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
@@ -38,6 +40,9 @@ public class ClientServiceImplTest {
     @InjectMocks
     @Spy
     private ClientServiceImpl clientService;
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setup() {
@@ -90,18 +95,17 @@ public class ClientServiceImplTest {
         Mockito.verify(clientDao).update(client);
     }
 
-    @Test(expected = ObjectNotFoundException.class)
+    @Test
     public void testMergeWhenObjectNotFoundException() {
+
         // arrange
         Client client = new Client();
         Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
                 null);
+        exception.expect(ObjectNotFoundException.class);
 
         // act
         this.clientService.merge(ID, client);
-
-        // assert
-        Mockito.verify(clientDao).update(client);
 
     }
 
