@@ -139,18 +139,15 @@ public class ClientServiceImplTest {
 
     }
 
-    @Test(expected = ObjectNotFoundException.class)
+    @Test
     public void testRemoveClientByIdWhenObjectNotFoundException() {
         // arrange
-        Client client = this.buildClient();
         Mockito.when(this.clientService.findById(Matchers.anyString()))
                 .thenReturn(null);
-
+        exception.expect(ObjectNotFoundException.class);
         // act
         this.clientService.removeById(ID);
 
-        // assert
-        Mockito.verify(clientService).remove(client);
     }
 
     @Test
