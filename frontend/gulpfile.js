@@ -20,7 +20,8 @@
         gulpif = require('gulp-if'),
         minifyCss = require('gulp-minify-css'),
         eslint = require('gulp-eslint'),
-        inject = require('gulp-inject');
+        inject = require('gulp-inject'),
+        htmlreplace= require('gulp-html-replace');
 
     var config = {
         paths: {
@@ -60,6 +61,7 @@
 
     var env = process.env.NODE_ENV || config.env.development;
     var isProduction = process.env.NODE_ENV === 'production';
+    var baseUrl = isProduction? '/resource/' : '/';
 
     gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
@@ -178,6 +180,9 @@
             .pipe(inject(sources, {
                 ignorePath: 'dist',
                 addRootSlash: false
+            }))
+            .pipe(htmlreplace({
+                'base': '<base href=\"'+baseUrl+'\">'
             }))
             .pipe(gulp.dest('./dist'))
     });

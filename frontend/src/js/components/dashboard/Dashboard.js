@@ -88,7 +88,7 @@
                                             <td>
                                                 <div className="profile-holder clearfix"><span
                                                     className="profile-img pull-left img-lg"><img
-                                                    src="dist/img/placeholders/avatar.png" alt="avatar"
+                                                    src="img/placeholders/avatar.png" alt="avatar"
                                                     className="img-circle"/></span> <span
                                                     className="profile-detail pull-left"> <span className="label-name">Anjali Shakya</span> <span>Sr. UI/UX Designer</span> </span>
                                                 </div>
@@ -108,7 +108,7 @@
                                             <td>
                                                 <div className="profile-holder clearfix"><span
                                                     className="profile-img pull-left img-lg"><img
-                                                    src="dist/img/placeholders/avatar.png" alt="avatar"
+                                                    src="img/placeholders/avatar.png" alt="avatar"
                                                     className="img-circle"/></span> <span
                                                     className="profile-detail pull-left"> <span className="label-name">Anuj Joshi </span> <span>Software Engineer</span> </span>
                                                 </div>
@@ -126,7 +126,7 @@
                                             <td>
                                                 <div className="profile-holder clearfix"><span
                                                     className="profile-img pull-left img-lg"><img
-                                                    src="dist/img/placeholders/avatar.png" alt="avatar"
+                                                    src="img/placeholders/avatar.png" alt="avatar"
                                                     className="img-circle"/></span> <span
                                                     className="profile-detail pull-left"> <span className="label-name">Bibhushan Raj Joshi </span> <span>Associate Software Engineer </span> </span>
                                                 </div>
@@ -144,7 +144,7 @@
                                             <td>
                                                 <div className="profile-holder clearfix"><span
                                                     className="profile-img pull-left img-lg"><img
-                                                    src="dist/img/placeholders/avatar.png" alt="avatar"
+                                                    src="img/placeholders/avatar.png" alt="avatar"
                                                     className="img-circle"/></span> <span
                                                     className="profile-detail pull-left"> <span className="label-name">Grishma Shrestha </span> <span>Associate Software Engineer </span> </span>
                                                 </div>
@@ -162,7 +162,7 @@
                                             <td>
                                                 <div className="profile-holder clearfix"><span
                                                     className="profile-img pull-left img-lg"><img
-                                                    src="dist/img/placeholders/avatar.png" alt="avatar"
+                                                    src="img/placeholders/avatar.png" alt="avatar"
                                                     className="img-circle"/></span> <span
                                                     className="profile-detail pull-left"> <span className="label-name">Grishma Shrestha </span> <span>Associate Software Engineer </span> </span>
                                                 </div>
