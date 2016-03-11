@@ -37,7 +37,6 @@
         },
 
         getComponent: function (key) {
-            console.log(this.state.paths[key].route);
             return (
                 <li key={key}>
                     <Link to={this.state.paths[key].route}>{this.state.paths[key].name} </Link>
