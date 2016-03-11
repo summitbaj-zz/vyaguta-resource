@@ -8,18 +8,17 @@
     'use strict';
 
     function FormValidator() {
-        this.errors={};
+        this.errors = {};
 
         var that = this;
 
         this.isRequired = function (formDatas) {
-
-            for(var key in formDatas) {
-                if(formDatas[key] == '') {
+            for (var key in formDatas) {
+                if (formDatas[key] == '') {
                     that.errors[key] = 'Should not be left empty';
                 }
             }
-            return ((Object.keys(that.errors).length == 0)? true : false);
+            return ((Object.keys(that.errors).length == 0) ? true : false);
         }
 
     }

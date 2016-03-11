@@ -74,21 +74,12 @@
                         if (input.value === this.getAppendedName(i)) {
                             var accountManager = {'id': this.state.suggestions[i].id};
                             this.showValidity('has-success', '', accountManager);
-                            //input.parentElement.className = 'col-md-6 col-lg-4 element has-success';
-                            //this.props.setManager({'id': this.state.suggestions[i].id});
-                            //this.refs.availableMessage.innerHTML = '';
                             return;
                         }
                     }
                     this.showValidity('has-error', 'Invalid name', null);
-                    //input.parentElement.parentElement.className += ' has-error';
-                    //this.props.setManager(null);
-                    //this.refs.availableMessage.innerHTML = 'Invalid name';
                 } else {
                     this.showValidity('', '', {});
-                    //input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element';
-                    //this.props.setManager(null);
-                    //this.refs.availableMessage.innerHTML = '';
                 }
             },
 
