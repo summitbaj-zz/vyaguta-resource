@@ -22,7 +22,7 @@
     var _ = require('lodash');
 
     //components
-    var ProjectHeader = require('./ProjectHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var TeamMemberForm = require('./member/TeamMemberForm');
@@ -177,7 +177,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Add Project" routes={this.props.routes}/>
+                    <EntityHeader header="Add Project" routes={this.props.routes}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">

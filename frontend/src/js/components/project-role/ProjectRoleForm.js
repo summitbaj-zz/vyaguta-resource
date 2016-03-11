@@ -11,7 +11,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectRoleHeader = require('./ProjectRoleHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
@@ -64,7 +64,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectRoleHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
                                        routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>

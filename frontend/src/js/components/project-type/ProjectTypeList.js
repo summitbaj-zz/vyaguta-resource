@@ -13,7 +13,7 @@
 
     //components
     var ProjectType = require('./ProjectTypeRow');
-    var ProjectTypeHeader = require('./ProjectTypeHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
 
@@ -38,7 +38,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectTypeHeader header="Project Types" routes={this.props.routes}/>
+                    <EntityHeader header="Project Types" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Type Details</h2>

@@ -11,7 +11,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ClientHeader = require('./ClientHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
@@ -69,7 +69,7 @@
         render: function () {
             return (
                 <div>
-                    <ClientHeader header={(this.props.params.id)?'Edit Client':'Add Client'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Client':'Add Client'}
                                   routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Client Details</div>

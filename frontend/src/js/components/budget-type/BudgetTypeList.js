@@ -19,7 +19,7 @@
 
     //components
     var BudgetTypeRow = require('./BudgetTypeRow');
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
     var BudgetTypeList = React.createClass({
@@ -43,7 +43,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title="Budget Types" routes={this.props.routes}/>
+                    <EntityHeader header="Budget Types" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
