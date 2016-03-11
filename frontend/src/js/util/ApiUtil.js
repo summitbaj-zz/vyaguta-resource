@@ -12,6 +12,7 @@
 
     //constants
     var urlConstants = require('../constants/urlConstant');
+
     var url = config.resourceServer;
     var coreUrl = config.coreServer;
 

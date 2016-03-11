@@ -26,20 +26,20 @@
         saveClient: function (event) {
             event.preventDefault();
 
-            var Client = {
+            var client = {
                 name: this.refs.name.value,
                 email: this.refs.email.value,
                 phone: this.refs.phone.value,
                 skype: this.refs.skype.value,
                 address: this.refs.address.value,
-                description: this.refs.name.description
+                description: this.refs.description.value
             }
 
-            if (formValidator.isValid(Client)) {
+            if (formValidator.isValid(client)) {
                 if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.CLIENTS, Client, this.props.params.id);
+                    this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
-                    this.props.actions.addItem(resourceConstant.CLIENTS, Client);
+                    this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
             } else {
                 this.showErrors(formValidator.errors);
@@ -59,7 +59,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.CLIENTS, key, value);
         },
 
         render: function () {
@@ -75,7 +75,7 @@
                                 <input type="text" ref="name" name="name"
                                        value={this.props.selectedItem.clients.name}
                                        onChange={this.fieldChange}
-                                       placeholder="Client"
+                                       placeholder="Client Name"
                                        className="form-control"
                                        id="name"/>
                                 <span className="help-block"></span>
@@ -132,8 +132,8 @@
                             </div>
                             <div className="form-group">
                                 <label>Description</label>
-                                    <textarea name="description" ref="description"
-                                              placeholder="Short description about the client."
+                                    <textarea name="description" ref="description" value={this.props.selectedItem.clients.description}
+                                              placeholder="Short description about the client." onChange={this.fieldChange}
                                               className="form-control" rows="4" id="description"></textarea>
                                 <span className="help-block" ref="availableMessage"></span>
 
