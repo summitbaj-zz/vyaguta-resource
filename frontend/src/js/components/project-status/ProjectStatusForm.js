@@ -23,6 +23,10 @@
             }
         },
 
+        componentWillUnmount: function() {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
+        },
+
         //called when form is submitted
         saveProjectStatus: function (event) {
             event.preventDefault();
