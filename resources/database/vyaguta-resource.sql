@@ -136,15 +136,13 @@ ALTER TABLE ONLY project_members
 CREATE TABLE project_histories (
     id character varying(32) NOT NULL,
     project_id character varying(32) NOT NULL,
-    batch_id character varying(32) NOT NULL,
+    batch_no character varying(32) NOT NULL,
     attribute character varying(255) NOT NULL,
     old_value character varying(255),
     new_value character varying(255),
     reason text,
     created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone
 );
 ALTER TABLE project_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_histories
@@ -153,15 +151,13 @@ ALTER TABLE ONLY project_histories
 CREATE TABLE project_member_histories (
     id character varying(32) NOT NULL,
     project_member_id character varying(32) NOT NULL,
-    batch_id character varying(32) NOT NULL,
+    batch_no character varying(32) NOT NULL,
     attribute character varying(255) NOT NULL,
     old_value character varying(255),
     new_value character varying(255),
     reason text,
     created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone
 );
 ALTER TABLE project_member_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_member_histories
