@@ -13,6 +13,7 @@
         projectTypes: [],
         projects: [],
         projectRoles: [],
+        clients: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
                 budgetType: {},
@@ -23,6 +24,7 @@
             projectRoles: {},
             budgetTypes: {},
             projectTypes: {},
+            clients: {},
             projectStatus: {}
         }
     };
@@ -53,11 +55,10 @@
                 return newState;
 
             case actionTypeConstant.UPDATE_SELECTED_ITEM:
+                console.log(action.entity);
                 var newState = _.cloneDeep(state);
-                console.log('bsi')
-                console.log(action.key, action.value)
-                newState.selectedItem[action.key] = action.value;
 
+                newState.selectedItem[action.entity][action.key] = action.value;
                 return newState;
 
             default:
