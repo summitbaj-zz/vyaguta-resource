@@ -8,15 +8,14 @@
     'use strict';
 
     function FormValidator() {
-        this.errors;
+        this.errors={};
 
         var that = this;
 
-        this.isValid = function (formDatas) {
-            that.errors = {};
+        this.isRequired = function (formDatas) {
 
             for(var key in formDatas) {
-                if(formDatas[key] == '' && key != 'projectMembers' && key != 'tags') {
+                if(formDatas[key] == '') {
                     that.errors[key] = 'Should not be left empty';
                 }
             }

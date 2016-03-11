@@ -34,7 +34,7 @@
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectStatus)) {
+            if (formValidator.isRequired(projectStatus)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {
@@ -47,10 +47,12 @@
 
         showErrors: function (errors) {
             for (var elementId in errors) {
-                var parentElement = document.querySelector('#' + elementId).parentElement;
+                var parentElement = $('#' + elementId).parent();
 
-                parentElement.className += " has-error";
-                parentElement.querySelector('span').innerHTML = errors[elementId];
+                if(!parentElement.hasClass('has-error')){
+                    parentElement.addClass('has-error');
+                }
+                parentElement.children('span').html(errors[elementId]);
             }
         },
 

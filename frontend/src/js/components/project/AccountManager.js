@@ -69,23 +69,36 @@
 
             validateManager: function () {
                 var input = this.refs.inputTag;
-                if(input.value) {
+                if (input.value) {
                     for (var i = 0; i < this.state.suggestions.length; i++) {
                         if (input.value === this.getAppendedName(i)) {
-                            input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element has-success';
-                            this.props.setManager({'id': this.state.suggestions[i].id});
-                            this.refs.availableMessage.innerHTML = '';
+                            var accountManager = {'id': this.state.suggestions[i].id};
+                            this.showValidity('has-success', '', accountManager);
+                            //input.parentElement.className = 'col-md-6 col-lg-4 element has-success';
+                            //this.props.setManager({'id': this.state.suggestions[i].id});
+                            //this.refs.availableMessage.innerHTML = '';
                             return;
                         }
                     }
-                    input.parentElement.parentElement.className += ' has-error';
-                    this.props.setManager(null);
-                    this.refs.availableMessage.innerHTML = 'Invalid name';
-                }else{
-                    input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element';
-                    this.props.setManager(null);
-                    this.refs.availableMessage.innerHTML = '';
+                    this.showValidity('has-error', 'Invalid name', null);
+                    //input.parentElement.parentElement.className += ' has-error';
+                    //this.props.setManager(null);
+                    //this.refs.availableMessage.innerHTML = 'Invalid name';
+                } else {
+                    this.showValidity('', '', {});
+                    //input.parentElement.parentElement.className = 'col-md-6 col-lg-4 element';
+                    //this.props.setManager(null);
+                    //this.refs.availableMessage.innerHTML = '';
                 }
+            },
+
+            showValidity: function (className, message, accountManager) {
+                var parentElement = $('#account-manager').parent();
+                parentElement.removeClass('has-error');
+                parentElement.removeClass('has-success');
+                parentElement.addClass(className);
+                this.props.setManager(accountManager);
+                this.refs.availableMessage.innerHTML = message;
             },
 
             render: function () {
@@ -94,12 +107,13 @@
                     <div className="col-md-6 col-lg-4 element">
                         <label className="control-label">Account Manager</label>
                         <div className="manager-parent">
-                            <input type="text" placeholder="Account Manager Name" ref="inputTag"
+                            <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
                                    className="form-control manager-input" autoComplete="off" onKeyUp={this.input}
                                    onBlur={this.validateManager} id="account-manager"/>
+                            <span className="help-block" ref="availableMessage"></span>
                             <AutoComplete inputField="manager-input" suggestions={suggestionTitle}/>
                         </div>
-                        <span className="help-block" ref="availableMessage"></span>
+
                     </div>
                 );
             }
