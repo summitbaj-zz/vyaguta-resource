@@ -1,9 +1,8 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -94,40 +93,30 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Project fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
-        List<Tag> validTagList = new ArrayList<>();
-        try {
-            /*
-             * Eliminate redundant Tag objects, which is evaluated comparing id
-             * and title fields
-             */
-            Set<Tag> tagSet = new HashSet<>();
-            tagSet.addAll(project.getTags());
-            validTagList.addAll(tagSet);
+        List<Tag> uniqueTagList = new ArrayList<>();
+        /*
+         * Eliminate redundant Tag objects, which is evaluated comparing id and
+         * title fields
+         */
+        uniqueTagList = project.getTags().stream().distinct().collect(Collectors.toList());
 
-            for (Tag tempTag : validTagList) {
-                if (tempTag.getId() == null && tempTag.getTitle() != null) {
-                    tempTag = tagDao.save(tempTag);
-                } else {
-                    if (tagDao.findById(tempTag.getId()) == null) {
-                        throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
-                    }
+        for (Tag tempTag : uniqueTagList) {
+            if (tempTag.getId() == null && tempTag.getTitle() != null) {
+                tempTag = tagDao.save(tempTag);
+            } else {
+                if (tagDao.findById(tempTag.getId()) == null) {
+                    throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
                 }
-                newTagList.add(tempTag);
             }
-            project.setTags(newTagList);
-            return project;
-        } catch (NullPointerException e) {
-            return project;
+            newTagList.add(tempTag);
         }
+        project.setTags(newTagList);
+        return project;
     }
 
     private Project fixProjectMembers(Project project) {
-        try {
-            for (ProjectMember pm : project.getProjectMembers()) {
-                pm.setProject(project);
-            }
-        } catch (NullPointerException e) {
-            return project;
+        for (ProjectMember pm : project.getProjectMembers()) {
+            pm.setProject(project);
         }
         return project;
     }
