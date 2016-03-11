@@ -87,7 +87,6 @@
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
-
                 }, function (error) {
                     dispatch(apiActions.apiError(error));
                 }));

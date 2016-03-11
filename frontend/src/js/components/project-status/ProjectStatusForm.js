@@ -23,7 +23,7 @@
             }
         },
 
-        componentWillUnmount: function() {
+        componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
         },
 
