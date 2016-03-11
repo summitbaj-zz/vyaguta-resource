@@ -170,13 +170,13 @@ public class BudgetTypeServiceImplTest {
     @Test
     public void testCountBudgetType() {
         // arrange
-        Mockito.when(this.budgetTypeDao.count()).thenReturn(COUNT);
+        Mockito.when(this.budgetTypeDao.count(null)).thenReturn(COUNT);
 
         // act
         Long result = this.budgetTypeService.count();
 
         // assert
-        Mockito.verify(budgetTypeDao).count();
+        Mockito.verify(budgetTypeDao).count(null);
         assertEquals(Long.valueOf("20"), result);
     }
 

@@ -165,7 +165,7 @@ public class ProjectDaoImplTest {
         Mockito.when(criteriaUtil.count(Project.class)).thenReturn(10L);
 
         // act
-        Long count = this.projectDaoImpl.count();
+        Long count = this.projectDaoImpl.count(null);
 
         // assert
         Mockito.verify(criteriaUtil).count(Project.class);

@@ -166,13 +166,13 @@ public class TagServiceImplTest {
     public void testCount() {
 
         // arrange
-        Mockito.when(tagDao.count()).thenReturn(10L);
+        Mockito.when(tagDao.count(null)).thenReturn(10L);
 
         // act
         Long result = this.tagServiceImpl.count();
 
         // assert
-        Mockito.verify(tagDao).count();
+        Mockito.verify(tagDao).count(null);
         assertThat(result, is(Long.valueOf(10)));
     }
 

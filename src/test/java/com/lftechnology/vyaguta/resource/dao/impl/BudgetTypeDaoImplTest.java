@@ -170,7 +170,7 @@ public class BudgetTypeDaoImplTest {
         Mockito.when(this.criteriaUtil.count(BudgetType.class)).thenReturn(100L);
 
         // act
-        Long result = this.budgetTypeDao.count();
+        Long result = this.budgetTypeDao.count(null);
 
         // assert
         Mockito.verify(this.criteriaUtil, Mockito.times(1)).count(BudgetType.class);
