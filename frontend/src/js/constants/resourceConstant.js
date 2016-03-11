@@ -9,6 +9,7 @@
         BUDGET_TYPES: 'budgetTypes',
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
+        PROJECT_ROLES: 'projectRoles',
         PROJECTS: 'projects',
         CLIENTS: 'clients',
         ERROR_MESSAGE: 'errorMessage',

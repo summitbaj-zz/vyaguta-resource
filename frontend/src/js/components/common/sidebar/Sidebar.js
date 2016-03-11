@@ -34,6 +34,9 @@
                                 <li><Link to={urlConstant.PROJECTS.INDEX} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Projects</span>
                                 </Link></li>
+                                <li><Link to={urlConstant.PROJECT_ROLES.INDEX} className="sidebar-nav-menu"><i
+                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Roles</span>
+                                </Link></li>
                                 <li><Link to={urlConstant.CLIENTS.INDEX} className="sidebar-nav-menu"><i
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Clients</span>
                                 </Link></li>

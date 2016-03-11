@@ -22,6 +22,10 @@
             }
         },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.CLIENTS);
+        },
+
         //called when form is submitted
         saveClient: function (event) {
             event.preventDefault();

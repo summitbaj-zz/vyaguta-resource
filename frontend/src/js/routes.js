@@ -13,6 +13,7 @@
         <Router history={browserHistory}>
             <Route path="/" name="Dashboard" component={require('./components/App')}>
                 <IndexRoute component={require('./components/dashboard/Dashboard')}/>
+
                 <Route path="budgettypes" name="Budget Types"
                        component={require('./components/budget-type/BudgetTypeMain')}>
                     <IndexRoute component={require('./components/budget-type/BudgetTypeList')}/>
@@ -20,6 +21,7 @@
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/budget-type/BudgetTypeForm')}/>
                 </Route>
+
                 <Route path="projectstatus" name="Project Status"
                        component={require('./components/project-status/ProjectStatusMain')}>
                     <IndexRoute component={require('./components/project-status/ProjectStatusList')}/>
@@ -28,6 +30,7 @@
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/project-status/ProjectStatusForm')}/>
                 </Route>
+
                 <Route path="projecttypes" name="Project Types"
                        component={require('./components/project-type/ProjectTypeMain')}>
                     <IndexRoute component={require('./components/project-type/ProjectTypeList')}/>
@@ -36,6 +39,7 @@
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/project-type/ProjectTypeForm')}/>
                 </Route>
+
                 <Route path="projects" name="Projects"
                        component={require('./components/project/ProjectMain')}>
                     <IndexRoute component={require('./components/project/ProjectList')}/>
@@ -46,6 +50,16 @@
                     <Route path="details/:id" name="Details"
                            component={require('./components/project/ProjectDetails')}/>
                 </Route>
+
+                <Route path="projectRoles" name="ProjectRoles"
+                       component={require('./components/project-role/ProjectRoleMain')}>
+                    <IndexRoute component={require('./components/project-role/ProjectRoleList')}/>
+                    <Route path="new" name="Add"
+                           component={require('./components/project-role/ProjectRoleForm')}/>
+                    <Route path="edit/:id" name="Edit"
+                           component={require('./components/project-role/ProjectRoleForm')}/>
+                </Route>
+
                 <Route path="clients" name="Clients"
                        component={require('./components/client/ClientMain')}>
                     <IndexRoute component={require('./components/client/ClientList')}/>

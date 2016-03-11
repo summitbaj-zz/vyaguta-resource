@@ -23,6 +23,11 @@
             NEW: '/projecttypes/new',
             EDIT: '/projecttypes/edit/'
         },
+        PROJECT_ROLES: {
+            INDEX: '/projectroles',
+            NEW: '/projectroles/new',
+            EDIT: '/projectroles/edit/'
+        },
         PROJECTS: {
             INDEX: '/projects',
             NEW: '/projects/new',
