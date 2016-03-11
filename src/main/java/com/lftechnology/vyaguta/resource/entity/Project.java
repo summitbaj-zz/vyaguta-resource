@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,7 +27,6 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
 import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
@@ -159,5 +160,15 @@ public class Project extends BaseEntity implements Serializable {
 
     public void setProjectmembers(List<ProjectMember> projectMembers) {
         this.projectMembers = projectMembers;
+    }
+
+    @PrePersist
+    public void prePersists() {
+        this.setTitle(this.getTitle().trim());
+    }
+
+    @PreUpdate
+    public void preUpdates() {
+        this.setTitle(this.getTitle().trim());
     }
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -79,6 +81,16 @@ public class Tag extends BaseEntity implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @PrePersist
+    public void prePersists() {
+        this.setTitle(this.getTitle().trim());
+    }
+
+    @PreUpdate
+    public void preUpdates() {
+        this.setTitle(this.getTitle().trim());
     }
 
 }

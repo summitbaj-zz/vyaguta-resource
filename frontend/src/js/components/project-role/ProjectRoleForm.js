@@ -22,6 +22,10 @@
             }
         },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_ROLES);
+        },
+
         //called when form is submitted
         saveProjectRole: function (event) {
             event.preventDefault();

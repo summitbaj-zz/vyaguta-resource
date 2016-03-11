@@ -50,6 +50,10 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
         },
 
+        componentWillUnmount: function() {
+            this.props.actions.clearMemberState();
+        },
+
         setManager: function (value) {
             this.setState({accountManager: value});
         },
