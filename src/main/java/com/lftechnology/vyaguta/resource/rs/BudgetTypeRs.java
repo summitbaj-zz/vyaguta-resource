@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.service.BudgetTypeService;
 
@@ -36,7 +37,7 @@ public class BudgetTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         List<BudgetType> budgetTypes = budgetTypeService.findByFilter(uriInfo.getQueryParameters());
-        return Response.status(Response.Status.OK).entity(budgetTypes).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetTypes)).build();
     }
 
     @Path("/")
@@ -45,7 +46,7 @@ public class BudgetTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid BudgetType budgetType) {
         budgetType = budgetTypeService.save(budgetType);
-        return Response.status(Response.Status.OK).entity(budgetType).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
     }
 
     @Path("/{id}")
@@ -54,7 +55,7 @@ public class BudgetTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid BudgetType budgetTypeNew) {
         BudgetType budgetType = budgetTypeService.merge(id, budgetTypeNew);
-        return Response.status(Response.Status.OK).entity(budgetType).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
     }
 
     @Path("/{id}")
@@ -63,7 +64,7 @@ public class BudgetTypeRs {
     public Response findById(@PathParam("id") String id) {
         BudgetType budgetType = budgetTypeService.findById(id);
         if (budgetType != null) {
-            return Response.status(Response.Status.OK).entity(budgetType).build();
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
         } else {
             throw new ObjectNotFoundException();
         }

@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
 
@@ -38,7 +39,7 @@ public class ProjectStatusRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         List<ProjectStatus> projectStatus = projectStatusService.findByFilter(uriInfo.getQueryParameters());
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
     }
 
     @Path("/")
@@ -47,7 +48,7 @@ public class ProjectStatusRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
         projectStatus = projectStatusService.save(projectStatus);
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
     }
 
     @Path("/{id}")
@@ -57,7 +58,7 @@ public class ProjectStatusRs {
     public Response update(@PathParam("id") String id,
             @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
         ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
     }
 
     @Path("/{id}")
@@ -66,7 +67,7 @@ public class ProjectStatusRs {
     public Response findById(@PathParam("id") String id) {
         ProjectStatus projectStatus = projectStatusService.findById(id);
         if (projectStatus != null) {
-            return Response.status(Response.Status.OK).entity(projectStatus).build();
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
         } else {
             throw new ObjectNotFoundException();
         }
