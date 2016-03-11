@@ -22,6 +22,10 @@
             }
         },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_TYPES);
+        },
+
         //called when form is submitted
         saveProjectType: function (event) {
             event.preventDefault();

@@ -10,7 +10,7 @@
     //React dependencies
     var React = require('react');
 
-    //componets
+    //components
     var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
     var ProjectHeader = React.createClass({

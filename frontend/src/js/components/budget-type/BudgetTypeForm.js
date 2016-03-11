@@ -29,6 +29,10 @@
             }
         },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
+        },
+
         //call when form is submitted
         saveBudgetType: function (event) {
             event.preventDefault();
