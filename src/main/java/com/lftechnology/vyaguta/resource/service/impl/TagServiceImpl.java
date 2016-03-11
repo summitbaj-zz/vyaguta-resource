@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Long count() {
-        return tagDao.count();
+        return tagDao.count(null);
     }
 
     @Override
@@ -76,8 +77,14 @@ public class TagServiceImpl implements TagService {
         return tagDao.find(start, offset);
     }
 
+    @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return tagDao.findByFilter(queryParameters);
+        return new HashMap<String, Object>() {
+            {
+                put("count", tagDao.count(queryParameters));
+                put("data", tagDao.findByFilter(queryParameters));
+            }
+        };
     }
 }

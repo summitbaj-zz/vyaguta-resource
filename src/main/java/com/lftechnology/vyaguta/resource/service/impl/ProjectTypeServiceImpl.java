@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 
     @Override
     public Long count() {
-        return projectTypeDao.count();
+        return projectTypeDao.count(null);
     }
 
     @Override
@@ -75,8 +76,14 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
         return projectTypeDao.find(start, offset);
     }
 
+    @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return projectTypeDao.findByFilter(queryParameters);
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectTypeDao.count(queryParameters));
+                put("data", projectTypeDao.findByFilter(queryParameters));
+            }
+        };
     }
 }
