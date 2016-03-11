@@ -11,10 +11,9 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectStatusHeader = require('./ProjectStatusHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
-
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
@@ -65,7 +64,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectStatusHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
                                          routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>

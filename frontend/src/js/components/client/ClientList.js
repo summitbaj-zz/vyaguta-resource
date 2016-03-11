@@ -13,7 +13,7 @@
 
     //components
     var Client = require('./ClientRow');
-    var ClientHeader = require('./ClientHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
 
@@ -38,7 +38,7 @@
         render: function () {
             return (
                 <div>
-                    <ClientHeader header="Clients" routes={this.props.routes}/>
+                    <EntityHeader header="Clients" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Client Details</h2>

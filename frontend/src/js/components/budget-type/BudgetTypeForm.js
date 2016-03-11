@@ -17,7 +17,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
@@ -74,7 +74,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
                                       routes={this.props.routes}/>
                     <div className="block">
                         <div
