@@ -10,6 +10,7 @@
         PROJECT_STATUS: 'projectStatus',
         PROJECT_TYPES: 'projectTypes',
         PROJECTS: 'projects',
+        CLIENTS: 'clients',
         ERROR_MESSAGE: 'errorMessage',
         VISIBLE: 'visible',
         TAGS: 'tags',

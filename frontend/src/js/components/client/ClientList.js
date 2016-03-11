@@ -12,40 +12,41 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var Project = require('./ProjectRow');
-    var ProjectHeader = require('./ProjectHeader');
+    var Client = require('./ClientRow');
+    var ClientHeader = require('./ClientHeader');
     var crudActions = require('../../actions/crudActions');
 
-    var ProjectList = React.createClass({
+
+    var ClientList = React.createClass({
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECTS);
+            this.props.actions.fetchAll(resourceConstant.CLIENTS);
         },
 
-        deleteProject: function (key) {
+        deleteClient: function (id) {
             if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECTS, id);
+                this.props.actions.deleteItem(resourceConstant.CLIENTS, id);
             }
         },
 
-        renderProject: function (key) {
+        renderClient: function (key) {
             return (
-                <Project key={key} index={key} project={this.props.projects[key]}
-                         deleteProject={this.deleteProject}/>
+                <Client key={key} index={key} client={this.props.clients[key]}
+                             deleteClient={this.deleteClient}/>
             );
         },
 
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Projects" routes={this.props.routes}/>
+                    <ClientHeader header="Clients" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Details</h2>
+                            <h2>Client Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
+                                <Link to={urlConstant.CLIENTS.NEW} title="Add Client"
                                       data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
-                                    className="fa fa-plus"></i> Add Project</Link>
+                                    className="fa fa-plus"></i> Add Client</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
@@ -53,17 +54,16 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Projects</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Budget Type</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>Name</th>
+                                    <th>Email Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Skype Id</th>
+                                    <th>Address</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Object.keys(this.props.projects).map(this.renderProject)}
+                                {Object.keys(this.props.clients).map(this.renderClient)}
                                 </tbody>
                             </table>
                         </div>
@@ -75,7 +75,7 @@
 
     var mapStateToProps = function (state) {
         return {
-            projects: state.crudReducer.projects
+            clients: state.crudReducer.clients
         }
     };
 
@@ -85,6 +85,5 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectList);
-
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ClientList);
 })();

@@ -12,6 +12,7 @@
         budgetTypes: [],
         projectTypes: [],
         projects: [],
+        clients: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
                 budgetType: {},
@@ -21,6 +22,7 @@
             },
             budgetTypes: {},
             projectTypes: {},
+            clients: {},
             projectStatus: {}
         }
     };

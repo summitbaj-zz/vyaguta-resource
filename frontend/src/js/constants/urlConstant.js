@@ -29,6 +29,11 @@
             EDIT: '/projects/edit/',
             DETAILS: '/projects/details'
         },
+        CLIENTS: {
+            INDEX: '/clients',
+            NEW: '/clients/new',
+            EDIT: '/clients/edit/'
+        },
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core'
     };
