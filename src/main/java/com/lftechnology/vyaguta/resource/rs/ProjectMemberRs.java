@@ -97,27 +97,6 @@ public class ProjectMemberRs {
         return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 
-    @Path("/member/{employeeId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get list of information of a employee on any project as a project member", notes = "Fetch list of project details of a particular employee", response = ProjectMember.class, responseContainer = "List")
-    public Response findByEmployeeId(
-            @ApiParam(value = "Employee id", required = true) @PathParam("employeeId") String employeeId) {
-        List<ProjectMember> projectMembers = projectMemberService.findByEmployeeId(employeeId);
-        return Response.status(Response.Status.OK).entity(projectMembers).build();
-    }
-
-    @Path("/project/{projectId}/member/{employeeId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get information about a employee's involvement in a project", notes = "Fetch information of particular employee in any particular project", response = ProjectMember.class, responseContainer = "List")
-    public Response findByProjectIdAndEmployeeId(
-            @ApiParam(value = "Project id", required = true) @PathParam("projectId") String projectId,
-            @ApiParam(value = "Employee id", required = true) @PathParam("employeeId") String employeeId) {
-        List<ProjectMember> projectMembers = projectMemberService.findByProjectIdAndEmployeeId(projectId, employeeId);
-        return Response.status(Response.Status.OK).entity(projectMembers).build();
-    }
-
     @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)

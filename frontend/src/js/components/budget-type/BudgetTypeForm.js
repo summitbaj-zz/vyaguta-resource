@@ -17,7 +17,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
@@ -27,6 +27,10 @@
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id);
             }
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
         },
 
         //call when form is submitted
@@ -64,13 +68,13 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.BUDGET_TYPES, key, value);
         },
 
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
                                       routes={this.props.routes}/>
                     <div className="block">
                         <div

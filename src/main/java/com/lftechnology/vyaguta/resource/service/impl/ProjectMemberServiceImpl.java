@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.dao.ProjectMemberDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
@@ -88,22 +87,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         return projectMemberDao.findByProject(project);
     }
 
-    @Override
-    public List<ProjectMember> findByEmployeeId(String employeeId) {
-        User employee = new User();
-        employee.setId(employeeId);
-        return projectMemberDao.findByEmployee(employee);
-    }
-
-    @Override
-    public List<ProjectMember> findByProjectIdAndEmployeeId(String projectId, String employeeId) {
-        Project project = new Project();
-        project.setId(projectId);
-        User employee = new User();
-        employee.setId(employeeId);
-        return projectMemberDao.findByProjectAndEmployee(project, employee);
-    }
-
     @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
@@ -113,6 +96,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
                 put("data", projectMemberDao.findByFilter(queryParameters));
             }
         };
-    }
 
+    }
 }

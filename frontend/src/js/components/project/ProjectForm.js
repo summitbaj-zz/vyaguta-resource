@@ -22,7 +22,7 @@
     var _ = require('lodash');
 
     //components
-    var ProjectHeader = require('./ProjectHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var TeamMemberForm = require('./member/TeamMemberForm');
@@ -50,18 +50,22 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
         },
 
+        componentWillUnmount: function() {
+            this.props.actions.clearMemberState();
+        },
+
         setManager: function (value) {
             this.setState({accountManager: value});
         },
 
-        addNewTag: function (value) {
-            var newTag = {title: value};
-            this.state.technologyStack.push(newTag);
+        addTag: function (value) {
+            this.state.technologyStack.push(value);
             this.setState({technologyStack: this.state.technologyStack});
         },
 
         removeTag: function (index) {
             var techStack = this.state.technologyStack;
+
             if (index != null) {
                 techStack.splice(index, 1);
             }
@@ -153,23 +157,27 @@
         checkTitle: function (title) {
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
-                this.refs.availableMessage.innerHTML = 'Valid name';
+                this.refs.availableMessage.innerHTML = '';
             } else {
                 this.refs.title.parentElement.className += ' has-error';
-                this.refs.availableMessage.innerHTML = 'Invalid name';
+                this.refs.availableMessage.innerHTML = 'Project name already exists.';
             }
         },
 
         validateTitle: function () {
             var title = this.refs.title.value;
-
-            ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+            if(title) {
+                ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+            }else{
+                this.refs.title.parentElement.className = 'form-group';
+                this.refs.availableMessage.innerHTML = '';
+            }
         },
 
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Add Project" routes={this.props.routes}/>
+                    <EntityHeader header="Add Project" routes={this.props.routes}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">
@@ -245,7 +253,7 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         removeTag={this.removeTag} addNewTag={this.addNewTag}/>
+                                                         removeTag={this.removeTag} addTag={this.addTag}/>
                                         <span className="help-block"></span>
 
                                     </div>

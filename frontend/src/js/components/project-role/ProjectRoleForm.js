@@ -15,30 +15,30 @@
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
-    var ProjectTypeForm = React.createClass({
+    var ProjectRoleForm = React.createClass({
         componentDidMount: function () {
             if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECT_TYPES, this.props.params.id);
+                this.props.actions.fetchById(resourceConstant.PROJECT_ROLES, this.props.params.id);
             }
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_TYPES);
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_ROLES);
         },
 
         //called when form is submitted
-        saveProjectType: function (event) {
+        saveProjectRole: function (event) {
             event.preventDefault();
 
-            var projectType = {
+            var projectRole = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectType)) {
+            if (formValidator.isValid(projectRole)) {
                 if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
+                    this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
                 } else {
-                    this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
+                    this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
             } else {
                 this.showErrors(formValidator.errors);
@@ -58,23 +58,23 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_TYPES, key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_ROLES, key, value);
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
                                        routes={this.props.routes}/>
                     <div className="block">
-                        <div className="block-title-border">Project Type Details</div>
-                        <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>
+                        <div className="block-title-border">Project Role Details</div>
+                        <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
                             <div className="form-group">
-                                <label>Project Type</label>
+                                <label>Project Role</label>
                                 <input type="text" ref="title" name="title"
-                                       value={this.props.selectedItem.projectTypes.title}
+                                       value={this.props.selectedItem.projectRoles.title}
                                        onChange={this.fieldChange}
-                                       placeholder="Project Type"
+                                       placeholder="Project Role"
                                        className="form-control"
                                        id="title"/>
                                 <span className="help-block"></span>
@@ -108,6 +108,6 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectTypeForm);
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectRoleForm);
 
 })();

@@ -13,7 +13,7 @@
 
     //components
     var Project = require('./ProjectRow');
-    var ProjectHeader = require('./ProjectHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
     var ProjectList = React.createClass({
@@ -37,10 +37,10 @@
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Projects" routes={this.props.routes}/>
+                    <EntityHeader header="Projects" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Type Details</h2>
+                            <h2>Project Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
                                       data-toggle="tooltip"

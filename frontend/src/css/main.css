@@ -1301,7 +1301,7 @@ li.dropdown-header {
     color: white;
 }
 
-.billed-resource input:checked span {
+.billed-resource input:checked + span {
     background-color: #6CC068;
 }
 

@@ -12,6 +12,8 @@
         budgetTypes: [],
         projectTypes: [],
         projects: [],
+        projectRoles: [],
+        clients: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
                 budgetType: {},
@@ -19,8 +21,10 @@
                 projectStatus: {},
                 accountManager: {}
             },
+            projectRoles: {},
             budgetTypes: {},
             projectTypes: {},
+            clients: {},
             projectStatus: {}
         }
     };
@@ -52,7 +56,13 @@
 
             case actionTypeConstant.UPDATE_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
-                newState.selectedItem[action.key] = action.value;
+
+                newState.selectedItem[action.entity][action.key] = action.value;
+                return newState;
+
+            case actionTypeConstant.CLEAR_SELECTED_ITEM:
+                var newState = _.cloneDeep(state);
+                newState.selectedItem[action.entity] = {};
 
                 return newState;
 

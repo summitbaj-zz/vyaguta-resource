@@ -3,6 +3,8 @@ package com.lftechnology.vyaguta.resource.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -31,4 +33,13 @@ public class ProjectType extends BaseEntity implements Serializable {
         this.title = title;
     }
 
+    @PrePersist
+    public void prePersists() {
+        this.setTitle(this.getTitle().trim());
+    }
+
+    @PreUpdate
+    public void preUpdates() {
+        this.setTitle(this.getTitle().trim());
+    }
 }

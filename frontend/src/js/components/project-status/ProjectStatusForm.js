@@ -11,16 +11,19 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectStatusHeader = require('./ProjectStatusHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
-
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
             }
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
         },
 
         //called when form is submitted
@@ -55,13 +58,13 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_STATUS, key, value);
         },
 
         render: function () {
             return (
                 <div>
-                    <ProjectStatusHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
                                          routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>

@@ -10,7 +10,7 @@
     var ErrorMessage = React.createClass({
         render: function () {
             if (this.props.errorMessage) {
-                $('#page-content').css("min-height", 'Calc(100% - 122px)');
+                $('#page-content').css('min-height', 'Calc(100% - 122px)');
                 return (
                     <div className="row error-message">
                         <div className="col-lg-12">
@@ -22,7 +22,7 @@
                 )
             }
             else {
-                $('#page-content').css("min-height", 'Calc(100% - 84px)');
+                $('#page-content').css('min-height', 'Calc(100% - 84px)');
                 return (<div className="row"></div>)
             }
         }

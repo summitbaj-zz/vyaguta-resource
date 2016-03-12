@@ -13,7 +13,7 @@
 
     //components
     var ProjectStatus = require('./ProjectStatusRow');
-    var ProjectStatusHeader = require('./ProjectStatusHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
 
@@ -38,7 +38,8 @@
         render: function () {
             return (
                 <div>
-                    <ProjectStatusHeader header="Project Status" routes={this.props.routes}/>
+                    <EntityHeader header="Project Status"
+                                  routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
