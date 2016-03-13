@@ -14,7 +14,7 @@ SET default_with_oids = false;
 
 CREATE TABLE budget_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE ONLY budget_types
 
 CREATE TABLE project_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -44,7 +44,7 @@ ALTER TABLE ONLY project_types
     
 CREATE TABLE project_status (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -58,7 +58,7 @@ ALTER TABLE ONLY project_status
 
 CREATE TABLE tags (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -73,7 +73,7 @@ ALTER TABLE ONLY tags
     
 CREATE TABLE projects (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     description text,
     account_manager character varying(32),
     project_type_id character varying(32),
@@ -117,7 +117,7 @@ CREATE TABLE project_members (
     project_id character varying(32) NOT NULL,
     employee character varying(32) NOT NULL,
     role_id character varying(32),
-    allocation decimal(2,2),
+    allocation decimal(5,2),
     billed boolean,
     active boolean,
     join_date date,
