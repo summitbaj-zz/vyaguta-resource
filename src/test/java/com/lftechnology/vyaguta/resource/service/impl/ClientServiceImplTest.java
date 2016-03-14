@@ -68,8 +68,7 @@ public class ClientServiceImplTest {
     public void testUpdateClient() {
         // arrange
         Client client = new Client();
-        Mockito.when(this.clientDao.update(Matchers.any(Client.class)))
-                .thenReturn(client);
+        Mockito.when(this.clientDao.update(Matchers.any(Client.class))).thenReturn(client);
 
         // act
         this.clientService.update(client);
@@ -83,10 +82,8 @@ public class ClientServiceImplTest {
     public void testMergeClient() {
         // arrange
         Client client = this.buildClient();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-                client);
-        Mockito.when(this.clientService.findById(Matchers.anyString()))
-                .thenReturn(client);
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(client);
+        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(client);
 
         // act
         this.clientService.merge(ID, client);
@@ -100,8 +97,7 @@ public class ClientServiceImplTest {
 
         // arrange
         Client client = new Client();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-                null);
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
 
         // act
@@ -126,10 +122,8 @@ public class ClientServiceImplTest {
     public void testRemoveClientById() {
         // arrange
         Client client = this.buildClient();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-                client);
-        Mockito.when(this.clientService.findById(Matchers.anyString()))
-                .thenReturn(client);
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(client);
+        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(client);
 
         // act
         this.clientService.removeById(ID);
@@ -142,8 +136,7 @@ public class ClientServiceImplTest {
     @Test
     public void testRemoveClientByIdWhenObjectNotFoundException() {
         // arrange
-        Mockito.when(this.clientService.findById(Matchers.anyString()))
-                .thenReturn(null);
+        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
         // act
         this.clientService.removeById(ID);
@@ -153,8 +146,7 @@ public class ClientServiceImplTest {
     @Test
     public void findClientById() {
         // arrange
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(
-                new Client());
+        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(new Client());
 
         // act
         this.clientService.findById(ID);
@@ -167,8 +159,7 @@ public class ClientServiceImplTest {
     @Test
     public void testFindAllClient() {
         // arrange
-        Mockito.when(this.clientDao.findAll()).thenReturn(
-                new ArrayList<Client>());
+        Mockito.when(this.clientDao.findAll()).thenReturn(new ArrayList<Client>());
 
         // act
         this.clientService.findAll();
@@ -193,8 +184,7 @@ public class ClientServiceImplTest {
     @Test
     public void testFindClient() {
         // arrange
-        Mockito.when(this.clientDao.find(Matchers.anyInt(), Matchers.anyInt()))
-                .thenReturn(new ArrayList<Client>());
+        Mockito.when(this.clientDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Client>());
 
         // act
         this.clientService.find(Matchers.anyInt(), Matchers.anyInt());

@@ -78,8 +78,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> findByFilter(
-            MultivaluedMap<String, String> queryParameters) {
+    public List<Client> findByFilter(MultivaluedMap<String, String> queryParameters) {
         return clientDao.findByFilter(queryParameters);
     }
 }

@@ -42,10 +42,8 @@ public class ClientRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         log.debug("client list parameters: {}", uriInfo.getQueryParameters());
-        List<Client> clients = clientService.findByFilter(uriInfo
-                .getQueryParameters());
-        return Response.status(Response.Status.OK)
-                .entity(JsonToStringBuilder.toString(clients)).build();
+        List<Client> clients = clientService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(clients)).build();
     }
 
     @Path("/")
@@ -54,20 +52,17 @@ public class ClientRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid Client client) {
         client = clientService.save(client);
-        return Response.status(Response.Status.OK)
-                .entity(JsonToStringBuilder.toString(client)).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }
 
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id,
-            @NotNull @Valid Client clientNew) {
+    public Response update(@PathParam("id") String id, @NotNull @Valid Client clientNew) {
         log.debug("client Id: {}", id);
         Client client = clientService.merge(id, clientNew);
-        return Response.status(Response.Status.OK)
-                .entity(JsonToStringBuilder.toString(client)).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }
 
     @Path("/{id}")
@@ -77,8 +72,7 @@ public class ClientRs {
         log.debug("client Id: {}", id);
         Client client = clientService.findById(id);
         if (client != null) {
-            return Response.status(Response.Status.OK)
-                    .entity(JsonToStringBuilder.toString(client)).build();
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
         } else {
             throw new ObjectNotFoundException();
         }

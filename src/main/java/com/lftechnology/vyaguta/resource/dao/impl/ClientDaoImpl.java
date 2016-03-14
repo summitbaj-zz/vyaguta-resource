@@ -24,8 +24,7 @@ public class ClientDaoImpl extends BaseDao<Client, String> implements ClientDao 
     }
 
     /**
-     * This method defines predicates for Criteria query on the basis of query
-     * parameters.
+     * This method defines predicates for Criteria query on the basis of query parameters.
      * 
      * @param MultiValued
      *            <String, String> queryParameters
@@ -36,21 +35,18 @@ public class ClientDaoImpl extends BaseDao<Client, String> implements ClientDao 
      * @return Predicate[]
      */
     @Override
-    protected Predicate[] extractPredicates(
-            MultivaluedMap<String, String> queryParameters,
-            CriteriaBuilder criteriaBuilder, Root<Client> root) {
+    protected Predicate[] extractPredicates(MultivaluedMap<String, String> queryParameters, CriteriaBuilder criteriaBuilder,
+            Root<Client> root) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (queryParameters.containsKey("name")) {
             String name = queryParameters.getFirst("name").toUpperCase();
-            Predicate predicate = criteriaBuilder.equal(
-                    criteriaBuilder.upper(root.get("name")), name);
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(root.get("name")), name);
             predicates.add(predicate);
         }
         if (queryParameters.containsKey("email")) {
             String email = queryParameters.getFirst("email").toUpperCase();
-            Predicate predicate = criteriaBuilder.equal(
-                    criteriaBuilder.upper(root.get("email")), email);
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(root.get("email")), email);
 
             predicates.add(predicate);
         }
