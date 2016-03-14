@@ -16,6 +16,8 @@
             for (var key in formDatas) {
                 if (formDatas[key] == '') {
                     that.errors[key] = 'Should not be left empty';
+                } else {
+                    delete that.errors[key];
                 }
             }
             return ((Object.keys(that.errors).length == 0) ? true : false);
