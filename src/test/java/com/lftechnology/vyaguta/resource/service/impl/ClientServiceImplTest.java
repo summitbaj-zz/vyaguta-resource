@@ -171,13 +171,13 @@ public class ClientServiceImplTest {
     @Test
     public void testCountClient() {
         // arrange
-        Mockito.when(this.clientDao.count()).thenReturn(COUNT);
+        Mockito.when(this.clientDao.count(null)).thenReturn(COUNT);
 
         // act
         Long result = this.clientService.count();
 
         // assert
-        Mockito.verify(clientDao).count();
+        Mockito.verify(clientDao).count(null);
         assertEquals(Long.valueOf("20"), result);
     }
 
