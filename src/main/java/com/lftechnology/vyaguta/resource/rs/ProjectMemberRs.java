@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -19,7 +20,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
 import com.lftechnology.vyaguta.resource.service.ProjectMemberService;
 
@@ -46,8 +46,8 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class, responseContainer = "List")
     public Response list(@Context UriInfo uriInfo) {
-        List<ProjectMember> projectMembers = projectMemberService.findByFilter(uriInfo.getQueryParameters());
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMembers)).build();
+        Map<String, Object> projectMembers = projectMemberService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 
     @Path("/")
@@ -59,7 +59,7 @@ public class ProjectMemberRs {
     public Response create(
             @ApiParam(value = "Project member object to create", required = true) @NotNull(message = "Request body expected") @Valid ProjectMember projectMember) {
         projectMember = projectMemberService.save(projectMember);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMember)).build();
+        return Response.status(Response.Status.OK).entity(projectMember).build();
     }
 
     @Path("/{id}")
@@ -71,7 +71,7 @@ public class ProjectMemberRs {
     public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
             @ApiParam(value = "Project member object to create", required = true) @NotNull @Valid ProjectMember projectMemberNew) {
         ProjectMember project = projectMemberService.merge(id, projectMemberNew);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(project)).build();
+        return Response.status(Response.Status.OK).entity(project).build();
     }
 
     @Path("/{id}")
@@ -81,7 +81,7 @@ public class ProjectMemberRs {
     public Response findById(@ApiParam(value = "Id to fetch information", required = true) @PathParam("id") String id) {
         ProjectMember projectMember = projectMemberService.findById(id);
         if (projectMember != null) {
-            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMember)).build();
+            return Response.status(Response.Status.OK).entity(projectMember).build();
         } else {
             throw new ObjectNotFoundException();
         }
@@ -94,28 +94,7 @@ public class ProjectMemberRs {
     public Response findByProject(
             @ApiParam(value = "Project id", required = true) @PathParam("projectId") String project_id) {
         List<ProjectMember> projectMembers = projectMemberService.findByProjectId(project_id);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMembers)).build();
-    }
-
-    @Path("/member/{employeeId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get list of information of a employee on any project as a project member", notes = "Fetch list of project details of a particular employee", response = ProjectMember.class, responseContainer = "List")
-    public Response findByEmployeeId(
-            @ApiParam(value = "Employee id", required = true) @PathParam("employeeId") String employeeId) {
-        List<ProjectMember> projectMembers = projectMemberService.findByEmployeeId(employeeId);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMembers)).build();
-    }
-
-    @Path("/project/{projectId}/member/{employeeId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get information about a employee's involvement in a project", notes = "Fetch information of particular employee in any particular project", response = ProjectMember.class, responseContainer = "List")
-    public Response findByProjectIdAndEmployeeId(
-            @ApiParam(value = "Project id", required = true) @PathParam("projectId") String projectId,
-            @ApiParam(value = "Employee id", required = true) @PathParam("employeeId") String employeeId) {
-        List<ProjectMember> projectMembers = projectMemberService.findByProjectIdAndEmployeeId(projectId, employeeId);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectMembers)).build();
+        return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 
     @Path("/{id}")

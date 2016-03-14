@@ -1,12 +1,13 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.dao.ProjectMemberDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
@@ -71,7 +72,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public Long count() {
-        return projectMemberDao.count();
+        return projectMemberDao.count(null);
     }
 
     @Override
@@ -86,25 +87,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         return projectMemberDao.findByProject(project);
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<ProjectMember> findByEmployeeId(String employeeId) {
-        User employee = new User();
-        employee.setId(employeeId);
-        return projectMemberDao.findByEmployee(employee);
-    }
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectMemberDao.count(queryParameters));
+                put("data", projectMemberDao.findByFilter(queryParameters));
+            }
+        };
 
-    @Override
-    public List<ProjectMember> findByProjectIdAndEmployeeId(String projectId, String employeeId) {
-        Project project = new Project();
-        project.setId(projectId);
-        User employee = new User();
-        employee.setId(employeeId);
-        return projectMemberDao.findByProjectAndEmployee(project, employee);
     }
-
-    @Override
-    public List<ProjectMember> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return projectMemberDao.findByFilter(queryParameters);
-    }
-
 }

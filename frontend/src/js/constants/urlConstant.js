@@ -23,11 +23,21 @@
             NEW: '/projecttypes/new',
             EDIT: '/projecttypes/edit/'
         },
+        PROJECT_ROLES: {
+            INDEX: '/projectroles',
+            NEW: '/projectroles/new',
+            EDIT: '/projectroles/edit/'
+        },
         PROJECTS: {
             INDEX: '/projects',
             NEW: '/projects/new',
             EDIT: '/projects/edit/',
             DETAILS: '/projects/details'
+        },
+        CLIENTS: {
+            INDEX: '/clients',
+            NEW: '/clients/new',
+            EDIT: '/clients/edit/'
         },
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core'

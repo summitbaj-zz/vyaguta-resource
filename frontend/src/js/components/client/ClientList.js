@@ -12,41 +12,41 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectType = require('./ProjectTypeRow');
+    var Client = require('./ClientRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
 
-    var ProjectTypeList = React.createClass({
+    var ClientList = React.createClass({
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+            this.props.actions.fetchAll(resourceConstant.CLIENTS);
         },
 
-        deleteProjectType: function (id) {
+        deleteClient: function (id) {
             if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECT_TYPES, id);
+                this.props.actions.deleteItem(resourceConstant.CLIENTS, id);
             }
         },
 
-        renderProjectType: function (key) {
+        renderClient: function (key) {
             return (
-                <ProjectType key={key} index={key} projectType={this.props.projectTypes[key]}
-                             deleteProjectType={this.deleteProjectType}/>
+                <Client key={key} index={key} client={this.props.clients[key]}
+                             deleteClient={this.deleteClient}/>
             );
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Types" routes={this.props.routes}/>
+                    <EntityHeader header="Clients" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Type Details</h2>
+                            <h2>Client Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.PROJECT_TYPES.NEW} title="Add Project Type"
+                                <Link to={urlConstant.CLIENTS.NEW} title="Add Client"
                                       data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
-                                    className="fa fa-plus"></i> Add Project Type</Link>
+                                    className="fa fa-plus"></i> Add Client</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
@@ -54,12 +54,16 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Type</th>
+                                    <th>Name</th>
+                                    <th>Email Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Skype Id</th>
+                                    <th>Address</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
+                                {Object.keys(this.props.clients).map(this.renderClient)}
                                 </tbody>
                             </table>
                         </div>
@@ -71,7 +75,7 @@
 
     var mapStateToProps = function (state) {
         return {
-            projectTypes: state.crudReducer.projectTypes
+            clients: state.crudReducer.clients
         }
     };
 
@@ -81,5 +85,5 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectTypeList);
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ClientList);
 })();

@@ -12,41 +12,41 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectType = require('./ProjectTypeRow');
+    var ProjectRole = require('./ProjectRoleRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
 
-    var ProjectTypeList = React.createClass({
+    var ProjectRoleList = React.createClass({
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+            this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
         },
 
-        deleteProjectType: function (id) {
+        deleteProjectRole: function (id) {
             if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECT_TYPES, id);
+                this.props.actions.deleteItem(resourceConstant.PROJECT_ROLES, id);
             }
         },
 
-        renderProjectType: function (key) {
+        renderProjectRole: function (key) {
             return (
-                <ProjectType key={key} index={key} projectType={this.props.projectTypes[key]}
-                             deleteProjectType={this.deleteProjectType}/>
+                <ProjectRole key={key} index={key} projectRole={this.props.projectRoles[key]}
+                             deleteProjectRole={this.deleteProjectRole}/>
             );
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Types" routes={this.props.routes}/>
+                    <EntityHeader header="Project Roles" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Type Details</h2>
+                            <h2>Project Role Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.PROJECT_TYPES.NEW} title="Add Project Type"
+                                <Link to={urlConstant.PROJECT_ROLES.NEW} title="Add Project Role"
                                       data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
-                                    className="fa fa-plus"></i> Add Project Type</Link>
+                                    className="fa fa-plus"></i> Add Project Role</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
@@ -54,12 +54,12 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Type</th>
+                                    <th>Project Role</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
+                                {Object.keys(this.props.projectRoles).map(this.renderProjectRole)}
                                 </tbody>
                             </table>
                         </div>
@@ -71,7 +71,7 @@
 
     var mapStateToProps = function (state) {
         return {
-            projectTypes: state.crudReducer.projectTypes
+            projectRoles: state.crudReducer.projectRoles
         }
     };
 
@@ -81,5 +81,5 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectTypeList);
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectRoleList);
 })();

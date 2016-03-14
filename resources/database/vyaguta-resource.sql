@@ -14,7 +14,7 @@ SET default_with_oids = false;
 
 CREATE TABLE budget_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE ONLY budget_types
 
 CREATE TABLE project_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -44,7 +44,8 @@ ALTER TABLE ONLY project_types
     
 CREATE TABLE project_status (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
+    color_code character varying(7),
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -58,7 +59,7 @@ ALTER TABLE ONLY project_status
 
 CREATE TABLE tags (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -73,7 +74,7 @@ ALTER TABLE ONLY tags
     
 CREATE TABLE projects (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying(255) NOT NULL CITEXT,
     description text,
     account_manager character varying(32),
     project_type_id character varying(32),
@@ -117,7 +118,7 @@ CREATE TABLE project_members (
     project_id character varying(32) NOT NULL,
     employee character varying(32) NOT NULL,
     role_id character varying(32),
-    allocation decimal(2,2),
+    allocation decimal(5,2),
     billed boolean,
     active boolean,
     join_date date,
@@ -133,6 +134,35 @@ ALTER TABLE ONLY project_members
 ALTER TABLE ONLY project_members 
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 	
+CREATE TABLE project_histories (
+    id character varying(32) NOT NULL,
+    project_id character varying(32) NOT NULL,
+    batch_no character varying(32) NOT NULL,
+    attribute character varying(255) NOT NULL,
+    old_value character varying(255),
+    new_value character varying(255),
+    reason text,
+    created_by character varying(32) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+);
+ALTER TABLE project_histories OWNER TO frieddust;
+ALTER TABLE ONLY project_histories
+    ADD CONSTRAINT project_histories_pk PRIMARY KEY (id);
+    
+CREATE TABLE project_member_histories (
+    id character varying(32) NOT NULL,
+    project_member_id character varying(32) NOT NULL,
+    batch_no character varying(32) NOT NULL,
+    attribute character varying(255) NOT NULL,
+    old_value character varying(255),
+    new_value character varying(255),
+    reason text,
+    created_by character varying(32) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+);
+ALTER TABLE project_member_histories OWNER TO frieddust;
+ALTER TABLE ONLY project_member_histories
+    ADD CONSTRAINT project_member_histories_pk PRIMARY KEY (id);
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;

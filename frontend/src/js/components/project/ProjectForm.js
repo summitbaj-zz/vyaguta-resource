@@ -22,7 +22,7 @@
     var _ = require('lodash');
 
     //components
-    var ProjectHeader = require('./ProjectHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var TeamMemberForm = require('./member/TeamMemberForm');
@@ -33,12 +33,13 @@
     var teamMemberActions = require('../../actions/teamMemberActions');
     var ApiUtil = require('../../util/ApiUtil');
 
+    var isProjectNameValid = true;
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
                 technologyStack: [],
-                accountManager: [],
+                accountManager: {},
                 startDate: moment(),
                 endDate: moment()
             }
@@ -48,6 +49,10 @@
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearMemberState();
         },
 
         setManager: function (value) {
@@ -111,9 +116,12 @@
 
         showErrors: function (errors) {
             for (var elementId in errors) {
-                var parentElement = document.querySelector('#' + elementId).parentElement;
-                parentElement.className += " has-error";
-                parentElement.querySelector('span').innerHTML = errors[elementId];
+                var parentElement = $('#' + elementId).parent();
+
+                if (!parentElement.hasClass('has-error')) {
+                    parentElement.addClass('has-error');
+                }
+                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -142,8 +150,11 @@
                 'tags': this.state.technologyStack,
                 'projectMembers': tempProjectMember
             };
+            var requiredField = {
+                'title': this.refs.title.value
+            };
 
-            if (formValidator.isValid(project)) {
+            if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
                 this.props.actions.addItem(resourceConstant.PROJECTS, project);
             } else {
                 this.showErrors(formValidator.errors)
@@ -154,17 +165,19 @@
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
                 this.refs.availableMessage.innerHTML = '';
+                isProjectNameValid = true;
             } else {
-                this.refs.title.parentElement.className += ' has-error';
+                this.refs.title.parentElement.className = 'form-group has-error';
                 this.refs.availableMessage.innerHTML = 'Project name already exists.';
+                isProjectNameValid = false;
             }
         },
 
         validateTitle: function () {
             var title = this.refs.title.value;
-            if(title) {
+            if (title) {
                 ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
-            }else{
+            } else {
                 this.refs.title.parentElement.className = 'form-group';
                 this.refs.availableMessage.innerHTML = '';
             }
@@ -173,7 +186,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Add Project" routes={this.props.routes}/>
+                    <EntityHeader header="Add Project" routes={this.props.routes}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">

@@ -11,7 +11,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectTypeHeader = require('./ProjectTypeHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
@@ -22,6 +22,10 @@
             }
         },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_TYPES);
+        },
+
         //called when form is submitted
         saveProjectType: function (event) {
             event.preventDefault();
@@ -30,7 +34,7 @@
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectType)) {
+            if (formValidator.isRequired(projectType)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
                 } else {
@@ -43,10 +47,12 @@
 
         showErrors: function (errors) {
             for (var elementId in errors) {
-                var parentElement = document.querySelector('#' + elementId).parentElement;
+                var parentElement = $('#' + elementId).parent();
 
-                parentElement.className += ' ' + 'has-error';
-                parentElement.querySelector('span').innerHTML = errors[elementId];
+                if(!parentElement.hasClass('has-error')){
+                    parentElement.addClass('has-error');
+                }
+                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -60,7 +66,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectTypeHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'}
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'}
                                        routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Type Details</div>

@@ -93,11 +93,6 @@
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
-
-                    //clear Team Member state after saving project form
-                    if (entity == resourceConstant.PROJECTS) {
-                        dispatch(teamMemberActions.clearMemberState());
-                    }
                 }, function (error) {
                     dispatch(apiActions.apiError(error));
                 }));
@@ -112,11 +107,6 @@
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully updated item');
                     browserHistory.goBack();
-
-                    //clear Team Member state after saving project form
-                    if (entity == resourceConstant.PROJECTS) {
-                        dispatch(teamMemberActions.clearMemberState());
-                    }
                 }, function (error) {
                     dispatch(apiActions.apiError(error));
                 }))
@@ -168,8 +158,16 @@
                     dispatch(actions.pageIndex(data));
                 }));
             }
+        },
+
+        clearSelectedItem: function (entity) {
+            return {
+                type: actionTypeConstant.CLEAR_SELECTED_ITEM,
+                entity: entity
+            }
         }
     };
+
 
     module.exports = crudActions;
 

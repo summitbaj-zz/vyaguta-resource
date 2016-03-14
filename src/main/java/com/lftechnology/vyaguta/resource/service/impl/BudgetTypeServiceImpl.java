@@ -1,6 +1,8 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
@@ -64,7 +66,7 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
 
     @Override
     public Long count() {
-        return budgetTypeDao.count();
+        return budgetTypeDao.count(null);
     }
 
     @Override
@@ -72,8 +74,14 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
         return budgetTypeDao.find(start, offset);
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<BudgetType> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return budgetTypeDao.findByFilter(queryParameters);
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", budgetTypeDao.count(queryParameters));
+                put("data", budgetTypeDao.findByFilter(queryParameters));
+            }
+        };
     }
 }

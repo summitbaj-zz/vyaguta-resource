@@ -15,33 +15,33 @@
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
-    var ProjectStatusForm = React.createClass({
+    var ProjectRoleForm = React.createClass({
         componentDidMount: function () {
             if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
+                this.props.actions.fetchById(resourceConstant.PROJECT_ROLES, this.props.params.id);
             }
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_ROLES);
         },
 
         //called when form is submitted
-        saveProjectStatus: function (event) {
+        saveProjectRole: function (event) {
             event.preventDefault();
 
-            var projectStatus = {
+            var projectRole = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isRequired(projectStatus)) {
+            if (formValidator.isRequired(projectRole)) {
                 if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
+                    this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
                 } else {
-                    this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
+                    this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
             } else {
-                this.showErrors(formValidator.errors)
+                this.showErrors(formValidator.errors);
             }
         },
 
@@ -56,27 +56,27 @@
             }
         },
 
-        handleChange: function (event) {
+        fieldChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_STATUS, key, value);
+            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_ROLES, key, value);
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
-                                         routes={this.props.routes}/>
+                    <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
+                                       routes={this.props.routes}/>
                     <div className="block">
-                        <div className="block-title-border">Project Status Details</div>
-                        <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
+                        <div className="block-title-border">Project Role Details</div>
+                        <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
                             <div className="form-group">
-                                <label>Project Status</label>
+                                <label>Project Role</label>
                                 <input type="text" ref="title" name="title"
-                                       value={this.props.selectedItem.projectStatus.title}
-                                       onChange={this.handleChange}
-                                       placeholder="Project Status"
+                                       value={this.props.selectedItem.projectRoles.title}
+                                       onChange={this.fieldChange}
+                                       placeholder="Project Role"
                                        className="form-control"
                                        id="title"/>
                                 <span className="help-block"></span>
@@ -98,7 +98,6 @@
         }
     });
 
-
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem
@@ -111,5 +110,6 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusForm)
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectRoleForm);
+
 })();

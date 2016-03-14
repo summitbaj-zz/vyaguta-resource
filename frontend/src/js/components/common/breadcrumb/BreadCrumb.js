@@ -22,7 +22,7 @@
 
             for (var i in routes) {
                 if (routes[i].path && routes[i].name) {
-                    if (i > 0)
+                    if (i > 1)
                         newRoute = newRoute.concat('/');
                     newRoute = newRoute.concat(routes[i].path);
 
@@ -40,6 +40,7 @@
             return (
                 <li key={key}>
                     <Link to={this.state.paths[key].route}>{this.state.paths[key].name} </Link>
+
                 </li>
             );
         },

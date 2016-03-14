@@ -17,7 +17,7 @@
     var urlConstant = require('../../constants/urlConstant');
 
     //components
-    var ProjectHeader = require('./ProjectHeader');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
 
     var ProjectDetails = React.createClass({
@@ -28,7 +28,7 @@
         render: function () {
             return (
                 <div>
-                    <ProjectHeader title="Project Details" routes={this.props.routes}/>
+                    <EntityHeader title="Project Details" routes={this.props.routes}/>
 
                     <div className="row">
                         <div className="col-lg-12">

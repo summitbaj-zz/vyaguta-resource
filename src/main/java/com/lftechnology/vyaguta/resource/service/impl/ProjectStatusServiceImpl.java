@@ -1,6 +1,8 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
@@ -32,6 +34,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
             throw new ObjectNotFoundException();
         }
         projectStatus.setTitle(obj.getTitle());
+        projectStatus.setColor(obj.getColor());
         return this.update(projectStatus);
     }
 
@@ -62,7 +65,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Override
     public Long count() {
-        return projectStatusDao.count();
+        return projectStatusDao.count(null);
     }
 
     @Override
@@ -70,9 +73,15 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         return projectStatusDao.find(start, offset);
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<ProjectStatus> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return projectStatusDao.findByFilter(queryParameters);
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectStatusDao.count(queryParameters));
+                put("data", projectStatusDao.findByFilter(queryParameters));
+            }
+        };
     }
 
 }
