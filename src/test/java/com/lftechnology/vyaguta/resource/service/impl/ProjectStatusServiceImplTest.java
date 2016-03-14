@@ -175,13 +175,13 @@ public class ProjectStatusServiceImplTest {
     public void testCount() {
 
         // arrange
-        Mockito.when(projectStatusDao.count()).thenReturn(10L);
+        Mockito.when(projectStatusDao.count(null)).thenReturn(10L);
 
         // act
-        Long result = this.projectStatusDao.count();
+        Long result = this.projectStatusDao.count(null);
 
         // assert
-        Mockito.verify(projectStatusDao).count();
+        Mockito.verify(projectStatusDao).count(null);
         assertThat(result, is(Long.valueOf(10)));
     }
 

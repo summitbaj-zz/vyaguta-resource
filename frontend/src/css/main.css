@@ -119,7 +119,7 @@ header.navbar-default {
     border: none;
     border-radius: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
     width: 100%;
 }
 

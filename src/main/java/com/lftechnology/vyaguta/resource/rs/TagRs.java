@@ -1,6 +1,6 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.TagService;
 
@@ -44,8 +43,8 @@ public class TagRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get list of Tags", notes = "Can provide page number and offset value")
     public Response list(@Context UriInfo uriInfo) {
-        List<Tag> tags = tagService.findByFilter(uriInfo.getQueryParameters());
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tags)).build();
+        Map<String, Object> tags = tagService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(tags).build();
     }
 
     @Path("/")
@@ -56,7 +55,7 @@ public class TagRs {
     public Response create(
             @ApiParam(value = "Tag object to create", required = true) @NotNull(message = "Request body expected") @Valid Tag tag) {
         tag = tagService.save(tag);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+        return Response.status(Response.Status.OK).entity(tag).build();
     }
 
     @Path("/{id}")
@@ -67,7 +66,7 @@ public class TagRs {
     public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
             @ApiParam(value = "Tag object to update", required = true) @NotNull(message = "Request body expected") @Valid Tag tagNew) {
         Tag tag = tagService.merge(id, tagNew);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+        return Response.status(Response.Status.OK).entity(tag).build();
     }
 
     @Path("/{id}")
@@ -77,7 +76,7 @@ public class TagRs {
     public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") String id) {
         Tag tag = tagService.findById(id);
         if (tag != null) {
-            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(tag)).build();
+            return Response.status(Response.Status.OK).entity(tag).build();
         } else {
             throw new ObjectNotFoundException();
         }

@@ -41,7 +41,7 @@
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isValid(budgetType)) {
+            if (formValidator.isRequired(budgetType)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {
@@ -56,10 +56,12 @@
         //call when validation fails
         showErrors: function (errors) {
             for (var elementId in errors) {
-                var parentElement = document.querySelector('#' + elementId).parentElement;
+                var parentElement = $('#' + elementId).parent();
 
-                parentElement.className += " has-error";
-                parentElement.querySelector('span').innerHTML = errors[elementId];
+                if (!parentElement.hasClass('has-error')) {
+                    parentElement.addClass('has-error');
+                }
+                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -75,7 +77,7 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
-                                      routes={this.props.routes}/>
+                                  routes={this.props.routes}/>
                     <div className="block">
                         <div
                             className="block-title-border">Budget Type Details
