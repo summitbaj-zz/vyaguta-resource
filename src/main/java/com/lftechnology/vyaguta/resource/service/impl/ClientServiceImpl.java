@@ -1,11 +1,13 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.ClientDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.service.ClientService;
@@ -69,7 +71,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Long count() {
-        return clientDao.count();
+        return clientDao.count(null);
     }
 
     @Override
@@ -77,8 +79,14 @@ public class ClientServiceImpl implements ClientService {
         return clientDao.find(start, offset);
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<Client> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return clientDao.findByFilter(queryParameters);
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", clientDao.count(queryParameters));
+                put("data", clientDao.findByFilter(queryParameters));
+            }
+        };
     }
 }
