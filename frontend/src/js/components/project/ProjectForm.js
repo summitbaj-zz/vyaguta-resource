@@ -106,25 +106,29 @@
 
         renderBudgetType: function (key) {
             return (
-                <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id} option={this.props.budgetTypes[key].title}/>
+                <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id}
+                              option={this.props.budgetTypes[key].title}/>
             )
         },
 
         renderProjectType: function (key) {
             return (
-                <SelectOption key={key} index={key} id={this.props.projectTypes[key].id} option={this.props.projectTypes[key].title}/>
+                <SelectOption key={key} index={key} id={this.props.projectTypes[key].id}
+                              option={this.props.projectTypes[key].title}/>
             )
         },
 
         renderProjectStatus: function (key) {
             return (
-                <SelectOption key={key} index={key} id={this.props.projectStatus[key].id} option={this.props.projectStatus[key].title}/>
+                <SelectOption key={key} index={key} id={this.props.projectStatus[key].id}
+                              option={this.props.projectStatus[key].title}/>
             )
         },
 
         renderClient: function (key) {
             return (
-                <SelectOption key={key} index={key} id={this.props.clients[key].id} option={this.props.clients[key].email}/>
+                <SelectOption key={key} index={key} id={this.props.clients[key].id}
+                              option={this.props.clients[key].email}/>
             )
         },
 
@@ -163,7 +167,7 @@
                 tempProjectMember[key].endDate = tempProjectMember[key].endDate.format('YYYY-MM-DD');
                 delete tempProjectMember[key]['memberRole'];
             }
-            var project = this.getJSONFromForm();
+            var project = this.getFormData();
             var requiredField = {
                 'title': this.refs.title.value
             };
@@ -179,7 +183,7 @@
             }
         },
 
-        getJSONFromForm: function () {
+        getFormData: function () {
             return {
                 'title': this.refs.title.value,
                 'description': this.refs.description.value,
@@ -194,7 +198,7 @@
         },
 
         updateProject: function () {
-            var project = this.getJSONFromForm();
+            var project = this.getFormData();
             project['reason'] = $('#reason').val();
             $('#addReason').modal('hide');
             this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
