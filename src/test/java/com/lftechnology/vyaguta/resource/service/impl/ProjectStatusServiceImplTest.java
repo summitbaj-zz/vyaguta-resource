@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
@@ -90,15 +91,18 @@ public class ProjectStatusServiceImplTest {
         ProjectStatus projectStatusNew = this.buildProjectStatus();
         ProjectStatus projectStatusOld = this.buildProjectStatus();
         projectStatusOld.setTitle("Title old");
+        projectStatusOld.setColor("#333444");
         Mockito.when(projectStatusDao.findById(testId)).thenReturn(projectStatusOld);
+        Mockito.when(projectStatusDao.update(projectStatusNew)).thenReturn(projectStatusNew);
 
         // act
-        this.projectStatusServiceImpl.merge(testId, projectStatusNew);
+        ProjectStatus result = this.projectStatusServiceImpl.merge(testId, projectStatusNew);
 
         // assert
-        assertThat(projectStatusOld.getTitle(), is(projectStatusNew.getTitle()));
+        assertThat(result.getTitle(), is(projectStatusNew.getTitle()));
+        assertThat(result.getColor(), is(projectStatusNew.getColor()));
         Mockito.verify(projectStatusDao).findById(testId);
-        Mockito.verify(projectStatusServiceImpl).update(projectStatusOld);
+        Mockito.verify(projectStatusDao).update(projectStatusOld);
     }
 
     @Test
@@ -185,7 +189,8 @@ public class ProjectStatusServiceImplTest {
     public void testFind() {
 
         // arrange
-        Mockito.when(projectStatusDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectStatus>());
+        Mockito.when(projectStatusDao.find(Matchers.anyInt(), Matchers.anyInt()))
+                .thenReturn(new ArrayList<ProjectStatus>());
 
         // act
         this.projectStatusServiceImpl.find(2, 20);
@@ -200,6 +205,7 @@ public class ProjectStatusServiceImplTest {
         User user = this.buildUser();
         projectStatus.setId("1");
         projectStatus.setTitle("Test Title");
+        projectStatus.setColor("#eeefff");
         projectStatus.setCreatedBy(user);
         projectStatus.setUpdatedAt(LocalDateTime.now());
         projectStatus.setCreatedAt(LocalDateTime.now());

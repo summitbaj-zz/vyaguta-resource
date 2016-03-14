@@ -45,6 +45,7 @@ ALTER TABLE ONLY project_types
 CREATE TABLE project_status (
     id character varying(32) NOT NULL,
     title character varying(255) NOT NULL,
+    color_code character varying(7),
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,

@@ -32,6 +32,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
             throw new ObjectNotFoundException();
         }
         projectStatus.setTitle(obj.getTitle());
+        projectStatus.setColor(obj.getColor());
         return this.update(projectStatus);
     }
 
