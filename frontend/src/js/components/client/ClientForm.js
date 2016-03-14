@@ -39,7 +39,12 @@
                 description: this.refs.description.value
             }
 
-            if (formValidator.isValid(client)) {
+            var requiredFields = {
+                name: this.refs.name.value,
+                email: this.refs.email.value
+            }
+
+            if (formValidator.isRequired(requiredFields)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
@@ -52,10 +57,12 @@
 
         showErrors: function (errors) {
             for (var elementId in errors) {
-                var parentElement = document.querySelector('#' + elementId).parentElement;
+                var parentElement = $('#' + elementId).parent();
 
-                parentElement.className += ' ' + 'has-error';
-                parentElement.querySelector('span').innerHTML = errors[elementId];
+                if (!parentElement.hasClass('has-error')) {
+                    parentElement.addClass('has-error');
+                }
+                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -136,8 +143,10 @@
                             </div>
                             <div className="form-group">
                                 <label>Description</label>
-                                    <textarea name="description" ref="description" value={this.props.selectedItem.clients.description}
-                                              placeholder="Short description about the client." onChange={this.fieldChange}
+                                    <textarea name="description" ref="description"
+                                              value={this.props.selectedItem.clients.description}
+                                              placeholder="Short description about the client."
+                                              onChange={this.fieldChange}
                                               className="form-control" rows="4" id="description"></textarea>
                                 <span className="help-block" ref="availableMessage"></span>
 
