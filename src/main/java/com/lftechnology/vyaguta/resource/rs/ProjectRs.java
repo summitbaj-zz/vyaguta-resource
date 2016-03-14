@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -37,7 +38,8 @@ public class ProjectRs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projects = projectService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> projects = projectService
+                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(projects).build();
     }
 
