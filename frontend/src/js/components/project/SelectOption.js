@@ -13,7 +13,7 @@
     var SelectOption = React.createClass({
         render: function () {
             return (
-                <option value={this.props.entity.id}>{this.props.entity.title}</option>
+                <option value={this.props.id}>{this.props.option}</option>
             )
         }
     });

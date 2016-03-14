@@ -50,6 +50,7 @@
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+            this.props.actions.fetchAll(resourceConstant.CLIENTS);
 
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
@@ -59,6 +60,7 @@
             this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
             this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
             this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
+            this.setSelectedItem('client', props.selectedItem.projects.client);
             this.setState({technologyStack: props.selectedItem.projects.tags});
         },
 
@@ -99,24 +101,30 @@
         handleChangeEndDate: function (date) {
             this.setState({
                 endDate: date
-            })
+            });
         },
 
         renderBudgetType: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.budgetTypes[key]}/>
+                <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id} option={this.props.budgetTypes[key].title}/>
             )
         },
 
         renderProjectType: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.projectTypes[key]}/>
+                <SelectOption key={key} index={key} id={this.props.projectTypes[key].id} option={this.props.projectTypes[key].title}/>
             )
         },
 
         renderProjectStatus: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.projectStatus[key]}/>
+                <SelectOption key={key} index={key} id={this.props.projectStatus[key].id} option={this.props.projectStatus[key].title}/>
+            )
+        },
+
+        renderClient: function (key) {
+            return (
+                <SelectOption key={key} index={key} id={this.props.clients[key].id} option={this.props.clients[key].email}/>
             )
         },
 
@@ -162,9 +170,7 @@
 
             if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
                 if (this.props.params.id) {
-                    //$('#addTeam').modal('show');
                     $('#addReason').modal('show');
-                    // this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
@@ -179,6 +185,7 @@
                 'description': this.refs.description.value,
                 'projectType': {"id": this.refs.projectType.value},
                 'projectStatus': {"id": this.refs.projectStatus.value},
+                'client': {"id": this.refs.client.value},
                 'budgetType': {"id": this.refs.budgetType.value},
                 'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
                 'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
@@ -270,14 +277,7 @@
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                                 <span className="help-block"></span>
-
                                             </div>
-                                            <AccountManager setManager={this.setManager}
-                                                            fieldChange={this.fieldChange}/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group clearfix">
-                                        <div className="row multiple-element">
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label htmlFor="example-select" className="control-label">Project
                                                     Status</label>
@@ -288,7 +288,22 @@
                                                     {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
                                                 </select>
                                                 <span className="help-block"></span>
-
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group clearfix">
+                                        <div className="row multiple-element">
+                                            <AccountManager setManager={this.setManager}
+                                                            fieldChange={this.fieldChange}/>
+                                            <div className="col-md-6 col-lg-4 element">
+                                                <label htmlFor="example-select" className="control-label">Client</label>
+                                                <select className="form-control" ref="client" id="client">
+                                                    <option value="0">Please
+                                                        Select
+                                                    </option>
+                                                    {Object.keys(this.props.clients).map(this.renderClient)}
+                                                </select>
+                                                <span className="help-block"></span>
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Contract Date</label>
@@ -396,6 +411,7 @@
             budgetTypes: state.crudReducer.budgetTypes,
             projectTypes: state.crudReducer.projectTypes,
             projectStatus: state.crudReducer.projectStatus,
+            clients: state.crudReducer.clients,
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             selectedItem: state.crudReducer.selectedItem
