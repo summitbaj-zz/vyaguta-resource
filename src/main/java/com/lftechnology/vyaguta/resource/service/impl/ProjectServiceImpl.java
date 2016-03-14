@@ -1,7 +1,9 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -83,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Long count() {
-        return projectDao.count();
+        return projectDao.count(null);
     }
 
     @Override
@@ -121,8 +123,14 @@ public class ProjectServiceImpl implements ProjectService {
         return project;
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<Project> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return projectDao.findByFilter(queryParameters);
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectDao.count(queryParameters));
+                put("data", projectDao.findByFilter(queryParameters));
+            }
+        };
     }
 }

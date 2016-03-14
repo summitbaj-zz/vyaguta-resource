@@ -1,6 +1,8 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
@@ -70,7 +72,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public Long count() {
-        return projectMemberDao.count();
+        return projectMemberDao.count(null);
     }
 
     @Override
@@ -85,9 +87,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         return projectMemberDao.findByProject(project);
     }
 
+    @SuppressWarnings("serial")
     @Override
-    public List<ProjectMember> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return projectMemberDao.findByFilter(queryParameters);
-    }
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectMemberDao.count(queryParameters));
+                put("data", projectMemberDao.findByFilter(queryParameters));
+            }
+        };
 
+    }
 }

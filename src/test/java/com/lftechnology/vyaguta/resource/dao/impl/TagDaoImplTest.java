@@ -151,7 +151,7 @@ public class TagDaoImplTest {
         Mockito.when(criteriaUtil.count(Tag.class)).thenReturn(10L);
 
         // act
-        Long count = this.tagDaoImpl.count();
+        Long count = this.tagDaoImpl.count(null);
 
         // assert
         Mockito.verify(criteriaUtil).count(Tag.class);

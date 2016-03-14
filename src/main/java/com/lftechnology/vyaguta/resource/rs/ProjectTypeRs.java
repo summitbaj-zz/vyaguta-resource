@@ -1,6 +1,6 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
 import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
 
@@ -38,8 +37,8 @@ public class ProjectTypeRs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        List<ProjectType> projectTypes = projectTypeService.findByFilter(uriInfo.getQueryParameters());
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectTypes)).build();
+        Map<String, Object> projectTypes = projectTypeService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(projectTypes).build();
     }
 
     @Path("/")
@@ -48,7 +47,7 @@ public class ProjectTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid ProjectType projectType) {
         projectType = projectTypeService.save(projectType);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectType)).build();
+        return Response.status(Response.Status.OK).entity(projectType).build();
     }
 
     @Path("/{id}")
@@ -57,7 +56,7 @@ public class ProjectTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid ProjectType projectTypeNew) {
         ProjectType projectType = projectTypeService.merge(id, projectTypeNew);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectType)).build();
+        return Response.status(Response.Status.OK).entity(projectType).build();
     }
 
     @Path("/{id}")
@@ -66,7 +65,7 @@ public class ProjectTypeRs {
     public Response findById(@PathParam("id") String id) {
         ProjectType projectType = projectTypeService.findById(id);
         if (projectType != null) {
-            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectType)).build();
+            return Response.status(Response.Status.OK).entity(projectType).build();
         } else {
             throw new ObjectNotFoundException();
         }
