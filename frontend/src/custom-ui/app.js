@@ -8,22 +8,22 @@
  *  sure to remove its initialization from uiInit().
  */
 
-var App = function() {
+var App = function () {
 
     /* Helper variables - set in uiInit() */
     var page, pageContent, header, footer, sidebar, sidebarAlt, sScroll;
 
     /* Initialization UI Code */
-    var uiInit = function() {
+    var uiInit = function () {
 
         // Set variables - Cache some often used Jquery objects in variables */
-        page            = $('#page-container');
-        pageContent     = $('#page-content');
-        header          = $('header');
-        footer          = $('#page-content + footer');
-        sidebar         = $('#sidebar');
-        sidebarAlt      = $('#sidebar-alt');
-        sScroll         = $('.sidebar-scroll');
+        page = $('#page-container');
+        pageContent = $('#page-content');
+        header = $('header');
+        footer = $('#page-content + footer');
+        sidebar = $('#sidebar');
+        sidebarAlt = $('#sidebar-alt');
+        sScroll = $('.sidebar-scroll');
 
         // Initialize sidebars functionality
         handleSidebar('init');
@@ -42,18 +42,26 @@ var App = function() {
 
         // Resize #page-content to fill empty space if exists (also add it to resize and orientationchange events)
         resizePageContent();
-        $(window).resize(function(){ resizePageContent(); });
+        $(window).resize(function () {
+            resizePageContent();
+        });
         $(window).bind('orientationchange', resizePageContent);
 
         // Add the correct copyright year at the footer
         var yearCopy = $('#year-copy'), d = new Date();
-        if (d.getFullYear() === 2014) { yearCopy.html('2014'); } else { yearCopy.html('2014-' + d.getFullYear().toString().substr(2,2)); }
+        if (d.getFullYear() === 2014) {
+            yearCopy.html('2014');
+        } else {
+            yearCopy.html('2014-' + d.getFullYear().toString().substr(2, 2));
+        }
 
         // Initialize chat demo functionality (in sidebar)
         //chatUi();
 
         // Initialize tabs
-        $('[data-toggle="tabs"] a, .enable-tabs a').click(function(e){ e.preventDefault(); $(this).tab('show'); });
+        $('[data-toggle="tabs"] a, .enable-tabs a').click(function (e) {
+            $(this).tab('show');
+        });
 
         // Initialize Tooltips
         $('[data-toggle="tooltip"], .enable-tooltip').tooltip({container: 'body', animation: false});
@@ -117,7 +125,7 @@ var App = function() {
     };
 
     /* Page Loading functionality */
-    var pageLoading = function(){
+    var pageLoading = function () {
         var body = $('body');
 
         if (body.hasClass('page-loading')) {
@@ -126,102 +134,103 @@ var App = function() {
     };
 
     /* Gets window width cross browser */
-    var getWindowWidth = function(){
+    var getWindowWidth = function () {
         return window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
     };
 
     /* Sidebar Navigation functionality */
-    var handleNav = function() {
+    var handleNav = function () {
 
         // Animation Speed, change the values for different results
-        var upSpeed     = 250;
-        var downSpeed   = 250;
+        var upSpeed = 250;
+        var downSpeed = 250;
 
         // Get all vital links
-        var menuLinks       = $('.sidebar-nav-menu');
-        var submenuLinks    = $('.sidebar-nav-submenu');
+        var menuLinks = $('.sidebar-nav-menu');
+        var submenuLinks = $('.sidebar-nav-submenu');
 
         // Primary Accordion functionality
-        menuLinks.click(function(){
-            var link = $(this);
+        menuLinks.click(function () {
+            /*var link = $(this);
 
-            if (link.parent().hasClass('active') !== true) {
-                if (link.hasClass('open')) {
-                    link.removeClass('open').next().slideUp(upSpeed, function(){
-                        handlePageScroll(link, 200, 300);
-                    });
+             if (link.parent().hasClass('active') !== true) {
+             if (link.hasClass('open')) {
+             link.removeClass('open').next().slideUp(upSpeed, function(){
+             handlePageScroll(link, 200, 300);
+             });
 
-                    // Resize #page-content to fill empty space if exists
-                    setTimeout(resizePageContent, upSpeed);
-                }
-                else {
-                    $('.sidebar-nav-menu.open').removeClass('open').next().slideUp(upSpeed);
-                    link.addClass('open').next().slideDown(downSpeed, function(){
-                        handlePageScroll(link, 150, 600);
-                    });
+             // Resize #page-content to fill empty space if exists
+             setTimeout(resizePageContent, upSpeed);
+             }
+             else {
+             $('.sidebar-nav-menu.open').removeClass('open').next().slideUp(upSpeed);
+             link.addClass('open').next().slideDown(downSpeed, function(){
+             handlePageScroll(link, 150, 600);
+             });
 
-                    // Resize #page-content to fill empty space if exists
-                    setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
-                }
-            }
+             // Resize #page-content to fill empty space if exists
+             setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
+             }
+             }
 
-            return false;
+             return false;*/
         });
 
         // Submenu Accordion functionality
-        submenuLinks.click(function(){
-            var link = $(this);
+        submenuLinks.click(function () {
+            /*var link = $(this);
 
-            if (link.parent().hasClass('active') !== true) {
-                if (link.hasClass('open')) {
-                    link.removeClass('open').next().slideUp(upSpeed, function(){
-                        handlePageScroll(link, 200, 300);
-                    });
+             if (link.parent().hasClass('active') !== true) {
+             if (link.hasClass('open')) {
+             link.removeClass('open').next().slideUp(upSpeed, function(){
+             handlePageScroll(link, 200, 300);
+             });
 
-                    // Resize #page-content to fill empty space if exists
-                    setTimeout(resizePageContent, upSpeed);
-                }
-                else {
-                    link.closest('ul').find('.sidebar-nav-submenu.open').removeClass('open').next().slideUp(upSpeed);
-                    link.addClass('open').next().slideDown(downSpeed, function(){
-                        handlePageScroll(link, 150, 600);
-                    });
+             // Resize #page-content to fill empty space if exists
+             setTimeout(resizePageContent, upSpeed);
+             }
+             else {
+             link.closest('ul').find('.sidebar-nav-submenu.open').removeClass('open').next().slideUp(upSpeed);
+             link.addClass('open').next().slideDown(downSpeed, function(){
+             handlePageScroll(link, 150, 600);
+             });
 
-                    // Resize #page-content to fill empty space if exists
-                    setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
-                }
-            }
+             // Resize #page-content to fill empty space if exists
+             setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
+             }*/
+            //}
 
             return false;
         });
     };
 
     /* Scrolls the page (static layout) or the sidebar scroll element (fixed header/sidebars layout) to a specific position - Used when a submenu opens */
-    var handlePageScroll = function(sElem, sHeightDiff, sSpeed) {
-        if (! page.hasClass('disable-menu-autoscroll')) {
+    var handlePageScroll = function (sElem, sHeightDiff, sSpeed) {
+        if (!page.hasClass('disable-menu-autoscroll')) {
             var elemScrollToHeight;
 
             // If we have a static layout scroll the page
             if (!header.hasClass('navbar-fixed-top') && !header.hasClass('navbar-fixed-bottom')) {
-                var elemOffsetTop   = sElem.offset().top;
+                var elemOffsetTop = sElem.offset().top;
 
-                elemScrollToHeight  = (((elemOffsetTop - sHeightDiff) > 0) ? (elemOffsetTop - sHeightDiff) : 0);
+                elemScrollToHeight = (((elemOffsetTop - sHeightDiff) > 0) ? (elemOffsetTop - sHeightDiff) : 0);
 
                 $('html, body').animate({scrollTop: elemScrollToHeight}, sSpeed);
             } else { // If we have a fixed header/sidebars layout scroll the sidebar scroll element
-                var sContainer      = sElem.parents('.sidebar-scroll');
-                var elemOffsetCon   = sElem.offset().top + Math.abs($('div:first', sContainer).offset().top);
+                var sContainer = sElem.parents('.sidebar-scroll');
+                var elemOffsetCon = sElem.offset().top + Math.abs($('div:first', sContainer).offset().top);
 
                 elemScrollToHeight = (((elemOffsetCon - sHeightDiff) > 0) ? (elemOffsetCon - sHeightDiff) : 0);
-                sContainer.animate({ scrollTop: elemScrollToHeight}, sSpeed);
+                sContainer.animate({scrollTop: elemScrollToHeight}, sSpeed);
             }
         }
     };
 
     /* Sidebar Functionality */
-    var handleSidebar = function(mode, extra) {
+    var handleSidebar = function (mode, extra) {
+        var page = $('#page-container');
         if (mode === 'init') {
             // Init sidebars scrolling (if we have a fixed header)
             if (header.hasClass('navbar-fixed-top') || header.hasClass('navbar-fixed-bottom')) {
@@ -232,14 +241,18 @@ var App = function() {
             // In smaller screens (the same applies to resized browsers) two visible sidebars
             // could mess up our main content (not enough space), so we hide the other one :-)
             $('.sidebar-partial #sidebar')
-                .mouseenter(function(){ handleSidebar('close-sidebar-alt'); });
+                .mouseenter(function () {
+                    handleSidebar('close-sidebar-alt');
+                });
             $('.sidebar-alt-partial #sidebar-alt')
-                .mouseenter(function(){ handleSidebar('close-sidebar'); });
+                .mouseenter(function () {
+                    handleSidebar('close-sidebar');
+                });
         } else {
             var windowW = getWindowWidth();
 
             if (mode === 'toggle-sidebar') {
-                if ( windowW > 991) { // Toggle main sidebar in large screens (> 991px)
+                if (windowW > 991) { // Toggle main sidebar in large screens (> 991px)
                     page.toggleClass('sidebar-visible-lg');
 
                     if (page.hasClass('sidebar-visible-lg')) {
@@ -260,7 +273,7 @@ var App = function() {
                     }
                 }
             } else if (mode === 'toggle-sidebar-alt') {
-                if ( windowW > 991) { // Toggle alternative sidebar in large screens (> 991px)
+                if (windowW > 991) { // Toggle alternative sidebar in large screens (> 991px)
                     page.toggleClass('sidebar-alt-visible-lg');
 
                     if (page.hasClass('sidebar-alt-visible-lg')) {
@@ -282,7 +295,7 @@ var App = function() {
                 }
             }
             else if (mode === 'open-sidebar') {
-                if ( windowW > 991) { // Open main sidebar in large screens (> 991px)
+                if (windowW > 991) { // Open main sidebar in large screens (> 991px)
                     page.addClass('sidebar-visible-lg');
                 } else { // Open main sidebar in small screens (< 992px)
                     page.addClass('sidebar-visible-xs');
@@ -292,7 +305,7 @@ var App = function() {
                 handleSidebar('close-sidebar-alt');
             }
             else if (mode === 'open-sidebar-alt') {
-                if ( windowW > 991) { // Open alternative sidebar in large screens (> 991px)
+                if (windowW > 991) { // Open alternative sidebar in large screens (> 991px)
                     page.addClass('sidebar-alt-visible-lg');
                 } else { // Open alternative sidebar in small screens (< 992px)
                     page.addClass('sidebar-alt-visible-xs');
@@ -302,14 +315,14 @@ var App = function() {
                 handleSidebar('close-sidebar');
             }
             else if (mode === 'close-sidebar') {
-                if ( windowW > 991) { // Close main sidebar in large screens (> 991px)
+                if (windowW > 991) { // Close main sidebar in large screens (> 991px)
                     page.removeClass('sidebar-visible-lg');
                 } else { // Close main sidebar in small screens (< 992px)
                     page.removeClass('sidebar-visible-xs');
                 }
             }
             else if (mode === 'close-sidebar-alt') {
-                if ( windowW > 991) { // Close alternative sidebar in large screens (> 991px)
+                if (windowW > 991) { // Close alternative sidebar in large screens (> 991px)
                     page.removeClass('sidebar-alt-visible-lg');
                 } else { // Close alternative sidebar in small screens (< 992px)
                     page.removeClass('sidebar-alt-visible-xs');
@@ -318,7 +331,7 @@ var App = function() {
             else if (mode == 'sidebar-scroll') { // Init sidebars scrolling
                 if (sScroll.length && (!sScroll.parent('.slimScrollDiv').length)) {
                     // Initialize Slimscroll plugin on both sidebars
-                    sScroll.slimScroll({ height: $(window).height(), color: '#fff', size: '3px', touchScrollStep: 100 });
+                    sScroll.slimScroll({height: $(window).height(), color: '#fff', size: '3px', touchScrollStep: 100});
 
                     // Resize sidebars scrolling height on window resize or orientation change
                     $(window).resize(sidebarScrollResize);
@@ -331,16 +344,20 @@ var App = function() {
     };
 
     // Sidebar Scrolling Resize Height on window resize and orientation change
-    var sidebarScrollResize         = function() { sScroll.add(sScroll.parent()).css('height', $(window).height()); };
-    var sidebarScrollResizeOrient   = function() { setTimeout(sScroll.add(sScroll.parent()).css('height', $(window).height()), 500); };
+    var sidebarScrollResize = function () {
+        sScroll.add(sScroll.parent()).css('height', $(window).height());
+    };
+    var sidebarScrollResizeOrient = function () {
+        setTimeout(sScroll.add(sScroll.parent()).css('height', $(window).height()), 500);
+    };
 
     /* Resize #page-content to fill empty space if exists */
-    var resizePageContent = function() {
-        var windowH         = $(window).height();
-        var sidebarH        = sidebar.outerHeight();
-        var sidebarAltH     = sidebarAlt.outerHeight();
-        var headerH         = header.outerHeight();
-        var footerH         = footer.outerHeight();
+    var resizePageContent = function () {
+        var windowH = $(window).height();
+        var sidebarH = sidebar.outerHeight();
+        var sidebarAltH = sidebarAlt.outerHeight();
+        var headerH = header.outerHeight();
+        var footerH = footer.outerHeight();
 
         // If we have a fixed sidebar/header layout or each sidebars’ height < window height
         if (header.hasClass('navbar-fixed-top') || header.hasClass('navbar-fixed-bottom') || ((sidebarH < windowH) && (sidebarAltH < windowH))) {
@@ -349,7 +366,7 @@ var App = function() {
             } else { // else if footer is static, remove its height
                 pageContent.css('min-height', windowH - (headerH + footerH) + 'px');
             }
-        }  else { // In any other case set #page-content height the same as biggest sidebar's height
+        } else { // In any other case set #page-content height the same as biggest sidebar's height
             if (page.hasClass('footer-fixed')) { // if footer is fixed don't remove its height
                 pageContent.css('min-height', ((sidebarH > sidebarAltH) ? sidebarH : sidebarAltH) - headerH + 'px');
             } else { // else if footer is static, remove its height
@@ -359,10 +376,10 @@ var App = function() {
     };
 
     /* Interactive blocks functionality */
-    var interactiveBlocks = function() {
+    var interactiveBlocks = function () {
 
         // Toggle block's content
-        $('[data-toggle="block-toggle-content"]').on('click', function(){
+        $('[data-toggle="block-toggle-content"]').on('click', function () {
             var blockContent = $(this).closest('.block').find('.block-content');
 
             if ($(this).hasClass('active')) {
@@ -375,7 +392,7 @@ var App = function() {
         });
 
         // Toggle block fullscreen
-        $('[data-toggle="block-toggle-fullscreen"]').on('click', function(){
+        $('[data-toggle="block-toggle-fullscreen"]').on('click', function () {
             var block = $(this).closest('.block');
 
             if ($(this).hasClass('active')) {
@@ -388,17 +405,17 @@ var App = function() {
         });
 
         // Hide block
-        $('[data-toggle="block-hide"]').on('click', function(){
+        $('[data-toggle="block-hide"]').on('click', function () {
             $(this).closest('.block').fadeOut();
         });
     };
 
     /* Scroll to top functionality */
-    var scrollToTop = function() {
+    var scrollToTop = function () {
         // Get link
         var link = $('#to-top');
 
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             // If the user scrolled a bit (150 pixels) show the link in large resolutions
             if (($(this).scrollTop() > 150) && (getWindowWidth() > 991)) {
                 link.fadeIn(100);
@@ -408,7 +425,7 @@ var App = function() {
         });
 
         // On click get to top
-        link.click(function() {
+        link.click(function () {
             $('html, body').animate({scrollTop: 0}, 400);
             return false;
         });
@@ -416,7 +433,7 @@ var App = function() {
 
 
     /* Datatables basic Bootstrap integration (pagination integration included under the Datatables plugin in plugins.js) */
-    var dtIntegration = function() {
+    var dtIntegration = function () {
         $.extend(true, $.fn.dataTable.defaults, {
             "sDom": "<'row'<'col-sm-6 col-xs-5'l><'col-sm-6 col-xs-7'f>r>t<'row'<'col-sm-5 hidden-xs'i><'col-sm-7 col-xs-12 clearfix'p>>",
             "sPaginationType": "bootstrap",
@@ -438,21 +455,20 @@ var App = function() {
     };
 
     return {
-        init: function() {
+        init: function () {
             uiInit(); // Initialize UI Code
             pageLoading(); // Initialize Page Loading
         },
-        sidebar: function(mode, extra) {
+        sidebar: function (mode, extra) {
             handleSidebar(mode, extra); // Handle sidebars - access functionality from everywhere
         },
-        datatables: function() {
+        datatables: function () {
             dtIntegration(); // Datatables Bootstrap integration
         }
     };
 }();
 /* Initialize app when page loads */
-$(function(){ App.init(); });
+$(function () {
+    App.init();
+});
 
-$('#burgerMenu').click(function() {
-    App.sidebar('toggle-sidebar');
-})

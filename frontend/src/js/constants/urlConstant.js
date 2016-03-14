@@ -5,30 +5,39 @@
  */
 
 ;(function () {
-    var BASE_PATH = '/resource';
 
     var urlConstant = {
-        BASE_PATH: BASE_PATH,
+        BASE_PATH: '',
         BUDGET_TYPES: {
-            INDEX: BASE_PATH + '/budgettypes',
-            NEW: BASE_PATH + '/budgettypes/new',
-            EDIT: BASE_PATH + '/budgettypes/edit'
+            INDEX: '/budgettypes',
+            NEW: '/budgettypes/new',
+            EDIT: '/budgettypes/edit'
         },
         PROJECT_STATUS: {
-            INDEX: BASE_PATH + '/projectstatus',
-            NEW: BASE_PATH + '/projectstatus/new',
-            EDIT: BASE_PATH + '/projectstatus/edit/'
+            INDEX: '/projectstatus',
+            NEW: '/projectstatus/new',
+            EDIT: '/projectstatus/edit/'
         },
         PROJECT_TYPES: {
-            INDEX: BASE_PATH + '/projecttypes',
-            NEW: BASE_PATH + '/projecttypes/new',
-            EDIT: BASE_PATH + '/projecttypes/edit/'
+            INDEX: '/projecttypes',
+            NEW: '/projecttypes/new',
+            EDIT: '/projecttypes/edit/'
+        },
+        PROJECT_ROLES: {
+            INDEX: '/projectroles',
+            NEW: '/projectroles/new',
+            EDIT: '/projectroles/edit/'
         },
         PROJECTS: {
-            INDEX: BASE_PATH + '/projects',
-            NEW: BASE_PATH + '/projects/new',
-            EDIT: BASE_PATH + '/projects/edit/',
-            DETAILS: BASE_PATH +'/projects/details'
+            INDEX: '/projects',
+            NEW: '/projects/new',
+            EDIT: '/projects/edit/',
+            DETAILS: '/projects/details'
+        },
+        CLIENTS: {
+            INDEX: '/clients',
+            NEW: '/clients/new',
+            EDIT: '/clients/edit/'
         },
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core'

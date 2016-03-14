@@ -1,10 +1,13 @@
 ;(function () {
     'use strict';
 
+    //React and Redux dependencies
     var React = require('react');
-    var BreadCrumb = require('../common/breadcrumb/BreadCrumb');
 
-    var ProjectStatusHeader = React.createClass({
+    //components
+    var BreadCrumb = require('../breadcrumb/BreadCrumb');
+
+    var EntityHeader = React.createClass({
         render: function () {
             return (
                 <div className="row">
@@ -24,7 +27,7 @@
         }
     });
 
-    module.exports = ProjectStatusHeader;
+    module.exports = EntityHeader;
 
 })();
 

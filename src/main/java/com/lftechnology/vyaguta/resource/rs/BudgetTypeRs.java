@@ -1,10 +1,9 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,14 +13,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.Page;
-import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
-import com.lftechnology.vyaguta.commons.util.PageUtil;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.service.BudgetTypeService;
 
@@ -37,12 +34,9 @@ public class BudgetTypeRs {
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(
-            @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-            @QueryParam("offset") Integer offset) {
-        Page page = PageUtil.page(pageNum, offset);
-        List<BudgetType> budgetTypes = budgetTypeService.find(page.getStart(), page.getOffset());
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetTypes)).build();
+    public Response list(@Context UriInfo uriInfo) {
+        Map<String, Object> budgetTypes = budgetTypeService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(budgetTypes).build();
     }
 
     @Path("/")
@@ -51,7 +45,7 @@ public class BudgetTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid BudgetType budgetType) {
         budgetType = budgetTypeService.save(budgetType);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
+        return Response.status(Response.Status.OK).entity(budgetType).build();
     }
 
     @Path("/{id}")
@@ -60,7 +54,7 @@ public class BudgetTypeRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid BudgetType budgetTypeNew) {
         BudgetType budgetType = budgetTypeService.merge(id, budgetTypeNew);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
+        return Response.status(Response.Status.OK).entity(budgetType).build();
     }
 
     @Path("/{id}")
@@ -69,7 +63,7 @@ public class BudgetTypeRs {
     public Response findById(@PathParam("id") String id) {
         BudgetType budgetType = budgetTypeService.findById(id);
         if (budgetType != null) {
-            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(budgetType)).build();
+            return Response.status(Response.Status.OK).entity(budgetType).build();
         } else {
             throw new ObjectNotFoundException();
         }

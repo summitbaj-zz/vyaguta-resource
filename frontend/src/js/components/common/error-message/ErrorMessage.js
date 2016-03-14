@@ -1,19 +1,18 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
     var connect = require('react-redux').connect;
-    var errorActions = require('../../../actions/errorActions');
+
     //constants
     var resourceConstant = require('../../../constants/resourceConstant');
-
     var ErrorMessage = React.createClass({
-
         render: function () {
-
             if (this.props.errorMessage) {
+                $('#page-content').css('min-height', 'Calc(100% - 122px)');
                 return (
-                    <div className="row">
+                    <div className="row error-message">
                         <div className="col-lg-12">
                             <div className="error-container">
                                 {this.props.errorMessage}
@@ -23,7 +22,8 @@
                 )
             }
             else {
-                return (<div></div>)
+                $('#page-content').css('min-height', 'Calc(100% - 84px)');
+                return (<div className="row"></div>)
             }
         }
     });

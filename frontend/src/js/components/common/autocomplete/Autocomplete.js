@@ -1,11 +1,12 @@
 ;(function () {
     'use-strict';
+
+    //React Dependencies
     var React = require('react');
+
     var selectedIndex = -1;
 
-    var $ = require('jquery');
     var AutoComplete = React.createClass({
-
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
@@ -24,6 +25,15 @@
 
         setSelectedIndex: function (index) {
             selectedIndex = index;
+        },
+
+        componentWillReceiveProps: function (nextProps) {
+            var input = document.getElementsByClassName(nextProps.inputField)[0];
+            if (nextProps.suggestions.length && input.value) {
+                this.refs.suggestions.style.display = 'block';
+            } else {
+                this.refs.suggestions.style.display = 'none';
+            }
         },
 
         keyPressed: function (event) {
@@ -66,7 +76,6 @@
         enterKeyPressed: function () {
             if (selectedIndex > -1) {
                 this.setInputValue(this.props.suggestions[selectedIndex]);
-                selectedIndex = -1;
                 this.removeHoverState();
             }
             this.refs.suggestions.style.display = 'none';

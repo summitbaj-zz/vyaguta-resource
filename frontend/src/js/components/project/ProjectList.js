@@ -1,52 +1,46 @@
-/**
- * Created by
- * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 2/25/16.
- */
 ;(function () {
     'use-strict';
 
+    //React and Redux dependencies
     var React = require('react');
     var Link = require('react-router').Link;
-
     var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
 
-    var Project = require('./ProjectRow');
-    var ProjectHeader = require('./ProjectHeader');
-
+    //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //components
+    var Project = require('./ProjectRow');
+    var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
-    var PAGE_TITLE = 'Project';
 
     var ProjectList = React.createClass({
         componentDidMount: function () {
-            crudActions.fetchAll(resourceConstant.PROJECTS);
+            this.props.actions.fetchAll(resourceConstant.PROJECTS);
         },
 
-        list: function (key) {
-            return (
-                <Project key={key} index={key} project={this.props.projects[key]}
-                         deleteProject={this.delete}/>
-            );
-        },
-
-        delete: function (key) {
-            var data = JSON.parse(JSON.stringify(this.props.projects));
+        deleteProject: function (key) {
             if (confirm('Are you sure?')) {
-                crudActions.deleteItem(resourceConstant.PROJECTS, key, data);
+                this.props.actions.deleteItem(resourceConstant.PROJECTS, id);
             }
         },
 
+        renderProject: function (key) {
+            return (
+                <Project key={key} index={key} project={this.props.projects[key]}
+                         deleteProject={this.deleteProject}/>
+            );
+        },
+
         render: function () {
-            var projectIds = Object.keys(this.props.projects);
             return (
                 <div>
-                    <ProjectHeader title={PAGE_TITLE} routes={this.props.routes}/>
+                    <EntityHeader header="Projects" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Type Details</h2>
+                            <h2>Project Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
                                       data-toggle="tooltip"
@@ -69,7 +63,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {projectIds.map(this.list)}
+                                {Object.keys(this.props.projects).map(this.renderProject)}
                                 </tbody>
                             </table>
                         </div>
@@ -78,11 +72,19 @@
             );
         }
     });
-    var storeSelector = function (store) {
-        return {
-            projects: store.crudReducer.get(resourceConstant.PROJECTS)
-        }
-    }
 
-    module.exports = connect(storeSelector)(ProjectList);
+    var mapStateToProps = function (state) {
+        return {
+            projects: state.crudReducer.projects
+        }
+    };
+
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectList);
+
 })();

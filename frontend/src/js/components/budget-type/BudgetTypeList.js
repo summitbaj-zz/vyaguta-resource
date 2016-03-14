@@ -5,31 +5,31 @@
  */
 
 ;(function () {
+    'use strict';
+
+    //React and Redux dependencies
     var React = require('react');
     var Link = require('react-router').Link;
     var connect = require('react-redux').connect;
-
-    var BudgetTypeRow = require('./BudgetTypeRow');
-    var BudgetTypeHeader = require('./BudgetTypeHeader');
-    var ApiUtil = require('../../util/ApiUtil');
-    var crudActions = require('../../actions/crudActions');
-
-    var _ = require('lodash');
+    var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //components
+    var BudgetTypeRow = require('./BudgetTypeRow');
+    var EntityHeader = require('../common/header/EntityHeader');
+    var crudActions = require('../../actions/crudActions');
+
     var BudgetTypeList = React.createClass({
         componentDidMount: function () {
-            crudActions.fetchAll(resourceConstant.BUDGET_TYPES);
+            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
         },
 
         deleteBudgetType: function (id) {
-            var data = JSON.parse(JSON.stringify(this.props.budgetTypes));
-
             if (confirm('Are you sure?')) {
-                crudActions.deleteItem(resourceConstant.BUDGET_TYPES, id, data);
+                this.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id);
             }
         },
 
@@ -43,7 +43,7 @@
         render: function () {
             return (
                 <div>
-                    <BudgetTypeHeader title="Budget Types" routes={this.props.routes}/>
+                    <EntityHeader header="Budget Types" routes={this.props.routes}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
@@ -73,12 +73,18 @@
         }
     });
 
-    var selectStore = function (store) {
+    var mapStateToProps = function (state) {
         return {
-            budgetTypes: store.crudReducer.get(resourceConstant.BUDGET_TYPES)
+            budgetTypes: state.crudReducer.budgetTypes
         }
-    }
+    };
 
-    module.exports = connect(selectStore)(BudgetTypeList);
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(crudActions, dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(BudgetTypeList);
 
 })();

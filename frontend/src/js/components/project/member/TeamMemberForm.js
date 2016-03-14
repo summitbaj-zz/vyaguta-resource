@@ -7,17 +7,20 @@
 ;(function () {
     'use strict';
 
-    var $ = require('jquery');
+    //React dependencies
     var React = require('react');
-    var TeamMemberAddButtons = require('./TeamMemberAddButtons');
-    var TeamMemberEditButtons = require('./TeamMemberEditButtons');
 
-    //datepicker
+    //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
-    var ApiUtil = require('../../../util/ApiUtil');
+    //constants
     var resourceConstant = require('../../../constants/resourceConstant');
+
+    //components
+    var TeamMemberAddButtons = require('./TeamMemberAddButtons');
+    var TeamMemberEditButtons = require('./TeamMemberEditButtons');
+    var ApiUtil = require('../../../util/ApiUtil');
 
     var TeamMemberForm = React.createClass({
         getInitialState: function () {
@@ -48,6 +51,7 @@
             }
         },
 
+        //for DatePicker
         handleChangeStartDate: function (date) {
             if (this.props.memberIndexInModal) {
                 this.state.member.joinDate = date;
@@ -57,6 +61,7 @@
             });
         },
 
+        //for DatePicker
         handleChangeEndDate: function (date) {
             if (this.props.memberIndexInModal) {
                 this.state.member.endDate = date;
@@ -73,6 +78,7 @@
             this.setState({isChecked: !this.state.isChecked});
         },
 
+        //called when member form is submitted
         addMember: function () {
             var member = {
                 employee: {"id": this.refs.employee.value},
@@ -99,10 +105,12 @@
             document.querySelector('#close-btn').click();
         },
 
+        //set value of Select Dropdown on Edit
         setSelectOption: function (value) {
             $("#role").val(value).selected = true;
         },
 
+        //set value of Select Dropdown on Edit
         setEmployee: function (value) {
             $("#employee").val(value).selected = true;
         },
@@ -200,7 +208,7 @@
                                     <div className="form-group">
                                         <label className="control-label col-md-4">Billed</label>
                                         <div className="col-md-8">
-                                            <label htmlFor="billed-resource" className="switch switch-default">
+                                            <label htmlFor="billed-resource" className="billed-resource switch switch-default">
                                                 <input type="checkbox" name="billed" onChange={this.toggleCheckBox}
                                                        id="billed-resource" checked={this.state.isChecked}/>
                                                 <span data-toggle="tooltip"></span>
@@ -209,9 +217,7 @@
                                     </div>
                                 </form>
                             </div>
-
                             {buttons}
-
                         </div>
                     </div>
                 </div>

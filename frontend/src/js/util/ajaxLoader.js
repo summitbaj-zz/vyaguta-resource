@@ -5,6 +5,9 @@
  */
 
 ;(function () {
+    'use strict';
+
+    //spinner while making asynchronous calls
     var ajaxLoader = {
         show: function () {
             document.getElementsByClassName('ajax-loader')[0].style.visibility = 'visible';

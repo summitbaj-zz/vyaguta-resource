@@ -1,10 +1,9 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,14 +13,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.Page;
-import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
-import com.lftechnology.vyaguta.commons.util.PageUtil;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
 
@@ -39,12 +36,9 @@ public class ProjectStatusRs {
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(
-            @Min(value = 1, message = "Page must be greater than zero.") @QueryParam("page") Integer pageNum,
-            @QueryParam("offset") Integer offset) {
-        Page page = PageUtil.page(pageNum, offset);
-        List<ProjectStatus> projectStatus = projectStatusService.find(page.getStart(), page.getOffset());
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+    public Response list(@Context UriInfo uriInfo) {
+        Map<String, Object> projectStatus = projectStatusService.findByFilter(uriInfo.getQueryParameters());
+        return Response.status(Response.Status.OK).entity(projectStatus).build();
     }
 
     @Path("/")
@@ -53,7 +47,7 @@ public class ProjectStatusRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
         projectStatus = projectStatusService.save(projectStatus);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+        return Response.status(Response.Status.OK).entity(projectStatus).build();
     }
 
     @Path("/{id}")
@@ -63,7 +57,7 @@ public class ProjectStatusRs {
     public Response update(@PathParam("id") String id,
             @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
         ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+        return Response.status(Response.Status.OK).entity(projectStatus).build();
     }
 
     @Path("/{id}")
@@ -72,7 +66,7 @@ public class ProjectStatusRs {
     public Response findById(@PathParam("id") String id) {
         ProjectStatus projectStatus = projectStatusService.findById(id);
         if (projectStatus != null) {
-            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(projectStatus)).build();
+            return Response.status(Response.Status.OK).entity(projectStatus).build();
         } else {
             throw new ObjectNotFoundException();
         }

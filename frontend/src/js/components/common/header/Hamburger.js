@@ -1,14 +1,17 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom');
+    //React dependencies
+    var React = require('react');
 
     var Hamburger = React.createClass({
+        toggleSidebar: function () {
+            App.sidebar('toggle-sidebar');
+        },
         render: function () {
             return (
                 <ul className="nav navbar-nav-custom">
-                    <li><a href="javascript:void(0)" id="burgerMenu" onclick="App.sidebar('toggle-sidebar');"> <i
+                    <li><a href="javascript:void(0)" id="burgerMenu" onClick={this.toggleSidebar}> <i
                         className="fa fa-bars fa-fw"></i> </a></li>
                 </ul>
             )

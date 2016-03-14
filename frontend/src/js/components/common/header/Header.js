@@ -1,18 +1,19 @@
 ;(function () {
     'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom'),
-        DropDownList = require('./DropDownList'),
-        Hamburger = require('./Hamburger'),
-        SearchBar = require('./SearchBar'),
-        ErrorMessage = require('../error-message/ErrorMessage');
+    //React dependencies
+    var React = require('react');
+
+    //components
+    var DropDownList = require('./DropDownList');
+    var Hamburger = require('./Hamburger');
+    var SearchBar = require('./SearchBar');
 
     var Header = React.createClass({
 
         render: function () {
             return (
-                <header className="navbar navbar-default">
+                <header id="header" className="navbar navbar-default">
                     <Hamburger/>
                     <SearchBar/>
                     <DropDownList/>

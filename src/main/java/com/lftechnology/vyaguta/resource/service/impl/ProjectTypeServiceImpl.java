@@ -1,8 +1,11 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
@@ -65,11 +68,22 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 
     @Override
     public Long count() {
-        return projectTypeDao.count();
+        return projectTypeDao.count(null);
     }
 
     @Override
     public List<ProjectType> find(Integer start, Integer offset) {
         return projectTypeDao.find(start, offset);
+    }
+
+    @SuppressWarnings("serial")
+    @Override
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectTypeDao.count(queryParameters));
+                put("data", projectTypeDao.findByFilter(queryParameters));
+            }
+        };
     }
 }
