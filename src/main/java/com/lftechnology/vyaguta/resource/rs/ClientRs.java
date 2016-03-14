@@ -1,6 +1,6 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.service.ClientService;
 
@@ -42,7 +43,8 @@ public class ClientRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         log.debug("client list parameters: {}", uriInfo.getQueryParameters());
-        List<Client> clients = clientService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> clients = clientService
+                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(clients)).build();
     }
 
