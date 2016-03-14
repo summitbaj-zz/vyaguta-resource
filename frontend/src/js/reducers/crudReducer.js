@@ -22,7 +22,8 @@
             budgetTypes: {},
             projectTypes: {},
             projectStatus: {}
-        }
+        },
+        pageIndex: 1
     };
 
 
@@ -51,10 +52,14 @@
                 return newState;
 
             case actionTypeConstant.UPDATE_SELECTED_ITEM:
-                console.log(action.entity);
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity][action.key] = action.value;
 
+                return newState;
+
+            case actionTypeConstant.PAGINATION_INDEX:
+                var newState = _.cloneDeep(state);
+                newState.pageIndex = action.index;
                 return newState;
 
             default:

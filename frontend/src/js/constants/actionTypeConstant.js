@@ -7,6 +7,7 @@
         UPDATE: 'UPDATE',
         SELECT_ITEM: 'SELECT_ITEM',
         UPDATE_SELECTED_ITEM: 'UPDATE_SELECTED_ITEM',
+        PAGINATION_INDEX: 'PAGINATION_INDEX',
 
         //Team Member actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',

@@ -52,6 +52,12 @@
                 entity: entity,
                 data: data
             }
+        },
+        pageIndex: function(data){
+            return {
+                type: actionTypeConstant.PAGINATION_INDEX,
+                index: data._start
+            }
         }
     };
 
@@ -151,8 +157,19 @@
                 key: key,
                 value: value
             }
+        },
+
+        fetchByQuery: function(entity, data){
+            return function (dispatch){
+                dispatch(apiActions.apiRequest(entity));
+                return (ApiUtil.fetchByQuery2(entity, data, function(response){
+                    dispatch(apiActions.apiResponse(entity));
+                    dispatch(actions.list(entity, response.body));
+                    dispatch(actions.pageIndex(data));
+                }));
+            }
         }
-    }
+    };
 
     module.exports = crudActions;
 

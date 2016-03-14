@@ -40,6 +40,18 @@
                 })
         },
 
+        fetchByQuery2: function (resourceName, data, callback) {
+            request
+                .get(url + 'projects?_start=' + data._start+'&_limit=' + data._limit)
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+                .then(function (response) {
+                    callback(response);
+                }, function (error) {
+                    //handle error
+                })
+        },
+
         fetchAll: function (resourceName) {
             return request
                 .get(url + resourceName.toLowerCase())

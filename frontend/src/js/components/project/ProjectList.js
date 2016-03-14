@@ -15,10 +15,23 @@
     var Project = require('./ProjectRow');
     var ProjectHeader = require('./ProjectHeader');
     var crudActions = require('../../actions/crudActions');
+    var Pagination = require('../common/pagination/Pagination');
+
+    //util
+    var ApiUtil = require('../../util/ApiUtil');
 
     var ProjectList = React.createClass({
+        getDefaultProps: function () {
+            return {
+                offset: 2,
+                startIndex: 1,
+                defaultProjectCount: 10,
+                range: 4
+            }
+        },
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECTS);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: this.props.startIndex, _limit: this.props.offset});
+
         },
 
         deleteProject: function (key) {
@@ -28,10 +41,15 @@
         },
 
         renderProject: function (key) {
+            var startIndex = 1+ parseInt(key) + (this.props.pageIndex -1)*this.props.offset;
             return (
-                <Project key={key} index={key} project={this.props.projects[key]}
+                <Project key={key} index={startIndex} project={this.props.projects[key]}
                          deleteProject={this.deleteProject}/>
             );
+        },
+
+        refreshList: function (index) {
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: index, _limit: this.props.offset});
         },
 
         render: function () {
@@ -67,6 +85,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={this.props.projects._count || this.props.defaultProjectCount / this.props.offset} refreshList={this.refreshList} range={this.props.range}/>
                     </div>
                 </div>
             );
@@ -75,7 +94,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            projects: state.crudReducer.projects
+            projects: state.crudReducer.projects,
+            pageIndex: state.crudReducer.pageIndex
         }
     };
 
