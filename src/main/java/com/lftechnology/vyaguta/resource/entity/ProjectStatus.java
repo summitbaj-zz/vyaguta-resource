@@ -25,6 +25,16 @@ public class ProjectStatus extends BaseEntity implements Serializable {
     @NotBlank(message = "Title cannot be blank.")
     private String title;
 
+    private String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -36,10 +46,12 @@ public class ProjectStatus extends BaseEntity implements Serializable {
     @PrePersist
     public void prePersists() {
         this.setTitle(this.getTitle().trim());
+        this.setColor(this.getColor().trim());
     }
 
     @PreUpdate
     public void preUpdates() {
         this.setTitle(this.getTitle().trim());
+        this.setColor(this.getColor().trim());
     }
 }
