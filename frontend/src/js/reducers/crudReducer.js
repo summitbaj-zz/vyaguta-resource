@@ -19,7 +19,8 @@
                 budgetType: {},
                 projectType: {},
                 projectStatus: {},
-                accountManager: {}
+                accountManager: {},
+                client: {}
             },
             projectRoles: {},
             budgetTypes: {},

@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
 import com.lftechnology.vyaguta.resource.service.ProjectMemberService;
 
@@ -46,7 +47,8 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class, responseContainer = "List")
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projectMembers = projectMemberService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> projectMembers = projectMemberService
+                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 

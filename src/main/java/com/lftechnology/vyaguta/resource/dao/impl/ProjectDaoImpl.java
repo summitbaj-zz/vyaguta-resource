@@ -10,9 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.entity.Project;

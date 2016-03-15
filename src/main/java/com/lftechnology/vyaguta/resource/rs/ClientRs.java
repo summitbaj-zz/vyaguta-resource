@@ -18,56 +18,63 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.JsonToStringBuilder;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
-import com.lftechnology.vyaguta.resource.entity.ProjectType;
-import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
+import com.lftechnology.vyaguta.resource.entity.Client;
+import com.lftechnology.vyaguta.resource.service.ClientService;
 
 /**
- * 
- * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
- *
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Path("/projecttypes")
-public class ProjectTypeRs {
+@Path("/clients")
+public class ClientRs {
 
     @Inject
-    private ProjectTypeService projectTypeService;
+    ClientService clientService;
+
+    @Inject
+    private Logger log;
 
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projectTypes = projectTypeService
+        log.debug("client list parameters: {}", uriInfo.getQueryParameters());
+        Map<String, Object> clients = clientService
                 .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
-        return Response.status(Response.Status.OK).entity(projectTypes).build();
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(clients)).build();
     }
 
     @Path("/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@NotNull @Valid ProjectType projectType) {
-        projectType = projectTypeService.save(projectType);
-        return Response.status(Response.Status.OK).entity(projectType).build();
+    public Response create(@NotNull @Valid Client client) {
+        client = clientService.save(client);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }
 
     @Path("/{id}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid ProjectType projectTypeNew) {
-        ProjectType projectType = projectTypeService.merge(id, projectTypeNew);
-        return Response.status(Response.Status.OK).entity(projectType).build();
+    public Response update(@PathParam("id") String id, @NotNull @Valid Client clientNew) {
+        log.debug("client Id: {}", id);
+        Client client = clientService.merge(id, clientNew);
+        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }
 
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
-        ProjectType projectType = projectTypeService.findById(id);
-        if (projectType != null) {
-            return Response.status(Response.Status.OK).entity(projectType).build();
+        log.debug("client Id: {}", id);
+        Client client = clientService.findById(id);
+        if (client != null) {
+            return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
         } else {
             throw new ObjectNotFoundException();
         }
@@ -77,7 +84,8 @@ public class ProjectTypeRs {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
-        projectTypeService.removeById(id);
+        log.debug("client Id: {}", id);
+        clientService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }
 }
