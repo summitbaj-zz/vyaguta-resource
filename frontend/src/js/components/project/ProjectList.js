@@ -79,10 +79,10 @@
                                     <th>S.No.</th>
                                     <th>Projects</th>
                                     <th>Type</th>
-                                    <th>Status</th>
                                     <th>Budget Type</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
+                                    <th>Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
