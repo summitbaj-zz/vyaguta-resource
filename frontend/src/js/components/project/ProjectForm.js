@@ -200,8 +200,15 @@
         updateProject: function () {
             var project = this.getFormData();
             project['reason'] = $('#reason').val();
-            $('#addReason').modal('hide');
-            this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+            var requiredField = {
+                'reason': $('#reason').val()
+        }
+            if (formValidator.isRequired(requiredField)) {
+                $('#addReason').modal('hide');
+                this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+            } else {
+                this.showErrors(formValidator.errors);
+            }
         },
 
         checkTitle: function (title) {
@@ -234,6 +241,7 @@
         },
 
         render: function () {
+
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
