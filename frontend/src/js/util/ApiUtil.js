@@ -34,22 +34,17 @@
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
-                    callback(response.body);
+                    callback(response.body.data);
                 }, function (error) {
                     //handle error
                 })
         },
 
-        fetchByQuery2: function (resourceName, data, callback) {
-            request
-                .get(url + 'projects?_start=' + data._start+'&_limit=' + data._limit)
+        fetchByQuery2: function (resourceName, data) {
+            return request
+                .get(url + 'projects?start=' + data._start+'&offset=' + data._limit)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response);
-                }, function (error) {
-                    //handle error
-                })
         },
 
         fetchAll: function (resourceName) {

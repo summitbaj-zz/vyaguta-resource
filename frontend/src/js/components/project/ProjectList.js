@@ -25,7 +25,7 @@
             return {
                 offset: 2,
                 startIndex: 1,
-                defaultProjectCount: 10,
+                defaultProjectCount: 20,
                 range: 4
             }
         },
@@ -41,7 +41,8 @@
         },
 
         renderProject: function (key) {
-            var startIndex = 1+ parseInt(key) + (this.props.pageIndex -1)*this.props.offset;
+            //var startIndex = 1+ parseInt(key) + (this.props.pageIndex -1)*this.props.offset;
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
                 <Project key={key} index={startIndex} project={this.props.projects[key]}
                          deleteProject={this.deleteProject}/>
@@ -49,10 +50,12 @@
         },
 
         refreshList: function (index) {
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: index, _limit: this.props.offset});
+            var startIndex = 1 + (index -1)*this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: startIndex, _limit: this.props.offset});
         },
 
         render: function () {
+            console.log(this.props.pagination.count);
             return (
                 <div>
                     <EntityHeader header="Projects" routes={this.props.routes}/>
@@ -85,7 +88,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={this.props.projects._count || this.props.defaultProjectCount / this.props.offset} refreshList={this.refreshList} range={this.props.range}/>
+                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} range={this.props.range}/>
                     </div>
                 </div>
             );
@@ -95,7 +98,7 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.crudReducer.projects,
-            pageIndex: state.crudReducer.pageIndex
+            pagination: state.crudReducer.pagination
         }
     };
 

@@ -53,10 +53,11 @@
                 data: data
             }
         },
-        pageIndex: function(data){
+        pageIndex: function(data, count){
             return {
                 type: actionTypeConstant.PAGINATION_INDEX,
-                index: data._start
+                index: data._start,
+                count: count
             }
         }
     };
@@ -152,10 +153,12 @@
         fetchByQuery: function(entity, data){
             return function (dispatch){
                 dispatch(apiActions.apiRequest(entity));
-                return (ApiUtil.fetchByQuery2(entity, data, function(response){
+                return (ApiUtil.fetchByQuery2(entity, data).then(function(response){
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.list(entity, response.body));
-                    dispatch(actions.pageIndex(data));
+                    dispatch(actions.pageIndex(data, response.body.count));
+                }, function(error){
+                    dispatch(apiActions.apiError(error));
                 }));
             }
         },
