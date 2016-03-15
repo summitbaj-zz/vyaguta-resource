@@ -19,7 +19,7 @@
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
             $('#colorselector').colorselector();
-            $('.btn-colorselector').on('change', this.handleChange);
+
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
             }
@@ -38,8 +38,8 @@
                 $('#colorselector').val(color).selected = true;
                 $('#selected-color').css('background-color', color);
 
-                $('#colorselector').next().find("ul").find("li").find(".selected").removeClass("selected");
-                $('#colorselector').next().find("ul").find("li").find("a[data-color='" + color + "']").addClass("selected");
+                $('#colorselector').next().find("ul li .selected").removeClass("selected");
+                $('#colorselector').next().find("ul li a[data-color='" + color + "']").addClass("selected");
             }
         },
 
