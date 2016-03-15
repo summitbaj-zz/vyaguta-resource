@@ -27,7 +27,9 @@
             projectTypes: {},
             clients: {},
             projectStatus: {}
-        }
+        },
+        pageIndex: 1,
+        pagination:{}
     };
 
 
@@ -37,7 +39,7 @@
         switch (action.type) {
             case actionTypeConstant.LIST:
                 var newState = _.cloneDeep(state);
-                newState[action.entity] = _.cloneDeep(action.data);
+                newState[action.entity] = _.cloneDeep(action.data.data);
 
                 return newState;
 
@@ -65,6 +67,13 @@
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = {};
 
+                return newState;
+
+            case actionTypeConstant.PAGINATION_INDEX:
+                var newState = _.cloneDeep(state);
+                newState.pageIndex = action.index;
+                newState.pagination.page = action.index;
+                newState.pagination.count = action.count;
                 return newState;
 
             default:

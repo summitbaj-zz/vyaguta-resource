@@ -12,7 +12,7 @@
             var id = this.props.client.id;
             return (
                 <tr>
-                    <td>{++this.props.index}</td>
+                    <td>{this.props.index}</td>
                     <td>{this.props.client.name}</td>
                     <td>{this.props.client.email}</td>
                     <td>{this.props.client.phone}</td>

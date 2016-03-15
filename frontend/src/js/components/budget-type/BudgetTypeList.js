@@ -21,10 +21,27 @@
     var BudgetTypeRow = require('./BudgetTypeRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
+    var Pagination = require('../common/pagination/Pagination');
 
     var BudgetTypeList = React.createClass({
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
+        },
+
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
+            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {_start: this.props.startIndex, _limit: this.props.offset});
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index -1)*this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {_start: startIndex, _limit: this.props.offset});
         },
 
         deleteBudgetType: function (id) {
@@ -34,8 +51,9 @@
         },
 
         renderBudgetType: function (key) {
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <BudgetTypeRow key={key} index={key} budgetType={this.props.budgetTypes[key]}
+                <BudgetTypeRow key={key} index={startIndex} budgetType={this.props.budgetTypes[key]}
                                deleteBudgetType={this.deleteBudgetType}/>
             )
         },
@@ -67,6 +85,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)} refreshList={this.refreshList} />
+
                     </div>
                 </div>
             )
@@ -75,7 +95,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            budgetTypes: state.crudReducer.budgetTypes
+            budgetTypes: state.crudReducer.budgetTypes,
+            pagination: state.crudReducer.pagination
         }
     };
 

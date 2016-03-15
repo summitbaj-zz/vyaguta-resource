@@ -8,11 +8,12 @@
     var urlConstant = require('../../constants/urlConstant');
 
     var ProjectRow = React.createClass({
+
         render: function () {
             var id = this.props.project.id;
             return (
                 <tr>
-                    <td>{++this.props.index}</td>
+                    <td>{this.props.index}</td>
                     <td>{this.props.project.title}</td>
                     <td>{this.props.project.projectType.title}</td>
                     <td>{this.props.project.projectStatus.title}</td>

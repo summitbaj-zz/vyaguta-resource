@@ -34,10 +34,17 @@
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
-                    callback(response.body);
+                    callback(response.body.data);
                 }, function (error) {
                     //handle error
                 })
+        },
+
+        fetchByQuery2: function (resourceName, data) {
+            return request
+                .get(url + resourceName.toLowerCase() + '?start=' + data._start+'&offset=' + data._limit)
+                .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
         },
 
         fetchAll: function (resourceName) {

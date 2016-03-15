@@ -15,11 +15,34 @@
     var ProjectRole = require('./ProjectRoleRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
-
+    var Pagination = require('../common/pagination/Pagination');
 
     var ProjectRoleList = React.createClass({
+
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
+        },
+
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            });
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index - 1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, {
+                _start: startIndex,
+                _limit: this.props.offset
+            });
         },
 
         deleteProjectRole: function (id) {
@@ -29,8 +52,9 @@
         },
 
         renderProjectRole: function (key) {
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectRole key={key} index={key} projectRole={this.props.projectRoles[key]}
+                <ProjectRole key={key} index={startIndex} projectRole={this.props.projectRoles[key]}
                              deleteProjectRole={this.deleteProjectRole}/>
             );
         },
@@ -63,6 +87,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
                     </div>
                 </div>
             );
@@ -71,7 +97,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            projectRoles: state.crudReducer.projectRoles
+            projectRoles: state.crudReducer.projectRoles,
+            pagination: state.crudReducer.pagination
         }
     };
 

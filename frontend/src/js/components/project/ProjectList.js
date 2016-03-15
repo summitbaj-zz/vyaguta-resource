@@ -15,10 +15,27 @@
     var Project = require('./ProjectRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
+    var Pagination = require('../common/pagination/Pagination');
+
+    //util
+    var ApiUtil = require('../../util/ApiUtil');
 
     var ProjectList = React.createClass({
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
+        },
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECTS);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            });
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
         },
 
         deleteProject: function (key) {
@@ -28,10 +45,17 @@
         },
 
         renderProject: function (key) {
+            //var startIndex = 1+ parseInt(key) + (this.props.pageIndex -1)*this.props.offset;
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <Project key={key} index={key} project={this.props.projects[key]}
+                <Project key={key} index={startIndex} project={this.props.projects[key]}
                          deleteProject={this.deleteProject}/>
             );
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index - 1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: startIndex, _limit: this.props.offset});
         },
 
         render: function () {
@@ -67,6 +91,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
                     </div>
                 </div>
             );
@@ -75,7 +101,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            projects: state.crudReducer.projects
+            projects: state.crudReducer.projects,
+            pagination: state.crudReducer.pagination
         }
     };
 
