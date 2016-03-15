@@ -26,7 +26,6 @@ public interface ProjectHistoryDao {
             getEm().flush();
             getEm().refresh(projectHistory);
         } catch (PersistenceException persistenceException) {
-            persistenceException.printStackTrace();
             throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
                     persistenceException.getCause());
         }
