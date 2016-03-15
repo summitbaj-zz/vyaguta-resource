@@ -150,7 +150,6 @@
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem,
-            projectStatus: state.crudReducer.projectStatus
         }
     };
 

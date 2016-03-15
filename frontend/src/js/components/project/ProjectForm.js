@@ -202,11 +202,11 @@
             project['reason'] = $('#reason').val();
             var requiredField = {
                 'reason': $('#reason').val()
-            }
+        }
             if (formValidator.isRequired(requiredField)) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
-            }else{
+            } else {
                 this.showErrors(formValidator.errors);
             }
         },
