@@ -1,0 +1,96 @@
+.chartContainer {
+    fill-opacity: 0;
+    stroke: black;
+    stroke-width: 5;
+}
+
+.chart {
+    shape-rendering: crispEdges;
+}
+
+.mini text {
+    font: 9px sans-serif;
+}
+
+.main text {
+    font: 12px sans-serif;
+}
+
+.month text {
+    text-anchor: start;
+}
+
+.todayLine {
+    stroke: blue;
+    stroke-width: 1.5;
+}
+
+.axis line, .axis path {
+    stroke: black;
+}
+
+.miniItem {
+    stroke-width: 6;
+    stroke: #333333;
+}
+
+.future {
+    stroke: gray;
+    fill: #ddd;
+}
+
+.past {
+    stroke: #DB4437;
+    fill: #DB4437;
+}
+
+
+.mainItem0 {
+    stroke: #4285F4;
+    fill: #4285F4;
+    z-index: 0;
+}
+.mainItem1 {
+    stroke: #DB4437;
+    fill: #DB4437;
+}
+.mainItem2 {
+    stroke: #0F9D58;
+    fill: #0F9D58;
+}
+.mainItem3 {
+    stroke: #AB47BC;
+    fill: #AB47BC;
+}
+.mainItem4 {
+    stroke: #00ACC1;
+    fill: #00ACC1;
+}
+.mainItem5 {
+    stroke: #FF7043;
+    fill: #FF7043;
+}
+.mainItem6 {
+    stroke: #5C6BC0;
+    fill: #5C6BC0;
+}
+
+.itemLabel {
+    fill : white;
+}
+
+.brush .extent {
+    stroke: blue;
+    fill: blue;
+    fill-opacity: .165;
+}
+
+.tooltip {
+    line-height: 1;
+    padding: 12px;
+    background: #ffffff;
+    font-size: 14px;
+    color: #333333;
+    border-radius: 2px;
+    border: 1px solid #333333;
+}

@@ -19,6 +19,7 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
+    var SwimLaneChart = require('../../util/charts/SwimLaneChart');
 
     var ProjectDetails = React.createClass({
         componentDidMount: function () {
@@ -73,7 +74,9 @@
                                         </tr>
                                         </tbody>
                                     </table>
+
                                 </div>
+                                <SwimLaneChart width="960"/>
                             </div>
                         </div>
                     </div>

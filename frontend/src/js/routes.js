@@ -68,6 +68,7 @@
                     <Route path="edit/:id" name="Edit"
                            component={require('./components/client/ClientForm')}/>
                 </Route>
+
             </Route>
         </Router>
     );

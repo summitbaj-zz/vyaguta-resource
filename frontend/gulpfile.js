@@ -34,8 +34,9 @@
                 './src/css/custom.css',
                 './src/css/font-awesome.css',
                 './src/css/glyphicons.css',
+                './src/css/project-allocation-chart.css',
                 'node_modules/toastr/build/toastr.css',
-                'node_modules/react-datepicker/dist/react-datepicker.css'
+                'node_modules/react-datepicker/dist/react-datepicker.css',
             ],
             img: [
                 './src/img/*',
