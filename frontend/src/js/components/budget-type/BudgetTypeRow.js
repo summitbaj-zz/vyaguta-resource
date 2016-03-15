@@ -17,7 +17,7 @@
         render: function () {
             return (
                 <tr>
-                    <td>{++this.props.index}</td>
+                    <td>{this.props.index}</td>
                     <td>{this.props.budgetType.title}</td>
                     <td className="text-center">
                         <div className="btn-group"><Link

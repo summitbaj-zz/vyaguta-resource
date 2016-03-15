@@ -16,7 +16,10 @@
         VISIBLE: 'visible',
         TAGS: 'tags',
         ACCOUNT_MANAGERS: 'accountManagers',
-        EMPLOYEES: 'employees'
+        EMPLOYEES: 'employees',
+        START_INDEX: '1',
+        OFFSET: '2'
+
     };
 
     module.exports = resourceConstant;

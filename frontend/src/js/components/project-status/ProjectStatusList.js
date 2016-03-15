@@ -15,11 +15,28 @@
     var ProjectStatus = require('./ProjectStatusRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
-
+    var Pagination = require('../common/pagination/Pagination');
 
     var ProjectStatusList = React.createClass({
+
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
+        },
+
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, {_start: this.props.startIndex, _limit: this.props.offset});
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index -1)*this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, {_start: startIndex, _limit: this.props.offset});
         },
 
         deleteProjectStatus: function (id) {
@@ -29,8 +46,9 @@
         },
 
         renderProjectStatus: function (key) {
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectStatus key={key} index={key} projectStatus={this.props.projectStatus[key]}
+                <ProjectStatus key={key} index={startIndex} projectStatus={this.props.projectStatus[key]}
                                deleteProjectStatus={this.deleteProjectStatus}/>
             );
         },
@@ -64,6 +82,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} />
                     </div>
                 </div>
             );
@@ -73,7 +92,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            projectStatus: state.crudReducer.projectStatus
+            projectStatus: state.crudReducer.projectStatus,
+            pagination: state.crudReducer.pagination
         }
     };
 

@@ -23,15 +23,16 @@
     var ProjectList = React.createClass({
         getDefaultProps: function () {
             return {
-                offset: 2,
-                startIndex: 1,
-                defaultProjectCount: 20,
-                range: 4
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
             }
         },
         componentDidMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: this.props.startIndex, _limit: this.props.offset});
+        },
 
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
         },
 
         deleteProject: function (key) {
@@ -55,7 +56,6 @@
         },
 
         render: function () {
-            console.log(this.props.pagination.count);
             return (
                 <div>
                     <EntityHeader header="Projects" routes={this.props.routes}/>
@@ -88,7 +88,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} range={this.props.range}/>
+                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} />
                     </div>
                 </div>
             );

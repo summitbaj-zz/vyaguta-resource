@@ -42,7 +42,7 @@
 
         fetchByQuery2: function (resourceName, data) {
             return request
-                .get(url + 'projects?start=' + data._start+'&offset=' + data._limit)
+                .get(url + resourceName.toLowerCase() + '?start=' + data._start+'&offset=' + data._limit)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },

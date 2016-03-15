@@ -12,7 +12,7 @@
             var id = this.props.projectStatus.id;
             return (
                 <tr>
-                    <td>{++this.props.index}</td>
+                    <td>{this.props.index}</td>
                     <td>{this.props.projectStatus.title}</td>
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.PROJECT_STATUS.EDIT + id} data-toggle="tooltip"

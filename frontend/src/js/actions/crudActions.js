@@ -168,6 +168,12 @@
                 type: actionTypeConstant.CLEAR_SELECTED_ITEM,
                 entity: entity
             }
+        },
+
+        clearPagination: function(){
+            return {
+                type: actionTypeConstant.PAGINATION_INDEX,
+            }
         }
     };
 
