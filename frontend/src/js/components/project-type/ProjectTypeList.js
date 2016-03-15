@@ -82,7 +82,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} />
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)} refreshList={this.refreshList} />
                     </div>
                 </div>
             );

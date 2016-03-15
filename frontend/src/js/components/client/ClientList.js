@@ -27,7 +27,10 @@
         },
 
         componentDidMount: function () {
-            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {_start: this.props.startIndex, _limit: this.props.offset});
+            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            });
         },
 
         componentWillUnmount: function () {
@@ -35,7 +38,7 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index -1)*this.props.offset;
+            var startIndex = 1 + (index - 1) * this.props.offset;
             this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {_start: startIndex, _limit: this.props.offset});
         },
 
@@ -49,7 +52,7 @@
         renderClient: function (key) {
             return (
                 <Client key={key} index={key} client={this.props.clients[key]}
-                             deleteClient={this.deleteClient}/>
+                        deleteClient={this.deleteClient}/>
             );
         },
 
@@ -85,7 +88,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} />
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
                     </div>
                 </div>
             );

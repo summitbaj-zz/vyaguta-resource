@@ -51,7 +51,6 @@
         },
 
         renderBudgetType: function (key) {
-            console.log(parseInt(key))
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
                 <BudgetTypeRow key={key} index={startIndex} budgetType={this.props.budgetTypes[key]}
@@ -86,7 +85,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={parseInt((this.props.pagination.count / this.props.offset).toFixed())} refreshList={this.refreshList} />
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)} refreshList={this.refreshList} />
 
                     </div>
                 </div>
