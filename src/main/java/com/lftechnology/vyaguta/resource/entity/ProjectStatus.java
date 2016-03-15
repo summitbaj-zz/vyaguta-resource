@@ -50,12 +50,10 @@ public class ProjectStatus extends BaseEntity implements Serializable {
     @PrePersist
     public void prePersists() {
         this.setTitle(this.getTitle().trim());
-        this.setColor(this.getColor().trim());
     }
 
     @PreUpdate
     public void preUpdates() {
         this.setTitle(this.getTitle().trim());
-        this.setColor(this.getColor().trim());
     }
 }
