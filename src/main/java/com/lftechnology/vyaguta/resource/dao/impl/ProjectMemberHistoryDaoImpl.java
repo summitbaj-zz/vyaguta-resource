@@ -24,6 +24,7 @@ public class ProjectMemberHistoryDaoImpl implements ProjectMemberHistoryDao {
 
     @Inject
     protected EntityManager em;
+
     @Override
     public ProjectMemberHistory save(ProjectMemberHistory entity) {
         try {
@@ -45,6 +46,5 @@ public class ProjectMemberHistoryDaoImpl implements ProjectMemberHistoryDao {
         TypedQuery<ProjectMemberHistory> typedQuery = em.createQuery(select);
         return typedQuery.getResultList();
     }
-
 
 }
