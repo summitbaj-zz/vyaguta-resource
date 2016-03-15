@@ -171,6 +171,14 @@ CREATE TABLE project_histories (
 ALTER TABLE project_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_histories
     ADD CONSTRAINT project_histories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT project_type_fk FOREIGN KEY(project_type_id) REFERENCES project_types ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT project_status_fk FOREIGN KEY(project_status_id) REFERENCES project_status ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
     
 CREATE TABLE project_member_histories (
     id character varying(32) NOT NULL,
@@ -191,6 +199,11 @@ CREATE TABLE project_member_histories (
 ALTER TABLE project_member_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_member_histories
     ADD CONSTRAINT project_member_histories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY project_member_histories 
+	ADD CONSTRAINT project_members_fk FOREIGN KEY(project_member_id) REFERENCES project_members ON DELETE CASCADE;
+ALTER TABLE ONLY project_member_histories 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;
