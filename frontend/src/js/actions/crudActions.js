@@ -172,7 +172,7 @@
 
         clearPagination: function(){
             return {
-                type: actionTypeConstant.PAGINATION_INDEX,
+                type: actionTypeConstant.PAGINATION_INDEX
             }
         }
     };
