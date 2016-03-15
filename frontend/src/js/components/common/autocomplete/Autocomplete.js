@@ -36,6 +36,10 @@
             }
         },
 
+        componentWillUnmount: function(){
+            selectedIndex = -1;
+        },
+
         keyPressed: function (event) {
             var key = event.keyCode;
             if (this.props.suggestions.length && (key === 40 || key === 38)) {

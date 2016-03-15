@@ -19,6 +19,7 @@
                                         <textarea name="reason" ref="reason" id="reason"
                                                   placeholder="Please enter the reason for editing this project."
                                                   className="form-control" rows="4"></textarea>
+                                    <span className="help-block" ref="availableMessage"></span>
                                 </div>
                             </div>
                             <div className="modal-footer">

@@ -14,15 +14,37 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
+    var flag = 0;
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
+            $('#colorselector').colorselector();
+            $('.btn-colorselector').on('change', this.handleChange);
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
+            }
+            else {
+                var value = $('#colorselector').val();
+                $('#selected-color').css('background', value);
+            }
+        },
+
+        componentDidUpdate: function (props) {
+            if (this.props.params.id && flag === 0) {
+                flag = 1;
+                var color = this.props.selectedItem.projectStatus.color;
+
+                $('.btn-colorselector').css('background-color', color);
+                $('#colorselector').val(color).selected = true;
+                $('#selected-color').css('background-color', color);
+
+                $('#colorselector').next().find("ul").find("li").find(".selected").removeClass("selected");
+                $('#colorselector').next().find("ul").find("li").find("a[data-color='" + color + "']").addClass("selected");
             }
         },
 
         componentWillUnmount: function () {
+            flag = 0;
             this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
         },
 
@@ -31,7 +53,8 @@
             event.preventDefault();
 
             var projectStatus = {
-                title: this.refs.title.value
+                title: this.refs.title.value,
+                color: this.refs.color.value
             }
 
             if (formValidator.isRequired(projectStatus)) {
@@ -49,7 +72,7 @@
             for (var elementId in errors) {
                 var parentElement = $('#' + elementId).parent();
 
-                if(!parentElement.hasClass('has-error')){
+                if (!parentElement.hasClass('has-error')) {
                     parentElement.addClass('has-error');
                 }
                 parentElement.children('span').html(errors[elementId]);
@@ -59,7 +82,6 @@
         handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
-
             this.props.actions.updateSelectedItem(resourceConstant.PROJECT_STATUS, key, value);
         },
 
@@ -67,7 +89,7 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
-                                         routes={this.props.routes}/>
+                                  routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
@@ -80,6 +102,32 @@
                                        className="form-control"
                                        id="title"/>
                                 <span className="help-block"></span>
+                            </div>
+                            <div className="form-group clearfix">
+                                <div className="row multiple-element">
+                                    <div className="col-md-6 col-lg-4 element">
+                                        <label>Color</label>
+                                        <select id="colorselector" ref="color" name="color">
+                                            <option value="#4CAF50" data-color="#4CAF50">green</option>
+                                            <option value="#3F51B5" data-color="#3F51B5">blue</option>
+                                            <option value="#f44336" data-color="#f44336">red</option>
+                                            <option value="#DC143C" data-color="#DC143C">crimson</option>
+                                            <option value="#FF00FF" data-color="#FF00FF">purple</option>
+                                            <option value="#A0522D" data-color="#A0522D">sienna</option>
+                                            <option value="#CD5C5C" data-color="#CD5C5C">indianred
+                                            </option>
+                                            <option value="#FF8C00" data-color="#FF8C00">darkorange</option>
+                                            <option value="#FF5722" data-color="#FF5722">orange</option>
+                                            <option value="#C71585" data-color="#C71585">mediumvioletred</option>
+                                            <option value="#000000" data-color="#000000">black</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-8 element">
+                                        <label>Preview</label>
+                                        <span className="label text-uppercase"
+                                              id="selected-color">{this.props.selectedItem.projectStatus.title}</span>
+                                    </div>
+                                </div>
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
@@ -101,7 +149,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            projectStatus: state.crudReducer.projectStatus
         }
     };
 
