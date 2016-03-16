@@ -15,12 +15,33 @@
     var Client = require('./ClientRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
-
+    var Pagination = require('../common/pagination/Pagination');
 
     var ClientList = React.createClass({
-        componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.CLIENTS);
+
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
         },
+
+        componentDidMount: function () {
+            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            });
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index - 1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {_start: startIndex, _limit: this.props.offset});
+        },
+
 
         deleteClient: function (id) {
             if (confirm('Are you sure?')) {
@@ -31,7 +52,7 @@
         renderClient: function (key) {
             return (
                 <Client key={key} index={key} client={this.props.clients[key]}
-                             deleteClient={this.deleteClient}/>
+                        deleteClient={this.deleteClient}/>
             );
         },
 
@@ -67,6 +88,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
                     </div>
                 </div>
             );
@@ -75,7 +98,9 @@
 
     var mapStateToProps = function (state) {
         return {
-            clients: state.crudReducer.clients
+            clients: state.crudReducer.clients,
+            pagination: state.crudReducer.pagination
+
         }
     };
 

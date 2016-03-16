@@ -7,9 +7,9 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.ws.rs.core.MultivaluedMap;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.common.CommonConstant;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;

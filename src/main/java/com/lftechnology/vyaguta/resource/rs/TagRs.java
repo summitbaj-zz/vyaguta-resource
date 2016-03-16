@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.TagService;
 
@@ -43,7 +44,8 @@ public class TagRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get list of Tags", notes = "Can provide page number and offset value")
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> tags = tagService.findByFilter(uriInfo.getQueryParameters());
+        Map<String, Object> tags = tagService
+                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(tags).build();
     }
 

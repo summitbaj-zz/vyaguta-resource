@@ -2,10 +2,12 @@ package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,6 +27,8 @@ public class ProjectStatus extends BaseEntity implements Serializable {
     @NotBlank(message = "Title cannot be blank.")
     private String title;
 
+    @Size(max = 7, min = 4, message = "Enter color code in hex format")
+    @Column(name = "color_code")
     private String color;
 
     public String getColor() {
@@ -46,12 +50,10 @@ public class ProjectStatus extends BaseEntity implements Serializable {
     @PrePersist
     public void prePersists() {
         this.setTitle(this.getTitle().trim());
-        this.setColor(this.getColor().trim());
     }
 
     @PreUpdate
     public void preUpdates() {
         this.setTitle(this.getTitle().trim());
-        this.setColor(this.getColor().trim());
     }
 }

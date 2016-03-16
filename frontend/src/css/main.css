@@ -1317,3 +1317,13 @@ li.dropdown-header {
 .error-container{
     color: red;
 }
+
+ul.pagination div{
+    float:left;
+    color:green;
+    line-height:22px;
+}
+
+ul.pagination li{
+    cursor: pointer;
+}

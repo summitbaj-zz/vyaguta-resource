@@ -15,11 +15,29 @@
     var ProjectType = require('./ProjectTypeRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
+    var Pagination = require('../common/pagination/Pagination');
 
 
     var ProjectTypeList = React.createClass({
+
+        getDefaultProps: function () {
+            return {
+                offset: parseInt(resourceConstant.OFFSET),
+                startIndex: parseInt(resourceConstant.START_INDEX)
+            }
+        },
+
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {_start: this.props.startIndex, _limit: this.props.offset});
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.clearPagination();
+        },
+
+        refreshList: function (index) {
+            var startIndex = 1 + (index -1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {_start: startIndex, _limit: this.props.offset});
         },
 
         deleteProjectType: function (id) {
@@ -29,8 +47,9 @@
         },
 
         renderProjectType: function (key) {
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectType key={key} index={key} projectType={this.props.projectTypes[key]}
+                <ProjectType key={key} index={startIndex} projectType={this.props.projectTypes[key]}
                              deleteProjectType={this.deleteProjectType}/>
             );
         },
@@ -63,6 +82,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)} refreshList={this.refreshList} />
                     </div>
                 </div>
             );
@@ -71,7 +91,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            projectTypes: state.crudReducer.projectTypes
+            projectTypes: state.crudReducer.projectTypes,
+            pagination: state.crudReducer.pagination
         }
     };
 

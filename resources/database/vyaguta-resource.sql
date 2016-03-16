@@ -14,7 +14,7 @@ SET default_with_oids = false;
 
 CREATE TABLE budget_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL CITEXT,
+    title CITEXT NOT NULL,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE ONLY budget_types
 
 CREATE TABLE project_types (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL CITEXT,
+    title CITEXT NOT NULL,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -44,7 +44,7 @@ ALTER TABLE ONLY project_types
     
 CREATE TABLE project_status (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL CITEXT,
+    title CITEXT NOT NULL,
     color_code character varying(7),
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
@@ -59,7 +59,7 @@ ALTER TABLE ONLY project_status
 
 CREATE TABLE tags (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL CITEXT,
+    title CITEXT NOT NULL,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -74,7 +74,7 @@ ALTER TABLE ONLY tags
     
 CREATE TABLE projects (
     id character varying(32) NOT NULL,
-    title character varying(255) NOT NULL CITEXT,
+    title CITEXT NOT NULL,
     description text,
     account_manager character varying(32),
     project_type_id character varying(32),
@@ -134,16 +134,39 @@ ALTER TABLE ONLY project_members
 ALTER TABLE ONLY project_members 
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 	
+	
+CREATE TABLE clients (
+		id character varying(32) NOT NULL,
+		name character varying(255) NOT NULL,
+		email character varying(255) NOT NULL,
+		phone_no character varying(255),
+		skype character varying(255),
+		address character varying(255),
+		description text,
+		created_by character varying(32) NOT NULL,
+		updated_by character varying(32),
+		created_at timestamp with time zone NOT NULL,
+		updated_at timestamp with time zone
+);
+ALTER TABLE clients OWNER TO frieddust;
+ALTER TABLE ONLY clients
+	ADD CONSTRAINT clients_pk PRIMARY KEY (id);
+	
 CREATE TABLE project_histories (
     id character varying(32) NOT NULL,
     project_id character varying(32) NOT NULL,
     batch_no character varying(32) NOT NULL,
-    attribute character varying(255) NOT NULL,
-    old_value character varying(255),
-    new_value character varying(255),
+    title CITEXT NOT NULL,
+    description text,
+    account_manager character varying(32),
+    project_type_id character varying(32),
+    budget_type_id character varying(32),
+    project_status_id character varying(32),
+    start_date date,
+    end_date date,
     reason text,
     created_by character varying(32) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE project_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_histories
@@ -153,12 +176,17 @@ CREATE TABLE project_member_histories (
     id character varying(32) NOT NULL,
     project_member_id character varying(32) NOT NULL,
     batch_no character varying(32) NOT NULL,
-    attribute character varying(255) NOT NULL,
-    old_value character varying(255),
-    new_value character varying(255),
+    project_id character varying(32) NOT NULL,
+    employee character varying(32) NOT NULL,
+    role_id character varying(32),
+    allocation decimal(5,2),
+    billed boolean,
+    active boolean,
+    join_date date,
+    end_date date,
     reason text,
     created_by character varying(32) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE project_member_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_member_histories

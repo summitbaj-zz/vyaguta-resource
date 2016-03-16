@@ -27,6 +27,7 @@
     var SelectOption = require('./SelectOption');
     var TeamMemberForm = require('./member/TeamMemberForm');
     var TeamMember = require('./member/TeamMember');
+    var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
@@ -49,14 +50,34 @@
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
+            this.props.actions.fetchAll(resourceConstant.CLIENTS);
+
+            if (this.props.params.id) {
+                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+            }
+        },
+        componentWillReceiveProps: function (props) {
+            if(this.props.params.id){
+                this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
+                this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
+                this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
+                this.setSelectedItem('client', props.selectedItem.projects.client);
+                this.setState({technologyStack: props.selectedItem.projects.tags});
+            }
         },
 
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
         },
 
         setManager: function (value) {
             this.setState({accountManager: value});
+        },
+
+        setSelectedItem: function (type, state) {
+            if (state)
+                $('#' + type).val(state.id).selected = true;
         },
 
         addTag: function (value) {
@@ -82,24 +103,34 @@
         handleChangeEndDate: function (date) {
             this.setState({
                 endDate: date
-            })
+            });
         },
 
         renderBudgetType: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.budgetTypes[key]}/>
+                <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id}
+                              option={this.props.budgetTypes[key].title}/>
             )
         },
 
         renderProjectType: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.projectTypes[key]}/>
+                <SelectOption key={key} index={key} id={this.props.projectTypes[key].id}
+                              option={this.props.projectTypes[key].title}/>
             )
         },
 
         renderProjectStatus: function (key) {
             return (
-                <SelectOption key={key} index={key} entity={this.props.projectStatus[key]}/>
+                <SelectOption key={key} index={key} id={this.props.projectStatus[key].id}
+                              option={this.props.projectStatus[key].title}/>
+            )
+        },
+
+        renderClient: function (key) {
+            return (
+                <SelectOption key={key} index={key} id={this.props.clients[key].id}
+                              option={this.props.clients[key].email}/>
             )
         },
 
@@ -138,26 +169,47 @@
                 tempProjectMember[key].endDate = tempProjectMember[key].endDate.format('YYYY-MM-DD');
                 delete tempProjectMember[key]['memberRole'];
             }
-
-            var project = {
-                'title': this.refs.title.value,
-                'description': this.refs.description.value,
-                'projectType': {"id": this.refs.projectType.value},
-                'projectStatus': {"id": this.refs.projectStatus.value},
-                'budgetType': {"id": this.refs.budgetType.value},
-                'startDate': this.state.startDate.format('YYYY-MM-DD'),
-                'endDate': this.state.endDate.format('YYYY-MM-DD'),
-                'tags': this.state.technologyStack,
-                'projectMembers': tempProjectMember
-            };
+            var project = this.getFormData();
             var requiredField = {
                 'title': this.refs.title.value
             };
 
             if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
-                this.props.actions.addItem(resourceConstant.PROJECTS, project);
+                if (this.props.params.id) {
+                    $('#addReason').modal('show');
+                } else {
+                    this.props.actions.addItem(resourceConstant.PROJECTS, project);
+                }
             } else {
                 this.showErrors(formValidator.errors)
+            }
+        },
+
+        getFormData: function () {
+            return {
+                'title': this.refs.title.value,
+                'description': this.refs.description.value,
+                'projectType': {"id": this.refs.projectType.value},
+                'projectStatus': {"id": this.refs.projectStatus.value},
+                'client': {"id": this.refs.client.value},
+                'budgetType': {"id": this.refs.budgetType.value},
+                'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
+                'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
+                'tags': this.state.technologyStack
+            };
+        },
+
+        updateProject: function () {
+            var project = this.getFormData();
+            project['reason'] = $('#reason').val();
+            var requiredField = {
+                'reason': $('#reason').val()
+        }
+            if (formValidator.isRequired(requiredField)) {
+                $('#addReason').modal('hide');
+                this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+            } else {
+                this.showErrors(formValidator.errors);
             }
         },
 
@@ -183,10 +235,19 @@
             }
         },
 
+        fieldChange: function (event) {
+            var key = event.target.name;
+            var value = event.target.value;
+
+            this.props.actions.updateSelectedItem(resourceConstant.PROJECTS, key, value);
+        },
+
         render: function () {
+
             return (
                 <div>
-                    <EntityHeader header="Add Project" routes={this.props.routes}/>
+                    <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
+                                  routes={this.props.routes}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">
@@ -195,14 +256,18 @@
                                     <div className="form-group">
                                         <label>Project Name</label>
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
-                                               className="form-control" id="title" onBlur={this.validateTitle}/>
+                                               value={this.props.selectedItem.projects.title}
+                                               className="form-control" id="title" onChange={this.fieldChange}
+                                               onBlur={this.validateTitle}/>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
                                     <div className="form-group">
                                         <label>Description</label>
                                     <textarea name="description" ref="description"
+                                              value={this.props.selectedItem.projects.description}
                                               placeholder="Short description about the project."
-                                              className="form-control" rows="4" id="description"></textarea>
+                                              className="form-control" rows="4" id="description"
+                                              onChange={this.fieldChange}></textarea>
                                         <span className="help-block"></span>
 
                                     </div>
@@ -210,7 +275,7 @@
                                         <div className="row multiple-element">
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Project Type</label>
-                                                <select className="form-control" ref="projectType">
+                                                <select className="form-control" ref="projectType" id="projectType">
                                                     <option value="0">Please Select</option>
                                                     {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
                                                 </select>
@@ -219,27 +284,40 @@
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className=" control-label">Budget Type</label>
-                                                <select className="form-control" ref="budgetType">
-                                                    <option value="0">Please Select</option>
+                                                <select className="form-control" ref="budgetType" id="budgetType">
+                                                    <option value="0">
+                                                        Please Select
+                                                    </option>
                                                     {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
                                                 </select>
                                                 <span className="help-block"></span>
-
                                             </div>
-                                            <AccountManager setManager={this.setManager}/>
+                                            <div className="col-md-6 col-lg-4 element">
+                                                <label htmlFor="example-select" className="control-label">Project
+                                                    Status</label>
+                                                <select className="form-control" ref="projectStatus" id="projectStatus">
+                                                    <option value="0">Please
+                                                        Select
+                                                    </option>
+                                                    {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
+                                                </select>
+                                                <span className="help-block"></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">
                                         <div className="row multiple-element">
+                                            <AccountManager setManager={this.setManager}
+                                                            fieldChange={this.fieldChange}/>
                                             <div className="col-md-6 col-lg-4 element">
-                                                <label htmlFor="example-select" className="control-label">Project
-                                                    Status</label>
-                                                <select className="form-control" ref="projectStatus">
-                                                    <option value="0">Please Select</option>
-                                                    {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
+                                                <label htmlFor="example-select" className="control-label">Client</label>
+                                                <select className="form-control" ref="client" id="client">
+                                                    <option value="0">Please
+                                                        Select
+                                                    </option>
+                                                    {Object.keys(this.props.clients).map(this.renderClient)}
                                                 </select>
                                                 <span className="help-block"></span>
-
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Contract Date</label>
@@ -336,6 +414,7 @@
                     </div>
                     <TeamMemberForm actions={this.props.actions} teamMembers={this.props.teamMembers}
                                     memberIndexInModal={this.props.memberIndexInModal}/>
+                    <ReasonModal updateProject={this.updateProject}/>
                 </div>
             )
         }
@@ -346,8 +425,10 @@
             budgetTypes: state.crudReducer.budgetTypes,
             projectTypes: state.crudReducer.projectTypes,
             projectStatus: state.crudReducer.projectStatus,
+            clients: state.crudReducer.clients,
             teamMembers: state.teamMemberReducer.teamMembers,
-            memberIndexInModal: state.teamMemberReducer.memberIndexInModal
+            memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
+            selectedItem: state.crudReducer.selectedItem
         }
     };
 

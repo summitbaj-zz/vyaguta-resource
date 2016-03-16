@@ -30,6 +30,7 @@
                 './src/css/import.css',
                 './src/css/bootstrap.min.css',
                 './src/css/forms.css',
+                './src/css/bootstrap-colorselector.css',
                 './src/css/main.css',
                 './src/css/custom.css',
                 './src/css/font-awesome.css',
@@ -51,6 +52,7 @@
             appJs: './src/js/main',
             customUI: [
                 './src/custom-ui/bootstrap.js',
+                './src/custom-ui/bootstrap-colorselector.js',
                 './src/custom-ui/app.js'
             ],
             html: './index.html'
@@ -190,6 +192,7 @@
 
     gulp.task('watch', function(){
         gulp.watch(config.paths.css, ['styles']); // gulp watch for css changes
+        gulp.watch(config.paths.customUI, ['custom_ui']); // gulp watch for css changes
         return buildScript(true); // browserify watch for JS changes
     });
 

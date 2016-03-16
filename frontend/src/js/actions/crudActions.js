@@ -52,6 +52,13 @@
                 entity: entity,
                 data: data
             }
+        },
+        pageIndex: function(data, count){
+            return {
+                type: actionTypeConstant.PAGINATION_INDEX,
+                index: data._start,
+                count: count
+            }
         }
     };
 
@@ -143,15 +150,33 @@
             }
         },
 
+        fetchByQuery: function(entity, data){
+            return function (dispatch){
+                dispatch(apiActions.apiRequest(entity));
+                return (ApiUtil.fetchByQuery2(entity, data).then(function(response){
+                    dispatch(apiActions.apiResponse(entity));
+                    dispatch(actions.list(entity, response.body));
+                    dispatch(actions.pageIndex(data, response.body.count));
+                }, function(error){
+                    dispatch(apiActions.apiError(error));
+                }));
+            }
+        },
+
         clearSelectedItem: function (entity) {
             return {
                 type: actionTypeConstant.CLEAR_SELECTED_ITEM,
                 entity: entity
             }
+        },
+
+        clearPagination: function(){
+            return {
+                type: actionTypeConstant.PAGINATION_INDEX
+            }
         }
+    };
 
-
-    }
 
     module.exports = crudActions;
 
