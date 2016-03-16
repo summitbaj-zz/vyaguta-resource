@@ -57,7 +57,7 @@
             }
         },
         componentWillReceiveProps: function (props) {
-            if(this.props.params.id){
+            if (this.props.params.id) {
                 this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
                 this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
                 this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
@@ -189,10 +189,10 @@
             return {
                 'title': this.refs.title.value,
                 'description': this.refs.description.value,
-                'projectType': {"id": this.refs.projectType.value},
-                'projectStatus': {"id": this.refs.projectStatus.value},
-                'client': {"id": this.refs.client.value},
-                'budgetType': {"id": this.refs.budgetType.value},
+                'projectType': (this.refs.projectType.value!=0) ? {"id": this.refs.projectType.value} : null,
+                'projectStatus': (this.refs.projectStatus.value!=0) ? {"id": this.refs.projectStatus.value} : null,
+                //'client': (this.refs.client.value!=0) ? {"id": this.refs.client.value},
+                'budgetType': (this.refs.budgetType.value!=0) ? {"id": this.refs.budgetType.value} : null,
                 'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
                 'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
                 'tags': this.state.technologyStack
@@ -204,7 +204,7 @@
             project['reason'] = $('#reason').val();
             var requiredField = {
                 'reason': $('#reason').val()
-        }
+            };
             if (formValidator.isRequired(requiredField)) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
@@ -436,7 +436,7 @@
         return {
             actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions), dispatch)
         }
-    }
+    };
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectForm);
 })();

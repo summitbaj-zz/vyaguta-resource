@@ -58,7 +58,6 @@
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = $('#' + elementId).parent();
-
                 if (!parentElement.hasClass('has-error')) {
                     parentElement.addClass('has-error');
                 }
