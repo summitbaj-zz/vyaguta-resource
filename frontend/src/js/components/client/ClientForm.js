@@ -94,14 +94,12 @@
                                 <div className="row multiple-element">
                                     <div className="col-md-6 col-lg-4 element">
                                         <label className="control-label">Email Address</label>
-                                        <div>
                                             <input type="text" ref="email" name="email"
                                                    value={this.props.selectedItem.clients.email}
                                                    onChange={this.fieldChange}
                                                    placeholder="Email Address"
                                                    className="form-control"
                                                    id="email"/>
-                                        </div>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
                                     <div className="col-md-6 col-lg-4 element">
