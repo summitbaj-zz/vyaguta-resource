@@ -33,16 +33,16 @@
             var client = {
                 name: this.refs.name.value,
                 email: this.refs.email.value,
-                phone: this.refs.phone.value,
+                phone_no: this.refs.phone.value,
                 skype: this.refs.skype.value,
                 address: this.refs.address.value,
                 description: this.refs.description.value
-            }
+            };
 
             var requiredFields = {
                 name: this.refs.name.value,
                 email: this.refs.email.value
-            }
+            };
 
             if (formValidator.isRequired(requiredFields)) {
                 if (this.props.params.id) {
