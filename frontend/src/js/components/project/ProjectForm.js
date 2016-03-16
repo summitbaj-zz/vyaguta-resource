@@ -189,10 +189,10 @@
             return {
                 'title': this.refs.title.value,
                 'description': this.refs.description.value,
-                'projectType': (this.refs.projectType.value!=0) ? {"id": this.refs.projectType.value} : null,
-                'projectStatus': (this.refs.projectStatus.value!=0) ? {"id": this.refs.projectStatus.value} : null,
+                'projectType': (this.refs.projectType.value != 0) ? {"id": this.refs.projectType.value} : null,
+                'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
                 //'client': (this.refs.client.value!=0) ? {"id": this.refs.client.value},
-                'budgetType': (this.refs.budgetType.value!=0) ? {"id": this.refs.budgetType.value} : null,
+                'budgetType': (this.refs.budgetType.value != 0) ? {"id": this.refs.budgetType.value} : null,
                 'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
                 'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
                 'tags': this.state.technologyStack

@@ -17,10 +17,10 @@
                 if (formDatas[key] == '') {
                     that.errors[key] = 'This field is required';
                 }
-                 else{
+                else {
                     delete that.errors[key];
                 }
-                if (key=='email' && !emailRegex.test(formDatas['email'])) {
+                if (key == 'email' && !emailRegex.test(formDatas['email'])) {
                     that.errors['email'] = 'Please enter a valid email';
                 }
             }

@@ -1,4 +1,4 @@
-;(function(){
+;(function () {
     'use strict';
     //constants
     var urlConstants = require('../src/js/constants/urlConstant');
