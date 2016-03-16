@@ -52,6 +52,10 @@ public class Project extends BaseEntity implements Serializable {
     private ProjectType projectType;
 
     @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
+
+    @ManyToOne
     @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
     private BudgetType budgetType;
 
@@ -161,6 +165,14 @@ public class Project extends BaseEntity implements Serializable {
 
     public void setProjectmembers(List<ProjectMember> projectMembers) {
         this.projectMembers = projectMembers;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @PrePersist
