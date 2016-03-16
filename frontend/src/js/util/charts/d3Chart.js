@@ -38,10 +38,11 @@
         var xDateAxis;
 
         //data
-        var itemRectangles;
+        var itemRects;
 
-        // draw the selection area
+        // components
         var brush;
+        var tooltip;
 
         var parseDate = d3.time.format("%Y-%m-%d").parse;
 
@@ -68,17 +69,26 @@
                 .attr('width', width)
                 .attr('height', mainHeight);
 
+            tooltip = d3.select(element)
+                .append("div")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .attr('class', 'chart-tooltip');
+
             addBorder(svg, 'black', '5');
 
             initializeScalingProperties();
-            initializeMonthAxisForMain('%b - Week %W');
-            initializeDateAxisForMain('%d');
 
-            initializeMonthAxisForMini('%b %Y');
+            initializeDateAxisForMain('%d');
+            initializeMonthAxisForMain('%b - Week %W');
+
             initializeDateAxisForMini('%d');
+            initializeMonthAxisForMini('%b %Y');
 
             createMainChart(svg, width, mainHeight);
             createMiniChart(svg, width, miniHeight);
+
             display();
         };
 
@@ -94,7 +104,6 @@
         };
 
         var initializeScalingProperties = function () {
-            debugger;
             x = d3.time.scale().domain([d3.time.sunday(d3.min(items, function (d) {
                     return parseDate(d.start);
                 })),
@@ -115,8 +124,6 @@
 
             //mapping id and height for mini chart
             miniY = d3.scale.linear().domain([ext[0], ext[1] + 1]).range([0, miniHeight]);
-
-            console.log(d3.time.monday(now));
 
             brush = d3.svg.brush()
                 .x(x)
@@ -199,20 +206,20 @@
                 .attr('text-anchor', 'end')
                 .attr('class', 'laneText');
 
+            //draw date axis
+            main.append('g')
+                .attr('transform', 'translate(0,' + mainHeight + ')')
+                .attr('class', 'main axis date')
+                .call(x1DateAxis);
+
             //draw month axis
             main.append('g')
                 .attr('transform', 'translate(0,0.5)')
                 .attr('class', 'main axis month')
                 .call(x1MonthAxis)
                 .selectAll('text')
-                    .attr('dx', 5)
-                    .attr('dy', 12);
-
-            //draw date axis
-            main.append('g')
-                .attr('transform', 'translate(0,' + mainHeight + ')')
-                .attr('class', 'main axis date')
-                .call(x1DateAxis);
+                .attr('dx', 501)
+                .attr('dy', 12);
 
             // draw a line representing today's date
             main.append('line')
@@ -222,7 +229,7 @@
                 .attr('clip-path', 'url(#clip)');
 
             // draw the items
-            itemRectangles = main.append('g')
+            itemRects = main.append('g')
                 .attr('clip-path', 'url(#clip)');
         };
 
@@ -263,20 +270,20 @@
                 .attr('text-anchor', 'end')
                 .attr('class', 'laneText');
 
+            //draw date axis
+            mini.append('g')
+                .attr('transform', 'translate(0,' + miniHeight + ')')
+                .attr('class', 'axis date')
+                .call(xDateAxis);
+
             //draw month axis
             mini.append('g')
                 .attr('transform', 'translate(0,0.5)')
                 .attr('class', 'axis month')
                 .call(xMonthAxis)
                 .selectAll('text')
-                .attr('dx', 5)
+                .attr('dx', 22)
                 .attr('dy', 12);
-
-            //draw mini axis
-            mini.append('g')
-                .attr('transform', 'translate(0,' + miniHeight + ')')
-                .attr('class', 'axis date')
-                .call(xDateAxis);
 
             // draw a line representing today's date
             mini.append('line')
@@ -366,31 +373,57 @@
 
             // update the axis
             main.select('.main.axis.date').call(x1DateAxis);
+
             main.select('.main.axis.month').call(x1MonthAxis)
                 .selectAll('text')
-                .attr('dx', 5)
+                .attr('dx', 45)
                 .attr('dy', 12);
 
             // update the item rects
-            rects = itemRectangles.selectAll('rect')
+            rects = itemRects.selectAll('rect')
                 .data(visItems, function (d) {
                     return d.id;
                 })
                 .attr('x', function (d) {
+                    if (x1(parseDate(d.start)) < 0) {
+                        return 0;
+                    }
+
                     return x1(parseDate(d.start));
                 })
                 .attr('width', function (d) {
-                    return x1(parseDate(d.end)) - x1(parseDate(d.start));
-                });
+                        if (x1(parseDate(d.end)) >= width && x1(parseDate(d.start)) < 0) {
+                            return width;
+                        } else if (x1(parseDate(d.end)) >= width) {
+                            return width - x1(parseDate(d.start));
+                        } else if (x1(parseDate(d.start)) < 0) {
+                            return x1(parseDate(d.end));
+                        }
+
+                        return x1(parseDate(d.end)) - x1(parseDate(d.start));
+                    }
+                );
 
             rects.enter().append('rect')
                 .attr('x', function (d) {
+                    if (x1(parseDate(d.start)) < 0) {
+                        return 0;
+                    }
+
                     return x1(parseDate(d.start));
                 })
                 .attr('y', function (d) {
                     return mainY(d.lane) + .1 * mainY(2.5);
                 })
                 .attr('width', function (d) {
+                    if (x1(parseDate(d.end)) >= width && x1(parseDate(d.start)) < 0) {
+                        return width;
+                    } else if (x1(parseDate(d.end)) >= width) {
+                        return width - x1(parseDate(d.start));
+                    } else if (x1(parseDate(d.start)) < 0) {
+                        return x1(parseDate(d.end));
+                    }
+
                     return x1(parseDate(d.end)) - x1(parseDate(d.start));
                 })
                 .attr('height', function (d) {
@@ -398,13 +431,22 @@
                 })
                 .attr('class', function (d) {
                     return 'mainItem' + d.lane;
+                })
+                .on('mouseover', function (d) {
+                    return tooltip.style("visibility", "visible").text("Join Date: " + d.start)
+                })
+                .on("mousemove", function () {
+                    return tooltip.style("top", (event.layerY) + "px").style("left", (event.layerX + 10) + "px");
+                })
+                .on('mouseout', function () {
+                    return tooltip.style("visibility", "hidden");
                 });
 
 
             rects.exit().remove();
 
             // update the item labels
-            labels = itemRectangles.selectAll('text')
+            labels = itemRects.selectAll('text')
                 .data(visItems, function (d) {
                     return d.id;
                 })
@@ -414,7 +456,7 @@
 
             labels.enter().append('text')
                 .text(function (d) {
-                    return 'Item\n\n\n\n Id: ' + d.id;
+                    return d.id + '%';
                 })
                 .attr('x', function (d) {
                     return x1(Math.max(parseDate(d.start), minExtent)) + 2;
@@ -427,7 +469,6 @@
 
             labels.exit().remove();
         };
-
 
         var moveBrush = function () {
             var origin = d3.mouse(this)

@@ -48,12 +48,13 @@
 .mainItem0 {
     stroke: #4285F4;
     fill: #4285F4;
-    z-index: 0;
 }
+
 .mainItem1 {
     stroke: #DB4437;
     fill: #DB4437;
 }
+
 .mainItem2 {
     stroke: #0F9D58;
     fill: #0F9D58;
@@ -85,10 +86,10 @@
     fill-opacity: .165;
 }
 
-.tooltip {
+.chart-tooltip {
     line-height: 1;
     padding: 12px;
-    background: #ffffff;
+    background: #FFFFFF;
     font-size: 14px;
     color: #333333;
     border-radius: 2px;
