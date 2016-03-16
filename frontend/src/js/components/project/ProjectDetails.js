@@ -28,7 +28,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader title="Project Details" routes={this.props.routes}/>
+                    <EntityHeader header="Project Details" routes={this.props.routes}/>
 
                     <div className="row">
                         <div className="col-lg-12">

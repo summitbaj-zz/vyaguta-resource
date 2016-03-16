@@ -57,11 +57,13 @@
             }
         },
         componentWillReceiveProps: function (props) {
-            this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
-            this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
-            this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
-            this.setSelectedItem('client', props.selectedItem.projects.client);
-            this.setState({technologyStack: props.selectedItem.projects.tags});
+            if(this.props.params.id){
+                this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
+                this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
+                this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
+                this.setSelectedItem('client', props.selectedItem.projects.client);
+                this.setState({technologyStack: props.selectedItem.projects.tags});
+            }
         },
 
         componentWillUnmount: function () {
