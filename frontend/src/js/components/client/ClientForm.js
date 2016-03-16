@@ -33,7 +33,7 @@
             var client = {
                 name: this.refs.name.value,
                 email: this.refs.email.value,
-                phone_no: this.refs.phone.value,
+                phoneNo: this.refs.phone.value,
                 skype: this.refs.skype.value,
                 address: this.refs.address.value,
                 description: this.refs.description.value

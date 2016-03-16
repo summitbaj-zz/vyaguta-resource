@@ -15,7 +15,7 @@
                     <td>{this.props.index}</td>
                     <td>{this.props.client.name}</td>
                     <td>{this.props.client.email}</td>
-                    <td>{this.props.client.phone_no}</td>
+                    <td>{this.props.client.phoneNo}</td>
                     <td>{this.props.client.skype}</td>
                     <td>{this.props.client.address}</td>
                     <td className="text-center">
