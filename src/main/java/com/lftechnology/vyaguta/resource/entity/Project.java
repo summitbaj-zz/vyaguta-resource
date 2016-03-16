@@ -104,7 +104,9 @@ public class Project extends BaseEntity implements Serializable {
     }
 
     public void setProjectType(ProjectType projectType) {
-        this.projectType = projectType;
+        if (projectType.getId() != null) {
+            this.projectType = projectType;
+        }
     }
 
     public BudgetType getBudgetType() {
@@ -112,7 +114,9 @@ public class Project extends BaseEntity implements Serializable {
     }
 
     public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
+        if (budgetType.getId() != null) {
+            this.budgetType = budgetType;
+        }
     }
 
     public Employee getAccountManager() {
@@ -128,7 +132,9 @@ public class Project extends BaseEntity implements Serializable {
     }
 
     public void setProjectStatus(ProjectStatus projectStatus) {
-        this.projectStatus = projectStatus;
+        if (projectStatus.getId() != null) {
+            this.projectStatus = projectStatus;
+        }
     }
 
     public LocalDate getStartDate() {
