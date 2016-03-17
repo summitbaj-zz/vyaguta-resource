@@ -20,12 +20,12 @@
             },
 
             changeSuggestionState: function (data) {
-                this.setState({suggestions: data});
+                this.setState({suggestions: data || []});
             },
 
             updateSuggestions: function (input) {
                 this.setState({suggestions: []});
-                ApiUtil.fetchAllFromCore(resourceConstant.ACCOUNT_MANAGERS, this.changeSuggestionState);
+                ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
             },
 
             input: function (event) {
