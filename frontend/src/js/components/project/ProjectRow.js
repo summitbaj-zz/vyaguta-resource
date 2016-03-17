@@ -10,7 +10,7 @@
     var ProjectRow = React.createClass({
 
         componentDidMount: function () {
-            $('span.selected-color').css('background', this.props.project.projectStatus ? this.props.project.projectStatus.color : '');
+            $('#project-status' + this.props.project.id).css('background', this.props.project.projectStatus ? this.props.project.projectStatus.color : '');
         },
 
         render: function () {
@@ -24,7 +24,7 @@
                     <td>{this.props.project.startDate}</td>
                     <td>{this.props.project.endDate}</td>
                     <td><span
-                        className="label text-uppercase selected-color">{this.props.project.projectStatus ? this.props.project.projectStatus.title : ''}</span>
+                        className="label text-uppercase" id={'project-status' + id}>{this.props.project.projectStatus ? this.props.project.projectStatus.title : ''}</span>
                     </td>
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.PROJECTS.EDIT + id} data-toggle="tooltip"
