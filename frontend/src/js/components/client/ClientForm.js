@@ -58,7 +58,6 @@
         showErrors: function (errors) {
             for (var elementId in errors) {
                 var parentElement = $('#' + elementId).parent();
-
                 if (!parentElement.hasClass('has-error')) {
                     parentElement.addClass('has-error');
                 }
@@ -95,14 +94,12 @@
                                 <div className="row multiple-element">
                                     <div className="col-md-6 col-lg-4 element">
                                         <label className="control-label">Email Address</label>
-                                        <div>
                                             <input type="text" ref="email" name="email"
                                                    value={this.props.selectedItem.clients.email}
                                                    onChange={this.fieldChange}
                                                    placeholder="Email Address"
                                                    className="form-control"
                                                    id="email"/>
-                                        </div>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
                                     <div className="col-md-6 col-lg-4 element">

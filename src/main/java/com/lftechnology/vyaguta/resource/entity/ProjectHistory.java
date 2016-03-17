@@ -2,32 +2,30 @@ package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
+import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
+import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
+import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
@@ -37,10 +35,20 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  *
  */
 @Entity
-@Table(name = "projects")
-public class Project extends BaseEntity implements Serializable {
+@Table(name = "project_histories")
+public class ProjectHistory implements Serializable {
 
-    private static final long serialVersionUID = 6415143172601079320L;
+    private static final long serialVersionUID = -7863749153287317821L;
+
+    @Id
+    private String id;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
+
+    @Column(name = "batch_no")
+    private String batch;
 
     @NotBlank(message = "Title cannot be blank.")
     private String title;
@@ -50,10 +58,6 @@ public class Project extends BaseEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "project_type_id", referencedColumnName = "id")
     private ProjectType projectType;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
@@ -79,13 +83,43 @@ public class Project extends BaseEntity implements Serializable {
     @Convert(converter = EmployeeConverter.class)
     private Employee accountManager;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
-    private List<Tag> tags = new ArrayList<>();
+    private String reason;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "project")
-    @JsonManagedReference
-    private List<ProjectMember> projectMembers = new ArrayList<>();
+    @Column(name = "created_by")
+    @Convert(converter = UserConverter.class)
+    @JsonDeserialize(using = UserDeserializer.class)
+    @JsonSerialize(using = UserSerializer.class)
+    private User createdBy;
+
+    @Column(name = "created_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime createdAt;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
 
     public String getTitle() {
         return title;
@@ -119,14 +153,6 @@ public class Project extends BaseEntity implements Serializable {
         this.budgetType = budgetType;
     }
 
-    public Employee getAccountManager() {
-        return accountManager;
-    }
-
-    public void setAccountManager(Employee accountManager) {
-        this.accountManager = accountManager;
-    }
-
     public ProjectStatus getProjectStatus() {
         return projectStatus;
     }
@@ -151,37 +177,36 @@ public class Project extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public List<Tag> getTags() {
-        return tags;
+    public Employee getAccountManager() {
+        return accountManager;
     }
 
-    public void setTags(List<Tag> tag) {
-        this.tags = tag;
+    public void setAccountManager(Employee accountManager) {
+        this.accountManager = accountManager;
     }
 
-    public List<ProjectMember> getProjectMembers() {
-        return projectMembers;
+    public String getReason() {
+        return reason;
     }
 
-    public void setProjectmembers(List<ProjectMember> projectMembers) {
-        this.projectMembers = projectMembers;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public Client getClient() {
-        return client;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
-    @PrePersist
-    public void prePersists() {
-        this.setTitle(this.getTitle().trim());
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    @PreUpdate
-    public void preUpdates() {
-        this.setTitle(this.getTitle().trim());
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
+
 }

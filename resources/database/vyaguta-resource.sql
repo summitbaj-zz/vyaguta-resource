@@ -80,6 +80,7 @@ CREATE TABLE projects (
     project_type_id character varying(32),
     budget_type_id character varying(32),
     project_status_id character varying(32),
+    client_id character varying(32),
     start_date date,
     end_date date,
     created_by character varying(32) NOT NULL,
@@ -98,6 +99,8 @@ ALTER TABLE ONLY projects
 	ADD CONSTRAINT project_status_fk FOREIGN KEY(project_status_id) REFERENCES project_status ON DELETE CASCADE;
 ALTER TABLE ONLY projects 
 	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
+ALTER TABLE ONLY projects 
+	ADD CONSTRAINT client_fk FOREIGN KEY(client_id) REFERENCES clients ON DELETE CASCADE;
  
 	
 CREATE TABLE projects_tags (

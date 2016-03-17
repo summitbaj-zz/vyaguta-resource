@@ -56,6 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStartDate(obj.getStartDate());
         project.setEndDate(obj.getEndDate());
         project.setTags(this.fixTags(obj).getTags());
+        project.setClient(obj.getClient());
         return this.update(project);
     }
 

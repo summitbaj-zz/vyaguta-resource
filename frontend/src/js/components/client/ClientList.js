@@ -50,8 +50,9 @@
         },
 
         renderClient: function (key) {
+            var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <Client key={key} index={key} client={this.props.clients[key]}
+                <Client key={key} index={startIndex} client={this.props.clients[key]}
                         deleteClient={this.deleteClient}/>
             );
         },
