@@ -7,8 +7,6 @@
         babelify = require('babelify'),
         watchify = require('watchify'),
         notify = require('gulp-notify'),
-        browserSync = require('browser-sync'),
-        reload = browserSync.reload,
         historyApiFallback = require('connect-history-api-fallback'),
         concat = require('gulp-concat'),
         imagemin = require('gulp-imagemin'),
@@ -16,7 +14,6 @@
         runTimestamp = Math.round(Date.now() / 1000),
         uglify = require('gulp-uglify'),
         buffer = require('vinyl-buffer'),
-        envify = require('envify/custom'),
         gulpif = require('gulp-if'),
         minifyCss = require('gulp-minify-css'),
         eslint = require('gulp-eslint'),
@@ -63,7 +60,7 @@
 
     var env = process.env.NODE_ENV || config.env.development;
     var isProduction = process.env.NODE_ENV === 'production';
-    var baseUrl = isProduction? '/resource/' : '/resource/';
+    var baseUrl = '/resource/';
 
     gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
@@ -101,7 +98,6 @@
             .pipe(concat('bundle.css'))
             .pipe(gulpif(isProduction,minifyCss()))
             .pipe(gulp.dest(config.paths.distCss))
-            .pipe(reload({stream: true}))
     });
 
     gulp.task('custom_ui', function () {
@@ -109,21 +105,6 @@
         gulp.src(config.paths.customUI)
             .pipe(concat('vyaguta-custom.min.js'))
             .pipe(gulp.dest(config.paths.distJs))
-            .pipe(reload({stream: true}))
-    });
-
-    /*
-     Browser Sync
-     */
-    gulp.task('browser-sync', function () {
-        browserSync({
-            // we need to disable clicks and forms for when we test multiple rooms
-            server: {
-                baseDir: 'dist'
-            },
-            middleware: [historyApiFallback()],
-            ghostMode: false
-        });
     });
 
     function handleErrors() {
@@ -149,9 +130,6 @@
 
         function rebundle() {
             var stream = bundler
-                .transform(envify({
-                    NODE_ENV: env
-                }))
                 .bundle();
             return stream
                 .on('error', handleErrors)
@@ -159,7 +137,6 @@
                 .pipe(buffer())
                 .pipe(gulpif(isProduction,uglify()).on('error', gutil.log))
                 .pipe(gulp.dest(config.paths.distJs))
-                .pipe(reload({stream: true}))
         }
 
         // listen for an update and run rebundle

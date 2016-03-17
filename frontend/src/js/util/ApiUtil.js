@@ -7,14 +7,11 @@
 ;(function () {
     'use strict';
 
-    //environment configuration
-    var config = require('../../../config/config');
-
     //constants
     var urlConstants = require('../constants/urlConstant');
 
-    var url = config.resourceServer;
-    var coreUrl = config.coreServer;
+    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var coreUrl =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
 
     //libraries
     var Promise = require('promise');
