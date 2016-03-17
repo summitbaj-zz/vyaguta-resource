@@ -7,15 +7,14 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
@@ -95,6 +94,24 @@ public class ProjectMemberHistory implements Serializable {
     @JsonSerialize(using = UserSerializer.class)
     private User createdBy;
 
+    public ProjectMemberHistory() {
+
+    }
+
+    public ProjectMemberHistory(ProjectMember projectMember) {
+        this.setBatchNo(GuidUtil.generate());
+        this.setProjectMember(projectMember);
+        this.setProject(projectMember.getProject());
+        this.setEmployee(projectMember.getEmployee());
+        this.setRole(projectMember.getRole());
+        this.setAllocation(projectMember.getAllocation());
+        this.setBilled(projectMember.isBilled());
+        this.setActive(projectMember.isActive());
+        this.setJoinDate(projectMember.getJoinDate());
+        this.setEndDate(projectMember.getEndDate());
+        this.setReason(projectMember.getReason());
+    }
+
     public String getId() {
         return id;
     }
@@ -103,6 +120,8 @@ public class ProjectMemberHistory implements Serializable {
         this.id = id;
     }
 
+    @JsonIgnoreProperties({ "createdBy", "updatedBy", "createdAt", "updatedAt", "employee", "allocation", "joinDate", "endDate", "role",
+            "billed", "active", "reason" })
     public ProjectMember getProjectMember() {
         return projectMember;
     }
@@ -119,6 +138,7 @@ public class ProjectMemberHistory implements Serializable {
         this.batchNo = batchNo;
     }
 
+    @JsonIgnoreProperties({ "tags", "projectMembers" })
     public Project getProject() {
         return project;
     }

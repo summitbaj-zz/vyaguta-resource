@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -33,8 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name = "project_members")
-@NamedQueries({
-        @NamedQuery(name = ProjectMember.findByProject, query = "SELECT pm FROM ProjectMember pm WHERE pm.project = :project") })
+@NamedQueries({ @NamedQuery(name = ProjectMember.findByProject, query = "SELECT pm FROM ProjectMember pm WHERE pm.project = :project") })
 @ApiModel(value = "ProjectMember", description = "ProjectMember resource representation")
 public class ProjectMember extends BaseEntity implements Serializable {
 
@@ -83,6 +83,9 @@ public class ProjectMember extends BaseEntity implements Serializable {
     @Column(name = "active")
     @ApiModelProperty(value = "Current status of member", required = false)
     private boolean active;
+
+    @Transient
+    private String reason;
 
     public Project getProject() {
         return project;
@@ -146,6 +149,14 @@ public class ProjectMember extends BaseEntity implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
 }

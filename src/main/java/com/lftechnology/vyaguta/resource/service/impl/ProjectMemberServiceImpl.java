@@ -6,11 +6,16 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.ProjectMemberDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
+import com.lftechnology.vyaguta.resource.entity.ProjectMemberHistory;
 import com.lftechnology.vyaguta.resource.service.ProjectMemberService;
 
 /**
@@ -23,9 +28,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     @Inject
     private ProjectMemberDao projectMemberDao;
 
+    @Inject
+    private ProjectMemberHistoryDao projectMemberHistoryDao;
+
     @Override
     public ProjectMember save(ProjectMember projectMember) {
-        return projectMemberDao.save(projectMember);
+        ProjectMember savedProjectMember = projectMemberDao.save(projectMember);
+        ProjectMemberHistory projectMemberHistory = new ProjectMemberHistory(savedProjectMember);
+        projectMemberHistoryDao.save(projectMemberHistory);
+        return savedProjectMember;
     }
 
     @Override
@@ -98,4 +109,10 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         };
 
     }
+
+    @Override
+    public List<ProjectMemberHistory> findAllHistory() {
+        return projectMemberHistoryDao.findAll();
+    }
+
 }

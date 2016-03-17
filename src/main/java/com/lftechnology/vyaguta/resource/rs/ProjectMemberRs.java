@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
+import com.lftechnology.vyaguta.resource.entity.ProjectMemberHistory;
 import com.lftechnology.vyaguta.resource.service.ProjectMemberService;
 
 import io.swagger.annotations.Api;
@@ -45,10 +46,11 @@ public class ProjectMemberRs {
     @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class, responseContainer = "List")
+    @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class,
+            responseContainer = "List")
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projectMembers = projectMemberService
-                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
+        Map<String, Object> projectMembers =
+                projectMemberService.findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 
@@ -58,8 +60,9 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Add a new project member")
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid request body") })
-    public Response create(
-            @ApiParam(value = "Project member object to create", required = true) @NotNull(message = "Request body expected") @Valid ProjectMember projectMember) {
+    public
+            Response
+            create(@ApiParam(value = "Project member object to create", required = true) @NotNull(message = "Request body expected") @Valid ProjectMember projectMember) {
         projectMember = projectMemberService.save(projectMember);
         return Response.status(Response.Status.OK).entity(projectMember).build();
     }
@@ -70,8 +73,8 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Update project  member information")
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid request body") })
-    public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
-            @ApiParam(value = "Project member object to create", required = true) @NotNull @Valid ProjectMember projectMemberNew) {
+    public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id, @ApiParam(
+            value = "Project member object to create", required = true) @NotNull @Valid ProjectMember projectMemberNew) {
         ProjectMember project = projectMemberService.merge(id, projectMemberNew);
         return Response.status(Response.Status.OK).entity(project).build();
     }
@@ -79,7 +82,8 @@ public class ProjectMemberRs {
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get a project member", notes = "Fetch by unique project-member id not employee id", response = ProjectMember.class, responseContainer = "Single JSON object")
+    @ApiOperation(value = "Get a project member", notes = "Fetch by unique project-member id not employee id",
+            response = ProjectMember.class, responseContainer = "Single JSON object")
     public Response findById(@ApiParam(value = "Id to fetch information", required = true) @PathParam("id") String id) {
         ProjectMember projectMember = projectMemberService.findById(id);
         if (projectMember != null) {
@@ -92,9 +96,9 @@ public class ProjectMemberRs {
     @Path("/project/{projectId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get list of all members of a project", notes = "Fetch all members of a particular project", response = ProjectMember.class, responseContainer = "List")
-    public Response findByProject(
-            @ApiParam(value = "Project id", required = true) @PathParam("projectId") String project_id) {
+    @ApiOperation(value = "Get list of all members of a project", notes = "Fetch all members of a particular project",
+            response = ProjectMember.class, responseContainer = "List")
+    public Response findByProject(@ApiParam(value = "Project id", required = true) @PathParam("projectId") String project_id) {
         List<ProjectMember> projectMembers = projectMemberService.findByProjectId(project_id);
         return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
@@ -103,10 +107,17 @@ public class ProjectMemberRs {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Delete a project member")
-    public Response remove(
-            @ApiParam(value = "Project member id that needs to be deleted", required = true) @PathParam("id") String id) {
+    public Response remove(@ApiParam(value = "Project member id that needs to be deleted", required = true) @PathParam("id") String id) {
         projectMemberService.removeById(id);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @Path("/history")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listHistory() {
+        List<ProjectMemberHistory> projectMemberHistory = projectMemberService.findAllHistory();
+        return Response.status(Response.Status.OK).entity(projectMemberHistory).build();
     }
 
 }
