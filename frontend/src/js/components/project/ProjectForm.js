@@ -79,10 +79,9 @@
         },
 
         setSelectedItem: function (type, state) {
-            console.log(state, type)
             if (state) {
                 $('#' + type).val(state.id).selected = true;
-            }else{
+            } else {
                 $('#' + type).val(0).selected = true;
             }
         },
@@ -180,7 +179,7 @@
             var requiredField = {
                 'title': this.refs.title.value
             };
-            //console.log(isProjectNameValid)
+
             if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
