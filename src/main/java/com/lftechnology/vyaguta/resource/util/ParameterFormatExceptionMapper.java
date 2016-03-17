@@ -6,7 +6,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.lftechnology.vyaguta.commons.pojo.ErrorMessage;
-import com.lftechnology.vyaguta.resource.exception.BadQueryFormatException;
+import com.lftechnology.vyaguta.resource.exception.ParameterFormatException;
 
 /**
  * 
@@ -14,10 +14,10 @@ import com.lftechnology.vyaguta.resource.exception.BadQueryFormatException;
  *
  */
 @Provider
-public class BadQueryFormatExceptionMapper implements ExceptionMapper<BadQueryFormatException> {
+public class ParameterFormatExceptionMapper implements ExceptionMapper<ParameterFormatException> {
 
     @Override
-    public Response toResponse(BadQueryFormatException exception) {
+    public Response toResponse(ParameterFormatException exception) {
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
         return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).type(MediaType.APPLICATION_JSON)
                 .build();

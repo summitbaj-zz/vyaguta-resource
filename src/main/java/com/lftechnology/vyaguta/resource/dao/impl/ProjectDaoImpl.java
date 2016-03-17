@@ -19,7 +19,7 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
-import com.lftechnology.vyaguta.resource.exception.BadQueryFormatException;
+import com.lftechnology.vyaguta.resource.exception.ParameterFormatException;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
                         startDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
-                throw new BadQueryFormatException("Start date format is invalid, should be in yyyy-MM-dd format");
+                throw new ParameterFormatException("Start date format is invalid, should be in yyyy-MM-dd format");
             }
         }
 
@@ -76,7 +76,7 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
                 Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get(ProjectDaoImpl.END_DATE), endDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
-                throw new BadQueryFormatException("End date format is invalid, should be in yyyy-MM-dd format");
+                throw new ParameterFormatException("End date format is invalid, should be in yyyy-MM-dd format");
             }
         }
 
