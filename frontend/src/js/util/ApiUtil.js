@@ -11,7 +11,7 @@
     var urlConstants = require('../constants/urlConstant');
 
     var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    var coreUrl =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var coreUrl =  window.location.origin + urlConstants.CORE_SERVER + '/';
 
     //libraries
     var Promise = require('promise');

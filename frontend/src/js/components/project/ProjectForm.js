@@ -42,7 +42,8 @@
                 technologyStack: [],
                 accountManager: {},
                 startDate: moment(),
-                endDate: moment()
+                endDate: moment(),
+                projectName: null
             }
         },
 
@@ -51,7 +52,6 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
-
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
             }
@@ -63,11 +63,14 @@
                 this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
                 this.setSelectedItem('client', props.selectedItem.projects.client);
                 this.setState({technologyStack: props.selectedItem.projects.tags});
+                var title = (!this.state.projectName) ? props.selectedItem.projects.title : this.state.projectName;
+                this.setState({projectName: title});
             }
         },
 
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
+            isProjectNameValid = true;
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
         },
 
@@ -76,8 +79,12 @@
         },
 
         setSelectedItem: function (type, state) {
-            if (state)
+            console.log(state, type)
+            if (state) {
                 $('#' + type).val(state.id).selected = true;
+            }else{
+                $('#' + type).val(0).selected = true;
+            }
         },
 
         addTag: function (value) {
@@ -173,7 +180,7 @@
             var requiredField = {
                 'title': this.refs.title.value
             };
-
+            //console.log(isProjectNameValid)
             if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
@@ -191,7 +198,7 @@
                 'description': this.refs.description.value,
                 'projectType': (this.refs.projectType.value != 0) ? {"id": this.refs.projectType.value} : null,
                 'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
-                //'client': (this.refs.client.value!=0) ? {"id": this.refs.client.value},
+                'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
                 'budgetType': (this.refs.budgetType.value != 0) ? {"id": this.refs.budgetType.value} : null,
                 'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
                 'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
@@ -227,7 +234,7 @@
 
         validateTitle: function () {
             var title = this.refs.title.value;
-            if (title) {
+            if (title && title != this.state.projectName) {
                 ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
             } else {
                 this.refs.title.parentElement.className = 'form-group';
