@@ -1,9 +1,11 @@
 ;(function(){
     'use strict';
+    //constants
+    var urlConstants = require('../src/js/constants/urlConstant');
 
     var config = {
-        resourceServer: 'http://localhost:3000/',
-        coreServer: 'http://localhost:3000/'
+        resourceServer: window.location.origin + urlConstants.RESOURCE_SERVER + '/',
+        coreServer: window.location.origin + urlConstants.RESOURCE_SERVER + '/'
     };
     module.exports = config;
 

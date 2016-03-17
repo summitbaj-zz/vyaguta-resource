@@ -63,7 +63,7 @@
 
     var env = process.env.NODE_ENV || config.env.development;
     var isProduction = process.env.NODE_ENV === 'production';
-    var baseUrl = isProduction? '/resource/' : '/';
+    var baseUrl = isProduction? '/resource/' : '/resource/';
 
     gulp.task('fonts', function () {
         return gulp.src(config.paths.fonts)
@@ -198,7 +198,6 @@
     gulp.task('default', [
         'styles',
         'scripts',
-        'browser-sync',
         'images',
         'fonts',
         'custom_ui',
