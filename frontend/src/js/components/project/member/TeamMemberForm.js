@@ -35,9 +35,8 @@
 
         componentDidMount: function () {
             var that = this;
-
             ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, function (data) {
-                that.setState({employees: data});
+                that.setState({employees: data || []});
             })
         },
 
@@ -208,7 +207,8 @@
                                     <div className="form-group">
                                         <label className="control-label col-md-4">Billed</label>
                                         <div className="col-md-8">
-                                            <label htmlFor="billed-resource" className="billed-resource switch switch-default">
+                                            <label htmlFor="billed-resource"
+                                                   className="billed-resource switch switch-default">
                                                 <input type="checkbox" name="billed" onChange={this.toggleCheckBox}
                                                        id="billed-resource" checked={this.state.isChecked}/>
                                                 <span data-toggle="tooltip"></span>

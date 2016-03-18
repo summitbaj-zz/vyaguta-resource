@@ -1274,7 +1274,7 @@ li.dropdown-header {
     max-height: 300px;
     z-index: 9999;
     border: 1px solid #999;
-    background: #fff;
+    background: #FFF;
     cursor: default;
     overflow: auto;
     display: none;
@@ -1296,9 +1296,8 @@ li.dropdown-header {
 }
 
 .hover {
-    background: rgb(250, 84, 22);
+    background: #F8F8F8;
     cursor: pointer;
-    color: white;
 }
 
 .billed-resource input:checked + span {
