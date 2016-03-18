@@ -26,6 +26,10 @@
             this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
         },
 
+        componentWillUnmount: function() {
+            this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+        },
+
         render: function () {
             return (
                 <div>
@@ -46,7 +50,7 @@
                                         </tr>
                                         <tr>
                                             <th>Description</th>
-                                            <td>{this.props.selectedItem.projects.description}</td>
+                                            <td>{this.props.selectedItem.projects && this.props.selectedItem.projects.description}</td>
                                         </tr>
                                         <tr>
                                             <th>Start Date</th>
@@ -58,15 +62,15 @@
                                         </tr>
                                         <tr>
                                             <th>Budget Type</th>
-                                            <td>{this.props.selectedItem.projects.budgetType.title}</td>
+                                            <td>{this.props.selectedItem.projects.budgetType && this.props.selectedItem.projects.budgetType.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Project Type</th>
-                                            <td>{this.props.selectedItem.projects.projectType.title}</td>
+                                            <td>{this.props.selectedItem.projects.projectType && this.props.selectedItem.projects.projectType.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Project Status</th>
-                                            <td>{this.props.selectedItem.projects.projectStatus.title}</td>
+                                            <td>{this.props.selectedItem.projects.projectStatus && this.props.selectedItem.projects.projectStatus.title}</td>
                                         </tr>
                                         <tr>
                                             <th>Account Manager</th>
