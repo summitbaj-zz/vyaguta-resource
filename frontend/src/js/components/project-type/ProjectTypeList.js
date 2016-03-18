@@ -49,7 +49,7 @@
         renderProjectType: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectType key={key} index={startIndex} projectType={this.props.projectTypes[key]}
+                <ProjectType key={key} index={startIndex||1+parseInt(key)} projectType={this.props.projectTypes[key]}
                              deleteProjectType={this.deleteProjectType}/>
             );
         },

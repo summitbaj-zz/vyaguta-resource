@@ -16,7 +16,6 @@ var App = React.createClass({
                 <Sidebar/>
                 <div id="main-container">
                     <Header/>
-                    <ErrorMessage />
                     {this.props.children}
                     <Footer/>
                 </div>

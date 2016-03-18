@@ -45,10 +45,9 @@
         },
 
         renderProject: function (key) {
-            //var startIndex = 1+ parseInt(key) + (this.props.pageIndex -1)*this.props.offset;
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <Project key={key} index={startIndex} project={this.props.projects[key]}
+                <Project key={key} index={startIndex||1+parseInt(key)} project={this.props.projects[key]}
                          deleteProject={this.deleteProject}/>
             );
         },

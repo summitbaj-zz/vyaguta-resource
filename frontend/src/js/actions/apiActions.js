@@ -32,19 +32,10 @@
             ajaxLoader.hide();
             return {
                 type: actionTypeConstant.API_RESPONSE,
-                entity: entity,
-            }
-        },
-
-        apiError: function () {
-            //When there is an error in the response from the API, this action gets called
-            ajaxLoader.hide();
-            return {
-                type: actionTypeConstant.ERROR,
-                data: error.message
+                entity: entity
             }
         }
-    }
+    };
 
     module.exports = apiActions;
 

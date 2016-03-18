@@ -28,7 +28,6 @@
             clients: {},
             projectStatus: {}
         },
-        pageIndex: 1,
         pagination:{}
     };
 
@@ -40,7 +39,6 @@
             case actionTypeConstant.LIST:
                 var newState = _.cloneDeep(state);
                 newState[action.entity] = _.cloneDeep(action.data.data);
-
                 return newState;
 
             case actionTypeConstant.SELECT_ITEM:

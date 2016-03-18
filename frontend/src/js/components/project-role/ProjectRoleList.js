@@ -54,7 +54,7 @@
         renderProjectRole: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectRole key={key} index={startIndex} projectRole={this.props.projectRoles[key]}
+                <ProjectRole key={key} index={startIndex||1+parseInt(key)} projectRole={this.props.projectRoles[key]}
                              deleteProjectRole={this.deleteProjectRole}/>
             );
         },
