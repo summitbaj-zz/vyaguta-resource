@@ -13,11 +13,13 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.resource.common.CommonConstant;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
+import com.lftechnology.vyaguta.resource.exception.ParameterFormatException;
 
 /**
  * 
@@ -26,9 +28,11 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
  */
 public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDao {
 
-    private static final String TITLE = "title";
-    private static final String ANY = "any";
-    private static final String SEARCH_MODE = "searchMode";
+    private static final String START_DATE = "startDate";
+    private static final String END_DATE = "endDate";
+    private static final String PROJECT_TYPE = "projectType";
+    private static final String PROJECT_STATUS = "projectStatus";
+    private static final String BUDGET_TYPE = "budgetType";
 
     public ProjectDaoImpl() {
         super(Project.class);
@@ -41,12 +45,12 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // search by title
-        if (queryParameters.containsKey(ProjectDaoImpl.TITLE)) {
-            String title = queryParameters.getFirst(ProjectDaoImpl.TITLE).toUpperCase();
-            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(root.get(ProjectDaoImpl.TITLE)), title);
-            if (queryParameters.containsKey(ProjectDaoImpl.SEARCH_MODE)) {
-                if (queryParameters.getFirst(ProjectDaoImpl.SEARCH_MODE).equals(ProjectDaoImpl.ANY)) {
-                    predicate = criteriaBuilder.like(criteriaBuilder.upper(root.get(ProjectDaoImpl.TITLE)),
+        if (queryParameters.containsKey(CommonConstant.TITLE)) {
+            String title = queryParameters.getFirst(CommonConstant.TITLE).toUpperCase();
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(root.get(CommonConstant.TITLE)), title);
+            if (queryParameters.containsKey(CommonConstant.SEARCH_MODE)) {
+                if (queryParameters.getFirst(CommonConstant.SEARCH_MODE).equals(CommonConstant.ANY)) {
+                    predicate = criteriaBuilder.like(criteriaBuilder.upper(root.get(CommonConstant.TITLE)),
                             "%" + title + "%");
                 }
             }
@@ -54,51 +58,55 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
         }
 
         // get list of projects starting from and on startDate
-        if (queryParameters.containsKey("startDate")) {
+        if (queryParameters.containsKey(ProjectDaoImpl.START_DATE)) {
             try {
-                LocalDate startDate = LocalDate.parse(queryParameters.getFirst("startDate"), format);
-                Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), startDate);
+                LocalDate startDate = LocalDate.parse(queryParameters.getFirst(ProjectDaoImpl.START_DATE), format);
+                Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(ProjectDaoImpl.START_DATE),
+                        startDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
-                System.out.println("=====> Keep log here. Unable to parse startDate");
+                throw new ParameterFormatException("Start date format is invalid, should be in yyyy-MM-dd format");
             }
         }
 
         // get list of projects ending before and on endDate
-        if (queryParameters.containsKey("endDate")) {
+        if (queryParameters.containsKey(ProjectDaoImpl.END_DATE)) {
             try {
-                LocalDate startDate = LocalDate.parse(queryParameters.getFirst("endDate"), format);
-                Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), startDate);
+                LocalDate endDate = LocalDate.parse(queryParameters.getFirst(ProjectDaoImpl.END_DATE), format);
+                Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get(ProjectDaoImpl.END_DATE), endDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
-                System.out.println("=====> Keep log here. Unable to parse endDate");
+                throw new ParameterFormatException("End date format is invalid, should be in yyyy-MM-dd format");
             }
         }
 
         // get list of projects with projectType
-        if (queryParameters.containsKey("projectType")) {
-            String projectType = queryParameters.getFirst("projectType").toUpperCase();
+        if (queryParameters.containsKey(ProjectDaoImpl.PROJECT_TYPE)) {
+            String projectType = queryParameters.getFirst(ProjectDaoImpl.PROJECT_TYPE).toUpperCase();
 
-            Join<Project, ProjectType> pt = root.join("projectType");
-            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), projectType);
+            Join<Project, ProjectType> pt = root.join(ProjectDaoImpl.PROJECT_TYPE);
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get(CommonConstant.TITLE)),
+                    projectType);
             predicates.add(predicate);
         }
 
         // get list of projects with projectStatus
-        if (queryParameters.containsKey("projectStatus")) {
-            String projectStatus = queryParameters.getFirst("projectStatus").toUpperCase();
+        if (queryParameters.containsKey(ProjectDaoImpl.PROJECT_STATUS)) {
+            String projectStatus = queryParameters.getFirst(ProjectDaoImpl.PROJECT_STATUS).toUpperCase();
 
-            Join<Project, ProjectStatus> pt = root.join("projectStatus");
-            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), projectStatus);
+            Join<Project, ProjectStatus> ps = root.join(ProjectDaoImpl.PROJECT_STATUS);
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(ps.get(CommonConstant.TITLE)),
+                    projectStatus);
             predicates.add(predicate);
         }
 
         // get list of projects with BudgetType
-        if (queryParameters.containsKey("budgetType")) {
-            String budgetType = queryParameters.getFirst("budgetType").toUpperCase();
+        if (queryParameters.containsKey(ProjectDaoImpl.BUDGET_TYPE)) {
+            String budgetType = queryParameters.getFirst(ProjectDaoImpl.BUDGET_TYPE).toUpperCase();
 
-            Join<Project, BudgetType> pt = root.join("budgetType");
-            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(pt.get("title")), budgetType);
+            Join<Project, BudgetType> bt = root.join(ProjectDaoImpl.BUDGET_TYPE);
+            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(bt.get(CommonConstant.TITLE)),
+                    budgetType);
             predicates.add(predicate);
         }
 
