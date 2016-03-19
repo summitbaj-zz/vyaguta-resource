@@ -9,6 +9,7 @@
 
     //React and Redux dependencies
     var React = require('react');
+    var browserHistory = require('react-router').browserHistory;
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
 
@@ -95,10 +96,11 @@
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
                                     <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-angle-right"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
-                                    <button className="btn btn-sm btn-default" type="reset"><i
-                                        className="fa fa-repeat"></i>Reset
+                                    <button className="btn btn-sm btn-danger" type="button"
+                                            onClick={browserHistory.goBack}><i
+                                        className="fa fa-remove"></i>Cancel
                                     </button>
                                 </div>
                             </div>

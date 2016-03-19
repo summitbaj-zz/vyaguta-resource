@@ -1327,3 +1327,8 @@ ul.pagination div{
 ul.pagination li{
     cursor: pointer;
 }
+
+/* button spacing */
+.btn.btn-success, .btn.btn-danger{
+    margin: 0 2.5px;
+}

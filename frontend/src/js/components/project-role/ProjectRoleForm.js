@@ -3,6 +3,7 @@
 
     //React and Redux dependencies
     var React = require('react');
+    var browserHistory = require('react-router').browserHistory;
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
 
@@ -49,7 +50,7 @@
             for (var elementId in errors) {
                 var parentElement = $('#' + elementId).parent();
 
-                if(!parentElement.hasClass('has-error')){
+                if (!parentElement.hasClass('has-error')) {
                     parentElement.addClass('has-error');
                 }
                 parentElement.children('span').html(errors[elementId]);
@@ -67,7 +68,7 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
-                                       routes={this.props.routes}/>
+                                  routes={this.props.routes}/>
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
@@ -84,10 +85,11 @@
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
                                     <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-angle-right"></i>{this.props.params.id ? 'Update' : 'Save'}
+                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
-                                    <button className="btn btn-sm btn-default" type="reset"><i
-                                        className="fa fa-repeat"></i>Reset
+                                    <button className="btn btn-sm btn-danger" type="button"
+                                            onClick={browserHistory.goBack}><i
+                                        className="fa fa-remove"></i>Cancel
                                     </button>
                                 </div>
                             </div>
