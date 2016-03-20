@@ -105,25 +105,23 @@
                             </div>
                             <div className="form-group clearfix">
                                 <div className="row multiple-element">
-                                    <div className="col-md-6 col-lg-4 element">
+                                    <div className="col-md-4 col-lg-2 element">
                                         <label>Color</label>
                                         <select id="colorselector" ref="color" name="color">
+                                            <option value="#F44336" data-color="#F44336">red</option>
                                             <option value="#4CAF50" data-color="#4CAF50">green</option>
                                             <option value="#3F51B5" data-color="#3F51B5">blue</option>
-                                            <option value="#f44336" data-color="#f44336">red</option>
+                                            <option value="#FF5722" data-color="#FF5722">orange</option>
+                                            <option value="#FF8C00" data-color="#FF8C00">darkorange</option>
                                             <option value="#DC143C" data-color="#DC143C">crimson</option>
                                             <option value="#FF00FF" data-color="#FF00FF">purple</option>
-                                            <option value="#A0522D" data-color="#A0522D">sienna</option>
-                                            <option value="#CD5C5C" data-color="#CD5C5C">indianred
-                                            </option>
-                                            <option value="#FF8C00" data-color="#FF8C00">darkorange</option>
-                                            <option value="#FF5722" data-color="#FF5722">orange</option>
                                             <option value="#C71585" data-color="#C71585">mediumvioletred</option>
+                                            <option value="#A0522D" data-color="#A0522D">sienna</option>
                                             <option value="#000000" data-color="#000000">black</option>
                                         </select>
                                     </div>
                                     <div className="col-md-8 element">
-                                        <label>Preview</label>
+                                        <label>Preview :</label>
                                         <span className="label text-uppercase"
                                               id="selected-color">{this.props.selectedItem.projectStatus.title}</span>
                                     </div>
