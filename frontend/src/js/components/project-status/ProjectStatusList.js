@@ -80,6 +80,7 @@
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Project Status</th>
+                                    <th>Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

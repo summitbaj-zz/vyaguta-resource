@@ -10,10 +10,19 @@
     var ProjectStatusRow = React.createClass({
         render: function () {
             var id = this.props.projectStatus.id;
+
+            var style = {
+                background: this.props.projectStatus.color
+            };
+
             return (
                 <tr>
                     <td>{this.props.index}</td>
                     <td>{this.props.projectStatus.title}</td>
+                    <td><span
+                        className="label text-uppercase"
+                        style={style}>{this.props.projectStatus.title}</span>
+                    </td>
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.PROJECT_STATUS.EDIT + id} data-toggle="tooltip"
                                                          title="Edit"
