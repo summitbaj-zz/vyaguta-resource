@@ -15,7 +15,7 @@
     var AccountManager = React.createClass({
         getInitialState: function () {
             return {
-                suggestions: [{firstName:'a', lastName:'b'},{firstName:'a', lastName:'b'},{firstName:'a', lastName:'b'}]
+                suggestions: []
             }
         },
 
@@ -24,8 +24,8 @@
         },
 
         updateSuggestions: function (input) {
-            //this.setState({suggestions: []});
-            //ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            this.setState({suggestions: []});
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
         },
 
         input: function (event) {
@@ -74,7 +74,7 @@
                     if (input.value === this.getAppendedName(i)) {
                         var accountManager = {'id': this.state.suggestions[i].id};
                         this.showValidity('has-success', '', accountManager);
-                        this.setState({suggestions:[]});
+                        this.setState({suggestions: []});
                         return;
                     }
                 }
@@ -82,7 +82,7 @@
             } else {
                 this.showValidity('', '', {});
             }
-            this.setState({suggestions:[]});
+            this.setState({suggestions: []});
         },
 
         showValidity: function (className, message, accountManager) {
