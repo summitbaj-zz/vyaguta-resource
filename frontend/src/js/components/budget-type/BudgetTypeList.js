@@ -22,6 +22,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
+    var alertBox = require('../../util/alertBox');
 
     var BudgetTypeList = React.createClass({
         getDefaultProps: function () {
@@ -32,7 +33,10 @@
         },
 
         componentDidMount: function () {
-            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {_start: this.props.startIndex, _limit: this.props.offset});
+            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            });
         },
 
         componentWillUnmount: function () {
@@ -40,14 +44,19 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index -1)*this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {_start: startIndex, _limit: this.props.offset});
+            var startIndex = 1 + (index - 1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
+                _start: startIndex,
+                _limit: this.props.offset
+            });
         },
 
         deleteBudgetType: function (id) {
-            if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id);
-            }
+            var that = this;
+
+            alertBox.confirm('Are you sure you want to delete this item?', function () {
+                that.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id)
+            });
         },
 
         renderBudgetType: function (key) {
@@ -85,7 +94,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)} refreshList={this.refreshList} />
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
 
                     </div>
                 </div>

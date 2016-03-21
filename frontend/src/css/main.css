@@ -1274,7 +1274,7 @@ li.dropdown-header {
     max-height: 300px;
     z-index: 9999;
     border: 1px solid #999;
-    background: #fff;
+    background: #FFF;
     cursor: default;
     overflow: auto;
     display: none;
@@ -1296,9 +1296,8 @@ li.dropdown-header {
 }
 
 .hover {
-    background: rgb(250, 84, 22);
+    background: #EAEDF1;
     cursor: pointer;
-    color: white;
 }
 
 .billed-resource input:checked + span {
@@ -1326,4 +1325,9 @@ ul.pagination div{
 
 ul.pagination li{
     cursor: pointer;
+}
+
+/* button spacing */
+.btn.btn-success, .btn.btn-danger{
+    margin: 0 2.5px;
 }

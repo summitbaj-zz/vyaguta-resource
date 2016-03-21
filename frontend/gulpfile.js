@@ -35,7 +35,8 @@
                 './src/css/glyphicons.css',
                 './src/css/project-allocation-chart.css',
                 'node_modules/toastr/build/toastr.css',
-                'node_modules/react-datepicker/dist/react-datepicker.css'
+                'node_modules/react-datepicker/dist/react-datepicker.css',
+                'node_modules/jquery-confirm/dist/jquery-confirm.min.css'
             ],
             img: [
                 './src/img/*',
@@ -51,7 +52,8 @@
             customUI: [
                 './src/custom-ui/bootstrap.js',
                 './src/custom-ui/bootstrap-colorselector.js',
-                './src/custom-ui/app.js'
+                './src/custom-ui/app.js',
+                'node_modules/jquery-confirm/dist/jquery-confirm.min.js'
             ],
             html: './index.html'
         },

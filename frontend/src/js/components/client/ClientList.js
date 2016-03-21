@@ -16,6 +16,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
+    var alertBox = require('../../util/alertBox');
 
     var ClientList = React.createClass({
 
@@ -44,9 +45,11 @@
 
 
         deleteClient: function (id) {
-            if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.CLIENTS, id);
-            }
+            var that = this;
+
+            alertBox.confirm('Are you sure you want to delete this item?', function () {
+                that.props.actions.deleteItem(resourceConstant.CLIENTS, id);
+            });
         },
 
         renderClient: function (key) {

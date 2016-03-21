@@ -16,6 +16,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
+    var alertBox = require('../../util/alertBox');
 
     var ProjectStatusList = React.createClass({
 
@@ -46,9 +47,11 @@
         },
 
         deleteProjectStatus: function (id) {
-            if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id);
-            }
+            var that = this;
+
+            alertBox.confirm('Are you sure you want to delete this item?', function () {
+                that.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id);
+            });
         },
 
         renderProjectStatus: function (key) {
@@ -80,6 +83,7 @@
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Project Status</th>
+                                    <th>Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

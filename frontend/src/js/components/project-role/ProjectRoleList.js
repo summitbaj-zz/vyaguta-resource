@@ -16,6 +16,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
+    var alertBox = require('../../util/alertBox');
 
     var ProjectRoleList = React.createClass({
 
@@ -46,9 +47,11 @@
         },
 
         deleteProjectRole: function (id) {
-            if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECT_ROLES, id);
-            }
+            var that = this;
+
+            alertBox.confirm('Are you sure you want to delete this item?', function () {
+                that.props.actions.deleteItem(resourceConstant.PROJECT_ROLES, id);
+            });
         },
 
         renderProjectRole: function (key) {

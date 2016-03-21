@@ -16,6 +16,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
+    var alertBox = require('../../util/alertBox');
 
     //util
     var ApiUtil = require('../../util/ApiUtil');
@@ -39,13 +40,16 @@
         },
 
         deleteProject: function (key) {
-            if (confirm('Are you sure?')) {
-                this.props.actions.deleteItem(resourceConstant.PROJECTS, id);
-            }
+            var that = this;
+
+            alertBox.confirm('Are you sure you want to delete this item?', function () {
+                that.props.actions.deleteItem(resourceConstant.PROJECTS, id);
+            });
         },
 
         renderProject: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
+
             return (
                 <Project key={key} index={startIndex||1+parseInt(key)} project={this.props.projects[key]}
                          deleteProject={this.deleteProject}/>
