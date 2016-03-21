@@ -7,8 +7,8 @@
     var Dashboard = React.createClass({
         render: function () {
             return (
-                <div id="page-content">
-                    <div className="row">
+                <div id="page-content" className="page-content">
+                    <div className="row header-margin">
                         <div className="col-lg-12">
                             <div className="content-header">
                                 <div className="header-section">

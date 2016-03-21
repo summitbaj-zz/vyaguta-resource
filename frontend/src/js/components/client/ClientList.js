@@ -69,7 +69,6 @@
                             <h2>Client Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.CLIENTS.NEW} title="Add Client"
-                                      data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Client</Link>
                             </div>

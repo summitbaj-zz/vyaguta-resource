@@ -10,7 +10,7 @@
     var EntityHeader = React.createClass({
         render: function () {
             return (
-                <div className="row">
+                <div className="row header-margin">
                     <div className="col-lg-12">
                         <div className="content-header">
                             <div className="header-section">

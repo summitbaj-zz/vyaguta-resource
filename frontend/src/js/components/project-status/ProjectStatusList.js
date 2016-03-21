@@ -57,7 +57,8 @@
         renderProjectStatus: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectStatus key={key} index={startIndex||1+parseInt(key)} projectStatus={this.props.projectStatus[key]}
+                <ProjectStatus key={key} index={startIndex||1+parseInt(key)}
+                               projectStatus={this.props.projectStatus[key]}
                                deleteProjectStatus={this.deleteProjectStatus}/>
             );
         },
@@ -72,7 +73,6 @@
                             <h2>Project Status Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECT_STATUS.NEW} title="Add Project Status"
-                                      data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project Status</Link>
                             </div>

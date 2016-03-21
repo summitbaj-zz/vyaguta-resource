@@ -95,13 +95,15 @@
                                 <div className="row multiple-element">
                                     <div className="col-md-6 col-lg-4 element">
                                         <label className="control-label">Email Address</label>
-                                        <input type="text" ref="email" name="email"
-                                               value={this.props.selectedItem.clients.email}
-                                               onChange={this.fieldChange}
-                                               placeholder="Email Address"
-                                               className="form-control"
-                                               id="email"/>
-                                        <span className="help-block" ref="availableMessage"></span>
+                                        <div>
+                                            <input type="text" ref="email" name="email"
+                                                   value={this.props.selectedItem.clients.email}
+                                                   onChange={this.fieldChange}
+                                                   placeholder="Email Address"
+                                                   className="form-control"
+                                                   id="email"/>
+                                            <span className="help-block" ref="availableMessage"></span>
+                                        </div>
                                     </div>
                                     <div className="col-md-6 col-lg-4 element">
                                         <label className="control-label">Phone Number</label>
