@@ -1307,7 +1307,7 @@ li.dropdown-header {
     margin-top: 50px;
 }
 
-#page-content {
+.page-content {
     min-height: calc(100% - 34px) !important;
 }
 

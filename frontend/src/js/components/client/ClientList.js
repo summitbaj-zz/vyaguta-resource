@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-center table-hover table-striped">
+                            <table className="table table-vcenter table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
