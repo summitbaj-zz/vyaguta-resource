@@ -8,23 +8,24 @@
     var urlConstant = require('../../constants/urlConstant');
 
     var ProjectRow = React.createClass({
-
-        componentDidMount: function () {
-            $('#project-status' + this.props.project.id).css('background', this.props.project.projectStatus ? this.props.project.projectStatus.color : '');
-        },
-
         render: function () {
             var id = this.props.project.id;
+
+            var style = {
+                background: this.props.project.projectStatus && this.props.project.projectStatus.color
+            };
+
             return (
                 <tr>
                     <td>{this.props.index}</td>
                     <td>{this.props.project.title}</td>
-                    <td>{this.props.project.projectType ? this.props.project.projectType.title : ''}</td>
-                    <td>{this.props.project.budgetType ? this.props.project.budgetType.title : ''}</td>
+                    <td>{this.props.project.projectType && this.props.project.projectType.title}</td>
+                    <td>{this.props.project.budgetType && this.props.project.budgetType.title}</td>
                     <td>{this.props.project.startDate}</td>
                     <td>{this.props.project.endDate}</td>
                     <td><span
-                        className="label text-uppercase" id={'project-status' + id}>{this.props.project.projectStatus ? this.props.project.projectStatus.title : ''}</span>
+                        className="label text-uppercase"
+                        style={style}>{this.props.project.projectStatus && this.props.project.projectStatus.title}</span>
                     </td>
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.PROJECTS.EDIT + id} data-toggle="tooltip"

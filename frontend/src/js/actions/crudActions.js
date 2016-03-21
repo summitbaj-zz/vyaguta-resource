@@ -155,8 +155,8 @@
                 dispatch(apiActions.apiRequest(entity));
                 return (ApiUtil.fetchByQuery2(entity, data).then(function(response){
                     dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.list(entity, response.body));
                     dispatch(actions.pageIndex(data, response.body.count));
+                    dispatch(actions.list(entity, response.body));
                 }, function(error){
                     dispatch(apiActions.apiError(error));
                 }));
