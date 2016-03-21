@@ -75,13 +75,13 @@
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.BUDGET_TYPES.NEW} title="Add Budget Type" data-toggle="tooltip"
+                                <Link to={urlConstant.BUDGET_TYPES.NEW} title="Add Budget Type"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Budget Type</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-center table-hover table-striped">
+                            <table className="table table-vcenter table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>

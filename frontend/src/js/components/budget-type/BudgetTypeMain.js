@@ -13,7 +13,7 @@
     var BudgetMain = React.createClass({
         render: function () {
             return (
-                <div id="page-content">
+                <div id="page-content" className="page-content">
                     {this.props.children}
                 </div>
             )

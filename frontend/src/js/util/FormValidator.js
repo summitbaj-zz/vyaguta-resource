@@ -15,13 +15,13 @@
         this.isRequired = function (formDatas) {
             for (var key in formDatas) {
                 if (formDatas[key] == '') {
-                    that.errors[key] = 'This field is required';
+                    that.errors[key] = 'This field is required.';
                 }
                 else {
                     delete that.errors[key];
                 }
                 if (key == 'email' && !emailRegex.test(formDatas['email'])) {
-                    that.errors['email'] = 'Please enter a valid email';
+                    that.errors['email'] = 'Enter email address in the format someone@example.com.';
                 }
             }
             return ((Object.keys(that.errors).length == 0) ? true : false);

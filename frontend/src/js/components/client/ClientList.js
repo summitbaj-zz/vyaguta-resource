@@ -69,13 +69,12 @@
                             <h2>Client Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.CLIENTS.NEW} title="Add Client"
-                                      data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Client</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-vcenter table-hover table-striped">
+                            <table className="table table-center table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>

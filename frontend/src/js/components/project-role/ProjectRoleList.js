@@ -71,7 +71,6 @@
                             <h2>Project Role Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECT_ROLES.NEW} title="Add Project Role"
-                                      data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project Role</Link>
                             </div>

@@ -3,7 +3,6 @@ body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #394263;
     font-size: 13px;
-    background-color: #222222;
 }
 
 #page-container, #main-container, #page-content + footer {
@@ -14,7 +13,7 @@ body {
     width: 100%;
     padding: 0;
     margin: 0 auto;
-    overflow-x: hidden;
+
     -webkit-transition: background-color 0.2s ease-out, opacity 0.3s ease-out;
     transition: background-color 0.2s ease-out, opacity 0.3s ease-out;
     background: #fff;
@@ -1238,7 +1237,7 @@ li.dropdown-header {
 
 }
 
-.manager-parent{
+.manager-parent {
     position: relative;
 }
 
@@ -1247,7 +1246,6 @@ li.dropdown-header {
     position: relative;
     cursor: text;
 }
-
 
 #tag-list {
     margin-bottom: 0;
@@ -1305,29 +1303,25 @@ li.dropdown-header {
 }
 
 /* error message space */
-.row{
-    min-height: 50px;
-}
-.error-message{
-    padding: 10px;
-    padding-top: 60px;
+.header-margin {
+    margin-top: 50px;
 }
 
-.error-container{
-    color: red;
+#page-content {
+    min-height: calc(100% - 34px) !important;
 }
 
-ul.pagination div{
-    float:left;
-    color:green;
-    line-height:22px;
+ul.pagination div {
+    float: left;
+    color: green;
+    line-height: 22px;
 }
 
-ul.pagination li{
+ul.pagination li {
     cursor: pointer;
 }
 
 /* button spacing */
-.btn.btn-success, .btn.btn-danger{
+.btn.btn-success, .btn.btn-danger {
     margin: 0 2.5px;
 }

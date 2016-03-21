@@ -72,7 +72,6 @@
                             <h2>Project Type Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECT_TYPES.NEW} title="Add Project Type"
-                                      data-toggle="tooltip"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project Type</Link>
                             </div>

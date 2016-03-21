@@ -78,7 +78,7 @@
                         return;
                     }
                 }
-                this.showValidity('has-error', 'Invalid name', null);
+                this.showValidity('has-error', 'Account Manager does not exist.', null);
             } else {
                 this.showValidity('', '', {});
             }

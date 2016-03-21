@@ -7,7 +7,6 @@ var React = require('react');
 var Sidebar = require('./common/sidebar/Sidebar');
 var Header = require('./common/header/Header');
 var Footer = require('./common/footer/Footer');
-var ErrorMessage = require('./common/error-message/ErrorMessage');
 
 var App = React.createClass({
     render: function () {
