@@ -62,7 +62,7 @@
         renderBudgetType: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <BudgetTypeRow key={key} index={startIndex} budgetType={this.props.budgetTypes[key]}
+                <BudgetTypeRow key={key} index={startIndex||1+parseInt(key)} budgetType={this.props.budgetTypes[key]}
                                deleteBudgetType={this.deleteBudgetType}/>
             )
         },

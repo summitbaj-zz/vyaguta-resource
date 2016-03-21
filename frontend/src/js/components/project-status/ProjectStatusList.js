@@ -57,7 +57,7 @@
         renderProjectStatus: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectStatus key={key} index={startIndex} projectStatus={this.props.projectStatus[key]}
+                <ProjectStatus key={key} index={startIndex||1+parseInt(key)} projectStatus={this.props.projectStatus[key]}
                                deleteProjectStatus={this.deleteProjectStatus}/>
             );
         },

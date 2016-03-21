@@ -18,7 +18,8 @@
         minifyCss = require('gulp-minify-css'),
         eslint = require('gulp-eslint'),
         inject = require('gulp-inject'),
-        htmlreplace= require('gulp-html-replace');
+        htmlreplace= require('gulp-html-replace'),
+        notifier = require('node-notifier');
 
     var config = {
         paths: {
@@ -183,7 +184,9 @@
         'custom_ui',
         'watch',
         'html'
-    ]
+    ], function(){
+        notifier.notify({ title: 'Development Gulp  ', message: 'Done' });
+    }
     );
 
     gulp.task('build',[

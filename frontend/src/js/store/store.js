@@ -14,14 +14,12 @@
 
     //reducers
     var crudReducer = require('../reducers/crudReducer');
-    var errorReducer = require('../reducers/errorReducer');
     var teamMemberReducer = require('../reducers/teamMemberReducer');
     var apiReducer = require('../reducers/apiReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
-        errorReducer: errorReducer,
         teamMemberReducer: teamMemberReducer,
         apiState: apiReducer
         //add for each reducers...
