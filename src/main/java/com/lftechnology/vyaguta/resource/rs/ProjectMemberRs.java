@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.rs;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class ProjectMemberRs {
 
     @Path("/")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "List all project members", notes = "Can provide page number and offset value", response = ProjectMember.class, responseContainer = "List")
     public Response list(@Context UriInfo uriInfo) {
@@ -54,6 +56,7 @@ public class ProjectMemberRs {
 
     @Path("/")
     @POST
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Add a new project member")
@@ -66,6 +69,7 @@ public class ProjectMemberRs {
 
     @Path("/{id}")
     @PUT
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Update project  member information")
@@ -78,6 +82,7 @@ public class ProjectMemberRs {
 
     @Path("/{id}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get a project member", notes = "Fetch by unique project-member id not employee id", response = ProjectMember.class, responseContainer = "Single JSON object")
     public Response findById(@ApiParam(value = "Id to fetch information", required = true) @PathParam("id") String id) {
@@ -91,6 +96,7 @@ public class ProjectMemberRs {
 
     @Path("/project/{projectId}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get list of all members of a project", notes = "Fetch all members of a particular project", response = ProjectMember.class, responseContainer = "List")
     public Response findByProject(
@@ -101,6 +107,7 @@ public class ProjectMemberRs {
 
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Delete a project member")
     public Response remove(

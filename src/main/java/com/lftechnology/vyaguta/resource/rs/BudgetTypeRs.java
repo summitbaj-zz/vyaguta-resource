@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class BudgetTypeRs {
 
     @Path("/")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         Map<String, Object> budgetTypes = budgetTypeService
@@ -43,6 +45,7 @@ public class BudgetTypeRs {
 
     @Path("/")
     @POST
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid BudgetType budgetType) {
@@ -52,6 +55,7 @@ public class BudgetTypeRs {
 
     @Path("/{id}")
     @PUT
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid BudgetType budgetTypeNew) {
@@ -61,6 +65,7 @@ public class BudgetTypeRs {
 
     @Path("/{id}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
         BudgetType budgetType = budgetTypeService.findById(id);
@@ -73,6 +78,7 @@ public class BudgetTypeRs {
 
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
         budgetTypeService.removeById(id);
