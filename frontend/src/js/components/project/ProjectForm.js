@@ -181,14 +181,14 @@
                 'title': this.refs.title.value
             };
 
-            if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
+            formValidator.validateForm(requiredField);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
-            } else {
-                this.showErrors(formValidator.errors)
             }
         },
 
@@ -212,11 +212,10 @@
             var requiredField = {
                 'reason': $('#reason').val()
             };
-            if (formValidator.isRequired(requiredField)) {
+            formValidator.validateForm(requiredField);
+            if (formValidator.isValid()) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
-            } else {
-                this.showErrors(formValidator.errors);
             }
         },
 
@@ -232,10 +231,12 @@
             }
         },
 
-        validateTitle: function () {
+        validateTitle: function (event) {
             var title = this.refs.title.value;
             if (title && title != this.state.projectName) {
                 ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+            } else if (!title) {
+                formValidator.validateField(event);
             } else {
                 this.refs.title.parentElement.className = 'form-group';
                 this.refs.availableMessage.innerHTML = '';
@@ -250,7 +251,6 @@
         },
 
         render: function () {
-
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
@@ -265,7 +265,8 @@
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
                                                value={this.props.selectedItem.projects.title}
                                                className="form-control" id="title" onChange={this.fieldChange}
-                                               onBlur={this.validateTitle}/>
+                                               onBlur={this.validateTitle}
+                                               onFocus={formValidator.removeError.bind(null, 'title')}/>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
                                     <div className="form-group">

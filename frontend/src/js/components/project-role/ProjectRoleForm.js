@@ -34,26 +34,14 @@
             var projectRole = {
                 title: this.refs.title.value
             }
+            formValidator.validateForm(projectRole);
 
-            if (formValidator.isRequired(projectRole)) {
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
-            } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -77,6 +65,8 @@
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectRoles.title}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Role"
                                        className="form-control"
                                        id="title"/>

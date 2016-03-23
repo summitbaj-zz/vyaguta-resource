@@ -42,27 +42,14 @@
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isRequired(budgetType)) {
+            formValidator.validateForm(budgetType);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
-            } else {
-                this.showErrors(formValidator.errors)
-            }
-        },
-
-
-        //call when validation fails
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -90,6 +77,8 @@
                                        className="form-control"
                                        value={this.props.selectedItem.budgetTypes.title}
                                        id="title"
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        onChange={this.handleChange}/>
                                 <span className="help-block"></span>
                             </div>

@@ -2,6 +2,7 @@
     'use strict';
 
     var React = require('react');
+    var formValidator = require('../../util/FormValidator');
 
     var ReasonModal = React.createClass({
         render: function () {
@@ -18,12 +19,14 @@
                                 <div className="form-group">
                                         <textarea name="reason" ref="reason" id="reason"
                                                   placeholder="Please enter the reason for editing this project."
-                                                  className="form-control" rows="4"></textarea>
+                                                  className="form-control" rows="4" onBlur={formValidator.validateField}
+                                                  onFocus={formValidator.removeError.bind(null, 'reason')}></textarea>
                                     <span className="help-block" ref="availableMessage"></span>
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button className="btn btn-sm btn-success" onClick={this.props.updateProject} id="save-btn"><i
+                                <button className="btn btn-sm btn-success" onClick={this.props.updateProject}
+                                        id="save-btn"><i
                                     className="fa fa-angle-right"></i>Update
                                 </button>
                             </div>

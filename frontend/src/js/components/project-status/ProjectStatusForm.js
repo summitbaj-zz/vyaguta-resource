@@ -39,8 +39,8 @@
                 $('#colorselector').val(color).selected = true;
                 $('#selected-color').css('background-color', color);
 
-                $('#colorselector').next().find("ul li .selected").removeClass("selected");
-                $('#colorselector').next().find("ul li a[data-color='" + color + "']").addClass("selected");
+                $('#colorselector').next().find('ul li .selected').removeClass('selected');
+                $('#colorselector').next().find("ul li a[data-color='" + color + "']").addClass('selected');
             }
         },
 
@@ -58,25 +58,18 @@
                 color: this.refs.color.value
             }
 
-            if (formValidator.isRequired(projectStatus)) {
+            var requiredField = {
+                title: this.refs.title.value
+            }
+
+            formValidator.validateForm(requiredField);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
                 }
-            } else {
-                this.showErrors(formValidator.errors)
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -99,6 +92,8 @@
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectStatus.title}
                                        onChange={this.handleChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Status"
                                        className="form-control"
                                        id="title"/>

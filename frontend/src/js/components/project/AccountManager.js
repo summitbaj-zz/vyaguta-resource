@@ -89,7 +89,6 @@
         },
 
         showValidity: function (className, message, accountManager) {
-            console.log(className);
             var parentElement = $('#account-manager').parent();
             parentElement.removeClass('has-error');
             parentElement.removeClass('has-success');
