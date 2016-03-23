@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
+import com.lftechnology.vyaguta.commons.pojo.Role;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.exception.AuthenticationException;
 
@@ -40,7 +41,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
                 @Override
                 public boolean isUserInRole(String role) {
-                    return true;
+                    return user.getRoles().contains(new Role(role));
                 }
 
                 @Override
@@ -74,8 +75,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         Response response = client.target("http://localhost:8080/vyaguta-auth/userinfo/").request()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
         if (response.getStatus() == 200) {
-            // return user;
-            return null;
+            return response.readEntity(User.class);
         } else if (response.getStatus() == 401) {
             throw new AuthenticationException();
         } else {
