@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
