@@ -67,6 +67,11 @@
             return name;
         },
 
+        fetchNamesForValidation: function () {
+            var input = this.refs.inputTag.value;
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+        },
+
         validateManager: function () {
             var input = this.refs.inputTag;
             if (input.value) {
@@ -74,18 +79,17 @@
                     if (input.value === this.getAppendedName(i)) {
                         var accountManager = {'id': this.state.suggestions[i].id};
                         this.showValidity('has-success', '', accountManager);
-                        this.setState({suggestions: []});
                         return;
                     }
                 }
                 this.showValidity('has-error', 'Account Manager does not exist.', null);
             } else {
-                this.showValidity('', '', {});
+                this.showValidity(null, null, {});
             }
-            this.setState({suggestions: []});
         },
 
         showValidity: function (className, message, accountManager) {
+            console.log(className);
             var parentElement = $('#account-manager').parent();
             parentElement.removeClass('has-error');
             parentElement.removeClass('has-success');
@@ -107,7 +111,8 @@
                         <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
                                className="form-control manager-input" autoComplete="off" onKeyUp={this.input}
                                onFocus={this.removeMessage}
-                               onBlur={this.validateManager} id="account-manager" onChange={this.props.fieldChange}/>
+                               onBlur={this.fetchNamesForValidation} id="account-manager"
+                               onChange={this.props.fieldChange}/>
                         <AutoComplete inputField="manager-input" suggestions={suggestionTitle}/>
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
