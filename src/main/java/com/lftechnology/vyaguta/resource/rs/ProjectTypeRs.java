@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class ProjectTypeRs {
 
     @Path("/")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         Map<String, Object> projectTypes = projectTypeService
@@ -45,6 +47,7 @@ public class ProjectTypeRs {
 
     @Path("/")
     @POST
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid ProjectType projectType) {
@@ -54,6 +57,7 @@ public class ProjectTypeRs {
 
     @Path("/{id}")
     @PUT
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid ProjectType projectTypeNew) {
@@ -63,6 +67,7 @@ public class ProjectTypeRs {
 
     @Path("/{id}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
         ProjectType projectType = projectTypeService.findById(id);
@@ -75,6 +80,7 @@ public class ProjectTypeRs {
 
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
         projectTypeService.removeById(id);

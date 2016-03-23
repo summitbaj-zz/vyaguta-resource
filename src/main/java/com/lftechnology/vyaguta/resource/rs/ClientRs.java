@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class ClientRs {
 
     @Path("/")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         log.debug("client list parameters: {}", uriInfo.getQueryParameters());
@@ -50,6 +52,7 @@ public class ClientRs {
 
     @Path("/")
     @POST
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid Client client) {
@@ -59,6 +62,7 @@ public class ClientRs {
 
     @Path("/{id}")
     @PUT
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid Client clientNew) {
@@ -69,6 +73,7 @@ public class ClientRs {
 
     @Path("/{id}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
         log.debug("client Id: {}", id);
@@ -82,6 +87,7 @@ public class ClientRs {
 
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
         log.debug("client Id: {}", id);
