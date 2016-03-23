@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -26,7 +27,8 @@ public class Client extends BaseEntity implements Serializable {
     private String name;
 
     @NotBlank(message = "Email cannot be blank.")
-    @Email(message = "Invalid email address.")
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
+            message = "Invalid email address.")
     private String email;
 
     @Column(name = "phone_no")
