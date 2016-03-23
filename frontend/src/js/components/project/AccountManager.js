@@ -69,7 +69,7 @@
 
         fetchNamesForValidation: function () {
             var input = this.refs.inputTag.value;
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
         },
 
         validateManager: function () {
