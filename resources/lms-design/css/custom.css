@@ -1,17 +1,18 @@
 /**---Custom---**/
+
 h1, h2, h3 {
 	margin: 0;
 	font-weight: 300;
 }
-ul{
+ul {
 	list-style: none;
-	}
+}
 body, html, #page-container, #sidebar, .sidebar-scroll, .sidebar-content, .sidebar-nav, #main-container {
 	height: 100%;
 }
-.breadcrumb{
+.breadcrumb {
 	border-radius: 0;
-	}
+}
 /**---Sidebar---**/
 .sidebar-brand {
 	text-indent: -10000px;
@@ -103,58 +104,86 @@ body, html, #page-container, #sidebar, .sidebar-scroll, .sidebar-content, .sideb
 	border-radius: 0 0 3px 3px;
 	font-weight: 500;
 }
-.team-list{
+.team-list {
 	padding: 0;
-	}
-.team-list li{
+}
+.team-list li {
 	display: block;
 	margin: 5px;
 	float: left;
-	}
+}
 .team-list li .profile-img {
 	position: relative;
+	float: left;
 }
-.team-list li .profile-img .on-hover{
-	display:block;
+.team-list li .profile-img .on-hover {
+	display: block;
 	width: 60px;
-	height:60px;
-	position:absolute;
-	top:0;
-	left:0;
+	height: 60px;
+	position: absolute;
+	top: 0;
+	left: 0;
 	background: #4CAF50;
 	transform: scale(0);
 	-webkit-transform: scale(0);
 	transition: all 0.4s ease-in-out 0s;
-	-webkit- transition: all 0.4s ease-in-out 0s;
+ -webkit- transition: all 0.4s ease-in-out 0s;
 }
-
-.team-list li .profile-img:hover .on-hover{
+.team-list li .profile-img:hover .on-hover {
 	transform: scale(1);
 	-webkit-transform: scale(1);
 }
+.team-list li .profile-img i {
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 18px;
+	line-height: 60px;
+	position: absolute;
+	left: 24px;
+	z-index: 1;
+}
+/**---Widget Custom---**/
+.widget-custom {
+	background: #fafafa;
+	border: 1px solid #f6f6f6;
+}
+.widget-custom .cards h3 {
+	font-weight: 400;
+	font-size: 15px;
+}
+.widget-custom .cards .cards-text {
+	font-size: 12px;
+}
+/**---BLOCKS---**/
 
-.team-list li .profile-img i{
-   color: rgba(0, 0, 0, 0.5);
-    font-size: 18px;
-    line-height: 60px;
-    position: absolute;
-    left: 24px;
-    z-index: 1;
-	}
 /**---Forms---**/
-.stroked .form-control{
+.stroked .form-control {
 	box-shadow: none;
 	border-radius: 0;
 	border: 0;
 	border-width: 0 0 1px 0;
 	border-color: #dbe1e8;
 	border-style: solid;
-	}
-	
-.input-group-addon .fa-percent{
+}
+.input-group-addon .fa-percent {
 	font-size: 12px;
-    font-weight: normal;
-	}
+	font-weight: normal;
+}
+.common-view {
+	padding: 10px 5px;
+/*	border-bottom: 1px dotted #eaedf1;*/
+}
+.common-view .view-label {
+	display: inline-block;
+	font-weight: 300;
+	margin-bottom: 8px;
+	font-size: 16px;
+}
+.common-view p {
+	font-weight: 300;
+}
+.block-options .btn-sm {
+	line-height: 1.3;
+}
 /**---Footer ---**/
 footer a, footer a:hover {
 	color: #4caf50;
@@ -194,68 +223,61 @@ footer a, footer a:hover {
 	padding: 10px 0;
 	font-size: 18px;
 	font-weight: 300;
-	position:relative;
+	position: relative;
 }
-
-.block-title-border .block-options{
-	position: absolute;
-	top: 0;
-	right:0;
-	margin: 0;
-	}
-
 /**---TEXT LABEL---**/
-.text-wrap{
+.text-wrap {
 	border: 1px solid #dbe1e8;
-    border-radius: 2px;
-    color: #394263;
-    font-size: 13px;
-    height: 36px;
-    margin: 1px 0;
-    max-width: 100%;
-    padding: 6px 8px;
+	border-radius: 2px;
+	color: #394263;
+	font-size: 13px;
+	height: 36px;
+	margin: 1px 0;
+	max-width: 100%;
+	padding: 6px 8px;
 	background: #fff;
-	}
-	
+}
 /**---Input WIdth---**/
-.input-xsm{
+.input-xsm {
 	max-width: 25%;
-	}
-.input-sm{
+}
+.input-sm {
 	max-width: 50%;
-	}
-.input-lg{
+}
+.input-lg {
 	max-width: 75%;
-	}
-.profile-img{
+}
+.profile-img {
 	background: #ccc;
 	border-radius: 50%;
 	width: 60px;
-	height:60px;
+	height: 60px;
 	display: inline-block;
-	}
-.circular-block a{
+}
+.circular-block a {
 	color: #676767;
 	display: block;
 	line-height: 55px;
-	}
-.circular-block a:hover{
+}
+.circular-block a:hover {
 	text-decoration: none;
-	}
+}
 /**---MODAL---**/
-.modal-content{
+.modal-content {
 	border-radius: 3px;
 	overflow: hidden;
-	}
-.modal-header{
+}
+.modal-header {
 	background-color: #f9fafc;
-    border-bottom: 1px solid #eaedf1;
-	}
-	
-.modal-title{
+	border-bottom: 1px solid #eaedf1;
+}
+.modal-title {
 	font-size: 14px;
-	}
+}
 /**---Color Label---**/
+.label-block {
+	margin: 0 5px;
+}
 .label-red {
 	background: #f44336;
 }
@@ -296,7 +318,8 @@ footer a, footer a:hover {
 	background: #607D8B;
 }
 .label-lg-grey {
-	background: #f9fafc;
+	background: #eff0f1;
+	color: #a7a7a7;
 }
 .label .counts {
 	padding: 0 8px;
@@ -306,33 +329,65 @@ footer a, footer a:hover {
 /**---Animation---**/
 /**---FADEIN---*/
 .animation-fadeIn {
-    animation-name: fadeIn;
-    -webkit-animation-name: fadeIn;
-    animation-duration: 1.0s;
-    -webkit-animation-duration: 1.0s;
-    animation-timing-function: ease-in-out;
-    -webkit-animation-timing-function: ease-in-out;
-    visibility: visible;
+	animation-name: fadeIn;
+	-webkit-animation-name: fadeIn;
+	animation-duration: 1.0s;
+	-webkit-animation-duration: 1.0s;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	visibility: visible;
+}
+ @keyframes fadeIn {
+ 0% {
+ transform: scale(0);
+ opacity: 0.0;
+}
+ 100% {
+ transform: scale(1);
+ opacity: 1;
+}
+}
+ @-webkit-keyframes fadeIn {
+ 0% {
+ -webkit-transform: scale(0);
+ opacity: 0.0;
+}
+ 100% {
+ -webkit-transform: scale(1);
+ opacity: 1;
+}
 }
 
-@keyframes fadeIn {
-    0% {
-        transform: scale(0);
-        opacity: 0.0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+.timeline-list:after{
+	background-color: rgba(108, 192, 104, 0.3);
+	}
+.timeline-list .timeline-icon {
+	border: 1px solid  rgba(108, 192, 104, 1);
+	}
+.timeline-list .timeline-icon i{
+	color: rgba(108, 192, 104, 1);
+	}
+/**---Responsive---**/
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 320px) {
+.block-title-border .block-options {
+	margin: 0;
 }
-
-@-webkit-keyframes fadeIn {
-    0% {
-        -webkit-transform: scale(0);
-        opacity: 0.0;
-    }
-    100% {
-        -webkit-transform: scale(1);
-        opacity: 1;
-    }
+}
+@media only screen and (min-width : 480px) {
+.block-title-border .block-options {
+	margin: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+}
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+}
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+}
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 1200px) {
 }
