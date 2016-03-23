@@ -29,7 +29,7 @@
 
         componentWillReceiveProps: function (nextProps) {
             var input = document.getElementsByClassName(nextProps.inputField)[0];
-            if (nextProps.suggestions.length && input.value) {
+            if (nextProps.suggestions.length && input.value && $(input).is(':focus')) {
                 this.refs.suggestions.style.display = 'block';
             } else {
                 this.refs.suggestions.style.display = 'none';
@@ -48,7 +48,6 @@
             } else if (key === 13) {
                 event.preventDefault();
                 this.enterKeyPressed();
-
             }
         },
 
