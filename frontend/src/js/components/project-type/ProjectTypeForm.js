@@ -34,26 +34,13 @@
             var projectType = {
                 title: this.refs.title.value
             }
-
-            if (formValidator.isRequired(projectType)) {
+            formValidator.validateForm(projectType);
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
                 }
-            } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -77,6 +64,8 @@
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectTypes.title}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                        onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Type"
                                        className="form-control"
                                        id="title"/>

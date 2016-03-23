@@ -45,24 +45,14 @@
                 email: this.refs.email.value
             };
 
-            if (formValidator.isRequired(requiredFields)) {
+            formValidator.validateForm(requiredFields);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
-            } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
             }
         },
 
@@ -86,6 +76,8 @@
                                 <input type="text" ref="name" name="name"
                                        value={this.props.selectedItem.clients.name}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'name')}
                                        placeholder="Client Name"
                                        className="form-control"
                                        id="name"/>
@@ -99,6 +91,8 @@
                                             <input type="text" ref="email" name="email"
                                                    value={this.props.selectedItem.clients.email}
                                                    onChange={this.fieldChange}
+                                                   onBlur={formValidator.validateField}
+                                                   onFocus={formValidator.removeError.bind(null, 'email')}
                                                    placeholder="Email Address"
                                                    className="form-control"
                                                    id="email"/>

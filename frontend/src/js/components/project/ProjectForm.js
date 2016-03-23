@@ -314,6 +314,8 @@
                                     </div>
                                     <div className="form-group clearfix">
                                         <div className="row multiple-element">
+                                            <AccountManager setManager={this.setManager}
+                                                            fieldChange={this.fieldChange}/>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label htmlFor="example-select" className="control-label">Client</label>
                                                 <select className="form-control" ref="client" id="client">
@@ -340,8 +342,6 @@
                                                                 placeholderText="To" popoverTargetOffset='40px 0px'/>
                                                 </div>
                                             </div>
-                                            <AccountManager setManager={this.setManager}
-                                                            fieldChange={this.fieldChange}/>
                                         </div>
                                     </div>
                                     <div className="form-group clearfix">
