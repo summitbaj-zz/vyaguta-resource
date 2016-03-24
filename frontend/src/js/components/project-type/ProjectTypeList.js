@@ -15,9 +15,15 @@
     //components
     var ProjectType = require('./ProjectTypeRow');
     var EntityHeader = require('../common/header/EntityHeader');
-    var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+
+    //actions
+    var apiActions = require('../../actions/apiActions');
+    var crudActions = require('../../actions/crudActions');
+
+    //libraries
+    var _ = require('lodash');
 
 
     var ProjectTypeList = React.createClass({
@@ -38,6 +44,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
+            this.props.actions.apiClearState();
         },
 
         refreshList: function (index) {
@@ -108,7 +115,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

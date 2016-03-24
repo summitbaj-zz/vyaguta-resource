@@ -15,9 +15,13 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
+    var apiActions = require('../../actions/apiActions');
     var crudActions = require('../../actions/crudActions');
 
     //libraries
+    var _ = require('lodash');
     var Toastr = require('toastr');
 
     var ClientForm = React.createClass({
@@ -29,6 +33,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.CLIENTS);
+            this.props.actions.apiClearState();
         },
 
         //called when form is submitted
@@ -177,7 +182,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

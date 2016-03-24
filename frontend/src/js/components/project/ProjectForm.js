@@ -33,9 +33,12 @@
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/FormValidator');
-    var crudActions = require('../../actions/crudActions');
-    var teamMemberActions = require('../../actions/teamMemberActions');
     var ApiUtil = require('../../util/ApiUtil');
+
+    //actions
+    var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+    var teamMemberActions = require('../../actions/teamMemberActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -72,6 +75,7 @@
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.apiClearState();
         },
 
         setManager: function (value) {
@@ -444,7 +448,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions), dispatch)
+            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions), dispatch)
         }
     };
 

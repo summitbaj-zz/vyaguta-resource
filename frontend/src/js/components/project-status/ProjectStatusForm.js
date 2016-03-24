@@ -15,11 +15,16 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
+    var apiActions = require('../../actions/apiActions');
     var crudActions = require('../../actions/crudActions');
-    var setColorFlag = 0;
 
     //libraries
+    var _ = require('lodash');
     var Toastr = require('toastr');
+
+    var setColorFlag = 0;
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
@@ -49,8 +54,9 @@
         },
 
         componentWillUnmount: function () {
-            flag = 0;
+            setColorFlag = 0;
             this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
+            this.props.actions.apiClearState();
         },
 
         //called when form is submitted
@@ -156,7 +162,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

@@ -15,9 +15,15 @@
     //components
     var Project = require('./ProjectRow');
     var EntityHeader = require('../common/header/EntityHeader');
-    var crudActions = require('../../actions/crudActions');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+
+    //actions
+    var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+
+    //libraries
+    var _ = require('lodash');
 
     //util
     var ApiUtil = require('../../util/ApiUtil');
@@ -38,6 +44,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
+            this.props.actions.apiClearState();
         },
 
         deleteProject: function (key) {
@@ -111,7 +118,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

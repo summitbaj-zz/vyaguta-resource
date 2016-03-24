@@ -21,7 +21,13 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
     var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+
+    //libraries
+    var _ = require('lodash');
 
     //libraries
     var Toastr = require('toastr');
@@ -36,6 +42,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
+            this.props.actions.apiClearState();
         },
 
         //call when form is submitted
@@ -55,7 +62,7 @@
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -114,7 +121,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 
