@@ -3,9 +3,14 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +25,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.BudgetTypeDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 
@@ -183,13 +190,39 @@ public class BudgetTypeServiceImplTest {
     @Test
     public void testFindBudgetType() {
         // arrange
-        Mockito.when(this.budgetTypeDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<BudgetType>());
+        Mockito.when(this.budgetTypeDao.find(Matchers.anyInt(), Matchers.anyInt()))
+                .thenReturn(new ArrayList<BudgetType>());
 
         // act
         this.budgetTypeService.find(Matchers.anyInt(), Matchers.anyInt());
 
         // assert
         Mockito.verify(budgetTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
+    }
+
+    @Test
+    public void testFindByFilter() {
+
+        // arrange
+        Map<String, List<String>> multiValue = new HashMap<>();
+        multiValue.put("title", Arrays.asList("Resource Based"));
+        MultivaluedMap<String, String> queryParameters = new MultivaluedMapImpl<>(multiValue);
+        List<BudgetType> budgetTypes = new ArrayList<>();
+        budgetTypes.add(this.buildBudgetType());
+
+        Mockito.when(budgetTypeDao.findByFilter(queryParameters)).thenReturn(budgetTypes);
+        Mockito.when(budgetTypeDao.count(queryParameters)).thenReturn(10L);
+
+        // act
+        Map<String, Object> result = this.budgetTypeService.findByFilter(queryParameters);
+
+        // assert
+        assertTrue(result.containsKey("count"));
+        assertTrue(result.containsValue(10L));
+        assertTrue(result.containsKey("data"));
+        assertTrue(result.containsValue(budgetTypes));
+        Mockito.verify(budgetTypeDao).count(queryParameters);
+        Mockito.verify(budgetTypeDao).findByFilter(queryParameters);
     }
 
     private BudgetType buildBudgetType() {
