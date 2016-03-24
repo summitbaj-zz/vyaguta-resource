@@ -68,7 +68,7 @@
             return name;
         },
 
-        fetchNamesForValdiation: function () {
+        fetchNamesForValidation: function () {
             var input = this.refs.inputTag.value;
             ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
         },
@@ -111,7 +111,7 @@
                         <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
                                className="form-control manager-input" autoComplete="off" onKeyUp={this.input}
                                onFocus={this.removeMessage}
-                               onBlur={this.fetchNamesForValdiation} id="account-manager"
+                               onBlur={this.fetchNamesForValidation} id="account-manager"
                                onChange={this.props.fieldChange}/>
                         <AutoComplete inputField="manager-input" suggestions={suggestionTitle}/>
                         <span className="help-block" ref="availableMessage"></span>

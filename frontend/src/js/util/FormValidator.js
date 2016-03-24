@@ -9,8 +9,6 @@
     var messageConstant = require('../constants/messageConstant');
 
     function FormValidator() {
-        this.errors = {};
-
         var that = this;
         var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -45,7 +43,7 @@
             if (parentElement.hasClass('has-error')) {
                 parentElement.removeClass('has-error');
             }
-           parentElement.children('span').html('');
+            parentElement.children('span').html('');
         }
 
         this.isValid = function () {
@@ -55,18 +53,18 @@
                 return false;
         }
 
-        this.validateField = function(event){
+        this.validateField = function (event) {
             var isValid = that.isRequired(event.target.value);
             var elementId = $(event.target).attr('id');
-            if(!isValid){
+            if (!isValid) {
                 that.showErrors(elementId, messageConstant.REQUIRED_MESSAGE);
-            }else if(elementId == 'email'){
+            } else if (elementId == 'email') {
                 that.validateEmail(event.target.value);
             }
         }
 
-        that.validateEmail = function(value){
-            if(!emailRegex.test(value)){
+        that.validateEmail = function (value) {
+            if (!emailRegex.test(value)) {
                 that.showErrors('email', messageConstant.INVALID_EMAIL_MESSAGE);
             }
         }
