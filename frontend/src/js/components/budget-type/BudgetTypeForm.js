@@ -55,7 +55,7 @@
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTTR_INVALID_HEADER);
             }
         },
 

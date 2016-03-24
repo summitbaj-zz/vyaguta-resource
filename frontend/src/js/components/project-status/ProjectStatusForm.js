@@ -16,7 +16,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
-    var setColor = 0;
+    var setColorFlag = 0;
 
     //libraries
     var Toastr = require('toastr');
@@ -35,8 +35,8 @@
         },
 
         componentDidUpdate: function (props) {
-            if (this.props.params.id && setColor === 0) {
-                setColor = 1;
+            if (this.props.params.id && setColorFlag === 0) {
+                setColorFlag = 1;
                 var color = this.props.selectedItem.projectStatus.color;
 
                 $('.btn-colorselector').css('background-color', color);
@@ -75,7 +75,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 

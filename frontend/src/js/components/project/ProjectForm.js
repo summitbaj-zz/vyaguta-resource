@@ -189,7 +189,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -218,7 +218,7 @@
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 

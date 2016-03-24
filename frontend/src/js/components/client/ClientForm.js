@@ -58,7 +58,7 @@
                     this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
