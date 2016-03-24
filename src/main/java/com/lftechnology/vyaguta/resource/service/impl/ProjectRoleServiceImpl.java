@@ -17,7 +17,7 @@ import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
  */
 public class ProjectRoleServiceImpl implements ProjectRoleService {
 
-    private static final Map<String, Object> map = new HashMap<String, Object>();
+    private static final Map<String, Object> map = new HashMap<>();
 
     @Inject
     ProjectRoleDao projectRoleDao;
