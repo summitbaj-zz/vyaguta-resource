@@ -10,12 +10,16 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
-    var flag = 0;
+    var setColorFlag = 0;
+
+    //libraries
+    var Toastr = require('toastr');
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
@@ -31,16 +35,16 @@
         },
 
         componentDidUpdate: function (props) {
-            if (this.props.params.id && flag === 0) {
-                flag = 1;
+            if (this.props.params.id && setColorFlag === 0) {
+                setColorFlag = 1;
                 var color = this.props.selectedItem.projectStatus.color;
 
                 $('.btn-colorselector').css('background-color', color);
                 $('#colorselector').val(color).selected = true;
                 $('#selected-color').css('background-color', color);
 
-                $('#colorselector').next().find("ul li .selected").removeClass("selected");
-                $('#colorselector').next().find("ul li a[data-color='" + color + "']").addClass("selected");
+                $('#colorselector').next().find('ul li .selected').removeClass('selected');
+                $('#colorselector').next().find("ul li a[data-color='" + color + "']").addClass('selected');
             }
         },
 
@@ -58,25 +62,20 @@
                 color: this.refs.color.value
             }
 
-            if (formValidator.isRequired(projectStatus)) {
+            var requiredField = {
+                title: this.refs.title.value
+            }
+
+            formValidator.validateForm(requiredField);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
                 }
             } else {
-                this.showErrors(formValidator.errors)
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -95,10 +94,12 @@
                         <div className="block-title-border">Project Status Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>
                             <div className="form-group">
-                                <label>Project Status</label>
+                                <label>Project Status *</label>
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectStatus.title}
                                        onChange={this.handleChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Status"
                                        className="form-control"
                                        id="title"/>

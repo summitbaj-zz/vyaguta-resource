@@ -10,11 +10,15 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
+
+    //libraries
+    var Toastr = require('toastr');
 
     var ProjectTypeForm = React.createClass({
         componentDidMount: function () {
@@ -34,26 +38,16 @@
             var projectType = {
                 title: this.refs.title.value
             }
+            formValidator.validateForm(projectType);
 
-            if (formValidator.isRequired(projectType)) {
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
                 }
             } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -73,10 +67,12 @@
                         <div className="block-title-border">Project Type Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>
                             <div className="form-group">
-                                <label>Project Type</label>
+                                <label>Project Type *</label>
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectTypes.title}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Type"
                                        className="form-control"
                                        id="title"/>

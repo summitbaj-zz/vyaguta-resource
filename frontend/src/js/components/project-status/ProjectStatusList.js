@@ -10,6 +10,7 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var ProjectStatus = require('./ProjectStatusRow');
@@ -49,7 +50,7 @@
         deleteProjectStatus: function (id) {
             var that = this;
 
-            alertBox.confirm('Are you sure you want to delete this item?', function () {
+            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
                 that.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id);
             });
         },

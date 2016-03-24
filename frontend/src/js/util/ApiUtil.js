@@ -10,8 +10,8 @@
     //constants
     var urlConstants = require('../constants/urlConstant');
 
-    var url =  window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    var coreUrl =  window.location.origin + urlConstants.CORE_SERVER + '/';
+    var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+    var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
     //libraries
     var Promise = require('promise');
@@ -27,7 +27,7 @@
 
         fetchByQuery: function (resourceName, data, callback, searchMode) {
             request
-                .get(url + resourceName.toLowerCase() + '?title=' + data+'&searchMode='+ searchMode)
+                .get(url + resourceName.toLowerCase() + '?title=' + data + '&searchMode=' + searchMode)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
@@ -39,7 +39,7 @@
 
         fetchByQuery2: function (resourceName, data) {
             return request
-                .get(url + resourceName.toLowerCase() + '?start=' + data._start+'&offset=' + data._limit)
+                .get(url + resourceName.toLowerCase() + '?start=' + data._start + '&offset=' + data._limit)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },

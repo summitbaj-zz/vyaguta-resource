@@ -16,11 +16,15 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
+
+    //libraries
+    var Toastr = require('toastr');
 
     var BudgetTypeForm = React.createClass({
         componentDidMount: function () {
@@ -42,27 +46,16 @@
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isRequired(budgetType)) {
+            formValidator.validateForm(budgetType);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
             } else {
-                this.showErrors(formValidator.errors)
-            }
-        },
-
-
-        //call when validation fails
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTTR_INVALID_HEADER);
             }
         },
 
@@ -85,11 +78,13 @@
                         </div>
                         <form className="form-bordered" method="post" onSubmit={this.saveBudgetType}>
                             <div className="form-group">
-                                <label>Budget Type</label>
+                                <label>Budget Type *</label>
                                 <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
                                        className="form-control"
                                        value={this.props.selectedItem.budgetTypes.title}
                                        id="title"
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        onChange={this.handleChange}/>
                                 <span className="help-block"></span>
                             </div>
