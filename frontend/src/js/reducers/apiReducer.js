@@ -15,7 +15,7 @@
 
     var initialState = {
         isRequesting: false,
-        numberOfRequest: 0
+        numberOfRequests: 0
     };
 
     var apiReducer = function (state, action) {
@@ -25,16 +25,16 @@
             case actionTypeConstant.API_REQUEST:
                 var newState = _.cloneDeep(state);
                 newState.isRequesting = true;
-                newState.numberOfRequest++;
+                newState.numberOfRequests++;
 
                 return newState;
 
             case actionTypeConstant.API_RESPONSE:
                 var newState = _.cloneDeep(state);
-                newState.numberOfRequest--;
+                newState.numberOfRequests--;
 
                 //set it false only if all responses are received
-                if (newState.numberOfRequest <= 0) {
+                if (newState.numberOfRequests <= 0) {
                     newState.isRequesting = false;
                 }
 
@@ -42,7 +42,7 @@
 
             case actionTypeConstant.API_CLEAR_STATE:
                 var newState = _.cloneDeep(state);
-                newState.numberOfRequest = 0;
+                newState.numberOfRequests = 0;
                 newState.isRequesting = false;
 
                 return newState;
