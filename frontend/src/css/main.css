@@ -1284,8 +1284,8 @@ li.dropdown-header {
 
 /*ajax-loader*/
 .ajax-loader {
-    margin: 0 20px;
-    visibility: hidden;
+    margin: 0 20px 20px 10px;
+    /*visibility: hidden;*/
 }
 
 /*date-picker*/

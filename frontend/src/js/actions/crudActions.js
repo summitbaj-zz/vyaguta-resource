@@ -81,6 +81,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }));
             }
@@ -95,6 +96,7 @@
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
                 }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }));
             }
@@ -109,6 +111,7 @@
                     Toastr.success('Successfully updated item');
                     browserHistory.goBack();
                 }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }))
             }
@@ -119,9 +122,12 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchById(entity, id).then(function (response) {
+                    setTimeout(function() {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.selectItem(entity, response.body));
+                    }, 20000);
                 }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }))
             }
@@ -136,6 +142,7 @@
                     Toastr.success('Successfully deleted item');
                     dispatch(actions.delete(entity, id));
                 }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }))
             }
@@ -158,6 +165,7 @@
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));
                 }, function(error){
+                    dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }));
             }

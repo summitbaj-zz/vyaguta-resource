@@ -20,7 +20,13 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
     var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+
+    //libraries
+    var _ = require('lodash');
 
     var BudgetTypeForm = React.createClass({
         componentDidMount: function () {
@@ -32,6 +38,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
+            this.props.actions.apiClearState();
         },
 
         //call when form is submitted
@@ -119,7 +126,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

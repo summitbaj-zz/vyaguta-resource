@@ -14,7 +14,8 @@
     var _ = require('lodash');
 
     var initialState = {
-        isRequesting: false
+        isRequesting: false,
+        numberOfRequest: 0
     };
 
     var apiReducer = function (state, action) {
@@ -24,16 +25,26 @@
             case actionTypeConstant.API_REQUEST:
                 var newState = _.cloneDeep(state);
                 newState.isRequesting = true;
+                newState.numberOfRequest++;
+
                 return newState;
 
             case actionTypeConstant.API_RESPONSE:
                 var newState = _.cloneDeep(state);
-                newState.isRequesting = false;
+                newState.numberOfRequest--;
+
+                //set it false only if all responses are received
+                if (newState.numberOfRequest <= 0) {
+                    newState.isRequesting = false;
+                }
+
                 return newState;
 
-            case actionTypeConstant.API_ERROR:
+            case actionTypeConstant.API_CLEAR_STATE:
                 var newState = _.cloneDeep(state);
+                newState.numberOfRequest = 0;
                 newState.isRequesting = false;
+
                 return newState;
 
             default:

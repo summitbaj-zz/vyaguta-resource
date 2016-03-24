@@ -18,8 +18,14 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var crudActions = require('../../actions/crudActions');
     var SwimLaneChart = require('../../util/charts/SwimLaneChart');
+
+    //actions
+    var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+
+    //libraries
+    var _ = require('lodash');
 
     var ProjectDetails = React.createClass({
         componentDidMount: function () {
@@ -28,6 +34,7 @@
 
         componentWillUnmount: function() {
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.apiClearState();
         },
 
         render: function () {
@@ -97,7 +104,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 
