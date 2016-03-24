@@ -17,8 +17,6 @@ import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
  */
 public class ProjectRoleServiceImpl implements ProjectRoleService {
 
-    private static final Map<String, Object> map = new HashMap<>();
-
     @Inject
     ProjectRoleDao projectRoleDao;
 
@@ -79,6 +77,7 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
 
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        Map<String, Object> map = new HashMap<>();
         map.put("count", projectRoleDao.count(queryParameters));
         map.put("data", projectRoleDao.findByFilter(queryParameters));
         return map;
