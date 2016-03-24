@@ -67,9 +67,29 @@ CREATE TABLE tags (
 );
 ALTER TABLE tags OWNER TO frieddust;
 ALTER TABLE ONLY tags
-    ADD CONSTRAINT tags PRIMARY KEY (id);
+    ADD CONSTRAINT tags_pk PRIMARY KEY (id);
 ALTER TABLE ONLY tags
     ADD CONSTRAINT tags_title_key UNIQUE (title);
+
+    
+CREATE TABLE clients (
+	id character varying(32) NOT NULL,
+	name character varying(255) NOT NULL,
+	email CITEXT NOT NULL,
+	phone_no character varying(255),
+	skype character varying(255),
+	address character varying(255),
+	description text,
+	created_by character varying(32) NOT NULL,
+	updated_by character varying(32),
+	created_at timestamp with time zone NOT NULL,
+	updated_at timestamp with time zone
+);
+ALTER TABLE clients OWNER TO frieddust;
+ALTER TABLE ONLY clients
+	ADD CONSTRAINT clients_pk PRIMARY KEY (id);
+ALTER TABLE ONLY clients
+    ADD CONSTRAINT clients_email_key UNIQUE (email);
   
     
 CREATE TABLE projects (
@@ -137,23 +157,6 @@ ALTER TABLE ONLY project_members
 ALTER TABLE ONLY project_members 
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 	
-	
-CREATE TABLE clients (
-		id character varying(32) NOT NULL,
-		name character varying(255) NOT NULL,
-		email character varying(255) NOT NULL,
-		phone_no character varying(255),
-		skype character varying(255),
-		address character varying(255),
-		description text,
-		created_by character varying(32) NOT NULL,
-		updated_by character varying(32),
-		created_at timestamp with time zone NOT NULL,
-		updated_at timestamp with time zone
-);
-ALTER TABLE clients OWNER TO frieddust;
-ALTER TABLE ONLY clients
-	ADD CONSTRAINT clients_pk PRIMARY KEY (id);
 	
 CREATE TABLE project_histories (
     id character varying(32) NOT NULL,
