@@ -17,6 +17,8 @@ import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
  */
 public class ProjectRoleServiceImpl implements ProjectRoleService {
 
+    private static final Map<String, Object> map = new HashMap<String, Object>();
+
     @Inject
     ProjectRoleDao projectRoleDao;
 
@@ -75,14 +77,10 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
         return projectRoleDao.find(start, offset);
     }
 
-    @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return new HashMap<String, Object>() {
-            {
-                put("count", projectRoleDao.count(queryParameters));
-                put("data", projectRoleDao.findByFilter(queryParameters));
-            }
-        };
+        map.put("count", projectRoleDao.count(queryParameters));
+        map.put("data", projectRoleDao.findByFilter(queryParameters));
+        return map;
     }
 }

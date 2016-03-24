@@ -52,8 +52,7 @@ public class ProjectRoleRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid ProjectRole projectRole) {
-        projectRole = projectRoleService.save(projectRole);
-        return Response.status(Response.Status.OK).entity(projectRole).build();
+        return Response.status(Response.Status.OK).entity(projectRoleService.save(projectRole)).build();
     }
 
     @Path("/{id}")
