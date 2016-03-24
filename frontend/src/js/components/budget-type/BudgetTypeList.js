@@ -16,6 +16,7 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var BudgetTypeRow = require('./BudgetTypeRow');
@@ -54,7 +55,7 @@
         deleteBudgetType: function (id) {
             var that = this;
 
-            alertBox.confirm('Are you sure you want to delete this item?', function () {
+            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
                 that.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id)
             });
         },

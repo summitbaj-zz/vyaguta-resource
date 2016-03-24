@@ -16,11 +16,13 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
     var _ = require('lodash');
+    var Toastr = require('toastr');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -187,7 +189,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
             } else {
-                Toastr.error('Please fill the required fields with correct data.', 'Error!');
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
             }
         },
 
@@ -216,7 +218,7 @@
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
             } else {
-                Toastr.error('Please fill the required fields with correct data.', 'Error!');
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
             }
         },
 
@@ -226,7 +228,7 @@
                 this.refs.availableMessage.innerHTML = '';
             } else {
                 this.refs.title.parentElement.className = 'form-group has-error';
-                this.refs.availableMessage.innerHTML = 'Project name already exists.';
+                this.refs.availableMessage.innerHTML = messageConstant.PROJECT_NAME_EXISTS_MESSAGE;
             }
         },
 

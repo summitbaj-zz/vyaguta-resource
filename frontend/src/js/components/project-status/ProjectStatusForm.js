@@ -10,12 +10,16 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
-    var flag = 0;
+    var setColor = 0;
+
+    //libraries
+    var Toastr = require('toastr');
 
     var ProjectStatusForm = React.createClass({
         componentDidMount: function () {
@@ -31,8 +35,8 @@
         },
 
         componentDidUpdate: function (props) {
-            if (this.props.params.id && flag === 0) {
-                flag = 1;
+            if (this.props.params.id && setColor === 0) {
+                setColor = 1;
                 var color = this.props.selectedItem.projectStatus.color;
 
                 $('.btn-colorselector').css('background-color', color);
@@ -71,7 +75,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
                 }
             } else {
-                Toastr.error('Please fill the required fields with correct data.', 'Error!');
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
             }
         },
 

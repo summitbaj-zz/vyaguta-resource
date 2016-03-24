@@ -10,11 +10,15 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
+
+    //libraries
+    var Toastr = require('toastr');
 
     var ProjectRoleForm = React.createClass({
         componentDidMount: function () {
@@ -43,7 +47,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
             } else {
-                Toastr.error('Please fill the required fields with correct data.', 'Error!');
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
             }
         },
 

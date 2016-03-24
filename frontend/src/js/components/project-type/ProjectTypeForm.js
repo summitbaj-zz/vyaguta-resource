@@ -10,6 +10,7 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -46,7 +47,7 @@
                     this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
                 }
             } else {
-                Toastr.error('Please fill the required fields with correct data.', 'Error!');
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOATSTR_INVALID_HEADER);
             }
         },
 
