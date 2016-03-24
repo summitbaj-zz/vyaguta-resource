@@ -136,6 +136,22 @@ ALTER TABLE ONLY projects_tags
 	ADD CONSTRAINT tag_id_fk FOREIGN KEY(tag_id) REFERENCES tags ON DELETE CASCADE;
 
 
+CREATE TABLE project_roles (
+    id character varying(32) NOT NULL,
+    title CITEXT NOT NULL,
+    description text,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE project_roles OWNER TO frieddust;
+ALTER TABLE ONLY project_roles
+    ADD CONSTRAINT project_roles_pk PRIMARY KEY (id);
+ALTER TABLE ONLY project_roles
+    ADD CONSTRAINT project_roles_title_key UNIQUE (title);
+    
+	
 CREATE TABLE project_members (
     id character varying(32) NOT NULL,
     project_id character varying(32) NOT NULL,
@@ -156,6 +172,8 @@ ALTER TABLE ONLY project_members
     ADD CONSTRAINT project_members_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY project_members 
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+ALTER TABLE ONLY project_members 
+	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 	
 	
 CREATE TABLE project_histories (
