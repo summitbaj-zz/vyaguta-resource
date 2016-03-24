@@ -60,7 +60,6 @@
             }
         },
 
-
         //call when validation fails
         showErrors: function (errors) {
             for (var elementId in errors) {

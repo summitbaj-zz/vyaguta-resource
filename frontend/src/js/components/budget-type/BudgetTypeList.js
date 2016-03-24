@@ -30,7 +30,6 @@
     //libraries
     var _ = require('lodash');
 
-
     var BudgetTypeList = React.createClass({
         getDefaultProps: function () {
             return {
