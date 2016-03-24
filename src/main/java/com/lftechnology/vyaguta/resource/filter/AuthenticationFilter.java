@@ -5,11 +5,19 @@ import java.security.Principal;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
+
+import com.lftechnology.vyaguta.commons.pojo.Role;
+import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.resource.exception.AuthenticationException;
 
 /**
  * 
@@ -22,18 +30,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
             final String token = authorizationHeader.substring("Bearer".length()).trim();
-            validateToken(token);
+            final User user = validateToken(token);
 
             requestContext.setSecurityContext(new SecurityContext() {
 
                 @Override
                 public boolean isUserInRole(String role) {
-                    System.out.println("is user in role : " + role);
-                    return true;
+                    return user.getRoles().contains(new Role(role));
                 }
 
                 @Override
@@ -57,11 +65,22 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                     return null;
                 }
             });
+        } else {
+            throw new AuthenticationException();
         }
     }
 
-    private void validateToken(String token) {
-        System.out.println("validating token: " + token);
+    private User validateToken(String token) {
+        Client client = ClientBuilder.newClient();
+        Response response = client.target("http://localhost:8080/vyaguta-auth/userinfo/").request()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
+        if (response.getStatus() == 200) {
+            return response.readEntity(User.class);
+        } else if (response.getStatus() == 401) {
+            throw new AuthenticationException();
+        } else {
+            throw new WebApplicationException(response);
+        }
     }
 
 }

@@ -6,6 +6,7 @@
 
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var ApiUtil = require('../../util/ApiUtil');
@@ -69,7 +70,7 @@
 
         fetchNamesForValidation: function () {
             var input = this.refs.inputTag.value;
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
         },
 
         validateManager: function () {
@@ -78,11 +79,11 @@
                 for (var i = 0; i < this.state.suggestions.length; i++) {
                     if (input.value === this.getAppendedName(i)) {
                         var accountManager = {'id': this.state.suggestions[i].id};
-                        this.showValidity('has-success', '', accountManager);
+                        this.showValidity('has-success', null, accountManager);
                         return;
                     }
                 }
-                this.showValidity('has-error', 'Account Manager does not exist.', null);
+                this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
             } else {
                 this.showValidity(null, null, {});
             }

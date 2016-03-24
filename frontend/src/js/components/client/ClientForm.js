@@ -10,6 +10,7 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -21,6 +22,7 @@
 
     //libraries
     var _ = require('lodash');
+    var Toastr = require('toastr');
 
     var ClientForm = React.createClass({
         componentDidMount: function () {
@@ -52,24 +54,16 @@
                 email: this.refs.email.value
             };
 
-            if (formValidator.isRequired(requiredFields)) {
+            formValidator.validateForm(requiredFields);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
             } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -89,10 +83,12 @@
                         <div className="block-title-border">Client Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveClient}>
                             <div className="form-group">
-                                <label>Name</label>
+                                <label>Name *</label>
                                 <input type="text" ref="name" name="name"
                                        value={this.props.selectedItem.clients.name}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'name')}
                                        placeholder="Client Name"
                                        className="form-control"
                                        id="name"/>
@@ -101,11 +97,13 @@
                             <div className="form-group clearfix">
                                 <div className="row multiple-element">
                                     <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Email Address</label>
+                                        <label className="control-label">Email Address *</label>
                                         <div>
                                             <input type="text" ref="email" name="email"
                                                    value={this.props.selectedItem.clients.email}
                                                    onChange={this.fieldChange}
+                                                   onBlur={formValidator.validateField}
+                                                   onFocus={formValidator.removeError.bind(null, 'email')}
                                                    placeholder="Email Address"
                                                    className="form-control"
                                                    id="email"/>

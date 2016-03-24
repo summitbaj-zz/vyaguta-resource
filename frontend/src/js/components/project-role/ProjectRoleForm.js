@@ -10,6 +10,7 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -21,6 +22,7 @@
 
     //libraries
     var _ = require('lodash');
+    var Toastr = require('toastr');
 
     var ProjectRoleForm = React.createClass({
         componentDidMount: function () {
@@ -41,26 +43,16 @@
             var projectRole = {
                 title: this.refs.title.value
             }
+            formValidator.validateForm(projectRole);
 
-            if (formValidator.isRequired(projectRole)) {
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
             } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -80,10 +72,12 @@
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
                             <div className="form-group">
-                                <label>Project Role</label>
+                                <label>Project Role *</label>
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectRoles.title}
                                        onChange={this.fieldChange}
+                                       onBlur={formValidator.validateField}
+                                       onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Role"
                                        className="form-control"
                                        id="title"/>

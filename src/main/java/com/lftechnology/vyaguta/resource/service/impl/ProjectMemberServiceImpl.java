@@ -42,6 +42,8 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         projectMember.setActive(obj.isActive());
         projectMember.setBilled(obj.isBilled());
         projectMember.setAllocation(obj.getAllocation());
+        projectMember.setJoinDate(obj.getJoinDate());
+        projectMember.setEndDate(obj.getEndDate());
         this.update(projectMember);
         return projectMember;
     }

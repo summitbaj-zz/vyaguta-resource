@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -41,6 +42,7 @@ public class TagRs {
 
     @Path("/")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get list of Tags", notes = "Can provide page number and offset value")
     public Response list(@Context UriInfo uriInfo) {
@@ -51,6 +53,7 @@ public class TagRs {
 
     @Path("/")
     @POST
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Create a new tag")
@@ -62,6 +65,7 @@ public class TagRs {
 
     @Path("/{id}")
     @PUT
+    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Update exisitng tag")
@@ -73,6 +77,7 @@ public class TagRs {
 
     @Path("/{id}")
     @GET
+    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get a tag")
     public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") String id) {
@@ -86,6 +91,7 @@ public class TagRs {
 
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Delete a tag")
     public Response remove(
