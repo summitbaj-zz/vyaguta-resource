@@ -16,6 +16,9 @@
     var formValidator = require('../../util/FormValidator');
     var crudActions = require('../../actions/crudActions');
 
+    //libraries
+    var Toastr = require('toastr');
+
     var ProjectTypeForm = React.createClass({
         componentDidMount: function () {
             if (this.props.params.id) {
@@ -42,6 +45,8 @@
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
                 }
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -61,7 +66,7 @@
                         <div className="block-title-border">Project Type Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>
                             <div className="form-group">
-                                <label>Project Type</label>
+                                <label>Project Type *</label>
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectTypes.title}
                                        onChange={this.fieldChange}

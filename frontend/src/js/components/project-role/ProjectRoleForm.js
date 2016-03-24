@@ -42,6 +42,8 @@
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
                 }
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -61,7 +63,7 @@
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
                             <div className="form-group">
-                                <label>Project Role</label>
+                                <label>Project Role *</label>
                                 <input type="text" ref="title" name="title"
                                        value={this.props.selectedItem.projectRoles.title}
                                        onChange={this.fieldChange}

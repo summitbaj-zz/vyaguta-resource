@@ -53,6 +53,8 @@
                 } else {
                     this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -72,7 +74,7 @@
                         <div className="block-title-border">Client Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveClient}>
                             <div className="form-group">
-                                <label>Name</label>
+                                <label>Name *</label>
                                 <input type="text" ref="name" name="name"
                                        value={this.props.selectedItem.clients.name}
                                        onChange={this.fieldChange}
@@ -86,7 +88,7 @@
                             <div className="form-group clearfix">
                                 <div className="row multiple-element">
                                     <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Email Address</label>
+                                        <label className="control-label">Email Address *</label>
                                         <div>
                                             <input type="text" ref="email" name="email"
                                                    value={this.props.selectedItem.clients.email}

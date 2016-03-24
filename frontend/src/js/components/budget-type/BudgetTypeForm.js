@@ -50,6 +50,8 @@
                 } else {
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -72,7 +74,7 @@
                         </div>
                         <form className="form-bordered" method="post" onSubmit={this.saveBudgetType}>
                             <div className="form-group">
-                                <label>Budget Type</label>
+                                <label>Budget Type *</label>
                                 <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
                                        className="form-control"
                                        value={this.props.selectedItem.budgetTypes.title}

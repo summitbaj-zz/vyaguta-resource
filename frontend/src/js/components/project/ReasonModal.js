@@ -13,7 +13,7 @@
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <div className="modal-title">Reason</div>
+                                <div className="modal-title">Reason *</div>
                             </div>
                             <div className="modal-body">
                                 <div className="form-group">

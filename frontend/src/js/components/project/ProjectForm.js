@@ -35,8 +35,6 @@
     var teamMemberActions = require('../../actions/teamMemberActions');
     var ApiUtil = require('../../util/ApiUtil');
 
-    var isProjectNameValid = true;
-
     var ProjectForm = React.createClass({
         getInitialState: function () {
             return {
@@ -71,7 +69,6 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
-            isProjectNameValid = true;
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
         },
 
@@ -189,6 +186,8 @@
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -216,6 +215,8 @@
             if (formValidator.isValid()) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+            } else {
+                Toastr.error('Please fill the required fields with correct data.', 'Error!');
             }
         },
 
@@ -223,11 +224,9 @@
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
                 this.refs.availableMessage.innerHTML = '';
-                isProjectNameValid = true;
             } else {
                 this.refs.title.parentElement.className = 'form-group has-error';
                 this.refs.availableMessage.innerHTML = 'Project name already exists.';
-                isProjectNameValid = false;
             }
         },
 
@@ -261,7 +260,7 @@
                                 <div className="block-title-border">Project Details</div>
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
                                     <div className="form-group">
-                                        <label>Project Name</label>
+                                        <label>Project Name *</label>
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
                                                value={this.props.selectedItem.projects.title}
                                                className="form-control" id="title" onChange={this.fieldChange}
