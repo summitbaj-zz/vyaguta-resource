@@ -10,7 +10,7 @@ public class AuthenticationException extends RuntimeException {
     private static final long serialVersionUID = -9001449743014989332L;
 
     public AuthenticationException() {
-        super("Un-authorized access");
+        super("Unauthorized access");
     }
 
     public AuthenticationException(String message) {
