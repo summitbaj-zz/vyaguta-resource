@@ -9,7 +9,7 @@
     var messageConstant = require('../../constants/messageConstant');
 
     //components
-    var ApiUtil = require('../../util/ApiUtil');
+    var ApiUtil = require('../../util/apiUtil');
     var AutoComplete = require('../common/autocomplete/Autocomplete');
 
 

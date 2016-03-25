@@ -6,7 +6,7 @@ jest.dontMock('../../src/js/actions/crudActions')
 var React = require('react');
 var TestUtils = require('react-addons-test-utils');
 var CrudActions = require('../../src/js/actions/crudActions');
-var ApiUtil = require('../../src/js/util/ApiUtil');
+var ApiUtil = require('../../src/js/util/apiUtil');
 var actionTypeConstant = require('../../src/js/constants/actionTypeConstant');
 var store = require('../../src/js/store/store');
 

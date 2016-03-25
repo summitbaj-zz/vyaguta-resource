@@ -32,8 +32,8 @@
     var TeamMember = require('./member/TeamMember');
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
-    var formValidator = require('../../util/FormValidator');
-    var ApiUtil = require('../../util/ApiUtil');
+    var formValidator = require('../../util/formValidator');
+    var ApiUtil = require('../../util/apiUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');

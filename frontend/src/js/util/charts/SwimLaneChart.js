@@ -12,7 +12,7 @@
 
     //components
     var d3Chart = require('./d3Chart');
-    var ApiUtil = require('../ApiUtil');
+    var ApiUtil = require('../apiUtil');
     var ReactDOM = require('react-dom');
 
     var SwimLaneChart = React.createClass({

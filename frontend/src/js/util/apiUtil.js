@@ -17,7 +17,7 @@
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
 
-    var ApiUtil = {
+    var apiUtil = {
         fetchById: function (resourceName, id) {
             return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
@@ -37,9 +37,14 @@
                 })
         },
 
-        fetchByQuery2: function (resourceName, data) {
+        fetchByQuery2: function (resourceName, data, sortBy) {
+            var sort = '';
+            if (sortBy) {
+                sort = 'sort=' + sortBy + '&';
+            }
+            console.log(url + resourceName.toLowerCase() + '?' + sort + 'start=' + data._start + '&offset=' + data._limit);
             return request
-                .get(url + resourceName.toLowerCase() + '?start=' + data._start + '&offset=' + data._limit)
+                .get(url + resourceName.toLowerCase() + '?' + sort + 'start=' + data._start + '&offset=' + data._limit)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },
@@ -87,6 +92,6 @@
         }
     };
 
-    module.exports = ApiUtil;
+    module.exports = apiUtil;
 
 })();

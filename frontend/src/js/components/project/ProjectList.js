@@ -26,7 +26,7 @@
     var _ = require('lodash');
 
     //util
-    var ApiUtil = require('../../util/ApiUtil');
+    var ApiUtil = require('../../util/apiUtil');
 
     var ProjectList = React.createClass({
         getDefaultProps: function () {

@@ -5,7 +5,7 @@
     var React = require('react');
 
     //components
-    var ApiUtil = require('../../util/ApiUtil');
+    var ApiUtil = require('../../util/apiUtil');
     var Tagging = require('../common/tag/Tagging');
     var resourceConstant = require('../../constants/resourceConstant');
 

@@ -5,7 +5,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var Form = require('../../../src/js/components/project-status/ProjectStatusForm');
-var ApiUtil = require('../../../src/js/util/ApiUtil');
+var ApiUtil = require('../../../src/js/util/apiUtil');
 
 
 var projectStatus = {

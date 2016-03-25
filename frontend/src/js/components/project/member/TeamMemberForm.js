@@ -20,7 +20,7 @@
     //components
     var TeamMemberAddButtons = require('./TeamMemberAddButtons');
     var TeamMemberEditButtons = require('./TeamMemberEditButtons');
-    var ApiUtil = require('../../../util/ApiUtil');
+    var ApiUtil = require('../../../util/apiUtil');
 
     var TeamMemberForm = React.createClass({
         getInitialState: function () {

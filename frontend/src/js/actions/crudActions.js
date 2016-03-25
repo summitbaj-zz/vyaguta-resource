@@ -19,7 +19,7 @@
     var Toastr = require('toastr');
 
     //API utility
-    var ApiUtil = require('../util/ApiUtil');
+    var ApiUtil = require('../util/apiUtil');
 
     //actions
     var apiActions = require('./apiActions');
@@ -155,10 +155,10 @@
             }
         },
 
-        fetchByQuery: function(entity, data){
+        fetchByQuery: function(entity, data, sortBy){
             return function (dispatch){
                 dispatch(apiActions.apiRequest(entity));
-                return (ApiUtil.fetchByQuery2(entity, data).then(function(response){
+                return (ApiUtil.fetchByQuery2(entity, data, sortBy).then(function(response){
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));

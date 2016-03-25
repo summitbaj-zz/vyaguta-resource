@@ -20,7 +20,7 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/FormValidator');
+    var formValidator = require('../../util/formValidator');
 
     //actions
     var crudActions = require('../../actions/crudActions');

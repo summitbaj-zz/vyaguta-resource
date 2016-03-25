@@ -71,6 +71,26 @@
             );
         },
 
+        sort: function (field, event) {
+            var sortType = $(event.target).attr('data-sort');
+            var pagination = {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            };
+
+            if (sortType == 'none' || sortType == 'desc') {
+                $(event.target).attr('data-sort', 'asc');
+                $(event.target).attr('class', 'fa fa-sort-asc cursor-pointer pull-right');
+
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, field);
+            } else if (sortType == 'asc') {
+                $(event.target).attr('data-sort', 'desc');
+                $(event.target).attr('class', 'fa fa-sort-desc cursor-pointer pull-right');
+
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, '-' + field);
+            }
+        },
+
         render: function () {
             return (
                 <div>
@@ -90,7 +110,9 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Status</th>
+                                    <th>Project Status<i className="fa fa-sort cursor-pointer pull-right"
+                                                         data-sort="none"
+                                                         onClick={this.sort.bind(null, 'title')}></i></th>
                                     <th>Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
