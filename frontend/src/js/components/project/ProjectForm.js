@@ -52,23 +52,22 @@
         },
 
         componentDidMount: function () {
+            if (this.props.params.id) {
+                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+            }
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
-            if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
-            }
+
         },
+
         componentWillReceiveProps: function (props) {
             if (this.props.params.id) {
-                this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
-                this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
-                this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
-                this.setSelectedItem('client', props.selectedItem.projects.client);
-                this.setState({technologyStack: props.selectedItem.projects.tags});
                 var title = (!this.state.projectName) ? props.selectedItem.projects.title : this.state.projectName;
+
                 this.setState({projectName: title});
+                this.setState({technologyStack: props.selectedItem.projects.tags});
             }
         },
 
@@ -80,14 +79,6 @@
 
         setManager: function (value) {
             this.setState({accountManager: value});
-        },
-
-        setSelectedItem: function (type, state) {
-            if (state) {
-                $('#' + type).val(state.id).selected = true;
-            } else {
-                $('#' + type).val(0).selected = true;
-            }
         },
 
         addTag: function (value) {
@@ -248,7 +239,7 @@
             }
         },
 
-        fieldChange: function (event) {
+        handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
@@ -269,7 +260,7 @@
                                         <label>Project Name *</label>
                                         <input type="text" placeholder="Project Name" name="title" ref="title"
                                                value={this.props.selectedItem.projects.title}
-                                               className="form-control" id="title" onChange={this.fieldChange}
+                                               className="form-control" id="title" onChange={this.handleChange}
                                                onBlur={this.validateTitle}
                                                onFocus={formValidator.removeError.bind(null, 'title')}/>
                                         <span className="help-block" ref="availableMessage"></span>
@@ -280,7 +271,7 @@
                                               value={this.props.selectedItem.projects.description}
                                               placeholder="Short description about the project."
                                               className="form-control" rows="4" id="description"
-                                              onChange={this.fieldChange}></textarea>
+                                              onChange={this.handleChange}></textarea>
                                         <span className="help-block"></span>
 
                                     </div>
@@ -288,7 +279,12 @@
                                         <div className="row multiple-element">
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className="control-label">Project Type</label>
-                                                <select className="form-control" ref="projectType" id="projectType">
+                                                <select className="form-control"
+                                                        name="projectType" ref="projectType"
+                                                        id="projectType"
+                                                        value={this.props.selectedItem.projects.projectType &&
+                                                               this.props.selectedItem.projects.projectType.id}
+                                                        onChange={this.handleChange}>
                                                     <option value="0">Please Select</option>
                                                     {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
                                                 </select>
@@ -297,7 +293,12 @@
                                             </div>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label className=" control-label">Budget Type</label>
-                                                <select className="form-control" ref="budgetType" id="budgetType">
+                                                <select className="form-control"
+                                                        ref="budgetType" name="budgetType"
+                                                        id="budgetType"
+                                                        value={this.props.selectedItem.projects.budgetType &&
+                                                               this.props.selectedItem.projects.budgetType.id}
+                                                        onChange={this.handleChange}>
                                                     <option value="0">
                                                         Please Select
                                                     </option>
@@ -308,7 +309,12 @@
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label htmlFor="example-select" className="control-label">Project
                                                     Status</label>
-                                                <select className="form-control" ref="projectStatus" id="projectStatus">
+                                                <select className="form-control"
+                                                        ref="projectStatus" name="projectStatus"
+                                                        id="projectStatus"
+                                                        value={this.props.selectedItem.projects.projectStatus &&
+                                                               this.props.selectedItem.projects.projectStatus.id}
+                                                        onChange={this.handleChange}>
                                                     <option value="0">Please
                                                         Select
                                                     </option>
@@ -321,10 +327,15 @@
                                     <div className="form-group clearfix">
                                         <div className="row multiple-element">
                                             <AccountManager setManager={this.setManager}
-                                                            fieldChange={this.fieldChange}/>
+                                                            handleChange={this.handleChange}/>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label htmlFor="example-select" className="control-label">Client</label>
-                                                <select className="form-control" ref="client" id="client">
+                                                <select className="form-control"
+                                                        ref="client" name="client"
+                                                        id="client"
+                                                        value={this.props.selectedItem.projects.client &&
+                                                               this.props.selectedItem.projects.client.id}
+                                                        onChange={this.handleChange}>
                                                     <option value="0">Please
                                                         Select
                                                     </option>

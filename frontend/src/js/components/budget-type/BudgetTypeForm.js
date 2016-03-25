@@ -115,7 +115,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+
         }
     };
 
