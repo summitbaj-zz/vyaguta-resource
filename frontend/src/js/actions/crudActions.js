@@ -78,10 +78,8 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchAll(entity).then(function (response) {
-                    setTimeout(function() {
                         dispatch(apiActions.apiResponse(entity));
                         dispatch(actions.list(entity, response.body));
-                    }, 2000)
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
@@ -94,11 +92,9 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.create(entity, data).then(function (response) {
-                    setTimeout(function() {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success('Successfully added item');
                     browserHistory.goBack();
-                    }, 3000)
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
@@ -126,10 +122,8 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchById(entity, id).then(function (response) {
-                    setTimeout(function() {
                         dispatch(apiActions.apiResponse(entity));
                         dispatch(actions.selectItem(entity, response.body));
-                    }, 2000);
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
