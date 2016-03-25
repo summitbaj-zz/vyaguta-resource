@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -72,21 +73,15 @@
         },
 
         sort: function (field, event) {
-            var sortType = $(event.target).attr('data-sort');
+            var sortByAscending = sortUI.changeSortDisplay(event);
             var pagination = {
                 _start: this.props.startIndex,
                 _limit: this.props.offset
             };
 
-            if (sortType == 'none' || sortType == 'desc') {
-                $(event.target).attr('data-sort', 'asc');
-                $(event.target).attr('class', 'fa fa-sort-asc cursor-pointer pull-right');
-
+            if (sortByAscending) {
                 this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, field);
-            } else if (sortType == 'asc') {
-                $(event.target).attr('data-sort', 'desc');
-                $(event.target).attr('class', 'fa fa-sort-desc cursor-pointer pull-right');
-
+            } else {
                 this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, '-' + field);
             }
         },
