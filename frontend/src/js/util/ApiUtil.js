@@ -84,6 +84,21 @@
                 .del(url + resourceName.toLowerCase() + '/' + dataId)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
+        },
+
+        refreshSession: function (callback) {
+            request
+                .post(url + urlConstants.AUTH_SERVER)
+                .send({'refresh_token' : localStorage.getItem('refresh_token')})
+                .set('Accept', 'application/json')
+                .then(function (response) {
+                    localStorage.access_token = response.access_token;
+                    localStorage.refresh_token = response.refresh_token;
+                    callback();
+                }, function (error) {
+                    window.location.href = window.location.origin;
+                });
+
         }
     };
 

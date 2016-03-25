@@ -96,7 +96,7 @@
 
                 return (ApiUtil.create(entity, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.success(messageConstant.SUCCESSFUlLY_ADDED);
+                    Toastr.success(messageConstant.SUCCESSFULLY_ADDED);
                     browserHistory.goBack();
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
