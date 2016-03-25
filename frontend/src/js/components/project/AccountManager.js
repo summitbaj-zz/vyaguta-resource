@@ -113,7 +113,7 @@
                                onFocus={this.removeMessage}
                                onBlur={this.fetchNamesForValidation} id="account-manager"
                                onChange={this.props.fieldChange}
-                               disabled={this.props.disabled}/>
+                        />
                         <AutoComplete inputField="manager-input" suggestions={suggestionTitle}/>
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
