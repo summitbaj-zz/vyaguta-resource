@@ -6,10 +6,15 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -38,6 +43,9 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
         super(Project.class);
     }
 
+    @Inject
+    private Logger logs;
+
     @Override
     protected Predicate[] extractPredicates(MultivaluedMap<String, String> queryParameters,
             CriteriaBuilder criteriaBuilder, Root<Project> root) {
@@ -65,6 +73,7 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
                         startDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
+                logs.warn(e.getMessage());
                 throw new ParameterFormatException("Start date format is invalid, should be in yyyy-MM-dd format");
             }
         }
@@ -76,6 +85,7 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
                 Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get(ProjectDaoImpl.END_DATE), endDate);
                 predicates.add(predicate);
             } catch (DateTimeParseException e) {
+                logs.warn(e.getMessage());
                 throw new ParameterFormatException("End date format is invalid, should be in yyyy-MM-dd format");
             }
         }
@@ -111,6 +121,37 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
         }
 
         return predicates.toArray(new Predicate[] {});
+    }
+
+    @Override
+    protected List<Order> getSortOrder(List<String> sorts, CriteriaBuilder criteriaBuilder, Root<Project> root) {
+        List<Order> orders = new ArrayList<>();
+        for (String sort : sorts) {
+            String sortField = "-".equals(sort.substring(0, 1)) ? sort.replaceFirst("-", "") : sort;
+            if (sortField.equals(ProjectDaoImpl.BUDGET_TYPE)) {
+                Join<Project, BudgetType> bt = root.join(ProjectDaoImpl.BUDGET_TYPE, JoinType.LEFT);
+                orders.add("-".equals(sort.substring(0, 1)) ? criteriaBuilder.desc(bt.get(CommonConstant.TITLE))
+                        : criteriaBuilder.asc(bt.get(CommonConstant.TITLE)));
+            }
+
+            if (sortField.equals(ProjectDaoImpl.PROJECT_STATUS)) {
+                Join<Project, ProjectStatus> ps = root.join(ProjectDaoImpl.PROJECT_STATUS, JoinType.LEFT);
+                orders.add("-".equals(sort.substring(0, 1)) ? criteriaBuilder.desc(ps.get(CommonConstant.TITLE))
+                        : criteriaBuilder.asc(ps.get(CommonConstant.TITLE)));
+            }
+
+            if (sortField.equals(ProjectDaoImpl.PROJECT_TYPE)) {
+                Join<Project, ProjectType> pt = root.join(ProjectDaoImpl.PROJECT_TYPE, JoinType.LEFT);
+                orders.add("-".equals(sort.substring(0, 1)) ? criteriaBuilder.desc(pt.get(CommonConstant.TITLE))
+                        : criteriaBuilder.asc(pt.get(CommonConstant.TITLE)));
+            }
+
+            if (sortField.equals(CommonConstant.TITLE)) {
+                orders.add("-".equals(sort.substring(0, 1)) ? criteriaBuilder.desc(root.get(sort.replaceFirst("-", "")))
+                        : criteriaBuilder.asc(root.get(sort)));
+            }
+        }
+        return orders;
     }
 
 }

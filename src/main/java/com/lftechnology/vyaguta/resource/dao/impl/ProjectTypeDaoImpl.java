@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -44,5 +45,18 @@ public class ProjectTypeDaoImpl extends BaseDao<ProjectType, String>implements P
             predicates.add(predicate);
         }
         return predicates.toArray(new Predicate[] {});
+    }
+
+    @Override
+    protected List<Order> getSortOrder(List<String> sorts, CriteriaBuilder criteriaBuilder, Root<ProjectType> root) {
+        List<Order> orders = new ArrayList<>();
+        for (String sort : sorts) {
+            String sortField = "-".equals(sort.substring(0, 1)) ? sort.replaceFirst("-", "") : sort;
+            if (sortField.equals(CommonConstant.TITLE)) {
+                orders.add("-".equals(sort.substring(0, 1)) ? criteriaBuilder.desc(root.get(sort.replaceFirst("-", "")))
+                        : criteriaBuilder.asc(root.get(sort)));
+            }
+        }
+        return orders;
     }
 }
