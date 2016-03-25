@@ -71,39 +71,47 @@
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
-                            <div className="form-group">
-                                <label>Project Role *</label>
-                                <input type="text" ref="title" name="title"
-                                       value={this.props.selectedItem.projectRoles.title}
-                                       onChange={this.fieldChange}
-                                       onBlur={formValidator.validateField}
-                                       onFocus={formValidator.removeError.bind(null, 'title')}
-                                       placeholder="Project Role"
-                                       className="form-control"
-                                       id="title"/>
-                                <span className="help-block"></span>
-                            </div>
-                            <div className="form-group form-actions clearfix">
-                                <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
-                                    </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
-                                    </button>
+                            <fieldset disabled={this.props.apiState.isRequesting}>
+                                <div className="form-group">
+                                    <label>Project Role *</label>
+                                    <input type="text" ref="title" name="title"
+                                           value={this.props.selectedItem.projectRoles.title}
+                                           onChange={this.fieldChange}
+                                           onBlur={formValidator.validateField}
+                                           onFocus={formValidator.removeError.bind(null, 'title')}
+                                           placeholder="Project Role"
+                                           className="form-control"
+                                           id="title"
+                                    />
+                                    <span className="help-block"></span>
                                 </div>
-                            </div>
+                                <div className="form-group form-actions clearfix">
+                                    <div className="pull-right">
+                                        <button className="btn btn-sm btn-success"
+                                                type="submit"
+                                                id="save-btn">
+                                            <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        </button>
+                                        <button className="btn btn-sm btn-danger"
+                                                type="button"
+                                                onClick={browserHistory.goBack}>
+                                            <i className="fa fa-remove"></i>Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
-            );
+            )
+                ;
         }
     });
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 

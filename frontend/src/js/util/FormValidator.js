@@ -1,9 +1,3 @@
-/**
- * Created by
- * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 2/21/16.
- */
-
 ;(function () {
     'use strict';
     var messageConstant = require('../constants/messageConstant');
@@ -63,7 +57,7 @@
             }
         }
 
-        that.validateEmail = function (value) {
+        this.validateEmail = function (value) {
             if (!emailRegex.test(value)) {
                 that.showErrors('email', messageConstant.INVALID_EMAIL_MESSAGE);
             }
