@@ -17,7 +17,7 @@
                             <div className="header-section clearfix">
                                 <h1>{this.props.header}</h1>
                                 <span className="ajax-loader">
-                                    {this.props.isRequesting &&
+                                    {this.props.apiState.isRequesting &&
                                         <img src="img/ajax-loader.gif"/>
                                     }
                                 </span>
@@ -32,7 +32,7 @@
 
     var mapStateToProps = function (state) {
         return {
-            isRequesting: state.apiReducer.isRequesting
+            apiState: state.apiReducer
         }
     };
 

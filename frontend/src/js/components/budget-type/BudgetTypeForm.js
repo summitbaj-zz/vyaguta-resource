@@ -84,28 +84,34 @@
                             className="block-title-border">Budget Type Details
                         </div>
                         <form className="form-bordered" method="post" onSubmit={this.saveBudgetType}>
-                            <div className="form-group">
-                                <label>Budget Type *</label>
-                                <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
-                                       className="form-control"
-                                       value={this.props.selectedItem.budgetTypes.title}
-                                       id="title"
-                                       onBlur={formValidator.validateField}
-                                       onFocus={formValidator.removeError.bind(null, 'title')}
-                                       onChange={this.handleChange}/>
-                                <span className="help-block"></span>
-                            </div>
-                            <div className="form-group form-actions clearfix">
-                                <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
-                                    </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
-                                    </button>
+                            <fieldset disabled={this.props.apiState.isRequesting}>
+                                <div className="form-group">
+                                    <label>Budget Type *</label>
+                                    <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
+                                           className="form-control"
+                                           value={this.props.selectedItem.budgetTypes.title}
+                                           id="title"
+                                           onBlur={formValidator.validateField}
+                                           onFocus={formValidator.removeError.bind(null, 'title')}
+                                           onChange={this.handleChange}
+                                    />
+                                    <span className="help-block"></span>
                                 </div>
-                            </div>
+                                <div className="form-group form-actions clearfix">
+                                    <div className="pull-right">
+                                        <button className="btn btn-sm btn-success"
+                                                type="submit"
+                                                id="save-btn">
+                                            <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        </button>
+                                        <button className="btn btn-sm btn-danger"
+                                                type="button"
+                                                onClick={browserHistory.goBack}>
+                                            <i className="fa fa-remove"></i>Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
@@ -115,7 +121,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 

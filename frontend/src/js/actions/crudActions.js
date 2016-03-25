@@ -25,6 +25,9 @@
     var apiActions = require('./apiActions');
     var teamMemberActions = require('./teamMemberActions');
 
+    //constants
+    var messageConstant = require('../constants/messageConstant');
+
     /**
      * Actions that are dispatched from crudActions
      */
@@ -93,7 +96,7 @@
 
                 return (ApiUtil.create(entity, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.success('Successfully added item');
+                    Toastr.success(messageConstant.SUCCESSFUlLY_ADDED);
                     browserHistory.goBack();
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
@@ -108,7 +111,7 @@
 
                 return (ApiUtil.edit(entity, data, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.success('Successfully updated item');
+                    Toastr.success(messageConstant.SUCCESSFULLY_UPDATED);
                     browserHistory.goBack();
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
@@ -122,8 +125,8 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchById(entity, id).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.selectItem(entity, response.body));
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
@@ -137,7 +140,7 @@
 
                 return (ApiUtil.delete(entity, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.success('Successfully deleted item');
+                    Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
                     dispatch(actions.delete(entity, id));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));

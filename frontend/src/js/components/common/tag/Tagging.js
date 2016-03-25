@@ -69,7 +69,7 @@
             }
         },
 
-        focusOut: function(){
+        focusOut: function () {
             this.insertTag();
         },
 
@@ -85,7 +85,7 @@
         },
 
         render: function () {
-           var tagIds = Object.keys(this.props.tags);
+            var tagIds = Object.keys(this.props.tags);
             return (
                 <div
                     className="form-control tag-wrapper"
@@ -94,9 +94,13 @@
                         {tagIds.map(this.renderTag)}
 
                         <li className="newtag-input">
-                            <input type="text" ref="inputTag" onKeyDown={this.inputKey}
-                                                            onKeyUp={this.generateSuggestions} onBlur={this.focusOut}
-                                                            className="input-tag" id="title" autoComplete="off"/>
+                            <input type="text" ref="inputTag"
+                                   onKeyDown={this.inputKey}
+                                   onKeyUp={this.generateSuggestions}
+                                   onBlur={this.focusOut}
+                                   className="input-tag"
+                                   id="title"
+                                   autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}/>
                         </li>
                     </ul>
