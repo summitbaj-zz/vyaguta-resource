@@ -357,6 +357,7 @@
                                                                     className="form-control"
                                                                     placeholderText="From"
                                                                     popoverTargetOffset='40px 0px'
+                                                                    disabled={this.props.apiState.isRequesting}
                                                         />
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
@@ -366,6 +367,7 @@
                                                                     minDate={this.state.startDate}
                                                                     placeholderText="To"
                                                                     popoverTargetOffset='40px 0px'
+                                                                    disabled={this.props.apiState.isRequesting}
                                                         />
                                                     </div>
                                                 </div>
