@@ -91,7 +91,8 @@
                                        onFocus={formValidator.removeError.bind(null, 'name')}
                                        placeholder="Client Name"
                                        className="form-control"
-                                       id="name"/>
+                                       id="name"
+                                       disabled={this.props.apiState.isRequesting}/>
                                 <span className="help-block"></span>
                             </div>
                             <div className="form-group clearfix">
@@ -106,7 +107,8 @@
                                                    onFocus={formValidator.removeError.bind(null, 'email')}
                                                    placeholder="Email Address"
                                                    className="form-control"
-                                                   id="email"/>
+                                                   id="email"
+                                                   disabled={this.props.apiState.isRequesting}/>
                                             <span className="help-block" ref="availableMessage"></span>
                                         </div>
                                     </div>
@@ -118,7 +120,8 @@
                                                    onChange={this.fieldChange}
                                                    placeholder="Phone Number"
                                                    className="form-control"
-                                                   id="phone"/>
+                                                   id="phone"
+                                                   disabled={this.props.apiState.isRequesting}/>
                                         </div>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
@@ -130,7 +133,8 @@
                                                    onChange={this.fieldChange}
                                                    placeholder="Skype Id"
                                                    className="form-control"
-                                                   id="skype"/>
+                                                   id="skype"
+                                                   disabled={this.props.apiState.isRequesting}/>
                                         </div>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
@@ -143,7 +147,8 @@
                                        onChange={this.fieldChange}
                                        placeholder="Address"
                                        className="form-control"
-                                       id="address"/>
+                                       id="address"
+                                       disabled={this.props.apiState.isRequesting}/>
                                 <span className="help-block" ref="availableMessage"></span>
                             </div>
                             <div className="form-group">
@@ -152,18 +157,24 @@
                                               value={this.props.selectedItem.clients.description}
                                               placeholder="Short description about the client."
                                               onChange={this.fieldChange}
-                                              className="form-control" rows="4" id="description"></textarea>
+                                              className="form-control" rows="4" id="description"
+                                              disabled={this.props.apiState.isRequesting}></textarea>
                                 <span className="help-block" ref="availableMessage"></span>
 
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                    <button className="btn btn-sm btn-success"
+                                            type="submit"
+                                            id="save-btn"
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
+                                    <button className="btn btn-sm btn-danger"
+                                            type="button"
+                                            onClick={browserHistory.goBack}
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-remove"></i>Cancel
                                     </button>
                                 </div>
                             </div>
@@ -176,7 +187,8 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 

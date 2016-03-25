@@ -92,17 +92,23 @@
                                        id="title"
                                        onBlur={formValidator.validateField}
                                        onFocus={formValidator.removeError.bind(null, 'title')}
-                                       onChange={this.handleChange}/>
+                                       onChange={this.handleChange}
+                                       disabled={this.props.apiState.isRequesting}/>
                                 <span className="help-block"></span>
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                    <button className="btn btn-sm btn-success"
+                                            type="submit"
+                                            id="save-btn"
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
+                                    <button className="btn btn-sm btn-danger"
+                                            type="button"
+                                            onClick={browserHistory.goBack}
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-remove"></i>Cancel
                                     </button>
                                 </div>
                             </div>
@@ -116,7 +122,7 @@
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem,
-
+            apiState: state.apiReducer
         }
     };
 

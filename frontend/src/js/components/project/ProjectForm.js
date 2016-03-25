@@ -262,7 +262,8 @@
                                                value={this.props.selectedItem.projects.title}
                                                className="form-control" id="title" onChange={this.handleChange}
                                                onBlur={this.validateTitle}
-                                               onFocus={formValidator.removeError.bind(null, 'title')}/>
+                                               onFocus={formValidator.removeError.bind(null, 'title')}
+                                               disabled={this.props.apiState.isRequesting}/>
                                         <span className="help-block" ref="availableMessage"></span>
                                     </div>
                                     <div className="form-group">
@@ -271,7 +272,8 @@
                                               value={this.props.selectedItem.projects.description}
                                               placeholder="Short description about the project."
                                               className="form-control" rows="4" id="description"
-                                              onChange={this.handleChange}></textarea>
+                                              onChange={this.handleChange}
+                                              disabled={this.props.apiState.isRequesting}></textarea>
                                         <span className="help-block"></span>
 
                                     </div>
@@ -284,7 +286,8 @@
                                                         id="projectType"
                                                         value={this.props.selectedItem.projects.projectType &&
                                                                this.props.selectedItem.projects.projectType.id}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.handleChange}
+                                                        disabled={this.props.apiState.isRequesting}>
                                                     <option value="0">Please Select</option>
                                                     {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
                                                 </select>
@@ -298,7 +301,8 @@
                                                         id="budgetType"
                                                         value={this.props.selectedItem.projects.budgetType &&
                                                                this.props.selectedItem.projects.budgetType.id}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.handleChange}
+                                                        disabled={this.props.apiState.isRequesting}>
                                                     <option value="0">
                                                         Please Select
                                                     </option>
@@ -314,7 +318,8 @@
                                                         id="projectStatus"
                                                         value={this.props.selectedItem.projects.projectStatus &&
                                                                this.props.selectedItem.projects.projectStatus.id}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.handleChange}
+                                                        disabled={this.props.apiState.isRequesting}>
                                                     <option value="0">Please
                                                         Select
                                                     </option>
@@ -327,7 +332,8 @@
                                     <div className="form-group clearfix">
                                         <div className="row multiple-element">
                                             <AccountManager setManager={this.setManager}
-                                                            handleChange={this.handleChange}/>
+                                                            handleChange={this.handleChange}
+                                                            disabled={this.props.apiState.isRequesting}/>
                                             <div className="col-md-6 col-lg-4 element">
                                                 <label htmlFor="example-select" className="control-label">Client</label>
                                                 <select className="form-control"
@@ -335,7 +341,8 @@
                                                         id="client"
                                                         value={this.props.selectedItem.projects.client &&
                                                                this.props.selectedItem.projects.client.id}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.handleChange}
+                                                        disabled={this.props.apiState.isRequesting}>
                                                     <option value="0">Please
                                                         Select
                                                     </option>
@@ -349,14 +356,19 @@
                                                      className="input-group input-daterange">
                                                     <DatePicker selected={this.state.startDate}
                                                                 onChange={this.handleChangeStartDate}
-                                                                className="form-control" placeholderText="From"
-                                                                popoverTargetOffset='40px 0px'/>
+                                                                className="form-control"
+                                                                placeholderText="From"
+                                                                popoverTargetOffset='40px 0px'
+                                                                disabled={this.props.apiState.isRequesting}/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
                                                     <DatePicker selected={this.state.endDate}
                                                                 onChange={this.handleChangeEndDate}
-                                                                className="form-control" minDate={this.state.startDate}
-                                                                placeholderText="To" popoverTargetOffset='40px 0px'/>
+                                                                className="form-control"
+                                                                minDate={this.state.startDate}
+                                                                placeholderText="To"
+                                                                popoverTargetOffset='40px 0px'
+                                                                disabled={this.props.apiState.isRequesting}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -364,7 +376,9 @@
                                     <div className="form-group clearfix">
                                         <label className="control-label">Technology Stack</label>
                                         <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         removeTag={this.removeTag} addTag={this.addTag}/>
+                                                         removeTag={this.removeTag}
+                                                         addTag={this.addTag}
+                                                         disabled={this.props.apiState.isRequesting}/>
                                         <span className="help-block"></span>
 
                                     </div>
@@ -374,28 +388,34 @@
                                             <div className="col-sm-12 col-lg-8 element">
                                                 <div className="input-group">
                                                     <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
+                                                           className="form-control text-center"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                     <span className="input-group-addon">No. of</span>
                                                     <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
+                                                           className="form-control text-center input-sm"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12 col-lg-8 element">
                                                 <div className="input-group">
                                                     <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
+                                                           className="form-control text-center"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                     <span className="input-group-addon">No. of</span>
                                                     <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
+                                                           className="form-control text-center input-sm"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12 col-lg-8 element">
                                                 <div className="input-group">
                                                     <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
+                                                           className="form-control text-center"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                     <span className="input-group-addon">No. of</span>
                                                     <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
+                                                           className="form-control text-center input-sm"
+                                                           disabled={this.props.apiState.isRequesting}/>
                                                 </div>
                                             </div>
                                             <div className="block-options clear"><a
@@ -424,12 +444,16 @@
                                     </div>
                                     <div className="form-group form-actions clearfix">
                                         <div className="pull-right">
-                                            <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
+                                            <button className="btn btn-sm btn-success"
+                                                    type="submit"
+                                                    id="save-btn"
+                                                    disabled={this.props.apiState.isRequesting}><i
                                                 className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                             </button>
                                             <button className="btn btn-sm btn-danger" type="button"
-                                                    onClick={browserHistory.goBack}><i
-                                                className="fa fa-remove"></i>Cancel
+                                                    onClick={browserHistory.goBack}
+                                                    disabled={this.props.apiState.isRequesting}>
+                                                <i className="fa fa-remove"></i>Cancel
                                             </button>
                                         </div>
                                     </div>
@@ -453,7 +477,8 @@
             clients: state.crudReducer.clients,
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 

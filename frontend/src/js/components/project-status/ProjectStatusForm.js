@@ -40,12 +40,11 @@
         },
 
         componentDidUpdate: function (props) {
-            if (this.props.params.id && setColorFlag === 0) {
-                setColorFlag = 1;
+            if (this.props.params.id && setColorFlag <= 2) {
+                setColorFlag++;
                 var color = this.props.selectedItem.projectStatus.color;
 
                 $('.btn-colorselector').css('background-color', color);
-                $('#colorselector').val(color).selected = true;
                 $('#selected-color').css('background-color', color);
 
                 $('#colorselector').next().find('ul li .selected').removeClass('selected');
@@ -108,14 +107,16 @@
                                        onFocus={formValidator.removeError.bind(null, 'title')}
                                        placeholder="Project Status"
                                        className="form-control"
-                                       id="title"/>
+                                       id="title"
+                                       disabled={this.props.apiState.isRequesting}/>
                                 <span className="help-block"></span>
                             </div>
                             <div className="form-group clearfix">
                                 <div className="row multiple-element">
                                     <div className="col-md-4 col-lg-2 element">
                                         <label>Color</label>
-                                        <select id="colorselector" ref="color" name="color">
+                                        <select id="colorselector" ref="color" name="color" value={this.props.selectedItem.projectStatus &&
+                                                                                                   this.props.selectedItem.projectStatus.color}>
                                             <option value="#F44336" data-color="#F44336">red</option>
                                             <option value="#4CAF50" data-color="#4CAF50">green</option>
                                             <option value="#3F51B5" data-color="#3F51B5">blue</option>
@@ -137,12 +138,17 @@
                             </div>
                             <div className="form-group form-actions clearfix">
                                 <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                    <button className="btn btn-sm btn-success"
+                                            type="submit"
+                                            id="save-btn"
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
                                     </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
+                                    <button className="btn btn-sm btn-danger"
+                                            type="button"
+                                            onClick={browserHistory.goBack}
+                                            disabled={this.props.apiState.isRequesting}>
+                                        <i className="fa fa-remove"></i>Cancel
                                     </button>
                                 </div>
                             </div>
@@ -157,6 +163,7 @@
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 
