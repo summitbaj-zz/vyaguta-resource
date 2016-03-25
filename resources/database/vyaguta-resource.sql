@@ -98,11 +98,8 @@ CREATE TABLE projects (
     description text,
     account_manager character varying(32),
     project_type_id character varying(32),
-    budget_type_id character varying(32),
     project_status_id character varying(32),
     client_id character varying(32),
-    start_date date,
-    end_date date,
     created_by character varying(32) NOT NULL,
     updated_by character varying(32),
     created_at timestamp with time zone NOT NULL,
@@ -117,8 +114,6 @@ ALTER TABLE ONLY projects
 	ADD CONSTRAINT project_type_fk FOREIGN KEY(project_type_id) REFERENCES project_types ON DELETE CASCADE;
 ALTER TABLE ONLY projects 
 	ADD CONSTRAINT project_status_fk FOREIGN KEY(project_status_id) REFERENCES project_status ON DELETE CASCADE;
-ALTER TABLE ONLY projects 
-	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
 ALTER TABLE ONLY projects 
 	ADD CONSTRAINT client_fk FOREIGN KEY(client_id) REFERENCES clients ON DELETE CASCADE;
  
@@ -151,15 +146,35 @@ ALTER TABLE ONLY project_roles
 ALTER TABLE ONLY project_roles
     ADD CONSTRAINT project_roles_title_key UNIQUE (title);
     
-	
-CREATE TABLE project_members (
+
+CREATE TABLE contracts (
     id character varying(32) NOT NULL,
     project_id character varying(32) NOT NULL,
+    budget_type_id character varying(32),
+    start_date date,
+    end_date date,
+    actual_end_date date,
+    created_by character varying(32) NOT NULL,
+    updated_by character varying(32),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone   
+);
+ALTER TABLE contracts OWNER TO frieddust;
+ALTER TABLE ONLY contracts
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY contracts 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+ALTER TABLE ONLY contracts 
+	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
+    
+	
+CREATE TABLE contract_members (
+    id character varying(32) NOT NULL,
+    contract_id character varying(32) NOT NULL,
     employee character varying(32) NOT NULL,
     role_id character varying(32),
     allocation decimal(5,2),
     billed boolean,
-    active boolean,
     join_date date,
     end_date date,
     created_by character varying(32) NOT NULL,
@@ -167,54 +182,14 @@ CREATE TABLE project_members (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone  
 );
-ALTER TABLE project_members OWNER TO frieddust;
-ALTER TABLE ONLY project_members
-    ADD CONSTRAINT project_members_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY project_members 
-	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
-ALTER TABLE ONLY project_members 
+ALTER TABLE contract_members OWNER TO frieddust;
+ALTER TABLE ONLY contract_members
+    ADD CONSTRAINT contract_members_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY contract_members 
+	ADD CONSTRAINT contracts_fk FOREIGN KEY(contract_id) REFERENCES contracts ON DELETE CASCADE;
+ALTER TABLE ONLY contract_members 
 	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 	
-	
-CREATE TABLE project_histories (
-    id character varying(32) NOT NULL,
-    project_id character varying(32) NOT NULL,
-    batch_no character varying(32) NOT NULL,
-    title CITEXT NOT NULL,
-    description text,
-    account_manager character varying(32),
-    project_type_id character varying(32),
-    budget_type_id character varying(32),
-    project_status_id character varying(32),
-    start_date date,
-    end_date date,
-    reason text,
-    created_by character varying(32) NOT NULL,
-    created_at timestamp with time zone NOT NULL
-);
-ALTER TABLE project_histories OWNER TO frieddust;
-ALTER TABLE ONLY project_histories
-    ADD CONSTRAINT project_histories_pk PRIMARY KEY (id);
-    
-CREATE TABLE project_member_histories (
-    id character varying(32) NOT NULL,
-    project_member_id character varying(32) NOT NULL,
-    batch_no character varying(32) NOT NULL,
-    project_id character varying(32) NOT NULL,
-    employee character varying(32) NOT NULL,
-    role_id character varying(32),
-    allocation decimal(5,2),
-    billed boolean,
-    active boolean,
-    join_date date,
-    end_date date,
-    reason text,
-    created_by character varying(32) NOT NULL,
-    created_at timestamp with time zone NOT NULL
-);
-ALTER TABLE project_member_histories OWNER TO frieddust;
-ALTER TABLE ONLY project_member_histories
-    ADD CONSTRAINT project_member_histories_pk PRIMARY KEY (id);
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;
