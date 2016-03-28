@@ -122,27 +122,63 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="block">
-            <div class="block-title-border">Project Details</div>
             <form class="form-bordered" method="post">
-              <div class="form-group has-success">
-                <label>Project Name</label>
-                <input type="text" placeholder="Project Name" class="form-control">
-                <span class="help-block">Project name available</span> </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea placeholder="Short description about the project." class="form-control" rows="4"></textarea>
+              <div class="block-chunk">
+                <div class="block-title-border">General Information</div>
+                <div class="form-group has-success">
+                  <label>Project Name</label>
+                  <input type="text" placeholder="Project Name" class="form-control">
+                  <span class="help-block">Project name available</span> </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea placeholder="Short description about the project." class="form-control" rows="4"></textarea>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="row multiple-element">
+                    <div class="col-md-6 col-lg-4 element">
+                      <label class="control-label">Project Type</label>
+                      <select class="form-control">
+                        <option value="0">Please select</option>
+                        <option value="1">Service</option>
+                        <option value="2">Product</option>
+                        <option value="3">Internal</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 col-lg-4 element">
+                      <label for="example-select" class="control-label">Project Status</label>
+                      <select class="form-control">
+                        <option value="0">Please select</option>
+                        <option value="1">Pending</option>
+                        <option value="2">Executing</option>
+                        <option value="3">Closed</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 col-lg-4 element">
+                      <label class="control-label">Account Manager</label>
+                      <input type="text" placeholder="Account Manager Name" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="row multiple-element">
+                    <div class="col-md-6 col-lg-4 element">
+                      <label for="example-select" class="control-label">Client's Name</label>
+                      <input type="text" placeholder="Client's Name" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <label class="control-label">Technology Stack</label>
+                  <div class="text-wrap"> <span class="label label-blue-grey">Angular JS<a href="#"><i class="fa fa-close"></i></a></span> <span class="label label-blue-grey">React.js<a href="#"><i class="fa fa-close"></i></a></span> </div>
+                </div>
+              </div>
+              <!--end of block-chunk-->
+              <div class="block-chunk">
+              <div class="block-title-border">Contract Details
+                <div class="block-options"> <a href="#" class="btn btn-alt btn-sm btn-default"><i class="fa fa-plus"></i></a> </div>
               </div>
               <div class="form-group clearfix">
                 <div class="row multiple-element">
-                  <div class="col-md-6 col-lg-4 element">
-                    <label class="control-label">Project Type</label>
-                    <select class="form-control">
-                      <option value="0">Please select</option>
-                      <option value="1">Service</option>
-                      <option value="2">Product</option>
-                      <option value="3">Internal</option>
-                    </select>
-                  </div>
                   <div class="col-md-6 col-lg-4 element">
                     <label  class=" control-label">Budget Type</label>
                     <select class="form-control">
@@ -152,74 +188,18 @@
                     </select>
                   </div>
                   <div class="col-md-6 col-lg-4 element">
-                    <label class="control-label">Account Manager</label>
-                    <input type="text" placeholder="Account Manager Name" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group clearfix">
-                <div class="row multiple-element">
-                  <div class="col-md-6 col-lg-4 element">
-                    <label for="example-select" class="control-label">Project Status</label>
-                    <select class="form-control">
-                      <option value="0">Please select</option>
-                      <option value="1">Pending</option>
-                      <option value="2">Executing</option>
-                      <option value="3">Closed</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6 col-lg-4 element">
                     <label class="control-label">Contract Date</label>
-                    <div data-date-format="mm/dd/yyyy" class="input-group input-daterange">
-                      <input type="text" placeholder="From" class="form-control text-center">
+                    <div class="input-group input-daterange" data-date-format="mm/dd/yyyy">
+                      <input type="text" class="form-control text-center" placeholder="From">
                       <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
-                      <input type="text" placeholder="To" class="form-control text-center">
+                      <input type="text" class="form-control text-center" placeholder="To">
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group clearfix">
-                <div class="row multiple-element">
-                  <div class="col-md-6 col-lg-4 element">
-                    <label for="example-select" class="control-label">Client's Name</label>
-					<input type="text" placeholder="Client's Name" class="form-control">
-                  </div>
-                  <div class="col-md-6 col-lg-4 element">
-                    <label class="control-label">E-mail Address</label>
-                    <input type="text" placeholder="client@gmail.com" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group clearfix">
-                <label class="control-label">Technology Stack</label>
-                <div class="text-wrap"> <span class="label label-blue-grey">Angular JS<a href="#"><i class="fa fa-close"></i></a></span> <span class="label label-blue-grey">React.js<a href="#"><i class="fa fa-close"></i></a></span> </div>
               </div>
               <div class="form-group">
-                <label class="control-label">Resources</label>
-                <div class="row multiple-element">
-                  <div class="col-sm-12 col-lg-8 element">
-                    <div  class="input-group">
-                      <input type="text" placeholder="Resource" class="form-control text-center">
-                      <span class="input-group-addon">No. of</span>
-                      <input type="text" placeholder="2" class="form-control text-center input-sm">
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-lg-8 element">
-                    <div  class="input-group">
-                      <input type="text" placeholder="Resource" class="form-control text-center">
-                      <span class="input-group-addon">No. of</span>
-                      <input type="text" placeholder="2" class="form-control text-center input-sm">
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-lg-8 element">
-                    <div  class="input-group">
-                      <input type="text" placeholder="Resource" class="form-control text-center">
-                      <span class="input-group-addon">No. of</span>
-                      <input type="text" placeholder="2" class="form-control text-center input-sm">
-                    </div>
-                  </div>
-                  <div class="block-options clear"> <a class="btn btn-sm btn-ghost text-uppercase" data-toggle="tooltip" title="Add Another Field" href="#"><i class="fa fa-plus"></i> Add Another Field</a> </div>
-                </div>
+                <label>Contracted Resources</label>
+                <textarea placeholder="No. of contracted resources" class="form-control" rows="4"></textarea>
               </div>
               <div class="form-group">
                 <label class="control-label">Team Members</label>
@@ -227,13 +207,13 @@
                   <div class="col-sm-12">
                     <ul class="team-list clearfix">
                       <li> <a href="#" class="profile-img img-lg"><img class="img-circle" alt="avatar" src="img/placeholders/avatar.png"></a> </li>
-                      <li> <a href="#" class="profile-img img-lg add-team" data-toggle="modal" data-target="#addTeam"><i class="fa fa-plus"></i> <span class="on-hover circular-block"></span> </a> 
-
-                      </li>
+                      <li> <a href="#" class="profile-img img-lg add-team" data-toggle="modal" data-target="#addTeam"><i class="fa fa-plus"></i> <span class="on-hover circular-block"></span> </a> </li>
                     </ul>
                   </div>
                 </div>
               </div>
+              </div>
+              <!--end of block-chunk-->
               <div class="form-group form-actions clearfix">
                 <div class="pull-right">
                   <button class="btn btn-sm btn-success" type="submit"><i class="fa fa-angle-right"></i>Save</button>
@@ -252,72 +232,178 @@
 </div>
 <!--page-container --> 
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="addTeam" tabindex="-1" role="dialog">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <div class="modal-title">Team Members</div>
-                              </div>
-                              <div class="modal-body">
-                            <form class="form-horizontal">
-                            <div class="form-group">
-                            <label class="control-label col-md-4">Team Member</label>
-                            <div class="col-md-8">
-                                                <div class="text-wrap"> <span class="label label-blue-grey">Anjali Shakya<a href="#"><i class="fa fa-close"></i></a></span> </div>
-                                            </div>
-                            </div>
-                            <div class="form-group">
-                            <label class="control-label col-md-4">Role</label>
-                            <div class="col-md-8">
-                                            <select class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Developer</option>
-                                                <option value="2">Tester</option>
-                                                <option value="3">Team Lead</option>
-                                                <option value="4">SA</option>
-                                                <option value="5">PM</option>
-                                            </select>
-                                            </div>
-                            </div>
-                            <div class="form-group">
-                            <label class="control-label col-md-4">Estimated Duration</label>
-                            <div class="col-md-8">
-                                                <div class="input-group input-daterange">
-                      <input type="text" class="form-control text-center" placeholder="From">
-                      <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
-                      <input type="text" class="form-control text-center" placeholder="To">
+<!-- Modal -->
+<div class="modal fade" id="addTeam" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="modal-title">Team Members</div>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-md-4">Name</label>
+            <div class="col-md-8">
+              <div class="text-wrap"> <span class="label label-blue-grey">Anjali Shakya<a href="#"><i class="fa fa-close"></i></a></span> </div>
+            </div>
+          </div>
+          <div class="panel-group custom-accordion" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title"> <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Allocation </a> </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Role</label>
+                    <div class="col-md-8">
+                      <select class="form-control">
+                        <option value="0">Please select</option>
+                        <option value="1">Developer</option>
+                        <option value="2">Tester</option>
+                        <option value="3">Team Lead</option>
+                        <option value="4">SA</option>
+                        <option value="5">PM</option>
+                      </select>
                     </div>
-                                            </div>
-                            </div>
-                            <div class="form-group">
-                            <label class="control-label col-md-4">Allocation</label>
-                            <div class="col-md-8">
-                            <div class="input-group">
-                                                    <input type="text" placeholder="0" class="form-control">
-                                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                                                </div></div>
-                            </div>
-                            <div class="form-group">
-                            <label class="control-label col-md-4">Billed</label>
-                            <div class="col-md-8">
-                            <label for="billed-resource" class="switch switch-default">
-                                                    <input type="checkbox" value="1" id="billed-resource">
-                                                    <span data-toggle="tooltip"></span>
-                                                </label>
-                                                </div>
-                            </div>
-                            </form>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-ghost" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>Add Team Member</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Estimated Duration</label>
+                    <div class="col-md-8">
+                      <div class="input-group input-daterange">
+                        <input type="text" class="form-control text-center" placeholder="From">
+                        <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                        <input type="text" class="form-control text-center" placeholder="To">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Allocation</label>
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <input type="text" placeholder="0" class="form-control">
+                        <span class="input-group-addon"><i class="fa fa-percent"></i></span> </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Billed</label>
+                    <div class="col-md-8">
+                      <label for="billed-resource" class="switch switch-default">
+                        <input type="checkbox" value="1" id="billed-resource">
+                        <span data-toggle="tooltip"></span> </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Allocation 2 </a> </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Role</label>
+                    <div class="col-md-8">
+                      <select class="form-control">
+                        <option value="0">Please select</option>
+                        <option value="1">Developer</option>
+                        <option value="2">Tester</option>
+                        <option value="3">Team Lead</option>
+                        <option value="4">SA</option>
+                        <option value="5">PM</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Estimated Duration</label>
+                    <div class="col-md-8">
+                      <div class="input-group input-daterange">
+                        <input type="text" class="form-control text-center" placeholder="From">
+                        <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                        <input type="text" class="form-control text-center" placeholder="To">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Allocation</label>
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <input type="text" placeholder="0" class="form-control">
+                        <span class="input-group-addon"><i class="fa fa-percent"></i></span> </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Billed</label>
+                    <div class="col-md-8">
+                      <label for="billed-resource-2" class="switch switch-default">
+                        <input type="checkbox" value="1" id="billed-resource-2">
+                        <span data-toggle="tooltip"></span> </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> Allocation 3 </a> </h4>
+              </div>
+              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Role</label>
+                    <div class="col-md-8">
+                      <select class="form-control">
+                        <option value="0">Please select</option>
+                        <option value="1">Developer</option>
+                        <option value="2">Tester</option>
+                        <option value="3">Team Lead</option>
+                        <option value="4">SA</option>
+                        <option value="5">PM</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Estimated Duration</label>
+                    <div class="col-md-8">
+                      <div class="input-group input-daterange">
+                        <input type="text" class="form-control text-center" placeholder="From">
+                        <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                        <input type="text" class="form-control text-center" placeholder="To">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Allocation</label>
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <input type="text" placeholder="0" class="form-control">
+                        <span class="input-group-addon"><i class="fa fa-percent"></i></span> </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4">Billed</label>
+                    <div class="col-md-8">
+                      <label for="billed-resource-3" class="switch switch-default">
+                        <input type="checkbox" value="1" id="billed-resource-3">
+                        <span data-toggle="tooltip"></span> </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="btn-block padding-v-10"><a class="btn btn-xs btn-default" href="javascript:void(0)"><i class="fa fa-plus"></i>Add Another Allocation</a></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-ghost" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
 <!-- Bootstrap.js, Jquery plugins and Custom JS code --> 
 <script src="js/bootstrap.min.js"></script> 

@@ -219,7 +219,7 @@ footer a, footer a:hover {
 }
 .block-title-border {
 	border-bottom: 1px dotted #dddddd;
-	margin: 0 0 20px;
+	margin: 10px 0 20px;
 	padding: 10px 0;
 	font-size: 18px;
 	font-weight: 300;
@@ -367,6 +367,31 @@ footer a, footer a:hover {
 .timeline-list .timeline-icon i{
 	color: rgba(108, 192, 104, 1);
 	}
+	
+/**---Block---**/
+.form-bordered .block-title-border{
+	margin: 10px 20px;
+	}
+	
+.custom-accordion .panel {
+	border-radius: 1px;
+	-webkit-border-radius: 1px;
+	}
+	
+.custom-accordion .panel-default{
+	 border: 1px solid #eaedf1;
+	}
+.custom-accordion	.panel-default > .panel-heading{
+	 background-color: #f9fafc;
+    border-color:#eaedf1;
+		}
+.custom-accordion .panel-title{
+	font: 300 14px"Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #394263;
+	}
+.custom-accordion .panel-title a{
+	display: block;
+	}
 /**---Responsive---**/
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 320px) {
@@ -391,3 +416,12 @@ footer a, footer a:hover {
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 1200px) {
 }
+
+/**---Tools---**/
+.padding-20{
+	padding: 20px;
+	}
+	
+.padding-v-10{
+	padding: 10px 0;
+	}
