@@ -1,18 +1,16 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.persistence.criteria.Predicate;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
-import com.lftechnology.vyaguta.commons.jpautil.QueryBuilder;
-import com.lftechnology.vyaguta.commons.jpautil.QuerySort;
-import com.lftechnology.vyaguta.resource.common.CommonConstant;
+import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
+import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.BudgetTypeDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
-import com.lftechnology.vyaguta.resource.jpautil.ExtractPredicateUtil;
+import com.lftechnology.vyaguta.resource.filter.BudgetTypeFilter;
+import com.lftechnology.vyaguta.resource.sort.BudgetTypeSort;
 
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
@@ -20,31 +18,21 @@ import com.lftechnology.vyaguta.resource.jpautil.ExtractPredicateUtil;
 @Stateless
 public class BudgetTypeDaoImpl extends BaseDao<BudgetType, String>implements BudgetTypeDao {
 
-    private CommonSort<BudgetType> budgetTypeSort = new CommonSort<>();
-    private ExtractPredicateUtil<BudgetType> extractPredicateUtil = new ExtractPredicateUtil<>();
+    private BudgetTypeSort budgetTypeSort = new BudgetTypeSort();
+    private BudgetTypeFilter budgetTypeFilter = new BudgetTypeFilter();
 
     public BudgetTypeDaoImpl() {
         super(BudgetType.class);
     }
 
     @Override
-    protected Predicate[] extractPredicates(QueryBuilder<BudgetType> qb) {
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (qb.getFilters().containsKey("q")) {
-            predicates.add(extractPredicateUtil.addSearchPredicate(qb, CommonConstant.TITLE));
-        }
-
-        if (qb.getFilters().containsKey(CommonConstant.TITLE)) {
-            predicates.add(extractPredicateUtil.addFindPredicate(qb, CommonConstant.TITLE));
-        }
-
-        return predicates.toArray(new Predicate[] {});
+    public Map<String, EntitySorter<BudgetType>> getSortOperations() {
+        return budgetTypeSort.getSortOperations();
     }
 
     @Override
-    public QuerySort<BudgetType> getQuerySort() {
-        budgetTypeSort.sortByField("title");
-        return budgetTypeSort;
+    public Map<String, EntityFilter<BudgetType>> getFilters() {
+        return budgetTypeFilter.getFilters();
     }
+
 }

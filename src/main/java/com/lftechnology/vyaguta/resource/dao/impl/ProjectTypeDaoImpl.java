@@ -1,18 +1,16 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.persistence.criteria.Predicate;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
-import com.lftechnology.vyaguta.commons.jpautil.QueryBuilder;
-import com.lftechnology.vyaguta.commons.jpautil.QuerySort;
-import com.lftechnology.vyaguta.resource.common.CommonConstant;
+import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
+import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
-import com.lftechnology.vyaguta.resource.jpautil.ExtractPredicateUtil;
+import com.lftechnology.vyaguta.resource.filter.ProjectTypeFilter;
+import com.lftechnology.vyaguta.resource.sort.ProjectTypeSort;
 
 /**
  * 
@@ -22,31 +20,21 @@ import com.lftechnology.vyaguta.resource.jpautil.ExtractPredicateUtil;
 @Stateless
 public class ProjectTypeDaoImpl extends BaseDao<ProjectType, String>implements ProjectTypeDao {
 
-    private CommonSort<ProjectType> projectTypeSort = new CommonSort<>();
-    private ExtractPredicateUtil<ProjectType> extractPredicateUtil = new ExtractPredicateUtil<>();
+    private ProjectTypeSort projectTypeSort = new ProjectTypeSort();
+    private ProjectTypeFilter projectTypeFilter = new ProjectTypeFilter();
 
     public ProjectTypeDaoImpl() {
         super(ProjectType.class);
     }
 
     @Override
-    public QuerySort<ProjectType> getQuerySort() {
-        projectTypeSort.sortByField("title");
-        return projectTypeSort;
+    public Map<String, EntitySorter<ProjectType>> getSortOperations() {
+        return projectTypeSort.getSortOperations();
     }
 
     @Override
-    protected Predicate[] extractPredicates(QueryBuilder<ProjectType> qb) {
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (qb.getFilters().containsKey("q")) {
-            predicates.add(extractPredicateUtil.addSearchPredicate(qb, CommonConstant.TITLE));
-        }
-
-        if (qb.getFilters().containsKey(CommonConstant.TITLE)) {
-            predicates.add(extractPredicateUtil.addFindPredicate(qb, CommonConstant.TITLE));
-        }
-
-        return predicates.toArray(new Predicate[] {});
+    public Map<String, EntityFilter<ProjectType>> getFilters() {
+        return projectTypeFilter.getFilters();
     }
+
 }

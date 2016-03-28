@@ -1,13 +1,15 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.Predicate;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
-import com.lftechnology.vyaguta.commons.jpautil.QueryBuilder;
-import com.lftechnology.vyaguta.commons.jpautil.QuerySort;
+import com.lftechnology.vyaguta.commons.jpautil.CriteriaMaker;
+import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
+import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.ProjectMemberDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectMember;
@@ -31,12 +33,19 @@ public class ProjectMemberDaoImpl extends BaseDao<ProjectMember, String>implemen
     }
 
     @Override
-    public QuerySort<ProjectMember> getQuerySort() {
+    protected Predicate[] extractPredicates(CriteriaMaker<ProjectMember> queryBuilder) {
         return null;
     }
 
     @Override
-    protected Predicate[] extractPredicates(QueryBuilder<ProjectMember> queryBuilder) {
+    public Map<String, EntitySorter<ProjectMember>> getSortOperations() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Map<String, EntityFilter<ProjectMember>> getFilters() {
+        // TODO Auto-generated method stub
         return null;
     }
 
