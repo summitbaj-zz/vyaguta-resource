@@ -32,14 +32,13 @@
 
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET),
-                startIndex: parseInt(resourceConstant.START_INDEX)
+                offset: parseInt(resourceConstant.OFFSET)
             }
         },
 
         componentDidMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
             });
         },
@@ -50,26 +49,28 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index - 1) * this.props.offset;
+            var page = 1 + (index - 1) * this.props.offset;
             this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
-                _start: startIndex,
+                _start: page,
                 _limit: this.props.offset
             }, sortBy);
         },
 
         //sorts data in ascending or descending order according to clicked field
-        sort: function (field, event) {
-            var sortByAscending = sortUI.changeSortDisplay(event);
+        sort: function (field) {
+            var sortByAscending = sortUI.changeSortDisplay(field);
             sortBy = field;
             var pagination = {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page,
                 _limit: this.props.offset
             };
 
             if (sortByAscending) {
-                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, field);
+                sortBy = field;
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, sortBy);
             } else {
-                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, '-' + field);
+                sortBy = '-' + field;
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, sortBy);
             }
         },
 
@@ -107,21 +108,31 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Name<i className="fa fa-sort cursor-pointer pull-right"
-                                               data-sort="none"
-                                               onClick={this.sort.bind(null, 'name')}></i></th>
-                                    <th>Email Address<i className="fa fa-sort cursor-pointer pull-right"
-                                                        data-sort="none"
-                                                        onClick={this.sort.bind(null, 'email')}></i></th>
-                                    <th>Phone Number<i className="fa fa-sort cursor-pointer pull-right"
-                                                       data-sort="none"
-                                                       onClick={this.sort.bind(null, 'phoneNo')}></i></th>
-                                    <th>Skype Id<i className="fa fa-sort cursor-pointer pull-right"
-                                                   data-sort="none"
-                                                   onClick={this.sort.bind(null, 'skype')}></i></th>
-                                    <th>Address<i className="fa fa-sort cursor-pointer pull-right"
-                                                  data-sort="none"
-                                                  onClick={this.sort.bind(null, 'address')}></i></th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="name"
+                                        onClick={this.sort.bind(null, 'name')}>
+                                        Name
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="email"
+                                        onClick={this.sort.bind(null, 'email')}>
+                                        Email Address
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="phoneNo"
+                                        onClick={this.sort.bind(null, 'phoneNo')}>
+                                        Phone Number
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="skype"
+                                        onClick={this.sort.bind(null, 'skype')}>
+                                        Skype Id
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="address"
+                                        onClick={this.sort.bind(null, 'address')}>
+                                        Address
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

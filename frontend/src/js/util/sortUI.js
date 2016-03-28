@@ -2,21 +2,22 @@
     'use strict';
 
     function sortUI() {
-        this.changeSortDisplay = function (event) {
-            var sortType = $(event.target).attr('data-sort');
-            $('.fa-sort-asc').attr('class', 'fa fa-sort cursor-pointer pull-right');
-            $('.fa-sort-asc').attr('data-sort', 'none');
+        this.changeSortDisplay = function (field) {
+            var sortField = $('#' + field);
+            var sortIcon = sortField.children('i');
+            var sortType = sortField.attr('data-sort');
 
-            $('.fa-sort-desc').attr('class', 'fa fa-sort cursor-pointer pull-right');
-            $('.fa-sort-asc').attr('data-sort', 'none');
+            $('.fa-sort-asc').attr('class', 'fa fa-sort pull-right');
+            $('.fa-sort-desc').attr('class', 'fa fa-sort pull-right');
+            $('.sort').attr('data-sort', 'none');
 
             if (sortType == 'none' || sortType == 'desc') {
-                $(event.target).attr('data-sort', 'asc');
-                $(event.target).attr('class', 'fa fa-sort-asc cursor-pointer pull-right');
+                sortField.attr('data-sort', 'asc');
+                $(sortIcon).attr('class', 'fa fa-sort-asc pull-right');
                 return true;
             } else if (sortType == 'asc') {
-                $(event.target).attr('data-sort', 'desc');
-                $(event.target).attr('class', 'fa fa-sort-desc cursor-pointer pull-right');
+                sortField.attr('data-sort', 'desc');
+                $(sortIcon).attr('class', 'fa fa-sort-desc pull-right');
                 return false;
             }
         }

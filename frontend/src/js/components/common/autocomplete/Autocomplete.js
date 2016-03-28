@@ -97,7 +97,7 @@
                 if (inputValue && ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue))) {
                     that.props.generateSuggestions(inputValue.toLowerCase());
                 }
-            }, 300);
+            }, 200);
         },
 
         setInputValue: function (value) {

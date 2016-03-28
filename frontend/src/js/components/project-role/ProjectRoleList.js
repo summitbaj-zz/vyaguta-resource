@@ -26,18 +26,19 @@
     //libraries
     var _ = require('lodash');
 
+    var sortBy = '';
+
     var ProjectRoleList = React.createClass({
 
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET),
-                startIndex: parseInt(resourceConstant.START_INDEX)
+                offset: parseInt(resourceConstant.OFFSET)
             }
         },
 
         componentDidMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
             });
         },
@@ -48,11 +49,11 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index - 1) * this.props.offset;
+            var page = 1 + (index - 1) * this.props.offset;
             this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, {
-                _start: startIndex,
+                _start: page,
                 _limit: this.props.offset
-            });
+            }, sortBy);
         },
 
         deleteProjectRole: function (id) {
@@ -72,17 +73,20 @@
         },
 
         //sorts data in ascending or descending order according to clicked field
-        sort: function (field, event) {
-            var sortByAscending = sortUI.changeSortDisplay(event);
+        sort: function (field) {
+            var sortByAscending = sortUI.changeSortDisplay(field);
+            sortBy = field;
             var pagination = {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page,
                 _limit: this.props.offset
             };
 
             if (sortByAscending) {
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, field);
+                sortBy = field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, sortBy);
             } else {
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, '-' + field);
+                sortBy = '-' + field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, sortBy);
             }
         },
 
@@ -104,9 +108,11 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Role<i className="fa fa-sort cursor-pointer pull-right"
-                                                       data-sort="none"
-                                                       onClick={this.sort.bind(null, 'title')}></i></th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="title"
+                                        onClick={this.sort.bind(null, 'title')}>
+                                        Project Role
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
