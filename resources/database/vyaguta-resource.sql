@@ -208,6 +208,14 @@ CREATE TABLE project_histories (
 ALTER TABLE project_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_histories
     ADD CONSTRAINT project_histories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT project_type_fk FOREIGN KEY(project_type_id) REFERENCES project_types ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT project_status_fk FOREIGN KEY(project_status_id) REFERENCES project_status ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT clients_fk FOREIGN KEY(client_id) REFERENCES clients ON DELETE CASCADE;
     
     
 CREATE TABLE contract_histories (
@@ -226,6 +234,12 @@ CREATE TABLE contract_histories (
 ALTER TABLE contract_histories OWNER TO frieddust;
 ALTER TABLE ONLY contract_histories
     ADD CONSTRAINT contract_histories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY contract_histories 
+	ADD CONSTRAINT contracts_fk FOREIGN KEY(contract_id) REFERENCES contracts ON DELETE CASCADE;
+ALTER TABLE ONLY contract_histories 
+	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
+ALTER TABLE ONLY contract_histories 
+	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
     
     
 CREATE TABLE contract_member_histories (
@@ -246,6 +260,12 @@ CREATE TABLE contract_member_histories (
 ALTER TABLE contract_member_histories OWNER TO frieddust;
 ALTER TABLE ONLY contract_member_histories
     ADD CONSTRAINT contract_member_histories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY contract_member_histories 
+	ADD CONSTRAINT contract_members_fk FOREIGN KEY(contract_member_id) REFERENCES contract_members ON DELETE CASCADE;
+ALTER TABLE ONLY contract_member_histories 
+	ADD CONSTRAINT contracts_fk FOREIGN KEY(contract_id) REFERENCES contracts ON DELETE CASCADE;
+ALTER TABLE ONLY contract_member_histories 
+	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
