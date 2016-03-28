@@ -54,14 +54,6 @@
             }
         },
 
-        generateSuggestions: function (event) {
-            var pressed = String.fromCharCode(event.keyCode);
-            var inputValue = this.refs.inputTag.value;
-            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue)) {
-                this.props.updateSuggestions(inputValue.toLowerCase());
-            }
-        },
-
         deleteTag: function () {
             var tags = this.props.tags;
             if (!this.refs.inputTag.value && tags.length > 0) {
@@ -93,15 +85,15 @@
                     <ul id="tag-list" className="clearfix">
                         {tagIds.map(this.renderTag)}
 
-                        <li className="newtag-input">
+                        <li className="newtag-input has-feedback">
                             <input type="text" ref="inputTag"
                                    onKeyDown={this.inputKey}
-                                   onKeyUp={this.generateSuggestions}
                                    onBlur={this.focusOut}
                                    className="input-tag"
                                    id="title"
                                    autoComplete="off"/>
-                            <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}/>
+                            <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}
+                                          generateSuggestions={this.props.updateSuggestions}/>
                         </li>
                     </ul>
                 </div>

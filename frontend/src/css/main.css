@@ -1043,6 +1043,10 @@ li.dropdown-header {
     display: none;
 }
 
+.display-inline {
+    display: inline;
+}
+
 .remove-margin {
     margin: 0 !important;
 }
@@ -1326,6 +1330,15 @@ ul.pagination li {
     margin: 0 2.5px;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
+}
+
+.validation-icon {
+    top: 42px;
+    right: 20px;
+}
+
+.manager-validation-icon {
+    top: 0px;
 }

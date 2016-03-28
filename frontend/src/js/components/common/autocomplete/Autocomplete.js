@@ -5,12 +5,14 @@
     var React = require('react');
 
     var selectedIndex = -1;
+    var typingTimer;
 
     var AutoComplete = React.createClass({
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
             input.addEventListener('keydown', this.keyPressed);
+            input.addEventListener('keyup', this.generateSuggestions);
             input.addEventListener('blur', this.focusOut);
         },
 
@@ -28,6 +30,7 @@
         },
 
         componentWillReceiveProps: function (nextProps) {
+            selectedIndex = -1;
             var input = document.getElementsByClassName(nextProps.inputField)[0];
             if (nextProps.suggestions.length && input.value && $(input).is(':focus')) {
                 this.refs.suggestions.style.display = 'block';
@@ -36,11 +39,8 @@
             }
         },
 
-        componentWillUnmount: function(){
-            selectedIndex = -1;
-        },
-
         keyPressed: function (event) {
+            clearTimeout(typingTimer);
             var key = event.keyCode;
             if (this.props.suggestions.length && (key === 40 || key === 38)) {
                 event.preventDefault();
@@ -48,6 +48,8 @@
             } else if (key === 13) {
                 event.preventDefault();
                 this.enterKeyPressed();
+            } else {
+                this.refs.suggestions.style.display = 'none';
             }
         },
 
@@ -84,6 +86,18 @@
             this.refs.suggestions.style.display = 'none';
             selectedIndex = -1;
 
+        },
+
+        generateSuggestions: function (event) {
+            clearTimeout(typingTimer);
+            var that = this;
+            typingTimer = setTimeout(function () {
+                var pressed = String.fromCharCode(event.keyCode);
+                var inputValue = event.target.value;
+                if (inputValue && ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue))) {
+                    that.props.generateSuggestions(inputValue.toLowerCase());
+                }
+            }, 300);
         },
 
         setInputValue: function (value) {

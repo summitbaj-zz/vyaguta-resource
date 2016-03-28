@@ -219,8 +219,11 @@
 
         checkTitle: function (title) {
             if (title.length === 0) {
-                this.refs.title.parentElement.className = 'form-group has-success';
+                this.refs.title.parentElement.className = 'form-group has-success has-feedback';
                 this.refs.availableMessage.innerHTML = '';
+                console.log('asd')
+                $('.validation-icon').removeClass('display-none');
+                $('.validation-icon').addClass('display-inline');
             } else {
                 this.refs.title.parentElement.className = 'form-group has-error';
                 this.refs.availableMessage.innerHTML = messageConstant.PROJECT_NAME_EXISTS_MESSAGE;
@@ -228,6 +231,8 @@
         },
 
         validateTitle: function (event) {
+            $('.validation-icon').addClass('display-none');
+            $('.validation-icon').removeClass('display-inline');
             var title = this.refs.title.value;
             if (title && title != this.state.projectName) {
                 ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
@@ -258,12 +263,15 @@
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
                                     <fieldset disabled={this.props.apiState.isRequesting}>
                                         <div className="form-group">
-                                            <label>Project Name *</label>
+                                            <label for="title">Project Name *</label>
                                             <input type="text" placeholder="Project Name" name="title" ref="title"
                                                    value={this.props.selectedItem.projects.title}
-                                                   className="form-control" id="title" onChange={this.handleChange}
+                                                   className="form-control" id="title"
+                                                   onChange={this.handleChange}
                                                    onBlur={this.validateTitle}
                                                    onFocus={formValidator.removeError.bind(null, 'title')}/>
+                                            <span className="glyphicon glyphicon-ok form-control-feedback validation-icon display-none"
+                                                  aria-hidden="true"></span>
                                             <span className="help-block" ref="availableMessage"></span>
                                         </div>
                                         <div className="form-group">
