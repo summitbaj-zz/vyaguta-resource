@@ -1,4 +1,4 @@
-package com.lftechnology.vyaguta.resource.filter;
+package com.lftechnology.vyaguta.resource.httpfilter;
 
 import java.io.IOException;
 import java.security.Principal;
