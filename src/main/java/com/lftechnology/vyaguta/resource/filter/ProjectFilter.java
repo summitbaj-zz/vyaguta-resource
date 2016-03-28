@@ -1,15 +1,6 @@
 package com.lftechnology.vyaguta.resource.filter;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
-import javax.persistence.criteria.Predicate;
-
-import com.lftechnology.vyaguta.commons.Constant;
-import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.jpautil.CommonFilter;
-import com.lftechnology.vyaguta.commons.jpautil.CriteriaMaker;
-import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.Filterable;
 import com.lftechnology.vyaguta.resource.entity.Project;
 
