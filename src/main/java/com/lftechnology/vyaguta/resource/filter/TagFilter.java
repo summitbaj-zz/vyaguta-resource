@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.filter;
 
 import com.lftechnology.vyaguta.commons.jpautil.CommonFilter;
 import com.lftechnology.vyaguta.commons.jpautil.Filterable;
+import com.lftechnology.vyaguta.resource.common.CommonConstant;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 
 /**
@@ -12,8 +13,8 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 public class TagFilter extends CommonFilter<Tag>implements Filterable<Tag> {
 
     public TagFilter() {
-        filterByField("title");
-        searchByField("title");
+        findByField(CommonConstant.TITLE);
+        searchByField("q", CommonConstant.TITLE);
     }
 
 }

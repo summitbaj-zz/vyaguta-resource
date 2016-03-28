@@ -8,8 +8,8 @@ import com.lftechnology.vyaguta.resource.entity.Project;
 
 public class ProjectFilter extends CommonFilter<Project>implements Filterable<Project> {
     public ProjectFilter() {
-        filterByField(CommonConstant.TITLE);
-        searchByField(CommonConstant.TITLE);
+        findByField(CommonConstant.TITLE);
+        searchByField("q", CommonConstant.TITLE);
         filterByDateField(ProjectDaoImpl.START_DATE);
         filterByDateField(ProjectDaoImpl.END_DATE);
         filterByField(ProjectDaoImpl.PROJECT_TYPE, CommonConstant.TITLE);

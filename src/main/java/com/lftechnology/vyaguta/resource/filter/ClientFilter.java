@@ -12,8 +12,8 @@ import com.lftechnology.vyaguta.resource.entity.Client;
 public class ClientFilter extends CommonFilter<Client>implements Filterable<Client> {
 
     public ClientFilter() {
-        filterByField("name");
-        searchByField("name");
+        findByField("name");
+        searchByField("q", "name");
     }
 
 }
