@@ -34,7 +34,7 @@ public class ProjectMemberDaoImpl extends BaseDao<ProjectMember, String>implemen
 
     @Override
     protected Predicate[] extractPredicates(CriteriaMaker<ProjectMember> queryBuilder) {
-        return null;
+        return new Predicate[] {};
     }
 
     @Override
