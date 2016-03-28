@@ -51,8 +51,7 @@ public class ProjectTypeRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid ProjectType projectType) {
-        projectType = projectTypeService.save(projectType);
-        return Response.status(Response.Status.OK).entity(projectType).build();
+        return Response.status(Response.Status.OK).entity(projectTypeService.save(projectType)).build();
     }
 
     @Path("/{id}")
