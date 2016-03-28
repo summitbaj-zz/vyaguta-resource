@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -70,6 +71,21 @@
             );
         },
 
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field, event) {
+            var sortByAscending = sortUI.changeSortDisplay(event);
+            var pagination = {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            };
+
+            if (sortByAscending) {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, field);
+            } else {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, pagination, '-' + field);
+            }
+        },
+
         render: function () {
             return (
                 <div>
@@ -88,7 +104,9 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Role</th>
+                                    <th>Project Role<i className="fa fa-sort cursor-pointer pull-right"
+                                                       data-sort="none"
+                                                       onClick={this.sort.bind(null, 'title')}></i></th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

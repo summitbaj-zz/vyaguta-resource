@@ -74,6 +74,21 @@
             this.props.actions.updateSelectedItem(resourceConstant.BUDGET_TYPES, key, value);
         },
 
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field, event) {
+            var sortByAscending = sortUI.changeSortDisplay(event);
+            var pagination = {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            };
+
+            if (sortByAscending) {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, field);
+            } else {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, '-' + field);
+            }
+        },
+
         render: function () {
             return (
                 <div>

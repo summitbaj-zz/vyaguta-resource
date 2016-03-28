@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -24,6 +25,8 @@
 
     //libraries
     var _ = require('lodash');
+
+    var sortBy = '';
 
     var ClientList = React.createClass({
 
@@ -48,9 +51,27 @@
 
         refreshList: function (index) {
             var startIndex = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {_start: startIndex, _limit: this.props.offset});
+            this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
+                _start: startIndex,
+                _limit: this.props.offset
+            }, sortBy);
         },
 
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field, event) {
+            var sortByAscending = sortUI.changeSortDisplay(event);
+            sortBy = field;
+            var pagination = {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            };
+
+            if (sortByAscending) {
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, field);
+            } else {
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, '-' + field);
+            }
+        },
 
         deleteClient: function (id) {
             var that = this;
@@ -86,11 +107,21 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Name</th>
-                                    <th>Email Address</th>
-                                    <th>Phone Number</th>
-                                    <th>Skype Id</th>
-                                    <th>Address</th>
+                                    <th>Name<i className="fa fa-sort cursor-pointer pull-right"
+                                               data-sort="none"
+                                               onClick={this.sort.bind(null, 'name')}></i></th>
+                                    <th>Email Address<i className="fa fa-sort cursor-pointer pull-right"
+                                                        data-sort="none"
+                                                        onClick={this.sort.bind(null, 'email')}></i></th>
+                                    <th>Phone Number<i className="fa fa-sort cursor-pointer pull-right"
+                                                       data-sort="none"
+                                                       onClick={this.sort.bind(null, 'phoneNo')}></i></th>
+                                    <th>Skype Id<i className="fa fa-sort cursor-pointer pull-right"
+                                                   data-sort="none"
+                                                   onClick={this.sort.bind(null, 'skype')}></i></th>
+                                    <th>Address<i className="fa fa-sort cursor-pointer pull-right"
+                                                  data-sort="none"
+                                                  onClick={this.sort.bind(null, 'address')}></i></th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

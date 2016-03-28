@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -27,6 +28,7 @@
 
     //util
     var ApiUtil = require('../../util/apiUtil');
+    var sortBy = '';
 
     var ProjectList = React.createClass({
         getDefaultProps: function () {
@@ -66,7 +68,24 @@
 
         refreshList: function (index) {
             var startIndex = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: startIndex, _limit: this.props.offset});
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: startIndex, _limit: this.props.offset}, sortBy);
+        },
+
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field, event) {
+            var sortByAscending = sortUI.changeSortDisplay(event);
+            sortBy = field;
+
+            var pagination = {
+                _start: this.props.startIndex,
+                _limit: this.props.offset
+            };
+
+            if (sortByAscending) {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, field);
+            } else {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, '-' + field);
+            }
         },
 
         render: function () {
@@ -87,12 +106,24 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Projects</th>
-                                    <th>Type</th>
-                                    <th>Budget Type</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
+                                    <th>Projects<i className="fa fa-sort cursor-pointer pull-right"
+                                                   data-sort="none"
+                                                   onClick={this.sort.bind(null, 'title')}></i></th>
+                                    <th>Project Type<i className="fa fa-sort cursor-pointer pull-right"
+                                                       data-sort="none"
+                                                       onClick={this.sort.bind(null, 'projectType')}></i></th>
+                                    <th>Budget Type<i className="fa fa-sort cursor-pointer pull-right"
+                                                      data-sort="none"
+                                                      onClick={this.sort.bind(null, 'budgetType')}></i></th>
+                                    <th>Start Date<i className="fa fa-sort cursor-pointer pull-right"
+                                                     data-sort="none"
+                                                     onClick={this.sort.bind(null, 'startDate')}></i></th>
+                                    <th>End Date<i className="fa fa-sort cursor-pointer pull-right"
+                                                   data-sort="none"
+                                                   onClick={this.sort.bind(null, 'endDate')}></i></th>
+                                    <th>Project Status<i className="fa fa-sort cursor-pointer pull-right"
+                                                         data-sort="none"
+                                                         onClick={this.sort.bind(null, 'projectStatus')}></i></th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

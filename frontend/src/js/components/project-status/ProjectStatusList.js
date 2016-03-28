@@ -72,6 +72,7 @@
             );
         },
 
+        //sorts data in ascending or descending order according to clicked field
         sort: function (field, event) {
             var sortByAscending = sortUI.changeSortDisplay(event);
             var pagination = {
