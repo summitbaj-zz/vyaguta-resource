@@ -39,13 +39,11 @@ public class ProjectMemberDaoImpl extends BaseDao<ProjectMember, String>implemen
 
     @Override
     public Map<String, EntitySorter<ProjectMember>> getSortOperations() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Map<String, EntityFilter<ProjectMember>> getFilters() {
-        // TODO Auto-generated method stub
         return null;
     }
 
