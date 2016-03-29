@@ -11,6 +11,7 @@
     var urlConstants = require('../constants/urlConstant');
 
     var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
+
     var coreUrl = window.location.origin + urlConstants.CORE_SERVER + '/';
 
     //libraries
@@ -68,7 +69,8 @@
                 .post(url + resourceName.toLowerCase())
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json');
+                .set('Accept', 'application/json')
+                .then(function(response) { console.log('im here')});
         },
 
         edit: function (resourceName, data, dataId) {
@@ -86,15 +88,14 @@
                 .set('Accept', 'application/json')
         },
 
-        refreshSession: function (callback) {
-            request
+        refreshSession: function () {
+            return request
                 .post(url + urlConstants.AUTH_SERVER)
-                .send({'refresh_token' : localStorage.getItem('refresh_token')})
+                .send({'refresh_token': localStorage.getItem('refresh_token')})
                 .set('Accept', 'application/json')
                 .then(function (response) {
                     localStorage.access_token = response.access_token;
                     localStorage.refresh_token = response.refresh_token;
-                    callback();
                 }, function (error) {
                     window.location.href = window.location.origin;
                 });

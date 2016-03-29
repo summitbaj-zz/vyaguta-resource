@@ -31,7 +31,6 @@
     /**
      * Actions that are dispatched from crudActions
      */
-
     var actions = {
         list: function (entity, data) {
             return {
@@ -56,7 +55,7 @@
                 data: data
             }
         },
-        pageIndex: function(data, count){
+        pageIndex: function (data, count) {
             return {
                 type: actionTypeConstant.PAGINATION_INDEX,
                 index: data._start,
@@ -81,8 +80,8 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchAll(entity).then(function (response) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.list(entity, response.body));
+                    dispatch(apiActions.apiResponse(entity));
+                    dispatch(actions.list(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
@@ -100,7 +99,14 @@
                     browserHistory.goBack();
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                            ApiUtil.refreshSession().then(function (response) {
+                            crudActions.addItem(entity, data);
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }));
             }
         },
@@ -125,8 +131,8 @@
                 dispatch(apiActions.apiRequest(entity));
 
                 return (ApiUtil.fetchById(entity, id).then(function (response) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.selectItem(entity, response.body));
+                    dispatch(apiActions.apiResponse(entity));
+                    dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
@@ -158,14 +164,14 @@
             }
         },
 
-        fetchByQuery: function(entity, data){
-            return function (dispatch){
+        fetchByQuery: function (entity, data) {
+            return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
-                return (ApiUtil.fetchByQuery2(entity, data).then(function(response){
+                return (ApiUtil.fetchByQuery2(entity, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));
-                }, function(error){
+                }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.error(error.response.body.error);
                 }));
@@ -179,7 +185,7 @@
             }
         },
 
-        clearPagination: function(){
+        clearPagination: function () {
             return {
                 type: actionTypeConstant.PAGINATION_INDEX
             }
