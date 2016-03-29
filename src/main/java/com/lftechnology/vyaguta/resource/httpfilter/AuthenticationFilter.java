@@ -15,9 +15,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
+import com.lftechnology.vyaguta.commons.exception.AuthenticationException;
 import com.lftechnology.vyaguta.commons.pojo.Role;
 import com.lftechnology.vyaguta.commons.pojo.User;
-import com.lftechnology.vyaguta.resource.exception.AuthenticationException;
 
 /**
  * 
