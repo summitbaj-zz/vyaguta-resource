@@ -6,7 +6,13 @@ import com.lftechnology.vyaguta.resource.common.CommonConstant;
 import com.lftechnology.vyaguta.resource.dao.impl.ProjectDaoImpl;
 import com.lftechnology.vyaguta.resource.entity.Project;
 
+/**
+ * 
+ * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ *
+ */
 public class ProjectFilter extends CommonFilter<Project>implements Filterable<Project> {
+
     public ProjectFilter() {
         findByField(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
