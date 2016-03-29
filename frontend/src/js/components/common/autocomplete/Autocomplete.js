@@ -138,7 +138,8 @@
             var suggestions = [];
 
             for (var i = 0; i < nextSuggestions.length; i++) {
-                var matchIndex = nextSuggestions[i].search(inputValue);
+                var suggestionItem = nextSuggestions[i].toLowerCase();
+                var matchIndex = suggestionItem.search(inputValue.toLowerCase());
                 if (matchIndex > -1) {
                     suggestions.push(nextSuggestions[i]);
                 }
