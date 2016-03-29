@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
@@ -21,12 +22,12 @@ public class ContractDaoImpl extends BaseDao<Contract, String>implements Contrac
 
     @Override
     public Map<String, EntitySorter<Contract>> getSortOperations() {
-        return null;
+        return new HashMap<>();
     }
 
     @Override
     public Map<String, EntityFilter<Contract>> getFilters() {
-        return null;
+        return new HashMap<>();
     }
 
 }
