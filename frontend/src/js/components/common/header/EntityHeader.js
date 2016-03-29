@@ -20,7 +20,7 @@
                                     {this.props.apiState.isRequesting &&
                                         <img src="img/ajax-loader.gif"/>
                                     }
-                                </span>
+                                    </span>
                             </div>
                         </div>
                         <BreadCrumb routes={this.props.routes}/>
