@@ -69,7 +69,7 @@
                             ApiUtil.fetchAllFromCore(resourceName, callback);
                         });
                     }
-                })
+                });
         },
 
         create: function (resourceName, data) {

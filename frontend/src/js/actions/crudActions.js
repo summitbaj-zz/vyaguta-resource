@@ -210,7 +210,7 @@
                         dispatch(apiActions.apiRequest(entity));
                         ApiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.addItem(entity, data));
+                            dispatch(crudActions.fetchByQuery(entity, data));
                         });
                     } else {
                         Toastr.error(error.response.body.error);
