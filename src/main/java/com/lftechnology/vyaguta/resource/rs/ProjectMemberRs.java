@@ -63,8 +63,7 @@ public class ProjectMemberRs {
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid request body") })
     public Response create(
             @ApiParam(value = "Project member object to create", required = true) @NotNull(message = "Request body expected") @Valid ProjectMember projectMember) {
-        ProjectMember resultProjectMember = projectMemberService.save(projectMember);
-        return Response.status(Response.Status.OK).entity(resultProjectMember).build();
+        return Response.status(Response.Status.OK).entity(projectMemberService.save(projectMember)).build();
     }
 
     @Path("/{id}")
