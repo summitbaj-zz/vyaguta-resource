@@ -20,7 +20,7 @@
                 <li><a href="#" className="profile-img img-lg" onClick={this.setMemberIdToBeInModal} data-toggle="modal"
                        data-target="#addTeam"><img
                     className="img-circle" alt="avatar"
-                    src="/img/placeholders/avatar.png"/></a></li>
+                    src="img/placeholders/avatar.png"/></a></li>
             )
         }
     });
