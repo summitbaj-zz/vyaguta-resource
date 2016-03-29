@@ -11,7 +11,7 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 public class TagSort extends CommonSort<Tag> {
 
     public TagSort() {
-        sortByField("title");
+        sortBy("title");
     }
 
 }

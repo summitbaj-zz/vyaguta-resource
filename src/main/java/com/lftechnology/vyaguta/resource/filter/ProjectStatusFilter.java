@@ -13,7 +13,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 public class ProjectStatusFilter extends CommonFilter<ProjectStatus>implements Filterable<ProjectStatus> {
 
     public ProjectStatusFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
     }
 

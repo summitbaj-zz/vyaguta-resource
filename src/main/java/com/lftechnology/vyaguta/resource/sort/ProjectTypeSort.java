@@ -10,6 +10,6 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
  */
 public class ProjectTypeSort extends CommonSort<ProjectType> {
     public ProjectTypeSort() {
-        sortByField("title");
+        sortBy("title");
     }
 }
