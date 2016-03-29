@@ -26,9 +26,9 @@
                 .set('Accept', 'application/json');
         },
 
-        fetchByQuery: function (resourceName, data, callback, searchMode) {
+        fetchByQuery: function (resourceName, data, callback) {
             request
-                .get(url + resourceName.toLowerCase() + '?title=' + data + '&searchMode=' + searchMode)
+                .get(url + resourceName.toLowerCase() + '?q=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
                 .then(function (response) {
@@ -36,7 +36,26 @@
                 }, function (error) {
                     if (error.status = 401) {
                         apiUtil.refreshSession().then(function (response) {
-                            apiUtil.fetchByQuery(resourceName, data, callback, searchMode);
+                            apiUtil.fetchByQuery(resourceName, data, callback);
+                        });
+                    } else {
+                        callback([]);
+                    }
+
+                })
+        },
+
+        fetchByTitle: function (resourceName, data, callback) {
+            request
+                .get(url + resourceName.toLowerCase() + '?title=' + data)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+                .then(function (response) {
+                    callback(response.body.data);
+                }, function (error) {
+                    if (error.status = 401) {
+                        apiUtil.refreshSession().then(function (response) {
+                            apiUtil.fetchByQuery(resourceName, data, callback);
                         });
                     } else {
                         callback([]);
@@ -75,6 +94,22 @@
                     if (error.status = 401) {
                         apiUtil.refreshSession().then(function (response) {
                             apiUtil.fetchAllFromCore(resourceName, callback);
+                        });
+                    }
+                });
+        },
+
+        fetchByQueryFromCore: function (resourceName, data, callback) {
+            request
+                .get(coreUrl + resourceName.toLowerCase() + '?q=' + data)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+                .then(function (response) {
+                    callback(response.body.data);
+                }, function (error) {
+                    if (error.status = 401) {
+                        apiUtil.refreshSession().then(function (response) {
+                            apiUtil.fetchByQueryFromCore(resourceName, data, callback);
                         });
                     }
                 });
