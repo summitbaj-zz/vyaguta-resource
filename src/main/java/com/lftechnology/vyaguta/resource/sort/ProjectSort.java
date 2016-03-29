@@ -23,6 +23,8 @@ public class ProjectSort extends CommonSort<Project> {
 
     public ProjectSort() {
         sortByField("title");
+        sortByField("startDate");
+        sortByField("endDate");
         sortByBudgetType();
         sortByProjectStatus();
         sortByProjectType();
