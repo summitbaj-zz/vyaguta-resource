@@ -49,8 +49,7 @@ public class BudgetTypeRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid BudgetType budgetType) {
-        budgetType = budgetTypeService.save(budgetType);
-        return Response.status(Response.Status.OK).entity(budgetType).build();
+        return Response.status(Response.Status.OK).entity(budgetTypeService.save(budgetType)).build();
     }
 
     @Path("/{id}")

@@ -21,8 +21,7 @@
         //API actions
         API_REQUEST: 'API_REQUEST',
         API_RESPONSE: 'API_RESPONSE',
-        API_ERROR: 'API_ERROR'
-
+        API_CLEAR_STATE: 'API_CLEAR_STATE'
     };
 
     module.exports = actionTypeConstant;

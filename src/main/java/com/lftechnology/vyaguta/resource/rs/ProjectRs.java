@@ -51,8 +51,7 @@ public class ProjectRs {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "Admin" })
     public Response create(@NotNull(message = "Request body expected") @Valid Project project) {
-        project = projectService.save(project);
-        return Response.status(Response.Status.OK).entity(project).build();
+        return Response.status(Response.Status.OK).entity(projectService.save(project)).build();
     }
 
     @Path("/{id}")

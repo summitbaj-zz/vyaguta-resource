@@ -2,9 +2,14 @@ package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +22,8 @@ import org.mockito.Spy;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;;
 
@@ -185,7 +192,8 @@ public class ProjectTypeServiceImplTest {
     public void testFind() {
 
         // arrange
-        Mockito.when(projectTypeDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectType>());
+        Mockito.when(projectTypeDao.find(Matchers.anyInt(), Matchers.anyInt()))
+                .thenReturn(new ArrayList<ProjectType>());
 
         // act
         this.projectTypeServiceImpl.find(2, 20);
@@ -193,6 +201,31 @@ public class ProjectTypeServiceImplTest {
         // assert
         Mockito.verify(projectTypeDao).find(Matchers.anyInt(), Matchers.anyInt());
 
+    }
+
+    @Test
+    public void testFindByFilter() {
+
+        // arrange
+        Map<String, List<String>> multiValue = new HashMap<>();
+        multiValue.put("title", Arrays.asList("Client"));
+        MultivaluedMap<String, String> queryParameters = new MultivaluedMapImpl<>(multiValue);
+        List<ProjectType> projectTypes = new ArrayList<>();
+        projectTypes.add(this.buildProjectType());
+
+        Mockito.when(projectTypeDao.findByFilter(queryParameters)).thenReturn(projectTypes);
+        Mockito.when(projectTypeDao.count(queryParameters)).thenReturn(10L);
+
+        // act
+        Map<String, Object> result = this.projectTypeServiceImpl.findByFilter(queryParameters);
+
+        // assert
+        assertTrue(result.containsKey("count"));
+        assertTrue(result.containsValue(10L));
+        assertTrue(result.containsKey("data"));
+        assertTrue(result.containsValue(projectTypes));
+        Mockito.verify(projectTypeDao).count(queryParameters);
+        Mockito.verify(projectTypeDao).findByFilter(queryParameters);
     }
 
     private ProjectType buildProjectType() {

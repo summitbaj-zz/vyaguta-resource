@@ -16,11 +16,13 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //libraries
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
     var _ = require('lodash');
+    var Toastr = require('toastr');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -31,11 +33,12 @@
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/FormValidator');
-    var crudActions = require('../../actions/crudActions');
-    var teamMemberActions = require('../../actions/teamMemberActions');
     var ApiUtil = require('../../util/ApiUtil');
 
-    var isProjectNameValid = true;
+    //actions
+    var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+    var teamMemberActions = require('../../actions/teamMemberActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -49,42 +52,33 @@
         },
 
         componentDidMount: function () {
+            if (this.props.params.id) {
+                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+            }
             this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
-            if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
-            }
+
         },
+
         componentWillReceiveProps: function (props) {
             if (this.props.params.id) {
-                this.setSelectedItem('projectType', props.selectedItem.projects.projectType);
-                this.setSelectedItem('projectStatus', props.selectedItem.projects.projectStatus);
-                this.setSelectedItem('budgetType', props.selectedItem.projects.budgetType);
-                this.setSelectedItem('client', props.selectedItem.projects.client);
-                this.setState({technologyStack: props.selectedItem.projects.tags});
                 var title = (!this.state.projectName) ? props.selectedItem.projects.title : this.state.projectName;
+
                 this.setState({projectName: title});
+                this.setState({technologyStack: props.selectedItem.projects.tags});
             }
         },
 
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
-            isProjectNameValid = true;
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.apiClearState();
         },
 
         setManager: function (value) {
             this.setState({accountManager: value});
-        },
-
-        setSelectedItem: function (type, state) {
-            if (state) {
-                $('#' + type).val(state.id).selected = true;
-            } else {
-                $('#' + type).val(0).selected = true;
-            }
         },
 
         addTag: function (value) {
@@ -181,14 +175,16 @@
                 'title': this.refs.title.value
             };
 
-            if (formValidator.isRequired(requiredField) && isProjectNameValid && this.state.accountManager != null) {
+            formValidator.validateForm(requiredField);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
             } else {
-                this.showErrors(formValidator.errors)
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -212,11 +208,12 @@
             var requiredField = {
                 'reason': $('#reason').val()
             };
-            if (formValidator.isRequired(requiredField)) {
+            formValidator.validateForm(requiredField);
+            if (formValidator.isValid()) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
             } else {
-                this.showErrors(formValidator.errors);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -224,25 +221,25 @@
             if (title.length === 0) {
                 this.refs.title.parentElement.className = 'form-group has-success';
                 this.refs.availableMessage.innerHTML = '';
-                isProjectNameValid = true;
             } else {
                 this.refs.title.parentElement.className = 'form-group has-error';
-                this.refs.availableMessage.innerHTML = 'Project name already exists.';
-                isProjectNameValid = false;
+                this.refs.availableMessage.innerHTML = messageConstant.PROJECT_NAME_EXISTS_MESSAGE;
             }
         },
 
-        validateTitle: function () {
+        validateTitle: function (event) {
             var title = this.refs.title.value;
             if (title && title != this.state.projectName) {
                 ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+            } else if (!title) {
+                formValidator.validateField(event);
             } else {
                 this.refs.title.parentElement.className = 'form-group';
                 this.refs.availableMessage.innerHTML = '';
             }
         },
 
-        fieldChange: function (event) {
+        handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
@@ -250,7 +247,6 @@
         },
 
         render: function () {
-
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
@@ -260,162 +256,208 @@
                             <div className="block">
                                 <div className="block-title-border">Project Details</div>
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
-                                    <div className="form-group">
-                                        <label>Project Name</label>
-                                        <input type="text" placeholder="Project Name" name="title" ref="title"
-                                               value={this.props.selectedItem.projects.title}
-                                               className="form-control" id="title" onChange={this.fieldChange}
-                                               onBlur={this.validateTitle}/>
-                                        <span className="help-block" ref="availableMessage"></span>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Description</label>
+                                    <fieldset disabled={this.props.apiState.isRequesting}>
+                                        <div className="form-group">
+                                            <label>Project Name *</label>
+                                            <input type="text" placeholder="Project Name" name="title" ref="title"
+                                                   value={this.props.selectedItem.projects.title}
+                                                   className="form-control" id="title" onChange={this.handleChange}
+                                                   onBlur={this.validateTitle}
+                                                   onFocus={formValidator.removeError.bind(null, 'title')}/>
+                                            <span className="help-block" ref="availableMessage"></span>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Description</label>
                                     <textarea name="description" ref="description"
                                               value={this.props.selectedItem.projects.description}
                                               placeholder="Short description about the project."
                                               className="form-control" rows="4" id="description"
-                                              onChange={this.fieldChange}></textarea>
-                                        <span className="help-block"></span>
+                                              onChange={this.handleChange}></textarea>
+                                            <span className="help-block"></span>
 
-                                    </div>
-                                    <div className="form-group clearfix">
-                                        <div className="row multiple-element">
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className="control-label">Project Type</label>
-                                                <select className="form-control" ref="projectType" id="projectType">
-                                                    <option value="0">Please Select</option>
-                                                    {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
-                                                </select>
-                                                <span className="help-block"></span>
+                                        </div>
+                                        <div className="form-group clearfix">
+                                            <div className="row multiple-element">
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label className="control-label">Project Type</label>
+                                                    <select className="form-control"
+                                                            name="projectType" ref="projectType"
+                                                            id="projectType"
+                                                            value={this.props.selectedItem.projects.projectType &&
+                                                               this.props.selectedItem.projects.projectType.id}
+                                                            onChange={this.handleChange}>
+                                                        <option value="0">Please Select</option>
+                                                        {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
+                                                    </select>
+                                                    <span className="help-block"></span>
 
-                                            </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className=" control-label">Budget Type</label>
-                                                <select className="form-control" ref="budgetType" id="budgetType">
-                                                    <option value="0">
-                                                        Please Select
-                                                    </option>
-                                                    {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
-                                                </select>
-                                                <span className="help-block"></span>
-                                            </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label htmlFor="example-select" className="control-label">Project
-                                                    Status</label>
-                                                <select className="form-control" ref="projectStatus" id="projectStatus">
-                                                    <option value="0">Please
-                                                        Select
-                                                    </option>
-                                                    {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
-                                                </select>
-                                                <span className="help-block"></span>
+                                                </div>
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label className=" control-label">Budget Type</label>
+                                                    <select className="form-control"
+                                                            ref="budgetType" name="budgetType"
+                                                            id="budgetType"
+                                                            value={this.props.selectedItem.projects.budgetType &&
+                                                               this.props.selectedItem.projects.budgetType.id}
+                                                            onChange={this.handleChange}>
+                                                        <option value="0">
+                                                            Please Select
+                                                        </option>
+                                                        {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
+                                                    </select>
+                                                    <span className="help-block"></span>
+                                                </div>
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label htmlFor="example-select" className="control-label">Project
+                                                        Status</label>
+                                                    <select className="form-control"
+                                                            ref="projectStatus" name="projectStatus"
+                                                            id="projectStatus"
+                                                            value={this.props.selectedItem.projects.projectStatus &&
+                                                               this.props.selectedItem.projects.projectStatus.id}
+                                                            onChange={this.handleChange}
+                                                    >
+                                                        <option value="0">Please
+                                                            Select
+                                                        </option>
+                                                        {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
+                                                    </select>
+                                                    <span className="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="form-group clearfix">
-                                        <div className="row multiple-element">
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label htmlFor="example-select" className="control-label">Client</label>
-                                                <select className="form-control" ref="client" id="client">
-                                                    <option value="0">Please
-                                                        Select
-                                                    </option>
-                                                    {Object.keys(this.props.clients).map(this.renderClient)}
-                                                </select>
-                                                <span className="help-block"></span>
-                                            </div>
-                                            <div className="col-md-6 col-lg-4 element">
-                                                <label className="control-label">Contract Date</label>
-                                                <div data-date-format="mm/dd/yyyy"
-                                                     className="input-group input-daterange">
-                                                    <DatePicker selected={this.state.startDate}
-                                                                onChange={this.handleChangeStartDate}
-                                                                className="form-control" placeholderText="From"
-                                                                popoverTargetOffset='40px 0px'/>
+                                        <div className="form-group clearfix">
+                                            <div className="row multiple-element">
+                                                <AccountManager setManager={this.setManager}
+                                                                handleChange={this.handleChange}
+                                                />
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label htmlFor="example-select"
+                                                           className="control-label">Client</label>
+                                                    <select className="form-control"
+                                                            ref="client" name="client"
+                                                            id="client"
+                                                            value={this.props.selectedItem.projects.client &&
+                                                               this.props.selectedItem.projects.client.id}
+                                                            onChange={this.handleChange}
+                                                    >
+                                                        <option value="0">Please
+                                                            Select
+                                                        </option>
+                                                        {Object.keys(this.props.clients).map(this.renderClient)}
+                                                    </select>
+                                                    <span className="help-block"></span>
+                                                </div>
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label className="control-label">Contract Date</label>
+                                                    <div data-date-format="mm/dd/yyyy"
+                                                         className="input-group input-daterange">
+                                                        <DatePicker selected={this.state.startDate}
+                                                                    onChange={this.handleChangeStartDate}
+                                                                    className="form-control"
+                                                                    placeholderText="From"
+                                                                    popoverTargetOffset='40px 0px'
+                                                                    disabled={this.props.apiState.isRequesting}
+                                                        />
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-angle-right"></i></span>
-                                                    <DatePicker selected={this.state.endDate}
-                                                                onChange={this.handleChangeEndDate}
-                                                                className="form-control" minDate={this.state.startDate}
-                                                                placeholderText="To" popoverTargetOffset='40px 0px'/>
+                                                        <DatePicker selected={this.state.endDate}
+                                                                    onChange={this.handleChangeEndDate}
+                                                                    className="form-control"
+                                                                    minDate={this.state.startDate}
+                                                                    placeholderText="To"
+                                                                    popoverTargetOffset='40px 0px'
+                                                                    disabled={this.props.apiState.isRequesting}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <AccountManager setManager={this.setManager}
-                                                            fieldChange={this.fieldChange}/>
                                         </div>
-                                    </div>
-                                    <div className="form-group clearfix">
-                                        <label className="control-label">Technology Stack</label>
-                                        <TechnologyStack technologyStack={this.state.technologyStack}
-                                                         removeTag={this.removeTag} addTag={this.addTag}/>
-                                        <span className="help-block"></span>
+                                        <div className="form-group clearfix">
+                                            <label className="control-label">Technology Stack</label>
+                                            <TechnologyStack technologyStack={this.state.technologyStack}
+                                                             removeTag={this.removeTag}
+                                                             addTag={this.addTag}
+                                            />
+                                            <span className="help-block"></span>
 
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label">Resources</label>
-                                        <div className="row multiple-element">
-                                            <div className="col-sm-12 col-lg-8 element">
-                                                <div className="input-group">
-                                                    <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
-                                                    <span className="input-group-addon">No. of</span>
-                                                    <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-12 col-lg-8 element">
-                                                <div className="input-group">
-                                                    <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
-                                                    <span className="input-group-addon">No. of</span>
-                                                    <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-12 col-lg-8 element">
-                                                <div className="input-group">
-                                                    <input type="text" placeholder="Resource"
-                                                           className="form-control text-center"/>
-                                                    <span className="input-group-addon">No. of</span>
-                                                    <input type="text" placeholder="2"
-                                                           className="form-control text-center input-sm"/>
-                                                </div>
-                                            </div>
-                                            <div className="block-options clear"><a
-                                                className="btn btn-sm btn-ghost text-uppercase" data-toggle="tooltip"
-                                                title="Add Another Field" href="#"><i className="fa fa-plus"></i> Add
-                                                Another Field</a></div>
                                         </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label">Team Members</label>
-                                        <div className="row  text-center">
-                                            <div className="col-sm-12">
-                                                <ul className="team-list clearfix">
-                                                    <li><a href="#" className="profile-img img-lg add-team"
-                                                           data-toggle="modal" data-target="#addTeam"
-                                                           onClick={this.clearMemberIndexInModal}><i
-                                                        className="fa fa-plus"></i> <span
-                                                        className="on-hover circular-block"></span> </a>
-                                                    </li>
+                                        <div className="form-group">
+                                            <label className="control-label">Resources</label>
+                                            <div className="row multiple-element">
+                                                <div className="col-sm-12 col-lg-8 element">
+                                                    <div className="input-group">
+                                                        <input type="text" placeholder="Resource"
+                                                               className="form-control text-center"
+                                                        />
+                                                        <span className="input-group-addon">No. of</span>
+                                                        <input type="text" placeholder="2"
+                                                               className="form-control text-center input-sm"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-12 col-lg-8 element">
+                                                    <div className="input-group">
+                                                        <input type="text" placeholder="Resource"
+                                                               className="form-control text-center"
+                                                        />
+                                                        <span className="input-group-addon">No. of</span>
+                                                        <input type="text" placeholder="2"
+                                                               className="form-control text-center input-sm"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-12 col-lg-8 element">
+                                                    <div className="input-group">
+                                                        <input type="text" placeholder="Resource"
+                                                               className="form-control text-center"
+                                                        />
+                                                        <span className="input-group-addon">No. of</span>
+                                                        <input type="text" placeholder="2"
+                                                               className="form-control text-center input-sm"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="block-options clear"><a
+                                                    className="btn btn-sm btn-ghost text-uppercase"
+                                                    data-toggle="tooltip"
+                                                    title="Add Another Field" href="#"><i className="fa fa-plus"></i>
+                                                    Add
+                                                    Another Field</a></div>
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="control-label">Team Members</label>
+                                            <div className="row  text-center">
+                                                <div className="col-sm-12">
+                                                    <ul className="team-list clearfix">
+                                                        <li><a href="#" className="profile-img img-lg add-team"
+                                                               data-toggle="modal" data-target="#addTeam"
+                                                               onClick={this.clearMemberIndexInModal}><i
+                                                            className="fa fa-plus"></i> <span
+                                                            className="on-hover circular-block"></span> </a>
+                                                        </li>
 
-                                                    {Object.keys(this.props.teamMembers).map(this.renderTeamMember)}
+                                                        {Object.keys(this.props.teamMembers).map(this.renderTeamMember)}
 
-                                                </ul>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="form-group form-actions clearfix">
-                                        <div className="pull-right">
-                                            <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                                className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
-                                            </button>
-                                            <button className="btn btn-sm btn-danger" type="button"
-                                                    onClick={browserHistory.goBack}><i
-                                                className="fa fa-remove"></i>Cancel
-                                            </button>
+                                        <div className="form-group form-actions clearfix">
+                                            <div className="pull-right">
+                                                <button className="btn btn-sm btn-success"
+                                                        type="submit"
+                                                        id="save-btn">
+                                                    <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                                </button>
+                                                <button className="btn btn-sm btn-danger" type="button"
+                                                        onClick={browserHistory.goBack}>
+                                                    <i className="fa fa-remove"></i>Cancel
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </form>
                             </div>
                         </div>
@@ -436,13 +478,14 @@
             clients: state.crudReducer.clients,
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions), dispatch)
+            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions), dispatch)
         }
     };
 

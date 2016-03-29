@@ -21,7 +21,7 @@
     var reducers = combineReducers({
         crudReducer: crudReducer,
         teamMemberReducer: teamMemberReducer,
-        apiState: apiReducer
+        apiReducer: apiReducer
         //add for each reducers...
     });
 
@@ -30,7 +30,7 @@
 
         //For working redux dev tools in chrome (https://github.com/zalmoxisus/redux-devtools-extension)
         window.devToolsExtension ? window.devToolsExtension() : function (f) {
-            return f
+            return f;
         }
     ));
 

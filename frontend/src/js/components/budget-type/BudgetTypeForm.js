@@ -16,11 +16,21 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
     var crudActions = require('../../actions/crudActions');
+    var apiActions = require('../../actions/apiActions');
+
+    //libraries
+    var _ = require('lodash');
+
+    //libraries
+    var Toastr = require('toastr');
 
     var BudgetTypeForm = React.createClass({
         componentDidMount: function () {
@@ -32,6 +42,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
+            this.props.actions.apiClearState();
         },
 
         //call when form is submitted
@@ -42,27 +53,16 @@
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isRequired(budgetType)) {
+            formValidator.validateForm(budgetType);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
                 }
             } else {
-                this.showErrors(formValidator.errors)
-            }
-        },
-
-
-        //call when validation fails
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -84,26 +84,34 @@
                             className="block-title-border">Budget Type Details
                         </div>
                         <form className="form-bordered" method="post" onSubmit={this.saveBudgetType}>
-                            <div className="form-group">
-                                <label>Budget Type</label>
-                                <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
-                                       className="form-control"
-                                       value={this.props.selectedItem.budgetTypes.title}
-                                       id="title"
-                                       onChange={this.handleChange}/>
-                                <span className="help-block"></span>
-                            </div>
-                            <div className="form-group form-actions clearfix">
-                                <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
-                                    </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
-                                    </button>
+                            <fieldset disabled={this.props.apiState.isRequesting}>
+                                <div className="form-group">
+                                    <label>Budget Type *</label>
+                                    <input name="title" type="text" ref="budgetType" placeholder="Budget Type"
+                                           className="form-control"
+                                           value={this.props.selectedItem.budgetTypes.title}
+                                           id="title"
+                                           onBlur={formValidator.validateField}
+                                           onFocus={formValidator.removeError.bind(null, 'title')}
+                                           onChange={this.handleChange}
+                                    />
+                                    <span className="help-block"></span>
                                 </div>
-                            </div>
+                                <div className="form-group form-actions clearfix">
+                                    <div className="pull-right">
+                                        <button className="btn btn-sm btn-success"
+                                                type="submit"
+                                                id="save-btn">
+                                            <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        </button>
+                                        <button className="btn btn-sm btn-danger"
+                                                type="button"
+                                                onClick={browserHistory.goBack}>
+                                            <i className="fa fa-remove"></i>Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
@@ -113,13 +121,14 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 

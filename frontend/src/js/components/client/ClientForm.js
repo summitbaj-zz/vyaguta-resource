@@ -10,11 +10,19 @@
     //constants
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
+    var messageConstant = require('../../constants/messageConstant');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
     var formValidator = require('../../util/FormValidator');
+
+    //actions
+    var apiActions = require('../../actions/apiActions');
     var crudActions = require('../../actions/crudActions');
+
+    //libraries
+    var _ = require('lodash');
+    var Toastr = require('toastr');
 
     var ClientForm = React.createClass({
         componentDidMount: function () {
@@ -25,6 +33,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.CLIENTS);
+            this.props.actions.apiClearState();
         },
 
         //called when form is submitted
@@ -45,24 +54,16 @@
                 email: this.refs.email.value
             };
 
-            if (formValidator.isRequired(requiredFields)) {
+            formValidator.validateForm(requiredFields);
+
+            if (formValidator.isValid()) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
                     this.props.actions.addItem(resourceConstant.CLIENTS, client);
                 }
             } else {
-                this.showErrors(formValidator.errors);
-            }
-        },
-
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -81,87 +82,104 @@
                     <div className="block">
                         <div className="block-title-border">Client Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveClient}>
-                            <div className="form-group">
-                                <label>Name</label>
-                                <input type="text" ref="name" name="name"
-                                       value={this.props.selectedItem.clients.name}
-                                       onChange={this.fieldChange}
-                                       placeholder="Client Name"
-                                       className="form-control"
-                                       id="name"/>
-                                <span className="help-block"></span>
-                            </div>
-                            <div className="form-group clearfix">
-                                <div className="row multiple-element">
-                                    <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Email Address</label>
-                                        <div>
-                                            <input type="text" ref="email" name="email"
-                                                   value={this.props.selectedItem.clients.email}
-                                                   onChange={this.fieldChange}
-                                                   placeholder="Email Address"
-                                                   className="form-control"
-                                                   id="email"/>
+                            <fieldset disabled={this.props.apiState.isRequesting}>
+                                <div className="form-group">
+                                    <label>Name *</label>
+                                    <input type="text" ref="name" name="name"
+                                           value={this.props.selectedItem.clients.name}
+                                           onChange={this.fieldChange}
+                                           onBlur={formValidator.validateField}
+                                           onFocus={formValidator.removeError.bind(null, 'name')}
+                                           placeholder="Client Name"
+                                           className="form-control"
+                                           id="name"
+                                    />
+                                    <span className="help-block"></span>
+                                </div>
+                                <div className="form-group clearfix">
+                                    <div className="row multiple-element">
+                                        <div className="col-md-6 col-lg-4 element">
+                                            <label className="control-label">Email Address *</label>
+                                            <div>
+                                                <input type="text" ref="email" name="email"
+                                                       value={this.props.selectedItem.clients.email}
+                                                       onChange={this.fieldChange}
+                                                       onBlur={formValidator.validateField}
+                                                       onFocus={formValidator.removeError.bind(null, 'email')}
+                                                       placeholder="Email Address"
+                                                       className="form-control"
+                                                       id="email"
+                                                />
+                                                <span className="help-block" ref="availableMessage"></span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-lg-4 element">
+                                            <label className="control-label">Phone Number</label>
+                                            <div>
+                                                <input type="text" ref="phone" name="phone"
+                                                       value={this.props.selectedItem.clients.phone}
+                                                       onChange={this.fieldChange}
+                                                       placeholder="Phone Number"
+                                                       className="form-control"
+                                                       id="phone"
+                                                />
+                                            </div>
+                                            <span className="help-block" ref="availableMessage"></span>
+                                        </div>
+                                        <div className="col-md-6 col-lg-4 element">
+                                            <label className="control-label">Skype Id</label>
+                                            <div>
+                                                <input type="text" ref="skype" name="skype"
+                                                       value={this.props.selectedItem.clients.skype}
+                                                       onChange={this.fieldChange}
+                                                       placeholder="Skype Id"
+                                                       className="form-control"
+                                                       id="skype"
+                                                />
+                                            </div>
                                             <span className="help-block" ref="availableMessage"></span>
                                         </div>
                                     </div>
-                                    <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Phone Number</label>
-                                        <div>
-                                            <input type="text" ref="phone" name="phone"
-                                                   value={this.props.selectedItem.clients.phone}
-                                                   onChange={this.fieldChange}
-                                                   placeholder="Phone Number"
-                                                   className="form-control"
-                                                   id="phone"/>
-                                        </div>
-                                        <span className="help-block" ref="availableMessage"></span>
-                                    </div>
-                                    <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Skype Id</label>
-                                        <div>
-                                            <input type="text" ref="skype" name="skype"
-                                                   value={this.props.selectedItem.clients.skype}
-                                                   onChange={this.fieldChange}
-                                                   placeholder="Skype Id"
-                                                   className="form-control"
-                                                   id="skype"/>
-                                        </div>
-                                        <span className="help-block" ref="availableMessage"></span>
-                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <label>Address</label>
-                                <input type="text" ref="address" name="address"
-                                       value={this.props.selectedItem.clients.address}
-                                       onChange={this.fieldChange}
-                                       placeholder="Address"
-                                       className="form-control"
-                                       id="address"/>
-                                <span className="help-block" ref="availableMessage"></span>
-                            </div>
-                            <div className="form-group">
-                                <label>Description</label>
+                                <div className="form-group">
+                                    <label>Address</label>
+                                    <input type="text" ref="address" name="address"
+                                           value={this.props.selectedItem.clients.address}
+                                           onChange={this.fieldChange}
+                                           placeholder="Address"
+                                           className="form-control"
+                                           id="address"
+                                    />
+                                    <span className="help-block" ref="availableMessage"></span>
+                                </div>
+                                <div className="form-group">
+                                    <label>Description</label>
                                     <textarea name="description" ref="description"
                                               value={this.props.selectedItem.clients.description}
                                               placeholder="Short description about the client."
                                               onChange={this.fieldChange}
-                                              className="form-control" rows="4" id="description"></textarea>
-                                <span className="help-block" ref="availableMessage"></span>
+                                              className="form-control" rows="4" id="description"
+                                    ></textarea>
+                                    <span className="help-block" ref="availableMessage"></span>
 
-                            </div>
-                            <div className="form-group form-actions clearfix">
-                                <div className="pull-right">
-                                    <button className="btn btn-sm btn-success" type="submit" id="save-btn"><i
-                                        className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
-                                    </button>
-                                    <button className="btn btn-sm btn-danger" type="button"
-                                            onClick={browserHistory.goBack}><i
-                                        className="fa fa-remove"></i>Cancel
-                                    </button>
                                 </div>
-                            </div>
+                                <div className="form-group form-actions clearfix">
+                                    <div className="pull-right">
+                                        <button className="btn btn-sm btn-success"
+                                                type="submit"
+                                                id="save-btn">
+
+                                            <i className="fa fa-check"></i>{(this.props.params.id) ? 'Update' : 'Save'}
+                                        </button>
+                                        <button className="btn btn-sm btn-danger"
+                                                type="button"
+                                                onClick={browserHistory.goBack}>
+
+                                            <i className="fa fa-remove"></i>Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
@@ -171,13 +189,14 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(crudActions, dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
         }
     };
 
