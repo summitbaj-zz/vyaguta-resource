@@ -11,7 +11,7 @@ import com.lftechnology.vyaguta.resource.entity.Client;
 public class ClientSort extends CommonSort<Client> {
 
     public ClientSort() {
-        sortByField("name");
+        sortBy("name");
     }
 
 }

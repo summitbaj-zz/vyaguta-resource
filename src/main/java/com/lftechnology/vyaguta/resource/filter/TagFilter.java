@@ -13,7 +13,7 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 public class TagFilter extends CommonFilter<Tag>implements Filterable<Tag> {
 
     public TagFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
     }
 

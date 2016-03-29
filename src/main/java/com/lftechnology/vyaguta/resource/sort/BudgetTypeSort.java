@@ -11,6 +11,6 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 public class BudgetTypeSort extends CommonSort<BudgetType> {
 
     public BudgetTypeSort() {
-        sortByField("title");
+        sortBy("title");
     }
 }
