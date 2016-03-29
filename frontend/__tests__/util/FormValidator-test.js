@@ -6,7 +6,7 @@
 
 jest.dontMock('../../src/js/util/FormValidator');
 
-var formValidator = require('../../src/js/util/FormValidator');
+var formValidator = require('../../src/js/util/formValidator');
 
 var data = {
     title: "test"

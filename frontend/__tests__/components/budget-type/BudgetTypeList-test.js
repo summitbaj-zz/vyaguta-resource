@@ -15,7 +15,7 @@ var TestUtils = require('react-addons-test-utils');
 
 var BudgetTypeList = require('../../../src/js/components/budget-type/BudgetTypeList').WrappedComponent;
 var BudgetTypeRow = require('../../../src/js/components/budget-type/BudgetTypeRow');
-var ApiUtil = require('../../../src/js/util/ApiUtil');
+var ApiUtil = require('../../../src/js/util/apiUtil');
 var store = require('../../../src/js/store/store');
 var crudActions = require('../../../src/js/actions/crudActions');
 

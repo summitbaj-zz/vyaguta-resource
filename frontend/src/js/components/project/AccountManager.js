@@ -9,44 +9,29 @@
     var messageConstant = require('../../constants/messageConstant');
 
     //components
-    var ApiUtil = require('../../util/ApiUtil');
+    var apiUtil = require('../../util/apiUtil');
     var AutoComplete = require('../common/autocomplete/Autocomplete');
 
 
     var AccountManager = React.createClass({
         getInitialState: function () {
             return {
-                suggestions: []
+                suggestions: [],
+                isAccountManagerValid: false,
+                isRequesting: false
             }
         },
 
         changeSuggestionState: function (data) {
+            this.setState({isRequesting: false});
             this.setState({suggestions: data || []});
         },
 
         updateSuggestions: function (input) {
+            var that = this;
             this.setState({suggestions: []});
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
-        },
-
-        input: function (event) {
-            var key = event.keyCode;
-
-            if (key == 13) {
-                event.preventDefault();
-            } else {
-                var inputValue = this.refs.inputTag.value;
-                var pressed = String.fromCharCode(key);
-
-                if (this.isValid(pressed)) {
-                    this.updateSuggestions(inputValue.toLowerCase());
-                }
-
-            }
-        },
-
-        isValid: function (value) {
-            return /^[a-zA-Z ]+$/.test(value);
+            this.setState({isRequesting: true});
+            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
         },
 
         getSuggestionName: function () {
@@ -56,6 +41,7 @@
             }
             return names;
         },
+
 
         getAppendedName: function (index) {
             var name;
@@ -69,36 +55,51 @@
         },
 
         fetchNamesForValidation: function () {
-            var input = this.refs.inputTag.value;
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
-        },
+            this.setState({suggestions: []});
 
-        validateManager: function () {
-            var input = this.refs.inputTag;
-            if (input.value) {
-                for (var i = 0; i < this.state.suggestions.length; i++) {
-                    if (input.value === this.getAppendedName(i)) {
-                        var accountManager = {'id': this.state.suggestions[i].id};
-                        this.showValidity('has-success', null, accountManager);
-                        return;
-                    }
-                }
-                this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
+            if (this.refs.inputTag.value) {
+                this.setState({isRequesting: true});
+                apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
             } else {
                 this.showValidity(null, null, {});
             }
+
+        },
+
+        validateManager: function (data) {
+            this.setState({suggestions: data || []});
+            this.setState({isRequesting: false});
+            this.setState({isAccountManagerValid: false});
+
+            var input = this.refs.inputTag;
+
+            for (var i = 0; i < this.state.suggestions.length; i++) {
+                if (input.value === this.getAppendedName(i) && !$('.manager-input').is(':focus')) {
+                    this.setState({isAccountManagerValid: true});
+                    var accountManager = {'id': this.state.suggestions[i].id};
+                    this.showValidity('has-success has-feedback', null, accountManager);
+                    return;
+                }
+            }
+            this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
+
         },
 
         showValidity: function (className, message, accountManager) {
-            var parentElement = $('#account-manager').parent();
+            var parentElement = $('#account-manager').parent().parent();
             parentElement.removeClass('has-error');
             parentElement.removeClass('has-success');
-            parentElement.addClass(className);
             this.props.setManager(accountManager);
-            this.refs.availableMessage.innerHTML = message;
+
+            if (!$('.manager-input').is(':focus')) {
+                parentElement.addClass(className);
+                this.refs.availableMessage.innerHTML = message;
+            }
+            this.setState({suggestions: []});
         },
 
         removeMessage: function () {
+            this.setState({isAccountManagerValid: false});
             this.refs.availableMessage.innerHTML = '';
         },
 
@@ -106,15 +107,21 @@
             var suggestionTitle = this.getSuggestionName();
             return (
                 <div className="col-md-6 col-lg-4 element">
-                    <label className="control-label">Account Manager</label>
+                    <label>Account Manager</label>
                     <div className="manager-parent">
                         <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
-                               className="form-control manager-input" autoComplete="off" onKeyUp={this.input}
+                               className="form-control manager-input" autoComplete="off"
                                onFocus={this.removeMessage}
                                onBlur={this.fetchNamesForValidation} id="account-manager"
                                onChange={this.props.fieldChange}
                         />
-                        <AutoComplete inputField="manager-input" suggestions={suggestionTitle}/>
+                        {this.state.isAccountManagerValid && <span
+                            className="glyphicon glyphicon-ok form-control-feedback manager-validation-icon"
+                            aria-hidden="true"></span>}
+
+                        <AutoComplete inputField="manager-input" suggestions={suggestionTitle}
+                                      generateSuggestions={this.updateSuggestions}
+                                      isRequesting={this.state.isRequesting}/>
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
 

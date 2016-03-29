@@ -18,7 +18,7 @@
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);
 
-    var ApiUtil = {
+    var apiUtil = {
         fetchById: function (resourceName, id) {
             return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
@@ -34,18 +34,26 @@
                 .then(function (response) {
                     callback(response.body.data);
                 }, function (error) {
-                    if(error.status = 401) {
-                        ApiUtil.refreshSession().then(function(response) {
-                           ApiUtil.fetchByQuery(resourceName, data, callback, searchMode);
+                    if (error.status = 401) {
+                        ApiUtil.refreshSession().then(function (response) {
+                            ApiUtil.fetchByQuery(resourceName, data, callback, searchMode);
                         });
+                    } else {
+                        callback([]);
                     }
+
                 })
         },
 
-        fetchByQuery2: function (resourceName, data) {
+        fetchByQuery2: function (resourceName, data, sortBy) {
+            var sort = '';
+
+            if (sortBy) {
+                sort = 'sort=' + sortBy + '&';
+            }
             return request
-                .get(url + resourceName.toLowerCase() + '?start=' + data._start + '&offset=' + data._limit)
-                .set('Authorization', 'Bearer'+ ' ' + localStorage.getItem('access_token'))
+                .get(url + resourceName.toLowerCase() + '?' + sort + 'start=' + data._start + '&offset=' + data._limit)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },
 
@@ -64,9 +72,9 @@
                 .then(function (response) {
                     callback(response.body);
                 }, function (error) {
-                    if(error.status = 401) {
-                        ApiUtil.refreshSession().then(function(response) {
-                            ApiUtil.fetchAllFromCore(resourceName, callback);
+                    if (error.status = 401) {
+                        apiUtil.refreshSession().then(function (response) {
+                            apiUtil.fetchAllFromCore(resourceName, callback);
                         });
                     }
                 });
@@ -110,6 +118,6 @@
         }
     };
 
-    module.exports = ApiUtil;
+    module.exports = apiUtil;
 
 })();

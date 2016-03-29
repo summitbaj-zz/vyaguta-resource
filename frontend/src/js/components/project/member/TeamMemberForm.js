@@ -20,7 +20,7 @@
     //components
     var TeamMemberAddButtons = require('./TeamMemberAddButtons');
     var TeamMemberEditButtons = require('./TeamMemberEditButtons');
-    var ApiUtil = require('../../../util/ApiUtil');
+    var apiUtil = require('../../../util/apiUtil');
 
     var TeamMemberForm = React.createClass({
         getInitialState: function () {
@@ -35,7 +35,7 @@
 
         componentDidMount: function () {
             var that = this;
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, function (data) {
+            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, function (data) {
                 that.setState({employees: data || []});
             })
         },

@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -25,18 +26,19 @@
     //libraries
     var _ = require('lodash');
 
+    var sortBy = '';
+
     var ProjectStatusList = React.createClass({
 
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET),
-                startIndex: parseInt(resourceConstant.START_INDEX)
+                offset: parseInt(resourceConstant.OFFSET)
             }
         },
 
         componentDidMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
             });
         },
@@ -47,11 +49,11 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index - 1) * this.props.offset;
+            var page = 1 + (index - 1) * this.props.offset;
             this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, {
-                _start: startIndex,
+                _start: page,
                 _limit: this.props.offset
-            });
+            }, sortBy);
         },
 
         deleteProjectStatus: function (id) {
@@ -69,6 +71,23 @@
                                projectStatus={this.props.projectStatus[key]}
                                deleteProjectStatus={this.deleteProjectStatus}/>
             );
+        },
+
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field) {
+            var isAscending = sortUI.changeSortDisplay(field);
+            var pagination = {
+                _start: this.props.pagination.page,
+                _limit: this.props.offset
+            };
+
+            if (isAscending) {
+                sortBy = field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, sortBy);
+            } else {
+                sortBy = '-' + field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, sortBy);
+            }
         },
 
         render: function () {
@@ -90,7 +109,11 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Project Status</th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="title"
+                                        onClick={this.sort.bind(null, 'title')}>
+                                        Project Status
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
                                     <th>Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>

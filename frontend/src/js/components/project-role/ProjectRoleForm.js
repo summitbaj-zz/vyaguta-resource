@@ -14,7 +14,7 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/FormValidator');
+    var formValidator = require('../../util/formValidator');
 
     //actions
     var apiActions = require('../../actions/apiActions');

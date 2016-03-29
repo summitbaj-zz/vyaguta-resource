@@ -18,7 +18,7 @@
         minifyCss = require('gulp-minify-css'),
         eslint = require('gulp-eslint'),
         inject = require('gulp-inject'),
-        htmlreplace= require('gulp-html-replace'),
+        htmlreplace = require('gulp-html-replace'),
         notifier = require('node-notifier');
 
     var config = {
@@ -26,14 +26,14 @@
             js: './src/js/*.js',
             css: [
                 './src/css/import.css',
+                './src/css/font-awesome.css',
+                './src/css/glyphicons.css',
                 './src/css/bootstrap.min.css',
                 './src/css/forms.css',
                 './src/css/bootstrap-colorselector.css',
+                './src/css/project-allocation-chart.css',
                 './src/css/main.css',
                 './src/css/custom.css',
-                './src/css/font-awesome.css',
-                './src/css/glyphicons.css',
-                './src/css/project-allocation-chart.css',
                 'node_modules/toastr/build/toastr.css',
                 'node_modules/react-datepicker/dist/react-datepicker.css',
                 'node_modules/jquery-confirm/dist/jquery-confirm.min.css'
@@ -57,7 +57,7 @@
             ],
             html: './index.html'
         },
-        env:{
+        env: {
             development: 'development'
         }
     };
@@ -85,7 +85,7 @@
                 formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
-            .pipe(gulpif(isProduction,imagemin({
+            .pipe(gulpif(isProduction, imagemin({
                 progressive: true,
                 interlaced: true,
                 svgoPlugins: [
@@ -100,7 +100,7 @@
         // Compiles CSS
         gulp.src(config.paths.css)
             .pipe(concat('bundle.css'))
-            .pipe(gulpif(isProduction,minifyCss()))
+            .pipe(gulpif(isProduction, minifyCss()))
             .pipe(gulp.dest(config.paths.distCss))
     });
 
@@ -123,7 +123,7 @@
     function buildScript(watch) {
         var props = {
             entries: [config.paths.appJs],
-            debug: env=== config.env.development,
+            debug: env === config.env.development,
             cache: {},
             packageCache: {},
             transform: [babelify]
@@ -139,7 +139,7 @@
                 .on('error', handleErrors)
                 .pipe(source('vyaguta.min.js'))
                 .pipe(buffer())
-                .pipe(gulpif(isProduction,uglify()).on('error', gutil.log))
+                .pipe(gulpif(isProduction, uglify()).on('error', gutil.log))
                 .pipe(gulp.dest(config.paths.distJs))
         }
 
@@ -157,7 +157,7 @@
         return buildScript(false);
     });
 
-    gulp.task('html', function(){
+    gulp.task('html', function () {
         var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
         gulp.src('./index.html')
             .pipe(inject(sources, {
@@ -165,37 +165,37 @@
                 addRootSlash: false
             }))
             .pipe(htmlreplace({
-                'base': '<base href=\"'+baseUrl+'\">'
+                'base': '<base href=\"' + baseUrl + '\">'
             }))
             .pipe(gulp.dest('./dist'))
     });
 
-    gulp.task('watch', function(){
+    gulp.task('watch', function () {
         gulp.watch(config.paths.css, ['styles']); // gulp watch for css changes
         gulp.watch(config.paths.customUI, ['custom_ui']); // gulp watch for css changes
         return buildScript(true); // browserify watch for JS changes
     });
 
     gulp.task('default', [
-        'styles',
-        'scripts',
-        'images',
-        'fonts',
-        'custom_ui',
-        'watch',
-        'html'
-    ], function(){
-        notifier.notify({ title: 'Development Gulp  ', message: 'Done' });
-    }
+            'styles',
+            'scripts',
+            'images',
+            'fonts',
+            'custom_ui',
+            'watch',
+            'html'
+        ], function () {
+            notifier.notify({title: 'Development Gulp  ', message: 'Done'});
+        }
     );
 
-    gulp.task('build',[
+    gulp.task('build', [
         'styles',
         'scripts',
         'images',
         'fonts',
         'custom_ui',
         'html'
-        ])
+    ])
 
 })();

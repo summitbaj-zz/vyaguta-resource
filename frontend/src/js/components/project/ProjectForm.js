@@ -23,6 +23,7 @@
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
+    var classNames = require('classnames');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -32,8 +33,8 @@
     var TeamMember = require('./member/TeamMember');
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
-    var formValidator = require('../../util/FormValidator');
-    var ApiUtil = require('../../util/ApiUtil');
+    var formValidator = require('../../util/formValidator');
+    var apiUtil = require('../../util/apiUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -47,7 +48,9 @@
                 accountManager: {},
                 startDate: moment(),
                 endDate: moment(),
-                projectName: null
+                projectName: null,
+                isProjectNameValid: false,
+                isRequesting: false
             }
         },
 
@@ -146,17 +149,6 @@
             document.querySelector('#team-member-form').reset();
         },
 
-        showErrors: function (errors) {
-            for (var elementId in errors) {
-                var parentElement = $('#' + elementId).parent();
-
-                if (!parentElement.hasClass('has-error')) {
-                    parentElement.addClass('has-error');
-                }
-                parentElement.children('span').html(errors[elementId]);
-            }
-        },
-
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
@@ -202,11 +194,11 @@
             };
         },
 
-        updateProject: function () {
+        updateProject: function (reason) {
             var project = this.getFormData();
-            project['reason'] = $('#reason').val();
+            project['reason'] = reason;
             var requiredField = {
-                'reason': $('#reason').val()
+                'reason': reason
             };
             formValidator.validateForm(requiredField);
             if (formValidator.isValid()) {
@@ -218,24 +210,29 @@
         },
 
         checkTitle: function (title) {
+            this.setState({isRequesting: false});
+
             if (title.length === 0) {
-                this.refs.title.parentElement.className = 'form-group has-success';
+                this.refs.title.parentElement.className = 'form-group has-success has-feedback';
+                this.setState({isProjectNameValid: true});
                 this.refs.availableMessage.innerHTML = '';
             } else {
-                this.refs.title.parentElement.className = 'form-group has-error';
+                this.refs.title.parentElement.className = 'form-group has-error has-feedback';
                 this.refs.availableMessage.innerHTML = messageConstant.PROJECT_NAME_EXISTS_MESSAGE;
             }
         },
 
         validateTitle: function (event) {
+            this.setState({isProjectNameValid: false});
+
             var title = this.refs.title.value;
+
             if (title && title != this.state.projectName) {
-                ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
-            } else if (!title) {
-                formValidator.validateField(event);
+                this.setState({isRequesting: true});
+                apiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+
             } else {
-                this.refs.title.parentElement.className = 'form-group';
-                this.refs.availableMessage.innerHTML = '';
+                formValidator.validateField(event);
             }
         },
 
@@ -257,13 +254,21 @@
                                 <div className="block-title-border">Project Details</div>
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
                                     <fieldset disabled={this.props.apiState.isRequesting}>
-                                        <div className="form-group">
+                                        <div className="form-group has-feedback">
                                             <label>Project Name *</label>
                                             <input type="text" placeholder="Project Name" name="title" ref="title"
                                                    value={this.props.selectedItem.projects.title}
-                                                   className="form-control" id="title" onChange={this.handleChange}
+                                                   className="form-control" id="title"
+                                                   onChange={this.handleChange}
                                                    onBlur={this.validateTitle}
                                                    onFocus={formValidator.removeError.bind(null, 'title')}/>
+                                            {this.state.isRequesting && <span
+                                                className="form-control-feedback validation-icon"
+                                                aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
+                                            {this.state.isProjectNameValid && <span
+                                                className="glyphicon glyphicon-ok form-control-feedback validation-icon"
+                                                aria-hidden="true"></span>}
+
                                             <span className="help-block" ref="availableMessage"></span>
                                         </div>
                                         <div className="form-group">

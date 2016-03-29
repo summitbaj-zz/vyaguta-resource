@@ -5,7 +5,7 @@
     var React = require('react');
 
     //components
-    var ApiUtil = require('../../util/ApiUtil');
+    var ApiUtil = require('../../util/apiUtil');
     var Tagging = require('../common/tag/Tagging');
     var resourceConstant = require('../../constants/resourceConstant');
 
@@ -13,7 +13,8 @@
         getInitialState: function () {
             return {
                 tags: [],
-                suggestions: []
+                suggestions: [],
+                isRequesting: false
             }
         },
 
@@ -31,15 +32,19 @@
         },
 
         changeTagState: function (data) {
+            this.setState({isRequesting: false});
             this.setState({suggestions: data});
         },
 
         updateSuggestions: function (input) {
+            this.setState({isRequesting: true});
             this.setState({suggestions: []});
+
             ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
         },
 
         addTag: function (tag) {
+            this.setState({isRequesting: false});
             var suggestions = this.state.suggestions || [];
             for (var i = 0; i < suggestions.length; i++) {
                 if (tag == suggestions[i].title) {
@@ -55,7 +60,7 @@
             return (
                 <Tagging tags={this.state.tags} suggestions={suggestionTitles}
                          removeTag={this.props.removeTag} addTag={this.addTag}
-                         updateSuggestions={this.updateSuggestions}/>
+                         updateSuggestions={this.updateSuggestions} isRequesting={this.state.isRequesting}/>
             );
         }
     });

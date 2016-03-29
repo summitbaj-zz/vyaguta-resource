@@ -17,6 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
+    var sortUI = require('../../util/sortUI');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -26,18 +27,18 @@
     var _ = require('lodash');
 
     //util
-    var ApiUtil = require('../../util/ApiUtil');
+    var ApiUtil = require('../../util/apiUtil');
+    var sortBy = '';
 
     var ProjectList = React.createClass({
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET),
-                startIndex: parseInt(resourceConstant.START_INDEX)
+                offset: parseInt(resourceConstant.OFFSET)
             }
         },
         componentDidMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
-                _start: this.props.startIndex,
+                _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
             });
         },
@@ -65,8 +66,28 @@
         },
 
         refreshList: function (index) {
-            var startIndex = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {_start: startIndex, _limit: this.props.offset});
+            var page = 1 + (index - 1) * this.props.offset;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
+                _start: page,
+                _limit: this.props.offset
+            }, sortBy);
+        },
+
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field) {
+            var isAscending = sortUI.changeSortDisplay(field);
+            var pagination = {
+                _start: this.props.pagination.page,
+                _limit: this.props.offset
+            };
+
+            if (isAscending) {
+                sortBy = field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
+            } else {
+                sortBy = '-' + field;
+                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
+            }
         },
 
         render: function () {
@@ -87,12 +108,36 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Projects</th>
-                                    <th>Type</th>
-                                    <th>Budget Type</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="title"
+                                        onClick={this.sort.bind(null, 'title')}>
+                                        Project
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="projectType"
+                                        onClick={this.sort.bind(null, 'projectType')}>
+                                        Project Type
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="budgetType"
+                                        onClick={this.sort.bind(null, 'budgetType')}>
+                                        Budget Type
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="startDate"
+                                        onClick={this.sort.bind(null, 'startDate')}>
+                                        Start Date
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="endDate"
+                                        onClick={this.sort.bind(null, 'endDate')}>
+                                        End Date
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="projectStatus"
+                                        onClick={this.sort.bind(null, 'projectStatus')}>
+                                        Project Status
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

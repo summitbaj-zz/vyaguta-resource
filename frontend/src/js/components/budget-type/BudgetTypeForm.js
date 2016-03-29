@@ -20,7 +20,7 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/FormValidator');
+    var formValidator = require('../../util/formValidator');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -77,7 +77,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
+                    <EntityHeader header={(this.props.params.id) ? 'Edit Budget Type' : 'Add Budget Type'}
                                   routes={this.props.routes}/>
                     <div className="block">
                         <div

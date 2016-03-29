@@ -1043,6 +1043,10 @@ li.dropdown-header {
     display: none;
 }
 
+.display-inline {
+    display: inline;
+}
+
 .remove-margin {
     margin: 0 !important;
 }
@@ -1231,10 +1235,10 @@ li.dropdown-header {
 
 .input-tag {
     border: transparent;
-    height: auto;
+    height: 18px;
     width: 100%;
     min-width: 20%;
-
+    margin-bottom: 6px;
 }
 
 .manager-parent {
@@ -1245,6 +1249,7 @@ li.dropdown-header {
     height: auto;
     position: relative;
     cursor: text;
+    padding-bottom: 0px;
 }
 
 #tag-list {
@@ -1275,7 +1280,9 @@ li.dropdown-header {
     background: #FFF;
     cursor: default;
     overflow: auto;
-    display: none;
+    -moz-box-shadow: 0px 0px 3px #6CC068;
+    -webkit-box-shadow: 0px 0px 3px #6CC068;
+    box-shadow: 0px 0px 3px #6CC068;
 }
 
 .suggestion {
@@ -1325,3 +1332,33 @@ ul.pagination li {
 .btn.btn-success, .btn.btn-danger {
     margin: 0 2.5px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.validation-icon {
+    top: 42px;
+    right: 20px;
+}
+
+.manager-validation-icon {
+    top: 0px;
+}
+
+.manager-input{
+    position: relative;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    user-select: none;
+    /* non-prefixed version, currently
+                           not supported by any browser */
+}
+
+
