@@ -392,6 +392,135 @@ footer a, footer a:hover {
 .custom-accordion .panel-title a{
 	display: block;
 	}
+	
+/**---User-list-widget---**/
+.user-list-widget{
+	padding: 10px 0;
+	}
+	
+.user-list-widget ul {
+	margin: 0;
+	padding: 0;
+	}
+	
+.user-list li{
+	width: auto;
+	height: auto;
+	text-align: center;
+	padding: 5px;
+	background: #f5f5f5;
+	position: relative;
+	margin: 0 5px;
+	float: left;
+	overflow: hidden;
+	}
+	
+.user-list li a{
+	display: block;
+	min-height: 150px;
+	}
+	
+.user-list li a:hover{
+	text-decoration: none;
+	}
+	
+.user-list li a .on-hover {
+	display: block;
+	width: 120px;
+	height: 160px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #4CAF50;
+	transform: scale(0);
+	-webkit-transform: scale(0);
+	transition: all 0.4s ease-in-out 0s;
+ -webkit- transition: all 0.4s ease-in-out 0s;
+ z-index: 0;
+ overflow: hidden;
+}
+.user-list li a:hover .on-hover{
+	transform: scale(2);
+	-webkit-transform: scale(2);
+}
+.user-list li a i {
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 20px;
+	line-height: 150px;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	-webkit-transform: translate(-50%);
+	-ms-transform: translate(-50%);
+	-o-transform: translate(-50%);
+	z-index:1;
+}
+	
+.user-list li img {
+	width: 100%;
+	}
+	
+.user-list.list-medium li{
+	width: 120px;
+	}
+	
+.user-list.list-small li{
+	width: 80px;
+	}
+	
+.user-list .user-info{
+    background: #fff;
+    width: 100%;
+	padding: 5px 0;
+	}
+	
+.user-list .user-info span{
+	display: block;
+	color: #5c5c5c;
+	padding: 0 5px;
+	text-align: left;
+	font-size: 11px;
+	}
+	
+.user-list li .user-info .status{
+	position: relative;
+	margin: 0 0 0 12px;
+}
+	
+.user-list li .user-info .status:before{
+	width: 6px;
+	height: 6px;
+	float: left;
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: -5px;
+	display: block;
+	background: transparent;
+	border-radius: 50%;
+	}
+	
+.user-list li.user-active .user-info .status:before{
+	background: #4CAF50;
+	}
+	
+.user-list li.user-inactive .user-info .status:before{
+	background: #eff0f1;
+	}
+	
+.user-inactive:after {
+  background: rgba(255, 255, 255, 0.6) 0 0;
+  content: "";
+  display: block;
+    position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+    height: 100%;
+}
+
+
+	
 /**---Responsive---**/
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 320px) {
@@ -424,4 +553,8 @@ footer a, footer a:hover {
 	
 .padding-v-10{
 	padding: 10px 0;
+	}
+	
+.icon-space{
+	margin: 0 5px 0 0;
 	}
