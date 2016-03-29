@@ -9,7 +9,7 @@
     var messageConstant = require('../../constants/messageConstant');
 
     //components
-    var ApiUtil = require('../../util/apiUtil');
+    var apiUtil = require('../../util/apiUtil');
     var AutoComplete = require('../common/autocomplete/Autocomplete');
 
 
@@ -31,7 +31,7 @@
             var that = this;
             this.setState({suggestions: []});
             this.setState({isRequesting: true});
-            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
         },
 
         getSuggestionName: function () {
@@ -59,7 +59,7 @@
 
             if (this.refs.inputTag.value) {
                 this.setState({isRequesting: true});
-                ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
+                apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
             } else {
                 this.showValidity(null, null, {});
             }

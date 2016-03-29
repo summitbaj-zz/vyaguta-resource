@@ -73,8 +73,8 @@
                     callback(response.body);
                 }, function (error) {
                     if (error.status = 401) {
-                        ApiUtil.refreshSession().then(function (response) {
-                            ApiUtil.fetchAllFromCore(resourceName, callback);
+                        apiUtil.refreshSession().then(function (response) {
+                            apiUtil.fetchAllFromCore(resourceName, callback);
                         });
                     }
                 });

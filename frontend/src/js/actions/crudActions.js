@@ -19,7 +19,7 @@
     var Toastr = require('toastr');
 
     //API utility
-    var ApiUtil = require('../util/apiUtil');
+    var apiUtil = require('../util/apiUtil');
 
     //actions
     var apiActions = require('./apiActions');
@@ -79,14 +79,14 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
-                return (ApiUtil.fetchAll(entity).then(function (response) {
+                return (apiUtil.fetchAll(entity).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchAll(entity));
                         });
@@ -101,7 +101,7 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
-                return (ApiUtil.create(entity, data).then(function (response) {
+                return (apiUtil.create(entity, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success(messageConstant.SUCCESSFULLY_ADDED);
                     browserHistory.goBack();
@@ -109,7 +109,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.addItem(entity, data));
                         });
@@ -124,7 +124,7 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
-                return (ApiUtil.edit(entity, data, id).then(function (response) {
+                return (apiUtil.edit(entity, data, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success(messageConstant.SUCCESSFULLY_UPDATED);
                     browserHistory.goBack();
@@ -132,7 +132,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.updateItem(entity, data, id));
                         });
@@ -147,14 +147,14 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
-                return (ApiUtil.fetchById(entity, id).then(function (response) {
+                return (apiUtil.fetchById(entity, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchById(entity, id));
                         });
@@ -169,7 +169,7 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
-                return (ApiUtil.delete(entity, id).then(function (response) {
+                return (apiUtil.delete(entity, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
                     dispatch(actions.delete(entity, id));
@@ -177,7 +177,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.deleteItem(entity, id));
                         });
@@ -200,7 +200,7 @@
         fetchByQuery: function (entity, data, sortBy) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
-                return (ApiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
+                return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
 
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.pageIndex(data, response.body.count));
@@ -209,7 +209,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                        ApiUtil.refreshSession().then(function (response) {
+                        apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchByQuery(entity, data));
                         });

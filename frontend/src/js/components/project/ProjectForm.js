@@ -34,7 +34,7 @@
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/formValidator');
-    var ApiUtil = require('../../util/apiUtil');
+    var apiUtil = require('../../util/apiUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -226,19 +226,14 @@
             this.setState({isProjectNameValid: false});
 
             var title = this.refs.title.value;
-            var that = this;
 
             if (title && title != this.state.projectName) {
                 this.setState({isRequesting: true});
-                setTimeout(function () {
-                    ApiUtil.fetchByQuery(resourceConstant.PROJECTS, title, that.checkTitle, 'all');
-                }, 3000);
+                apiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
 
             } else {
                 formValidator.validateField(event);
             }
-
-
         },
 
         handleChange: function (event) {
@@ -249,7 +244,6 @@
         },
 
         render: function () {
-            console.log(this.state.isProjectNameValid)
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
@@ -261,7 +255,7 @@
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
                                     <fieldset disabled={this.props.apiState.isRequesting}>
                                         <div className="form-group has-feedback">
-                                            <label for="title">Project Name *</label>
+                                            <label>Project Name *</label>
                                             <input type="text" placeholder="Project Name" name="title" ref="title"
                                                    value={this.props.selectedItem.projects.title}
                                                    className="form-control" id="title"

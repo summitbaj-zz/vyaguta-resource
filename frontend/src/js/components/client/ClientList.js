@@ -58,14 +58,13 @@
 
         //sorts data in ascending or descending order according to clicked field
         sort: function (field) {
-            var sortByAscending = sortUI.changeSortDisplay(field);
-            sortBy = field;
+            var isAscending = sortUI.changeSortDisplay(field);
             var pagination = {
                 _start: this.props.pagination.page,
                 _limit: this.props.offset
             };
 
-            if (sortByAscending) {
+            if (isAscending) {
                 sortBy = field;
                 this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, sortBy);
             } else {
