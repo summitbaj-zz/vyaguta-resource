@@ -2,7 +2,6 @@ package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -19,60 +18,61 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
-import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
-import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
+import com.lftechnology.vyaguta.resource.entity.ProjectRole;
+import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
 
 /**
- * 
- * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
- *
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Path("/projectstatus")
-public class ProjectStatusRs {
+@Path("/projectroles")
+public class ProjectRoleRs {
 
     @Inject
-    private ProjectStatusService projectStatusService;
+    ProjectRoleService projectRoleService;
+
+    @Inject
+    private Logger log;
 
     @Path("/")
     @GET
-    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projectStatus = projectStatusService
+        log.debug("project role list parameters: {}", uriInfo.getQueryParameters());
+        Map<String, Object> projectRoles = projectRoleService
                 .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+        return Response.status(Response.Status.OK).entity(projectRoles).build();
     }
 
     @Path("/")
     @POST
-    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
-        return Response.status(Response.Status.OK).entity(projectStatusService.save(projectStatus)).build();
+    public Response create(@NotNull @Valid ProjectRole projectRole) {
+        return Response.status(Response.Status.OK).entity(projectRoleService.save(projectRole)).build();
     }
 
     @Path("/{id}")
     @PUT
-    @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id,
-            @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
-        ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+    public Response update(@PathParam("id") String id, @NotNull @Valid ProjectRole projectRoleNew) {
+        log.debug("project role Id: {}", id);
+        ProjectRole projectRole = projectRoleService.merge(id, projectRoleNew);
+        return Response.status(Response.Status.OK).entity(projectRole).build();
     }
 
     @Path("/{id}")
     @GET
-    @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) {
-        ProjectStatus projectStatus = projectStatusService.findById(id);
-        if (projectStatus != null) {
-            return Response.status(Response.Status.OK).entity(projectStatus).build();
+        log.debug("project role Id: {}", id);
+        ProjectRole projectRole = projectRoleService.findById(id);
+        if (projectRole != null) {
+            return Response.status(Response.Status.OK).entity(projectRole).build();
         } else {
             throw new ObjectNotFoundException();
         }
@@ -80,11 +80,10 @@ public class ProjectStatusRs {
 
     @Path("/{id}")
     @DELETE
-    @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(@PathParam("id") String id) {
-        projectStatusService.removeById(id);
+        log.debug("project role Id: {}", id);
+        projectRoleService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }
-
 }

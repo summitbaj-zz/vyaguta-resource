@@ -34,13 +34,13 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "project_members")
 @NamedQueries({
-        @NamedQuery(name = ProjectMember.findByProject, query = "SELECT pm FROM ProjectMember pm WHERE pm.project = :project") })
+        @NamedQuery(name = ProjectMember.FIND_BY_PROJECT, query = "SELECT pm FROM ProjectMember pm WHERE pm.project = :project") })
 @ApiModel(value = "ProjectMember", description = "ProjectMember resource representation")
 public class ProjectMember extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -6628450706972838500L;
     private static final String PREFIX = "vyaguta.resource.entity.";
-    public static final String findByProject = ProjectMember.PREFIX + "findByProject";
+    public static final String FIND_BY_PROJECT = ProjectMember.PREFIX + "findByProject";
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", referencedColumnName = "id")

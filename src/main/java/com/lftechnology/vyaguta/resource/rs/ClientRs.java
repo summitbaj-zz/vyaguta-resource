@@ -56,8 +56,7 @@ public class ClientRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull @Valid Client client) {
-        client = clientService.save(client);
-        return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
+        return Response.status(Response.Status.OK).entity(clientService.save(client)).build();
     }
 
     @Path("/{id}")
@@ -66,7 +65,6 @@ public class ClientRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @NotNull @Valid Client clientNew) {
-        log.debug("client Id: {}", id);
         Client client = clientService.merge(id, clientNew);
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }

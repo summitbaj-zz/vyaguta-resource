@@ -39,8 +39,11 @@
             NEW: '/clients/new',
             EDIT: '/clients/edit/'
         },
+
         RESOURCE_SERVER: '/api/resource',
-        CORE_SERVER: '/api/core'
+        CORE_SERVER: '/api/core',
+        AUTH_SERVER: '/api/auth/auth/refreshtoken'
+
     };
 
     module.exports = urlConstant;
