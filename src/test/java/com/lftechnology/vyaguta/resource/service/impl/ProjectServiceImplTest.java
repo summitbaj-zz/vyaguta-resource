@@ -2,10 +2,14 @@ package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,6 +24,8 @@ import org.mockito.MockitoAnnotations;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
@@ -249,6 +255,31 @@ public class ProjectServiceImplTest {
         // assert
         Mockito.verify(projectDao).find(Matchers.anyInt(), Matchers.anyInt());
 
+    }
+
+    @Test
+    public void testFindByFilter() {
+
+        // arrange
+        Map<String, List<String>> multiValue = new HashMap<>();
+        multiValue.put("title", Arrays.asList("AML"));
+        MultivaluedMap<String, String> queryParameters = new MultivaluedMapImpl<>(multiValue);
+        List<Project> tags = new ArrayList<>();
+        tags.add(this.buildProject());
+
+        Mockito.when(projectDao.findByFilter(queryParameters)).thenReturn(tags);
+        Mockito.when(projectDao.count(queryParameters)).thenReturn(10L);
+
+        // act
+        Map<String, Object> result = this.projectServiceImpl.findByFilter(queryParameters);
+
+        // assert
+        assertTrue(result.containsKey("count"));
+        assertTrue(result.containsValue(10L));
+        assertTrue(result.containsKey("data"));
+        assertTrue(result.containsValue(tags));
+        Mockito.verify(projectDao).count(queryParameters);
+        Mockito.verify(projectDao).findByFilter(queryParameters);
     }
 
     private Tag buildTag(String id, String title) {
