@@ -3,9 +3,14 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,6 +27,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ClientDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 
@@ -191,6 +198,31 @@ public class ClientServiceImplTest {
 
         // assert
         Mockito.verify(clientDao).find(Matchers.anyInt(), Matchers.anyInt());
+    }
+
+    @Test
+    public void testFindByFilter() {
+
+        // arrange
+        Map<String, List<String>> multiValue = new HashMap<>();
+        multiValue.put("name", Arrays.asList("Alex"));
+        MultivaluedMap<String, String> queryParameters = new MultivaluedMapImpl<>(multiValue);
+        List<Client> tags = new ArrayList<>();
+        tags.add(this.buildClient());
+
+        Mockito.when(clientDao.findByFilter(queryParameters)).thenReturn(tags);
+        Mockito.when(clientDao.count(queryParameters)).thenReturn(10L);
+
+        // act
+        Map<String, Object> result = this.clientService.findByFilter(queryParameters);
+
+        // assert
+        assertTrue(result.containsKey("count"));
+        assertTrue(result.containsValue(10L));
+        assertTrue(result.containsKey("data"));
+        assertTrue(result.containsValue(tags));
+        Mockito.verify(clientDao).count(queryParameters);
+        Mockito.verify(clientDao).findByFilter(queryParameters);
     }
 
     private Client buildClient() {
