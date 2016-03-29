@@ -31,7 +31,7 @@
             var that = this;
             this.setState({suggestions: []});
             this.setState({isRequesting: true});
-            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input, this.changeSuggestionState);
         },
 
         getSuggestionName: function () {
@@ -59,7 +59,7 @@
 
             if (this.refs.inputTag.value) {
                 this.setState({isRequesting: true});
-                apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
+                apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, this.refs.inputTag.value, this.validateManager);
             } else {
                 this.showValidity(null, null, {});
             }

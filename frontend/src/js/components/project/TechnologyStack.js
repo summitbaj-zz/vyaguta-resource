@@ -40,7 +40,7 @@
             this.setState({isRequesting: true});
             this.setState({suggestions: []});
 
-            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
+            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
         },
 
         addTag: function (tag) {
