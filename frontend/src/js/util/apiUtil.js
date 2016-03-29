@@ -35,8 +35,8 @@
                     callback(response.body.data);
                 }, function (error) {
                     if (error.status = 401) {
-                        ApiUtil.refreshSession().then(function (response) {
-                            ApiUtil.fetchByQuery(resourceName, data, callback, searchMode);
+                        apiUtil.refreshSession().then(function (response) {
+                            apiUtil.fetchByQuery(resourceName, data, callback, searchMode);
                         });
                     } else {
                         callback([]);
