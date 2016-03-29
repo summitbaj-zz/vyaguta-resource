@@ -69,8 +69,7 @@
                 .post(url + resourceName.toLowerCase())
                 .send(data)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function(response) { console.log('im here')});
+                .set('Accept', 'application/json');
         },
 
         edit: function (resourceName, data, dataId) {

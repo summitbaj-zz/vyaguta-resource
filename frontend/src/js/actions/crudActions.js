@@ -101,8 +101,8 @@
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
-                            ApiUtil.refreshSession().then(function (response) {
-                            crudActions.addItem(entity, data);
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(crudActions.addItem(entity, data));
                         });
                     } else {
                         Toastr.error(error.response.body.error);
