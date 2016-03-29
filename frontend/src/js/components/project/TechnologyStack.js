@@ -37,13 +37,10 @@
         },
 
         updateSuggestions: function (input) {
-            var that = this;
             this.setState({isRequesting: true});
             this.setState({suggestions: []});
-            setTimeout(function(){
-                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, that.changeTagState, 'any');
-            }, 4000);
 
+            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
         },
 
         addTag: function (tag) {

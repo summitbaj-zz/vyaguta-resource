@@ -24,24 +24,14 @@
 
         changeSuggestionState: function (data) {
             this.setState({isRequesting: false});
-            console.log('ajljlkj')
             this.setState({suggestions: data || []});
-
         },
 
         updateSuggestions: function (input) {
             var that = this;
             this.setState({suggestions: []});
             this.setState({isRequesting: true});
-            console.log('asdf')
-            setTimeout(function () {
-                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, that.changeSuggestionState, 'any');
-            }, 1000);
-
-        },
-
-        isValid: function (value) {s
-            return /^[a-zA-Z ]+$/.test(value);
+            ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
         },
 
         getSuggestionName: function () {
@@ -53,28 +43,26 @@
         },
 
 
-        //temporary check from tag table until core in backend is fixed
         getAppendedName: function (index) {
-            /*var name;
-             var suggestions = this.state.suggestions;
-             name = suggestions[index].firstName;
-             if (suggestions[index].middleName) {
-             name = name.concat(' ', suggestions[index].middleName);
-             }
-             name = name.concat(' ', suggestions[index].lastName);
-             return name;*/
-            return this.state.suggestions[index].title;
+            var name;
+            var suggestions = this.state.suggestions;
+            name = suggestions[index].firstName;
+            if (suggestions[index].middleName) {
+                name = name.concat(' ', suggestions[index].middleName);
+            }
+            name = name.concat(' ', suggestions[index].lastName);
+            return name;
         },
 
         fetchNamesForValidation: function () {
             this.setState({suggestions: []});
-            this.setState({isRequesting: true});
 
-            var input = this.refs.inputTag.value;
-            var that = this;
-            setTimeout(function(){
-                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, that.validateManager, 'any');
-            }, 3000);
+            if (this.refs.inputTag.value) {
+                this.setState({isRequesting: true});
+                ApiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
+            } else {
+                this.showValidity(null, null, {});
+            }
 
         },
 
@@ -84,28 +72,29 @@
             this.setState({isAccountManagerValid: false});
 
             var input = this.refs.inputTag;
-            if (input.value) {
-                for (var i = 0; i < this.state.suggestions.length; i++) {
-                    if (input.value === this.getAppendedName(i)) {
-                        this.setState({isAccountManagerValid: true});
-                        var accountManager = {'id': this.state.suggestions[i].id};
-                        this.showValidity('has-success has-feedback', null, accountManager);
-                        return;
-                    }
+
+            for (var i = 0; i < this.state.suggestions.length; i++) {
+                if (input.value === this.getAppendedName(i) && !$('.manager-input').is(':focus')) {
+                    this.setState({isAccountManagerValid: true});
+                    var accountManager = {'id': this.state.suggestions[i].id};
+                    this.showValidity('has-success has-feedback', null, accountManager);
+                    return;
                 }
-                this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
-            } else {
-                this.showValidity(null, null, {});
             }
+            this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
+
         },
 
         showValidity: function (className, message, accountManager) {
             var parentElement = $('#account-manager').parent().parent();
             parentElement.removeClass('has-error');
             parentElement.removeClass('has-success');
-            parentElement.addClass(className);
             this.props.setManager(accountManager);
-            this.refs.availableMessage.innerHTML = message;
+
+            if (!$('.manager-input').is(':focus')) {
+                parentElement.addClass(className);
+                this.refs.availableMessage.innerHTML = message;
+            }
             this.setState({suggestions: []});
         },
 

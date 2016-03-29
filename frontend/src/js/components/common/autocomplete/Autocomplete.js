@@ -6,9 +6,13 @@
 
     var selectedIndex = -1;
     var typingTimer;
-    var numberOfRequests = 0;
 
     var AutoComplete = React.createClass({
+        getInitialState: function () {
+            return {
+                suggestions: []
+            }
+        },
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
@@ -18,7 +22,6 @@
         },
 
         focusOut: function () {
-            this.refs.suggestions.style.display = 'none';
             selectedIndex = -1;
         },
 
@@ -32,13 +35,16 @@
 
         componentWillReceiveProps: function (nextProps) {
             selectedIndex = -1;
-            numberOfRequests--;
 
-            var input = document.getElementsByClassName(nextProps.inputField)[0];
-            if (nextProps.suggestions.length && input.value && $(input).is(':focus')) {
-                this.refs.suggestions.style.display = 'block';
+            this.getMatchingSuggestions(nextProps.suggestions);
+        },
+
+        showSuggestions: function () {
+            var input = document.getElementsByClassName(this.props.inputField)[0];
+            if (this.state.suggestions.length && input.value && $(input).is(':focus')) {
+                return true;
             } else {
-                this.refs.suggestions.style.display = 'none';
+                return false;
             }
         },
 
@@ -52,7 +58,7 @@
                 event.preventDefault();
                 this.enterKeyPressed();
             } else {
-                this.refs.suggestions.style.display = 'none';
+                this.setState({suggestions: []});
             }
         },
 
@@ -86,7 +92,6 @@
                 this.setInputValue(this.props.suggestions[selectedIndex]);
                 this.removeHoverState();
             }
-            this.refs.suggestions.style.display = 'none';
             selectedIndex = -1;
 
         },
@@ -111,8 +116,8 @@
         listSuggestions: function (value) {
             return (
                 <div className='suggestion' key={value}
-                     onMouseDown={this.suggestionClicked.bind(null, this.props.suggestions[value])}
-                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.props.suggestions[value]}</div>
+                     onMouseDown={this.suggestionClicked.bind(null, this.state.suggestions[value])}
+                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.state.suggestions[value]}</div>
             );
         },
 
@@ -127,17 +132,31 @@
             this.refs.suggestions.childNodes[selectedIndex].className = 'suggestion hover';
         },
 
+        getMatchingSuggestions: function (nextSuggestions) {
+            var input = document.getElementsByClassName(this.props.inputField)[0];
+            var inputValue = input && input.value;
+            var suggestions = [];
+
+            for (var i = 0; i < nextSuggestions.length; i++) {
+                var matchIndex = nextSuggestions[i].search(inputValue);
+                if (matchIndex > -1) {
+                    suggestions.push(nextSuggestions[i]);
+                }
+            }
+            this.setState({suggestions: suggestions});
+        },
+
         render: function () {
-            var suggestionId = Object.keys(this.props.suggestions);
+            var suggestionId = Object.keys(this.state.suggestions);
             var isRequesting = this.props.isRequesting || false;
             return (
                 <div>
                     {isRequesting && <span
                         className="form-control-feedback manager-validation-icon"
                         aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
-                    <div className="autocomplete-suggestions" ref="suggestions">
+                    {this.showSuggestions() && <div className="autocomplete-suggestions" ref="suggestions">
                         {suggestionId.map(this.listSuggestions)}
-                    </div>
+                    </div>}
                 </div>
 
             )
