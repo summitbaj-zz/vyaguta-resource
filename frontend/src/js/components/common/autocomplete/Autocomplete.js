@@ -6,6 +6,7 @@
 
     var selectedIndex = -1;
     var typingTimer;
+    var numberOfRequests = 0;
 
     var AutoComplete = React.createClass({
         componentDidMount: function () {
@@ -31,6 +32,8 @@
 
         componentWillReceiveProps: function (nextProps) {
             selectedIndex = -1;
+            numberOfRequests--;
+
             var input = document.getElementsByClassName(nextProps.inputField)[0];
             if (nextProps.suggestions.length && input.value && $(input).is(':focus')) {
                 this.refs.suggestions.style.display = 'block';
@@ -126,9 +129,15 @@
 
         render: function () {
             var suggestionId = Object.keys(this.props.suggestions);
+            var isRequesting = this.props.isRequesting || false;
             return (
-                <div className="autocomplete-suggestions" ref="suggestions">
-                    {suggestionId.map(this.listSuggestions)}
+                <div>
+                    {isRequesting && <span
+                        className="form-control-feedback manager-validation-icon"
+                        aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
+                    <div className="autocomplete-suggestions" ref="suggestions">
+                        {suggestionId.map(this.listSuggestions)}
+                    </div>
                 </div>
 
             )

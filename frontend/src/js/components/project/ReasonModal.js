@@ -5,6 +5,11 @@
     var formValidator = require('../../util/formValidator');
 
     var ReasonModal = React.createClass({
+        updateProject: function(){
+            var reason = this.refs.reason.value;
+            this.props.updateProject(reason);
+        },
+
         render: function () {
             return (
                 <div className="modal fade" id="addReason" tabIndex="-1" role="dialog">
@@ -25,7 +30,7 @@
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button className="btn btn-sm btn-success" onClick={this.props.updateProject}
+                                <button className="btn btn-sm btn-success" onClick={this.updateProject}
                                         id="save-btn"><i
                                     className="fa fa-angle-right"></i>Update
                                 </button>

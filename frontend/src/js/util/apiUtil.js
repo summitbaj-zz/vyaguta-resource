@@ -34,6 +34,7 @@
                     callback(response.body.data);
                 }, function (error) {
                     //handle error
+                    callback([]);
                 })
         },
 
@@ -42,7 +43,7 @@
             if (sortBy) {
                 sort = 'sort=' + sortBy + '&';
             }
-            console.log(url + resourceName.toLowerCase() + '?' + sort + 'start=' + data._start + '&offset=' + data._limit);
+
             return request
                 .get(url + resourceName.toLowerCase() + '?' + sort + 'start=' + data._start + '&offset=' + data._limit)
                 .set('Authorization', 'Bearer ' + localStorage.getItem('access_token'))

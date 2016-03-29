@@ -1235,7 +1235,7 @@ li.dropdown-header {
 
 .input-tag {
     border: transparent;
-    height: auto;
+    height: 18px;
     width: 100%;
     min-width: 20%;
 

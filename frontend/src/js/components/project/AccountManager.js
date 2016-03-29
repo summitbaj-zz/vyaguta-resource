@@ -16,23 +16,31 @@
     var AccountManager = React.createClass({
         getInitialState: function () {
             return {
-                suggestions: []
+                suggestions: [],
+                isAccountManagerValid: false,
+                isRequesting: false
             }
         },
 
         changeSuggestionState: function (data) {
-
+            this.setState({isRequesting: false});
+            console.log('ajljlkj')
             this.setState({suggestions: data || []});
 
         },
 
         updateSuggestions: function (input) {
+            var that = this;
             this.setState({suggestions: []});
+            this.setState({isRequesting: true});
+            console.log('asdf')
+            setTimeout(function () {
+                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, that.changeSuggestionState, 'any');
+            }, 1000);
 
-            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeSuggestionState, 'any');
         },
 
-        isValid: function (value) {
+        isValid: function (value) {s
             return /^[a-zA-Z ]+$/.test(value);
         },
 
@@ -60,20 +68,26 @@
 
         fetchNamesForValidation: function () {
             this.setState({suggestions: []});
+            this.setState({isRequesting: true});
+
             var input = this.refs.inputTag.value;
-            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.validateManager, 'any');
+            var that = this;
+            setTimeout(function(){
+                ApiUtil.fetchByQuery(resourceConstant.TAGS, input, that.validateManager, 'any');
+            }, 3000);
+
         },
 
         validateManager: function (data) {
             this.setState({suggestions: data || []});
-            $('.manager-validation-icon').addClass('display-none');
-            $('.manager-validation-icon').removeClass('display-inline');
+            this.setState({isRequesting: false});
+            this.setState({isAccountManagerValid: false});
+
             var input = this.refs.inputTag;
             if (input.value) {
                 for (var i = 0; i < this.state.suggestions.length; i++) {
                     if (input.value === this.getAppendedName(i)) {
-                        $('.manager-validation-icon').removeClass('display-none');
-                        $('.manager-validation-icon').addClass('display-inline');
+                        this.setState({isAccountManagerValid: true});
                         var accountManager = {'id': this.state.suggestions[i].id};
                         this.showValidity('has-success has-feedback', null, accountManager);
                         return;
@@ -92,9 +106,11 @@
             parentElement.addClass(className);
             this.props.setManager(accountManager);
             this.refs.availableMessage.innerHTML = message;
+            this.setState({suggestions: []});
         },
 
         removeMessage: function () {
+            this.setState({isAccountManagerValid: false});
             this.refs.availableMessage.innerHTML = '';
         },
 
@@ -110,11 +126,13 @@
                                onBlur={this.fetchNamesForValidation} id="account-manager"
                                onChange={this.props.fieldChange}
                         />
-                         <span className="glyphicon glyphicon-ok form-control-feedback manager-validation-icon display-none"
-                               aria-hidden="true"></span>
+                        {this.state.isAccountManagerValid && <span
+                            className="glyphicon glyphicon-ok form-control-feedback manager-validation-icon"
+                            aria-hidden="true"></span>}
 
                         <AutoComplete inputField="manager-input" suggestions={suggestionTitle}
-                                      generateSuggestions={this.updateSuggestions}/>
+                                      generateSuggestions={this.updateSuggestions}
+                                      isRequesting={this.state.isRequesting}/>
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
 

@@ -78,14 +78,18 @@
 
         render: function () {
             var tagIds = Object.keys(this.props.tags);
+            var isRequesting = this.props.isRequesting || false;
             return (
                 <div
                     className="form-control tag-wrapper"
                     onClick={this.autoFocus}>
+                    {isRequesting && <span
+                        className="form-control-feedback manager-validation-icon"
+                        aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
                     <ul id="tag-list" className="clearfix">
                         {tagIds.map(this.renderTag)}
 
-                        <li className="newtag-input has-feedback">
+                        <li className="newtag-input">
                             <input type="text" ref="inputTag"
                                    onKeyDown={this.inputKey}
                                    onBlur={this.focusOut}
@@ -93,7 +97,8 @@
                                    id="title"
                                    autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}
-                                          generateSuggestions={this.props.updateSuggestions}/>
+                                          generateSuggestions={this.props.updateSuggestions}
+                            />
                         </li>
                     </ul>
                 </div>

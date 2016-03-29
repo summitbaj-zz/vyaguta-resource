@@ -74,25 +74,10 @@
             this.props.actions.updateSelectedItem(resourceConstant.BUDGET_TYPES, key, value);
         },
 
-        //sorts data in ascending or descending order according to clicked field
-        sort: function (field, event) {
-            var sortByAscending = sortUI.changeSortDisplay(event);
-            var pagination = {
-                _start: this.props.startIndex,
-                _limit: this.props.offset
-            };
-
-            if (sortByAscending) {
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, field);
-            } else {
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, '-' + field);
-            }
-        },
-
         render: function () {
             return (
                 <div>
-                    <EntityHeader header={(this.props.params.id)?'Edit Budget Type':'Add Budget Type'}
+                    <EntityHeader header={(this.props.params.id) ? 'Edit Budget Type' : 'Add Budget Type'}
                                   routes={this.props.routes}/>
                     <div className="block">
                         <div
