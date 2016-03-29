@@ -51,8 +51,7 @@ public class ProjectStatusRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotNull(message = "Request body expected") @Valid ProjectStatus projectStatus) {
-        projectStatus = projectStatusService.save(projectStatus);
-        return Response.status(Response.Status.OK).entity(projectStatus).build();
+        return Response.status(Response.Status.OK).entity(projectStatusService.save(projectStatus)).build();
     }
 
     @Path("/{id}")

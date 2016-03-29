@@ -23,12 +23,12 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
  */
 @Entity
 @Table(name = "tags")
-@NamedQuery(name = Tag.findByTitle, query = "SELECT t FROM Tag t WHERE UPPER(t.title) LIKE :title")
+@NamedQuery(name = Tag.FIND_BY_TITLE, query = "SELECT t FROM Tag t WHERE UPPER(t.title) LIKE :title")
 public class Tag extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -6816451300075198342L;
     private static final String PREFIX = "vyaguta.resource.entity.";
-    public static final String findByTitle = PREFIX + "findByTitle";
+    public static final String FIND_BY_TITLE = PREFIX + "findByTitle";
 
     @NotBlank(message = "Title cannot be blank.")
     private String title;

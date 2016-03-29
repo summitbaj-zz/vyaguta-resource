@@ -2,6 +2,10 @@ package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
@@ -25,6 +29,9 @@ public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDa
 
     private ProjectSort projectSort = new ProjectSort();
     private ProjectFilter projectFilter = new ProjectFilter();
+
+    @Inject
+    Logger log;
 
     public ProjectDaoImpl() {
         super(Project.class);

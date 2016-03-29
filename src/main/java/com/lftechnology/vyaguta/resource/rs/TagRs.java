@@ -59,8 +59,7 @@ public class TagRs {
     @ApiOperation(value = "Create a new tag")
     public Response create(
             @ApiParam(value = "Tag object to create", required = true) @NotNull(message = "Request body expected") @Valid Tag tag) {
-        tag = tagService.save(tag);
-        return Response.status(Response.Status.OK).entity(tag).build();
+        return Response.status(Response.Status.OK).entity(tagService.save(tag)).build();
     }
 
     @Path("/{id}")

@@ -28,7 +28,7 @@ public class ProjectMemberDaoImpl extends BaseDao<ProjectMember, String>implemen
 
     @Override
     public List<ProjectMember> findByProject(Project project) {
-        return em.createNamedQuery(ProjectMember.findByProject, ProjectMember.class).setParameter("project", project)
+        return em.createNamedQuery(ProjectMember.FIND_BY_PROJECT, ProjectMember.class).setParameter("project", project)
                 .getResultList();
     }
 
