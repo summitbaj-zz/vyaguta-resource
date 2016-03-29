@@ -1,11 +1,15 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +22,8 @@ import org.mockito.Spy;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectStatusDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 
@@ -165,7 +171,7 @@ public class ProjectStatusServiceImplTest {
         Mockito.when(projectStatusDao.findAll()).thenReturn(new ArrayList<ProjectStatus>());
 
         // act
-        this.projectStatusDao.findAll();
+        this.projectStatusServiceImpl.findAll();
 
         // assert
         Mockito.verify(projectStatusDao).findAll();
@@ -198,6 +204,31 @@ public class ProjectStatusServiceImplTest {
         // assert
         Mockito.verify(projectStatusDao).find(Matchers.anyInt(), Matchers.anyInt());
 
+    }
+
+    @Test
+    public void testFindByFilter() {
+
+        // arrange
+        Map<String, List<String>> multiValue = new HashMap<>();
+        multiValue.put("title", Arrays.asList("In Progress"));
+        MultivaluedMap<String, String> queryParameters = new MultivaluedMapImpl<>(multiValue);
+        List<ProjectStatus> projectStatus = new ArrayList<>();
+        projectStatus.add(this.buildProjectStatus());
+
+        Mockito.when(projectStatusDao.findByFilter(queryParameters)).thenReturn(projectStatus);
+        Mockito.when(projectStatusDao.count(queryParameters)).thenReturn(10L);
+
+        // act
+        Map<String, Object> result = this.projectStatusServiceImpl.findByFilter(queryParameters);
+
+        // assert
+        assertTrue(result.containsKey("count"));
+        assertTrue(result.containsValue(10L));
+        assertTrue(result.containsKey("data"));
+        assertTrue(result.containsValue(projectStatus));
+        Mockito.verify(projectStatusDao).count(queryParameters);
+        Mockito.verify(projectStatusDao).findByFilter(queryParameters);
     }
 
     private ProjectStatus buildProjectStatus() {

@@ -18,6 +18,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
+@FunctionalInterface
 public interface ProjectHistoryDao {
 
     public default ProjectHistory save(ProjectHistory projectHistory) {

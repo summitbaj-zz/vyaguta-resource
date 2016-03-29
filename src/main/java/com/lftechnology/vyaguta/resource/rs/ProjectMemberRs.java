@@ -63,8 +63,7 @@ public class ProjectMemberRs {
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid request body") })
     public Response create(
             @ApiParam(value = "Project member object to create", required = true) @NotNull(message = "Request body expected") @Valid ProjectMember projectMember) {
-        projectMember = projectMemberService.save(projectMember);
-        return Response.status(Response.Status.OK).entity(projectMember).build();
+        return Response.status(Response.Status.OK).entity(projectMemberService.save(projectMember)).build();
     }
 
     @Path("/{id}")
@@ -100,8 +99,8 @@ public class ProjectMemberRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get list of all members of a project", notes = "Fetch all members of a particular project", response = ProjectMember.class, responseContainer = "List")
     public Response findByProject(
-            @ApiParam(value = "Project id", required = true) @PathParam("projectId") String project_id) {
-        List<ProjectMember> projectMembers = projectMemberService.findByProjectId(project_id);
+            @ApiParam(value = "Project id", required = true) @PathParam("projectId") String projectId) {
+        List<ProjectMember> projectMembers = projectMemberService.findByProjectId(projectId);
         return Response.status(Response.Status.OK).entity(projectMembers).build();
     }
 

@@ -1,18 +1,16 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
-import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
-import com.lftechnology.vyaguta.resource.common.CommonConstant;
+import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
+import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Tag;
+import com.lftechnology.vyaguta.resource.filter.TagFilter;
+import com.lftechnology.vyaguta.resource.sort.TagSort;
 
 /**
  * 
@@ -22,28 +20,21 @@ import com.lftechnology.vyaguta.resource.entity.Tag;
 @Stateless
 public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
 
+    private TagSort tagSort = new TagSort();
+    private TagFilter tagFilter = new TagFilter();
+
     public TagDaoImpl() {
         super(Tag.class);
     }
 
     @Override
-    protected Predicate[] extractPredicates(MultivaluedMap<String, String> queryParameters,
-            CriteriaBuilder criteriaBuilder, Root<Tag> root) {
-        List<Predicate> predicates = new ArrayList<>();
+    public Map<String, EntitySorter<Tag>> getSortOperations() {
+        return tagSort.getSortOperations();
+    }
 
-        // search by title
-        if (queryParameters.containsKey(CommonConstant.TITLE)) {
-            String title = queryParameters.getFirst(CommonConstant.TITLE).toUpperCase();
-            Predicate predicate = criteriaBuilder.equal(criteriaBuilder.upper(root.get(CommonConstant.TITLE)), title);
-            if (queryParameters.containsKey(CommonConstant.SEARCH_MODE)) {
-                if (queryParameters.getFirst(CommonConstant.SEARCH_MODE).equals(CommonConstant.ANY)) {
-                    predicate = criteriaBuilder.like(criteriaBuilder.upper(root.get(CommonConstant.TITLE)),
-                            "%" + title + "%");
-                }
-            }
-            predicates.add(predicate);
-        }
-        return predicates.toArray(new Predicate[] {});
+    @Override
+    public Map<String, EntityFilter<Tag>> getFilters() {
+        return tagFilter.getFilters();
     }
 
 }
