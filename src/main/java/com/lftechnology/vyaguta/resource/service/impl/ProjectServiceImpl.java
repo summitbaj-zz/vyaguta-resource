@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
@@ -34,7 +37,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project save(Project project) {
-        return projectDao.save(this.fixTags(this.fixProjectMembers(project)));
+        this.fixTags(project);
+        return projectDao.save(this.fixProjectMembers(project));
     }
 
     @Override
@@ -48,6 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (project == null) {
             throw new ObjectNotFoundException();
         }
+        this.fixTags(obj);
         project.setTitle(obj.getTitle());
         project.setDescription(obj.getDescription());
         project.setProjectStatus(obj.getProjectStatus());
@@ -55,7 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setBudgetType(obj.getBudgetType());
         project.setStartDate(obj.getStartDate());
         project.setEndDate(obj.getEndDate());
-        project.setTags(this.fixTags(obj).getTags());
+        project.setTags(obj.getTags());
         project.setClient(obj.getClient());
         return this.update(project);
     }
@@ -94,27 +99,35 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDao.find(start, offset);
     }
 
-    private Project fixTags(Project project) {
+    private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
-        List<Tag> uniqueTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing id and
-         * title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
-        uniqueTagList = project.getTags().stream().distinct().collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
+                .collect(Collectors.toList());
 
-        for (Tag tempTag : uniqueTagList) {
-            if (tempTag.getId() == null && tempTag.getTitle() != null) {
-                tempTag = tagDao.save(tempTag);
+        for (final Tag tempTag : uniqueTagList) {
+            Tag result = findTagByTitle(tempTag.getTitle());
+
+            if (result == null) {
+                newTagList.add(tagDao.save(tempTag));
             } else {
-                if (tagDao.findById(tempTag.getId()) == null) {
-                    throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
-                }
+                newTagList.add(result);
             }
-            newTagList.add(tempTag);
         }
         project.setTags(newTagList);
-        return project;
+    }
+
+    @SuppressWarnings({ "serial" })
+    private Tag findTagByTitle(String title) {
+        List<Tag> tags = tagDao.findByFilter(new MultivaluedMapImpl<>(new HashMap<String, List<String>>() {
+            {
+                put("title", Arrays.asList(title));
+            }
+        }));
+        return tags.size() > 0 ? tags.get(0) : null;
     }
 
     private Project fixProjectMembers(Project project) {
