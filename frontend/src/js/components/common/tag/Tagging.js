@@ -36,7 +36,7 @@
         checkTag: function (value) {
             var tags = this.props.tags;
             for (var i = 0; i < tags.length; i++) {
-                if (tags[i].toLowerCase() == value.toLowerCase()) {
+                if (tags[i].title.toLowerCase() == value.toLowerCase()) {
                     return i;
                 }
             }
@@ -69,7 +69,7 @@
             return (
                 <li className="newtag" key={key}>
                     <span className="label label-blue-grey">
-                        <label>{this.props.tags[key]}</label>
+                        <label>{this.props.tags[key].title}</label>
                         <i className="fa fa-close" onClick={this.props.removeTag.bind(null, key)}></i>
                     </span>
                 </li>
@@ -97,7 +97,7 @@
                                    id="title"
                                    autoComplete="off"/>
                             <AutoComplete inputField="input-tag" suggestions={this.props.suggestions}
-                                          generateSuggestions={this.props.updateSuggestions}
+                                          generateSuggestions={this.props.updateSuggestions} isRestrictedToSuggestions={false}
                             />
                         </li>
                     </ul>
