@@ -73,6 +73,11 @@
             this.setState({suggestions: []});
         },
 
+        revertField: function(){
+            this.showValidity();
+            this.setState({isAccountManagerValid: false});
+        },
+
         render: function () {
             var suggestionTitle = this.getSuggestionName();
             return (
@@ -81,7 +86,7 @@
                     <div className="manager-parent">
                         <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
                                className="form-control manager-input" autoComplete="off"
-                               onBlur={this.checkName} id="account-manager"
+                               onFocus={this.revertField} id="account-manager"
                                onChange={this.props.fieldChange}
                         />
                         {this.state.isAccountManagerValid && <span
