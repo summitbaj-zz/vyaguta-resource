@@ -32,7 +32,9 @@
         renderContract: function (key) {
             return <Contract key={key}
                       index={key}
+                      actions={this.props.actions}
                       budgetTypes={this.props.budgetTypes}
+                      contract={this.props.contracts[key]}
                       selectedItem={this.props.selectedItem}
                       apiState={this.props.apiState}
                       teamMembers={this.props.teamMembers}
@@ -54,6 +56,7 @@
                              aria-multiselectable="true">
 
                             {Object.keys(this.props.contracts).map(this.renderContract)}
+
                         </div>
                     </div>
                 </div>

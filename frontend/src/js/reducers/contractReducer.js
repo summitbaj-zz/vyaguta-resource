@@ -24,16 +24,21 @@
                 var newState = _.cloneDeep(state);
 
                 var emptyObject = {
-                    budgetType: {},
-                    startDate: {},
-                    endDate: {},
-                    resource: {},
-                    teamMembers: {}
+                    budgetType: '',
+                    startDate: '',
+                    endDate: '',
+                    resource: '',
+                    teamMembers: ''
                 }
 
                 newState.contracts.push(emptyObject);
                 return newState;
 
+            case actionTypeConstant.HANDLE_CONTRACT_CHANGE:
+                var newState = _.cloneDeep(state);
+                newState.contracts[action.index][action.key] = action.value;
+                return  newState;
+                
             default:
                 return state;
         }

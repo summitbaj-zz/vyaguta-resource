@@ -142,13 +142,13 @@
             }
 
             return (
-                <div className="modal fade" id="addTeam" tabIndex="-1" role="dialog">
+                <div className="modal fade" id={"addTeam" + this.props.index} tabIndex="-1" role="dialog">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <div className="modal-title">Team Members</div>
+                                <div className="modal-title">Contract {this.props.index} Team Members</div>
                             </div>
                             <div className="modal-body">
                                 <form className="form-horizontal" id="team-member-form">

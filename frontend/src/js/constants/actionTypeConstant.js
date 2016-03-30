@@ -12,6 +12,7 @@
 
         //Contract Actions
         ADD_CONTRACT: 'ADD_CONTRACT',
+        HANDLE_CONTRACT_CHANGE: 'HANDLE_CONTRACT_CHANGE',
 
         //Team Member actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',

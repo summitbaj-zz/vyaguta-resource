@@ -19,7 +19,17 @@
             return {
                 type: actionTypeConstant.ADD_CONTRACT
             }
+        },
+
+        handleContractChange: function(index, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_CONTRACT_CHANGE,
+                index: index,
+                key: key,
+                value: value
+            }
         }
+
     }
 
     module.exports = contractActions;

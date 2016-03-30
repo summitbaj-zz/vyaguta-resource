@@ -135,12 +135,6 @@
             )
         },
 
-        renderContract: function (key) {
-            return (
-                <Contract key={key}/>
-            )
-        },
-
         renderTeamMember: function (key) {
             return (
                 <TeamMember key={key} index={key} actions={this.props.actions}/>
@@ -299,7 +293,9 @@
                                                                this.props.selectedItem.projects.projectType.id}
                                                             onChange={this.handleChange}>
                                                         <option value="0">Please Select</option>
+
                                                         {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
+
                                                     </select>
                                                     <span className="help-block"></span>
                                                 </div>
@@ -316,7 +312,9 @@
                                                         <option value="0">Please
                                                             Select
                                                         </option>
+
                                                         {Object.keys(this.props.projectStatus).map(this.renderProjectStatus)}
+
                                                     </select>
                                                     <span className="help-block"></span>
                                                 </div>
@@ -339,9 +337,7 @@
                                                             value={this.props.selectedItem.projects.client &&
                                                                this.props.selectedItem.projects.client.id}
                                                             onChange={this.handleChange}>
-                                                        <option value="0">Please
-                                                            Select
-                                                        </option>
+                                                        <option value="0">Please Select</option>
                                                         {Object.keys(this.props.clients).map(this.renderClient)}
                                                     </select>
                                                     <span className="help-block"></span>
@@ -358,7 +354,7 @@
                                             <span className="help-block"></span>
                                         </div>
 
-                                        <ContractContainer/>
+                                        <ContractContainer />
 
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">
