@@ -28,7 +28,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
-    var Contract = require('./contract/Contract');
+    var ContractContainer = require('./contract/ContractContainer');
     var TeamMemberForm = require('./member/TeamMemberForm');
     var TeamMember = require('./member/TeamMember');
     var ReasonModal = require('./ReasonModal');
@@ -135,7 +135,7 @@
             )
         },
 
-        renderContract: function(key) {
+        renderContract: function (key) {
             return (
                 <Contract key={key}/>
             )
@@ -358,26 +358,7 @@
                                             <span className="help-block"></span>
                                         </div>
 
-                                        <div className="form-group">
-                                            <label className="control-label">Team Members</label>
-                                            <div className="row  text-center">
-                                                <div className="col-sm-12">
-                                                    <ul className="team-list clearfix">
-                                                        <li><a href="#" className="profile-img img-lg add-team"
-                                                               data-toggle="modal" data-target="#addTeam"
-                                                               onClick={this.clearMemberIndexInModal}><i
-                                                            className="fa fa-plus"></i> <span
-                                                            className="on-hover circular-block"></span> </a>
-                                                        </li>
-
-                                                        {Object.keys(this.props.teamMembers).map(this.renderTeamMember)}
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <Contract/>
+                                        <ContractContainer/>
 
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">

@@ -168,9 +168,11 @@
                                         <div className="panel panel-default">
                                             <div className="panel-heading" role="tab" id="headingOne">
                                                 <h4 className="panel-title"><a role="button" data-toggle="collapse"
-                                                                           data-parent="#accordion" href="#collapseOne"
-                                                                           aria-expanded="true"
-                                                                           aria-controls="collapseOne"> Allocation </a>
+                                                                               data-parent="#accordion"
+                                                                               href="#collapseOne"
+                                                                               aria-expanded="true"
+                                                                               aria-controls="collapseOne">
+                                                    Allocation </a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne" className="panel-collapse collapse in" role="tabpanel"
@@ -241,6 +243,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="btn-block padding-v-10"><a className="btn btn-xs btn-default"
+                                                                               href=""><i
+                                            className="fa fa-plus icon-space"></i>Add Another Allocation</a></div>
                                     </div>
                                 </form>
                             </div>
@@ -250,8 +255,8 @@
                 </div>
 
             )
-            }
-            });
+        }
+    });
 
-            module.exports = TeamMemberForm;
-            })();
+    module.exports = TeamMemberForm;
+})();

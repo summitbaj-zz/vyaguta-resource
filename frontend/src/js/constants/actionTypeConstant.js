@@ -10,6 +10,9 @@
         PAGINATION_INDEX: 'PAGINATION_INDEX',
         CLEAR_SELECTED_ITEM: 'CLEAR_SELECTED_ITEM',
 
+        //Contract Actions
+        ADD_CONTRACT: 'ADD_CONTRACT',
+
         //Team Member actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',
         DELETE_TEAM_MEMBER: 'DELETE_TEAM_MEMBER',
