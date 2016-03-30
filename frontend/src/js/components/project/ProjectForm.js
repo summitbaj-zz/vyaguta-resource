@@ -19,7 +19,6 @@
     var messageConstant = require('../../constants/messageConstant');
 
     //libraries
-    var DatePicker = require('react-datepicker');
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
@@ -29,6 +28,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
+    var Contract = require('./contract/Contract');
     var TeamMemberForm = require('./member/TeamMemberForm');
     var TeamMember = require('./member/TeamMember');
     var ReasonModal = require('./ReasonModal');
@@ -46,8 +46,6 @@
             return {
                 technologyStack: [],
                 accountManager: {},
-                startDate: moment(),
-                endDate: moment(),
                 projectName: null,
                 isProjectNameValid: false,
                 isRequesting: false
@@ -62,7 +60,6 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
-
         },
 
         componentWillReceiveProps: function (props) {
@@ -135,6 +132,12 @@
             return (
                 <SelectOption key={key} index={key} id={this.props.clients[key].id}
                               option={this.props.clients[key].email}/>
+            )
+        },
+
+        renderContract: function(key) {
+            return (
+                <Contract key={key}/>
             )
         },
 
@@ -374,6 +377,8 @@
                                             </div>
                                         </div>
 
+                                        <Contract/>
+
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">
                                                 <button className="btn btn-sm btn-success"
@@ -392,6 +397,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <TeamMemberForm actions={this.props.actions} teamMembers={this.props.teamMembers}
                                     memberIndexInModal={this.props.memberIndexInModal}/>

@@ -9,17 +9,60 @@
 
     //React and Redux dependencies
     var React = require('react');
+    var connect = require('react-redux').connect;
+    var bindActionCreators = require('redux').bindActionCreators;
 
+    //components
+    var SelectOption = require('../SelectOption');
+    var TeamMemberForm = require('../member/TeamMemberForm');
+
+
+    //libraries
+    var moment = require('moment');
+    var DatePicker = require('react-datepicker');
+
+    //actions
+    var crudActions = require('../../../actions/crudActions');
+    var apiActions = require('../../../actions/apiActions');
+    var teamMemberActions = require('../../../actions/teamMemberActions');
 
     var Contract = React.createClass({
+        getInitialState: function() {
+            return {
+                startDate: moment(),
+                endDate: moment()
+            }
+        },
+
+        renderBudgetType: function (key) {
+            return (
+                <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id}
+                              option={this.props.budgetTypes[key].title}/>
+            )
+        },
+
+
+        handleChangeStartDate: function (date) {
+            this.setState({
+                startDate: date
+            });
+        },
+
+        handleChangeEndDate: function (date) {
+            this.setState({
+                endDate: date
+            });
+        },
+
+
         render: function() {
             return (
-                <div class="block-chunk">
-                    <div class="block-title-border">Contract Details
-                        <div class="block-options"> <a href="#" class="btn btn-alt btn-sm btn-default"><i class="fa fa-plus"></i></a> </div>
+                <div className="block-chunk">
+                    <div className="block-title-border">Contract Details
+                        <div className="block-options"> <a href="#" className="btn btn-alt btn-sm btn-default"><i className="fa fa-plus"></i></a> </div>
                     </div>
-                    <div class="form-group clearfix">
-                        <div class="row multiple-element">
+                    <div className="form-group clearfix">
+                        <div className="row multiple-element">
 
                             <div className="col-md-6 col-lg-4 element">
                                 <label className=" control-label">Budget Type</label>
@@ -64,33 +107,53 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label>Contracted Resources</label>
-                        <textarea placeholder="No. of contracted resources" class="form-control" rows="4"></textarea>
+                        <textarea placeholder="No. of contracted resources" className="form-control" rows="4"></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Team Members</label>
-                        <div class="row  text-center">
-                            <div class="col-sm-12">
-                                <div class="user-list-widget">
-                                    <ul class="user-list list-medium">
-                                        <li class="user-active"> <a href="#"> <img alt="avatar" src="img/placeholders/avatar-2.jpg">
-                                            <div class="user-info"> <span>Billed</span> <span class="status">Active</span> </div>
+                    <div className="form-group">
+                        <label className="control-label">Team Members</label>
+                        <div className="row  text-center">
+                            <div className="col-sm-12">
+                                <div className="user-list-widget">
+                                    <ul className="user-list list-medium">
+                                        <li className="user-active"> <a href="#"> <img alt="avatar" src="img/placeholders/avatar-2.jpg"/>
+                                            <div className="user-info"> <span>Billed</span> <span className="status">Active</span> </div>
                                         </a> </li>
-                                        <li class="user-active"> <a href="#"> <img alt="avatar" src="img/placeholders/avatar-2.jpg">
-                                            <div class="user-info"> <span>Billed</span> <span class="status">Active</span>  </div>
+                                        <li className="user-active"> <a href="#"> <img alt="avatar" src="img/placeholders/avatar-2.jpg"/>
+                                            <div className="user-info"> <span>Billed</span> <span className="status">Active</span>  </div>
                                         </a> </li>
-                                        <li class="user-inactive"> <img alt="avatar" src="img/placeholders/avatar-2.jpg">
-                                            <div class="user-info"> <span>Billed</span> <span class="status">Inactive</span> </div> </li>
-                                        <li> <a href="#" class="add-team" data-toggle="modal" data-target="#addTeam"><i class="fa fa-plus"></i> <span class="on-hover"></span> </a> </li>
+                                        <li className="user-inactive"> <img alt="avatar" src="img/placeholders/avatar-2.jpg"/>
+                                            <div className="user-info"> <span>Billed</span> <span className="status">Inactive</span> </div> </li>
+                                        <li> <a href="#" className="add-team" data-toggle="modal" data-target="#addTeam"><i className="fa fa-plus"></i> <span className="on-hover"></span> </a> </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             )
         }
-    })
+    });
+
+    var mapStateToProps = function(state) {
+        return {
+            budgetTypes: state.crudReducer.budgetTypes,
+            selectedItem: state.crudReducer.selectedItem,
+            apiState: state.apiReducer,
+            teamMembers: state.teamMemberReducer.teamMembers,
+            memberIndexInModal: state.teamMemberReducer.memberIndexInModal
+        }
+    };
+
+    var mapDispatchToProps = function (dispatch) {
+        return {
+            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions), dispatch)
+        }
+    };
+
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(Contract);
 })();

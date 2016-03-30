@@ -162,57 +162,84 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-md-4">Role</label>
-                                        <div className="col-md-8">
-                                            <select ref="role" id="role" name="role" className="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Developer</option>
-                                                <option value="2">Tester</option>
-                                                <option value="3">Team Lead</option>
-                                                <option value="4">SA</option>
-                                                <option value="5">PM</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-md-4">Estimated Duration</label>
-                                        <div className="col-md-8">
-                                            <div className="input-group input-daterange">
-                                                <DatePicker selected={this.state.joinDate}
-                                                            onChange={this.handleChangeStartDate}
-                                                            className="form-control" placeholderText="From"
-                                                            popoverTargetOffset='40px 0px'/>
-                                                <span className="input-group-addon"><i
-                                                    className="fa fa-angle-right"></i></span>
-                                                <DatePicker selected={this.state.endDate}
-                                                            onChange={this.handleChangeEndDate}
-                                                            minDate={this.state.joinDate} className="form-control"
-                                                            placeholderText="To" popoverTargetOffset='40px 0px'/>
+
+                                    <div className="panel-group custom-accordion" id="accordion" role="tablist"
+                                         aria-multiselectable="true">
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading" role="tab" id="headingOne">
+                                                <h4 className="panel-title"><a role="button" data-toggle="collapse"
+                                                                           data-parent="#accordion" href="#collapseOne"
+                                                                           aria-expanded="true"
+                                                                           aria-controls="collapseOne"> Allocation </a>
+                                                </h4>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-md-4">Allocation</label>
-                                        <div className="col-md-8">
-                                            <div className="input-group">
-                                                <input ref="allocation" name="allocation" type="text" placeholder="0"
-                                                       className="form-control" value={this.state.member.allocation}
-                                                       onChange={this.handleInputChange}/>
+                                            <div id="collapseOne" className="panel-collapse collapse in" role="tabpanel"
+                                                 aria-labelledby="headingOne">
+                                                <div className="panel-body">
+                                                    <div className="form-group">
+                                                        <label className="control-label col-md-4">Role</label>
+                                                        <div className="col-md-8">
+                                                            <select ref="role" id="role" name="role"
+                                                                    className="form-control">
+                                                                <option value="0">Please select</option>
+                                                                <option value="1">Developer</option>
+                                                                <option value="2">Tester</option>
+                                                                <option value="3">Team Lead</option>
+                                                                <option value="4">SA</option>
+                                                                <option value="5">PM</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label className="control-label col-md-4">Estimated
+                                                            Duration</label>
+                                                        <div className="col-md-8">
+                                                            <div className="input-group input-daterange">
+                                                                <DatePicker selected={this.state.joinDate}
+                                                                            onChange={this.handleChangeStartDate}
+                                                                            className="form-control"
+                                                                            placeholderText="From"
+                                                                            popoverTargetOffset='40px 0px'/>
+                                                                <span className="input-group-addon"><i
+                                                                    className="fa fa-angle-right"></i></span>
+                                                                <DatePicker selected={this.state.endDate}
+                                                                            onChange={this.handleChangeEndDate}
+                                                                            minDate={this.state.joinDate}
+                                                                            className="form-control"
+                                                                            placeholderText="To"
+                                                                            popoverTargetOffset='40px 0px'/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label className="control-label col-md-4">Allocation</label>
+                                                        <div className="col-md-8">
+                                                            <div className="input-group">
+                                                                <input ref="allocation" name="allocation" type="text"
+                                                                       placeholder="0"
+                                                                       className="form-control"
+                                                                       value={this.state.member.allocation}
+                                                                       onChange={this.handleInputChange}/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-percent"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label className="control-label col-md-4">Billed</label>
+                                                        <div className="col-md-8">
+                                                            <label htmlFor="billed-resource"
+                                                                   className="billed-resource switch switch-default">
+                                                                <input type="checkbox" name="billed"
+                                                                       onChange={this.toggleCheckBox}
+                                                                       id="billed-resource"
+                                                                       checked={this.state.isChecked}/>
+                                                                <span data-toggle="tooltip"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="control-label col-md-4">Billed</label>
-                                        <div className="col-md-8">
-                                            <label htmlFor="billed-resource"
-                                                   className="billed-resource switch switch-default">
-                                                <input type="checkbox" name="billed" onChange={this.toggleCheckBox}
-                                                       id="billed-resource" checked={this.state.isChecked}/>
-                                                <span data-toggle="tooltip"></span>
-                                            </label>
                                         </div>
                                     </div>
                                 </form>
@@ -223,8 +250,8 @@
                 </div>
 
             )
-        }
-    });
+            }
+            });
 
-    module.exports = TeamMemberForm;
-})();
+            module.exports = TeamMemberForm;
+            })();
