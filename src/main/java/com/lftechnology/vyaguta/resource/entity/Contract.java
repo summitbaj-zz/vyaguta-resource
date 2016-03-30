@@ -29,11 +29,11 @@ public class Contract extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 647756185379538980L;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
     private BudgetType budgetType;
 
     @Column(name = "start_date")
