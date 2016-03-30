@@ -248,12 +248,14 @@
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
                                   routes={this.props.routes}/>
+
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">
                                 <div className="block-title-border">Project Details</div>
                                 <form className="form-bordered" method="post" onSubmit={this.saveProject}>
                                     <fieldset disabled={this.props.apiState.isRequesting}>
+
                                         <div className="form-group has-feedback">
                                             <label>Project Name *</label>
                                             <input type="text" placeholder="Project Name" name="title" ref="title"
@@ -271,6 +273,7 @@
 
                                             <span className="help-block" ref="availableMessage"></span>
                                         </div>
+
                                         <div className="form-group">
                                             <label>Description</label>
                                     <textarea name="description" ref="description"
@@ -279,10 +282,11 @@
                                               className="form-control" rows="4" id="description"
                                               onChange={this.handleChange}></textarea>
                                             <span className="help-block"></span>
-
                                         </div>
+
                                         <div className="form-group clearfix">
                                             <div className="row multiple-element">
+
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label className="control-label">Project Type</label>
                                                     <select className="form-control"
@@ -295,23 +299,8 @@
                                                         {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
                                                     </select>
                                                     <span className="help-block"></span>
+                                                </div>
 
-                                                </div>
-                                                <div className="col-md-6 col-lg-4 element">
-                                                    <label className=" control-label">Budget Type</label>
-                                                    <select className="form-control"
-                                                            ref="budgetType" name="budgetType"
-                                                            id="budgetType"
-                                                            value={this.props.selectedItem.projects.budgetType &&
-                                                               this.props.selectedItem.projects.budgetType.id}
-                                                            onChange={this.handleChange}>
-                                                        <option value="0">
-                                                            Please Select
-                                                        </option>
-                                                        {Object.keys(this.props.budgetTypes).map(this.renderBudgetType)}
-                                                    </select>
-                                                    <span className="help-block"></span>
-                                                </div>
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label htmlFor="example-select" className="control-label">Project
                                                         Status</label>
@@ -320,8 +309,7 @@
                                                             id="projectStatus"
                                                             value={this.props.selectedItem.projects.projectStatus &&
                                                                this.props.selectedItem.projects.projectStatus.id}
-                                                            onChange={this.handleChange}
-                                                    >
+                                                            onChange={this.handleChange}>
                                                         <option value="0">Please
                                                             Select
                                                         </option>
@@ -329,13 +317,16 @@
                                                     </select>
                                                     <span className="help-block"></span>
                                                 </div>
+
+                                                <AccountManager setManager={this.setManager}
+                                                                handleChange={this.handleChange}/>
+
                                             </div>
                                         </div>
+
                                         <div className="form-group clearfix">
                                             <div className="row multiple-element">
-                                                <AccountManager setManager={this.setManager}
-                                                                handleChange={this.handleChange}
-                                                />
+
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label htmlFor="example-select"
                                                            className="control-label">Client</label>
@@ -344,8 +335,7 @@
                                                             id="client"
                                                             value={this.props.selectedItem.projects.client &&
                                                                this.props.selectedItem.projects.client.id}
-                                                            onChange={this.handleChange}
-                                                    >
+                                                            onChange={this.handleChange}>
                                                         <option value="0">Please
                                                             Select
                                                         </option>
@@ -353,84 +343,18 @@
                                                     </select>
                                                     <span className="help-block"></span>
                                                 </div>
-                                                <div className="col-md-6 col-lg-4 element">
-                                                    <label className="control-label">Contract Date</label>
-                                                    <div data-date-format="mm/dd/yyyy"
-                                                         className="input-group input-daterange">
-                                                        <DatePicker selected={this.state.startDate}
-                                                                    onChange={this.handleChangeStartDate}
-                                                                    className="form-control"
-                                                                    placeholderText="From"
-                                                                    popoverTargetOffset='40px 0px'
-                                                                    disabled={this.props.apiState.isRequesting}
-                                                        />
-                                                <span className="input-group-addon"><i
-                                                    className="fa fa-angle-right"></i></span>
-                                                        <DatePicker selected={this.state.endDate}
-                                                                    onChange={this.handleChangeEndDate}
-                                                                    className="form-control"
-                                                                    minDate={this.state.startDate}
-                                                                    placeholderText="To"
-                                                                    popoverTargetOffset='40px 0px'
-                                                                    disabled={this.props.apiState.isRequesting}
-                                                        />
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
+
                                         <div className="form-group clearfix">
                                             <label className="control-label">Technology Stack</label>
                                             <TechnologyStack technologyStack={this.state.technologyStack}
                                                              removeTag={this.removeTag}
-                                                             addTag={this.addTag}
-                                            />
+                                                             addTag={this.addTag}/>
                                             <span className="help-block"></span>
+                                        </div>
 
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="control-label">Resources</label>
-                                            <div className="row multiple-element">
-                                                <div className="col-sm-12 col-lg-8 element">
-                                                    <div className="input-group">
-                                                        <input type="text" placeholder="Resource"
-                                                               className="form-control text-center"
-                                                        />
-                                                        <span className="input-group-addon">No. of</span>
-                                                        <input type="text" placeholder="2"
-                                                               className="form-control text-center input-sm"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-12 col-lg-8 element">
-                                                    <div className="input-group">
-                                                        <input type="text" placeholder="Resource"
-                                                               className="form-control text-center"
-                                                        />
-                                                        <span className="input-group-addon">No. of</span>
-                                                        <input type="text" placeholder="2"
-                                                               className="form-control text-center input-sm"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-12 col-lg-8 element">
-                                                    <div className="input-group">
-                                                        <input type="text" placeholder="Resource"
-                                                               className="form-control text-center"
-                                                        />
-                                                        <span className="input-group-addon">No. of</span>
-                                                        <input type="text" placeholder="2"
-                                                               className="form-control text-center input-sm"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="block-options clear"><a
-                                                    className="btn btn-sm btn-ghost text-uppercase"
-                                                    data-toggle="tooltip"
-                                                    title="Add Another Field" href="#"><i className="fa fa-plus"></i>
-                                                    Add
-                                                    Another Field</a></div>
-                                            </div>
-                                        </div>
                                         <div className="form-group">
                                             <label className="control-label">Team Members</label>
                                             <div className="row  text-center">
@@ -449,6 +373,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">
                                                 <button className="btn btn-sm btn-success"
@@ -467,9 +392,11 @@
                             </div>
                         </div>
                     </div>
+
                     <TeamMemberForm actions={this.props.actions} teamMembers={this.props.teamMembers}
                                     memberIndexInModal={this.props.memberIndexInModal}/>
                     <ReasonModal updateProject={this.updateProject}/>
+
                 </div>
             )
         }
