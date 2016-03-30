@@ -33,7 +33,7 @@ import com.lftechnology.vyaguta.commons.pojo.User;
  *
  */
 @Entity
-@Table(name = "contract__histories")
+@Table(name = "contract_histories")
 public class ContractHistory implements Serializable {
 
     private static final long serialVersionUID = -4315662140074205279L;
