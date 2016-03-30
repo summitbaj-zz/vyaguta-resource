@@ -1,7 +1,6 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,15 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
@@ -32,6 +30,7 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Entity
@@ -55,33 +54,21 @@ public class ProjectHistory implements Serializable {
 
     private String description;
 
+    @Column(name = "account_manager")
+    @Convert(converter = EmployeeConverter.class)
+    private Employee accountManager;
+
     @ManyToOne
     @JoinColumn(name = "project_type_id", referencedColumnName = "id")
     private ProjectType projectType;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
-    private BudgetType budgetType;
-
-    @ManyToOne
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @Column(name = "start_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate startDate;
-
-    @Column(name = "end_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate endDate;
-
-    @Column(name = "account_manager")
-    @Convert(converter = EmployeeConverter.class)
-    private Employee accountManager;
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
     private String reason;
 
@@ -137,20 +124,20 @@ public class ProjectHistory implements Serializable {
         this.description = description;
     }
 
+    public Employee getAccountManager() {
+        return accountManager;
+    }
+
+    public void setAccountManager(Employee accountManager) {
+        this.accountManager = accountManager;
+    }
+
     public ProjectType getProjectType() {
         return projectType;
     }
 
     public void setProjectType(ProjectType projectType) {
         this.projectType = projectType;
-    }
-
-    public BudgetType getBudgetType() {
-        return budgetType;
-    }
-
-    public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
     }
 
     public ProjectStatus getProjectStatus() {
@@ -161,28 +148,12 @@ public class ProjectHistory implements Serializable {
         this.projectStatus = projectStatus;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public Client getClient() {
+        return client;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public Employee getAccountManager() {
-        return accountManager;
-    }
-
-    public void setAccountManager(Employee accountManager) {
-        this.accountManager = accountManager;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getReason() {
@@ -209,4 +180,37 @@ public class ProjectHistory implements Serializable {
         this.createdAt = createdAt;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProjectHistory other = (ProjectHistory) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.setId(GuidUtil.generate());
+        this.setCreatedAt(LocalDateTime.now());
+        User user = new User();
+        user.setId("1");
+        this.setCreatedBy(user);
+    }
 }
