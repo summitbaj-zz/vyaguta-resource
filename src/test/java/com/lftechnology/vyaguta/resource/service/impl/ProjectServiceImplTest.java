@@ -76,42 +76,6 @@ public class ProjectServiceImplTest {
         Mockito.verify(projectDao).save(project);
     }
 
-    @Test
-    public void testSaveWhenTagIdisGivenAndTagTitleIsNull() {
-
-        // arrange
-        Tag tag = this.buildTag("asdf", "java");
-        List<Tag> tags = new ArrayList<>();
-        tags.add(this.buildTag("ad", null));
-        project.setTags(tags);
-
-        Mockito.when(tagDao.findById(Mockito.anyString())).thenReturn(tag);
-
-        // act
-        projectServiceImpl.save(project);
-
-        // assert
-        Mockito.verify(tagDao, Mockito.never()).save(Mockito.anyObject());
-        Mockito.verify(tagDao).findById(Mockito.anyString());
-        Mockito.verify(projectDao).save(project);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testSaveWhenTagIdisGivenAndIsNotValidExpectObjectNotFoundException() {
-
-        // arrange
-        List<Tag> tags = new ArrayList<>();
-        tags.add(this.buildTag("ad", null));
-        project.setTags(tags);
-        Mockito.when(tagDao.findById("1234")).thenThrow(ObjectNotFoundException.class);
-
-        exception.expect(ObjectNotFoundException.class);
-
-        // act
-        projectServiceImpl.save(project);
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void testSaveWhenTagTitleIsNotUnique() {
