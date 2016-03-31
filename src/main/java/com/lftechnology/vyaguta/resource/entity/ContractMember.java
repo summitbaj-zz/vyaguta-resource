@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
@@ -29,8 +30,8 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_members")
-@NamedQueries({ @NamedQuery(name = ContractMember.FIND_BY_CONTRACT,
-        query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
+@NamedQueries({
+        @NamedQuery(name = ContractMember.FIND_BY_CONTRACT, query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
 public class ContractMember extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4463672032184656029L;
@@ -39,6 +40,7 @@ public class ContractMember extends BaseEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    @JsonBackReference
     private Contract contract;
 
     @Convert(converter = EmployeeConverter.class)
