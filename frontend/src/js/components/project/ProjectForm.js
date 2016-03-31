@@ -23,7 +23,6 @@
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
-    var classNames = require('classnames');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');

@@ -94,7 +94,6 @@
             } else {
                 this.props.actions.addTeamMember(member);
             }
-
             document.querySelector('#close-btn').click();
         },
 

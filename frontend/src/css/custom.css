@@ -10,6 +10,7 @@ ul {
 body, html, #page-container, #vyaguta-body, #sidebar, .sidebar-scroll, .sidebar-content, .sidebar-nav, #main-container {
     height: 100%;
 }
+
 .breadcrumb {
     border-radius: 0;
 }
@@ -391,6 +392,7 @@ footer a, footer a:hover {
 }
 .custom-accordion .panel-title a{
     display: block;
+    text-decoration: none !important;
 }
 
 /**---User-list-widget---**/
@@ -482,12 +484,12 @@ footer a, footer a:hover {
     font-size: 11px;
 }
 
-.user-list li .user-info .status{
+.user-info .status{
     position: relative;
     margin: 0 0 0 12px;
 }
 
-.user-list li .user-info .status:before{
+.user-info .status:before{
     width: 6px;
     height: 6px;
     float: left;
@@ -500,11 +502,11 @@ footer a, footer a:hover {
     border-radius: 50%;
 }
 
-.user-list li.user-active .user-info .status:before{
+.user-active .user-info .status:before{
     background: #4CAF50;
 }
 
-.user-list li.user-inactive .user-info .status:before{
+.user-inactive .user-info .status:before{
     background: #eff0f1;
 }
 

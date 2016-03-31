@@ -117,7 +117,7 @@
                                             <label className="control-label">Phone Number</label>
                                             <div>
                                                 <input type="text" ref="phone" name="phone"
-                                                       value={this.props.selectedItem.clients.phone}
+                                                       value={this.props.selectedItem.clients.phoneNo}
                                                        onChange={this.fieldChange}
                                                        placeholder="Phone Number"
                                                        className="form-control"
