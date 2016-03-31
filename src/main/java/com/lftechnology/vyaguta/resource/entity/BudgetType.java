@@ -40,4 +40,35 @@ public class BudgetType extends BaseEntity implements Serializable {
     public void preUpdates() {
         this.setTitle(this.getTitle().trim());
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof BudgetType)) {
+            return false;
+        }
+        BudgetType other = (BudgetType) obj;
+        if (title == null) {
+            if (other.title != null) {
+                return false;
+            }
+        } else if (!title.equals(other.title)) {
+            return false;
+        }
+        return true;
+    }
+
 }

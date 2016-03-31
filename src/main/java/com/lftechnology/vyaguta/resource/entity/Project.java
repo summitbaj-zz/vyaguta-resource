@@ -1,7 +1,6 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +21,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
@@ -56,24 +50,8 @@ public class Project extends BaseEntity implements Serializable {
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
-    private BudgetType budgetType;
-
-    @ManyToOne
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
-
-    @Column(name = "start_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate startDate;
-
-    @Column(name = "end_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate endDate;
 
     @Column(name = "account_manager")
     @Convert(converter = EmployeeConverter.class)
@@ -83,9 +61,9 @@ public class Project extends BaseEntity implements Serializable {
     @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
     private List<Tag> tags = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
     @JsonManagedReference
-    private List<ProjectMember> projectMembers = new ArrayList<>();
+    private List<Contract> contracts = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -111,14 +89,6 @@ public class Project extends BaseEntity implements Serializable {
         this.projectType = projectType;
     }
 
-    public BudgetType getBudgetType() {
-        return budgetType;
-    }
-
-    public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
-    }
-
     public Employee getAccountManager() {
         return accountManager;
     }
@@ -135,22 +105,6 @@ public class Project extends BaseEntity implements Serializable {
         this.projectStatus = projectStatus;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     public List<Tag> getTags() {
         return tags;
     }
@@ -159,12 +113,12 @@ public class Project extends BaseEntity implements Serializable {
         this.tags = tag;
     }
 
-    public List<ProjectMember> getProjectMembers() {
-        return projectMembers;
+    public List<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setProjectmembers(List<ProjectMember> projectMembers) {
-        this.projectMembers = projectMembers;
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public Client getClient() {

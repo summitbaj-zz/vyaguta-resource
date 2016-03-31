@@ -16,7 +16,6 @@ import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Project;
-import com.lftechnology.vyaguta.resource.entity.ProjectMember;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -37,7 +36,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         this.fixTags(project);
-        return projectDao.save(this.fixProjectMembers(project));
+        project.getContracts().addAll(project.getContracts());
+        return projectDao.save(project);
     }
 
     @Override
@@ -51,14 +51,15 @@ public class ProjectServiceImpl implements ProjectService {
         if (project == null) {
             throw new ObjectNotFoundException();
         }
+
         this.fixTags(obj);
+        project.getContracts().clear();
+        project.getContracts().addAll(obj.getContracts());
         project.setTitle(obj.getTitle());
         project.setDescription(obj.getDescription());
         project.setProjectStatus(obj.getProjectStatus());
         project.setProjectType(obj.getProjectType());
-        project.setBudgetType(obj.getBudgetType());
-        project.setStartDate(obj.getStartDate());
-        project.setEndDate(obj.getEndDate());
+        project.setAccountManager(obj.getAccountManager());
         project.setTags(obj.getTags());
         project.setClient(obj.getClient());
         return this.update(project);
@@ -127,13 +128,6 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }));
         return tags.size() > 0 ? tags.get(0) : null;
-    }
-
-    private Project fixProjectMembers(Project project) {
-        for (ProjectMember pm : project.getProjectMembers()) {
-            pm.setProject(project);
-        }
-        return project;
     }
 
     @SuppressWarnings("serial")
