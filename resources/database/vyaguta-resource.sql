@@ -13,10 +13,10 @@ SET default_with_oids = false;
 
 
 CREATE TABLE budget_types (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
@@ -28,10 +28,10 @@ ALTER TABLE ONLY budget_types
 
 
 CREATE TABLE project_types (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
@@ -43,11 +43,11 @@ ALTER TABLE ONLY project_types
 
     
 CREATE TABLE project_status (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
     color_code character varying(7),
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
@@ -58,10 +58,10 @@ ALTER TABLE ONLY project_status
     ADD CONSTRAINT project_status_title_key UNIQUE (title);
 
 CREATE TABLE tags (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
@@ -73,15 +73,15 @@ ALTER TABLE ONLY tags
 
     
 CREATE TABLE clients (
-	id character varying(32) NOT NULL,
+	id uuid NOT NULL,
 	name character varying(255) NOT NULL,
 	email CITEXT NOT NULL,
 	phone_no character varying(255),
 	skype character varying(255),
 	address character varying(255),
 	description text,
-	created_by character varying(32) NOT NULL,
-	updated_by character varying(32),
+	created_by uuid NOT NULL,
+	updated_by uuid,
 	created_at timestamp with time zone NOT NULL,
 	updated_at timestamp with time zone
 );
@@ -93,15 +93,15 @@ ALTER TABLE ONLY clients
   
     
 CREATE TABLE projects (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
     description text,
-    account_manager character varying(32),
-    project_type_id character varying(32),
-    project_status_id character varying(32),
-    client_id character varying(32),
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    account_manager uuid,
+    project_type_id uuid,
+    project_status_id uuid,
+    client_id uuid,
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone   
 );
@@ -119,8 +119,8 @@ ALTER TABLE ONLY projects
  
 	
 CREATE TABLE projects_tags (
-    project_id character varying(32) NOT NULL,
-    tag_id character varying(32) NOT NULL
+    project_id uuid NOT NULL,
+    tag_id uuid NOT NULL
 );
 ALTER TABLE projects_tags OWNER TO frieddust;
 ALTER TABLE ONLY projects_tags
@@ -132,11 +132,11 @@ ALTER TABLE ONLY projects_tags
 
 
 CREATE TABLE project_roles (
-    id character varying(32) NOT NULL,
+    id uuid NOT NULL,
     title CITEXT NOT NULL,
     description text,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
@@ -148,14 +148,14 @@ ALTER TABLE ONLY project_roles
     
 
 CREATE TABLE contracts (
-    id character varying(32) NOT NULL,
-    project_id character varying(32) NOT NULL,
-    budget_type_id character varying(32),
+    id uuid NOT NULL,
+    project_id uuid NOT NULL,
+    budget_type_id uuid,
     start_date date,
     end_date date,
     actual_end_date date,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone   
 );
@@ -169,16 +169,16 @@ ALTER TABLE ONLY contracts
     
 	
 CREATE TABLE contract_members (
-    id character varying(32) NOT NULL,
-    contract_id character varying(32) NOT NULL,
-    employee character varying(32) NOT NULL,
-    role_id character varying(32),
+    id uuid NOT NULL,
+    contract_id uuid NOT NULL,
+    employee uuid NOT NULL,
+    role_id uuid,
     allocation decimal(5,2),
     billed boolean,
     join_date date,
     end_date date,
-    created_by character varying(32) NOT NULL,
-    updated_by character varying(32),
+    created_by uuid NOT NULL,
+    updated_by uuid,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone  
 );
@@ -192,17 +192,17 @@ ALTER TABLE ONLY contract_members
 	
 	
 CREATE TABLE project_histories (
-    id character varying(32) NOT NULL,
-    batch_no character varying(32) NOT NULL,
-    project_id character varying(32) NOT NULL,
+    id uuid NOT NULL,
+    batch_no uuid NOT NULL,
+    project_id uuid NOT NULL,
     title CITEXT NOT NULL,
     description text,
-    account_manager character varying(32),
-    project_type_id character varying(32),
-    project_status_id character varying(32),
-    client_id character varying(32),
+    account_manager uuid,
+    project_type_id uuid,
+    project_status_id uuid,
+    client_id uuid,
     reason text,
-    created_by character varying(32) NOT NULL,
+    created_by uuid NOT NULL,
     created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE project_histories OWNER TO frieddust;
@@ -219,16 +219,16 @@ ALTER TABLE ONLY project_histories
     
     
 CREATE TABLE contract_histories (
-    id character varying(32) NOT NULL,
-    batch_no character varying(32) NOT NULL,
-    contract_id character varying(32) NOT NULL,
-    project_id character varying(32) NOT NULL,
-    budget_type_id character varying(32),
+    id uuid NOT NULL,
+    batch_no uuid NOT NULL,
+    contract_id uuid NOT NULL,
+    project_id uuid NOT NULL,
+    budget_type_id uuid,
     start_date date,
     end_date date,
     actual_end_date date,
     reason text,
-    created_by character varying(32) NOT NULL,
+    created_by uuid NOT NULL,
     created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE contract_histories OWNER TO frieddust;
@@ -243,18 +243,18 @@ ALTER TABLE ONLY contract_histories
     
     
 CREATE TABLE contract_member_histories (
-    id character varying(32) NOT NULL,
-    batch_no character varying(32) NOT NULL,
-    contract_member_id character varying(32) NOT NULL,
-    contract_id character varying(32) NOT NULL,
-    employee character varying(32) NOT NULL,
-    role_id character varying(32),
+    id uuid NOT NULL,
+    batch_no uuid NOT NULL,
+    contract_member_id uuid NOT NULL,
+    contract_id uuid NOT NULL,
+    employee uuid NOT NULL,
+    role_id uuid,
     allocation decimal(5,2),
     billed boolean,
     join_date date,
     end_date date,
     reason text,
-    created_by character varying(32) NOT NULL,
+    created_by uuid NOT NULL,
     created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE contract_member_histories OWNER TO frieddust;
