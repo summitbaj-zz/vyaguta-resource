@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
