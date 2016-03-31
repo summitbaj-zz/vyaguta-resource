@@ -65,8 +65,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                     return null;
                 }
             });
-        } else {
-            throw new AuthenticationException();
         }
     }
 
