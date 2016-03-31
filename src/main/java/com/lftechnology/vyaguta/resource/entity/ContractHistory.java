@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -12,11 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
+import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
@@ -24,51 +26,53 @@ import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
 import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
 import com.lftechnology.vyaguta.commons.pojo.User;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
-import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
- * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Entity
-@Table(name = "project_histories")
-public class ProjectHistory implements Serializable {
+@Table(name = "contract_histories")
+public class ContractHistory implements Serializable {
 
-    private static final long serialVersionUID = -7863749153287317821L;
+    private static final long serialVersionUID = -4315662140074205279L;
 
     @Id
     private String id;
+
+    @Column(name = "batch_no")
+    private String batch;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    private Contract contract;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @Column(name = "batch_no")
-    private String batch;
-
-    @NotBlank(message = "Title cannot be blank.")
-    private String title;
-
-    private String description;
-
-    @Column(name = "account_manager")
-    @Convert(converter = EmployeeConverter.class)
-    private Employee accountManager;
-
     @ManyToOne
-    @JoinColumn(name = "project_type_id", referencedColumnName = "id")
-    private ProjectType projectType;
+    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
+    private BudgetType budgetType;
 
-    @ManyToOne
-    @JoinColumn(name = "project_status_id", referencedColumnName = "id")
-    private ProjectStatus projectStatus;
+    @Column(name = "start_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate startDate;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
+    @Column(name = "end_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate endDate;
+
+    @Column(name = "actual_end_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate actualEndDate;
 
     private String reason;
 
@@ -92,14 +96,6 @@ public class ProjectHistory implements Serializable {
         this.id = id;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public String getBatch() {
         return batch;
     }
@@ -108,52 +104,52 @@ public class ProjectHistory implements Serializable {
         this.batch = batch;
     }
 
-    public String getTitle() {
-        return title;
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
-    public String getDescription() {
-        return description;
+    public Project getProject() {
+        return project;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public Employee getAccountManager() {
-        return accountManager;
+    public BudgetType getBudgetType() {
+        return budgetType;
     }
 
-    public void setAccountManager(Employee accountManager) {
-        this.accountManager = accountManager;
+    public void setBudgetType(BudgetType budgetType) {
+        this.budgetType = budgetType;
     }
 
-    public ProjectType getProjectType() {
-        return projectType;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setProjectType(ProjectType projectType) {
-        this.projectType = projectType;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public ProjectStatus getProjectStatus() {
-        return projectStatus;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setProjectStatus(ProjectStatus projectStatus) {
-        this.projectStatus = projectStatus;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
-    public Client getClient() {
-        return client;
+    public LocalDate getActualEndDate() {
+        return actualEndDate;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setActualEndDate(LocalDate actualEndDate) {
+        this.actualEndDate = actualEndDate;
     }
 
     public String getReason() {
@@ -196,7 +192,7 @@ public class ProjectHistory implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ProjectHistory other = (ProjectHistory) obj;
+        ContractHistory other = (ContractHistory) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
