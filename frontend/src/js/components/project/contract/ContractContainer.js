@@ -21,24 +21,25 @@
     var crudActions = require('../../../actions/crudActions');
     var apiActions = require('../../../actions/apiActions');
     var teamMemberActions = require('../../../actions/teamMemberActions');
-    var contractActions = require('../../../actions/contractActions')
+    var contractActions = require('../../../actions/contractActions');
+    var contractMemberActions = require('../../../actions/contractMemberActions');
 
     var ContractContainer = React.createClass({
-        addContract: function(event) {
+        addContract: function (event) {
             event.preventDefault();
             this.props.actions.addContract();
         },
 
         renderContract: function (key) {
             return <Contract key={key}
-                      index={key}
-                      actions={this.props.actions}
-                      budgetTypes={this.props.budgetTypes}
-                      contract={this.props.contracts[key]}
-                      selectedItem={this.props.selectedItem}
-                      apiState={this.props.apiState}
-                      teamMembers={this.props.teamMembers}
-                      memberIndexInModal={this.props.memberIndexInModal}
+                             index={key}
+                             actions={this.props.actions}
+                             budgetTypes={this.props.budgetTypes}
+                             contract={this.props.contracts[key]}
+                             selectedItem={this.props.selectedItem}
+                             apiState={this.props.apiState}
+                             teamMembers={this.props.teamMembers}
+                             memberIndexInModal={this.props.memberIndexInModal}
             />
         },
 
@@ -52,7 +53,7 @@
                             <i className="fa fa-plus"></i></a></div>
                     </div>
                     <div className="form-group">
-                        <div className="panel-group custom-accordion" id="contractAccordion" ro
+                        <div className="panel-group custom-accordion" id="contractAccordion"
                              aria-multiselectable="true">
 
                             {Object.keys(this.props.contracts).map(this.renderContract)}
@@ -77,9 +78,12 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions, contractActions), dispatch)
+            actions: bindActionCreators(_.assign({}, teamMemberActions,
+                                                     crudActions,
+                                                     apiActions,
+                                                     contractActions,
+                                                     contractMemberActions), dispatch)
         }
     };
-
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ContractContainer);
 })();

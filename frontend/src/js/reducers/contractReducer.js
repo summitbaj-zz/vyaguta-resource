@@ -24,11 +24,11 @@
                 var newState = _.cloneDeep(state);
 
                 var emptyObject = {
-                    budgetType: '',
-                    startDate: '',
-                    endDate: '',
-                    resource: '',
-                    teamMembers: ''
+                    budgetType: null,
+                    startDate: null,
+                    endDate: null,
+                    resource: null,
+                    contractMembers: null
                 }
 
                 newState.contracts.push(emptyObject);
@@ -38,7 +38,16 @@
                 var newState = _.cloneDeep(state);
                 newState.contracts[action.index][action.key] = action.value;
                 return  newState;
-                
+
+            case actionTypeConstant.ADD_CONTRACT_MEMBER:
+                var newState = _.cloneDeep(state);
+                if(!newState.contracts[action.index].contractMembers) {
+                    newState.contracts[action.index].contractMembers = [];
+                }
+
+                newState.contracts[action.index].contractMembers.push(action.data);
+                return newState;
+
             default:
                 return state;
         }

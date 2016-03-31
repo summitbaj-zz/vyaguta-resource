@@ -1,154 +1,41 @@
 /**
  * Created by
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 2/29/16.
+ * on 3/31/16.
  */
 
 ;(function () {
-    'use strict';
 
-    //React dependencies
+    //React and redux dependencies
     var React = require('react');
 
     //libraries
     var DatePicker = require('react-datepicker');
-    var moment = require('moment');
 
-    //constants
-    var resourceConstant = require('../../../constants/resourceConstant');
-
-    //components
-    var TeamMemberAddButtons = require('./TeamMemberAddButtons');
-    var TeamMemberEditButtons = require('./TeamMemberEditButtons');
-    var apiUtil = require('../../../util/apiUtil');
-
-    var TeamMemberForm = React.createClass({
-        getInitialState: function () {
-            return {
-                joinDate: moment(),
-                endDate: moment(),
-                isChecked: false,
-                member: {},
-                employees: []
-            };
-        },
-
+    var ContractMemberForm = React.createClass({
         componentDidMount: function () {
             var that = this;
-            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, function (data) {
-                that.setState({employees: data || []});
+            $('#addContractMember').modal('show');
+            $('#addContractMember').on('hidden.bs.modal', function(event) {
+                that.props.toggleModalState(event);
             })
         },
 
-        handleInputChange: function (event) {
-            if (this.props.memberIndexInModal) {
-                var name = event.target.name;
-                var value = event.target.value;
-
-                this.state.member[name] = value;
-                this.setState({member: this.state.member});
-            }
-        },
-
-        //for DatePicker
-        handleChangeStartDate: function (date) {
-            if (this.props.memberIndexInModal) {
-                this.state.member.joinDate = date;
-            }
-            this.setState({
-                joinDate: date
-            });
-        },
-
-        //for DatePicker
-        handleChangeEndDate: function (date) {
-            if (this.props.memberIndexInModal) {
-                this.state.member.endDate = date;
-            }
-            this.setState({
-                endDate: date
-            })
-        },
-
-        toggleCheckBox: function () {
-            if (this.props.memberIndexInModal) {
-                this.state.member.billed = !this.state.member.billed;
-            }
-            this.setState({isChecked: !this.state.isChecked});
-        },
-
-        //called when member form is submitted
-        addMember: function () {
-            var member = {
-                employee: {"id": this.refs.employee.value},
-                memberRole: this.refs.role.value,
-                joinDate: this.state.joinDate,
-                endDate: this.state.endDate,
-                allocation: this.refs.allocation.value,
-                billed: this.state.isChecked,
-                active: true
-            };
-
-            if (this.props.memberIndexInModal) {
-                this.props.actions.editTeamMember(this.props.memberIndexInModal, member);
-            } else {
-                this.props.actions.addTeamMember(member);
-            }
-
-            document.querySelector('#close-btn').click();
-        },
-
-        removeMember: function () {
-            this.props.actions.deleteTeamMember(this.props.memberIndexInModal);
-            this.props.actions.clearMemberIndex();
-            document.querySelector('#close-btn').click();
-        },
-
-        //set value of Select Dropdown on Edit
-        setSelectOption: function (value) {
-            $("#role").val(value).selected = true;
-        },
-
-        //set value of Select Dropdown on Edit
-        setEmployee: function (value) {
-            $("#employee").val(value).selected = true;
-        },
-
-        renderEmployee: function (key) {
-            return (
-                <option key={key} index={key}
-                        value={this.state.employees[key].id}>{this.state.employees[key].firstName}</option>
-            )
+        saveContractMember: function() {
+            var data = {};
+            this.props.actions.addContractMember(this.props.contractIndex, data);
+            $('#addContractMember').modal('hide');
         },
 
         render: function () {
-            //initialize everytime modal opens
-            this.state.member = {};
-
-            var buttons;
-
-            if (this.props.memberIndexInModal) {
-                this.state.member = this.props.teamMembers[this.props.memberIndexInModal];
-                this.state.isChecked = this.state.member.billed;
-                this.state.joinDate = this.state.member.joinDate;
-                this.state.endDate = this.state.member.endDate;
-
-                this.setSelectOption(this.state.member.memberRole);
-                this.setEmployee(this.state.member.employee.id);
-
-                buttons = <TeamMemberEditButtons addMember={this.addMember} removeMember={this.removeMember}/>;
-            } else {
-                buttons = <TeamMemberAddButtons addMember={this.addMember}/>;
-            }
-
             return (
-                <div className="modal fade" id={"addTeam" + this.props.index} tabIndex="-1" role="dialog">
+                <div className="modal fade" id="addContractMember" tabIndex="-1" role="dialog">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <div className="modal-title">Contract {this.props.index} Team Members</div>
+                                <div className="modal-title">Contract Team Members</div>
                             </div>
                             <div className="modal-body">
                                 <div className="form-horizontal">
@@ -158,7 +45,6 @@
                                             <select ref="employee" id="employee" name="employee"
                                                     className="form-control">
                                                 <option value="0">Please select</option>
-                                                {Object.keys(this.state.employees).map(this.renderEmployee)}
                                             </select>
                                         </div>
                                     </div>
@@ -197,16 +83,13 @@
                                                             Duration</label>
                                                         <div className="col-md-8">
                                                             <div className="input-group input-daterange">
-                                                                <DatePicker selected={this.state.joinDate}
-                                                                            onChange={this.handleChangeStartDate}
+                                                                <DatePicker
                                                                             className="form-control"
                                                                             placeholderText="From"
                                                                             popoverTargetOffset='40px 0px'/>
                                                                 <span className="input-group-addon"><i
                                                                     className="fa fa-angle-right"></i></span>
-                                                                <DatePicker selected={this.state.endDate}
-                                                                            onChange={this.handleChangeEndDate}
-                                                                            minDate={this.state.joinDate}
+                                                                <DatePicker
                                                                             className="form-control"
                                                                             placeholderText="To"
                                                                             popoverTargetOffset='40px 0px'/>
@@ -220,7 +103,6 @@
                                                                 <input ref="allocation" name="allocation" type="text"
                                                                        placeholder="0"
                                                                        className="form-control"
-                                                                       value={this.state.member.allocation}
                                                                        onChange={this.handleInputChange}/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-percent"></i></span>
@@ -233,9 +115,8 @@
                                                             <label htmlFor="billed-resource"
                                                                    className="billed-resource switch switch-default">
                                                                 <input type="checkbox" name="billed"
-                                                                       onChange={this.toggleCheckBox}
                                                                        id="billed-resource"
-                                                                       checked={this.state.isChecked}/>
+                                                                       />
                                                                 <span data-toggle="tooltip"></span>
                                                             </label>
                                                         </div>
@@ -244,19 +125,29 @@
                                             </div>
                                         </div>
                                         <div className="btn-block padding-v-10"><a className="btn btn-xs btn-default"
-                                                                               href=""><i
+                                                                                   href=""><i
                                             className="fa fa-plus icon-space"></i>Add Another Allocation</a></div>
                                     </div>
                                 </div>
                             </div>
-                            {buttons}
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-sm btn-ghost" id="close-btn"
+                                        data-dismiss="modal">Close
+                                </button>
+                                <button type="button"
+                                        className="btn btn-sm btn-success"
+                                        onClick={this.saveContractMember}>
+                                    <i
+                                        className="fa fa-plus"></i>Add
+                                    Team Member
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             )
         }
     });
 
-    module.exports = TeamMemberForm;
+    module.exports = ContractMemberForm;
 })();
