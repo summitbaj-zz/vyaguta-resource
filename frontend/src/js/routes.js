@@ -49,6 +49,8 @@
                            component={require('./components/project/ProjectForm')}/>
                     <Route path="details/:id" name="Details"
                            component={require('./components/project/ProjectDetails')}/>
+                    <Route path="history/:id" name="History"
+                           component={require('./components/project/ProjectHistory')}/>
                 </Route>
 
                 <Route path="projectRoles" name="ProjectRoles"

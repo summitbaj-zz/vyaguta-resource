@@ -1,6 +1,7 @@
 /* Include Roboto font from Google Web Fonts */
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900');
 @import url('forms.css');
+
 body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #394263;
@@ -1451,7 +1452,7 @@ ul.pagination li {
     top: 0px;
 }
 
-.manager-input{
+.manager-input {
     position: relative;
 }
 
@@ -1466,4 +1467,28 @@ ul.pagination li {
                            not supported by any browser */
 }
 
+.show-all-btn {
+    background-color: #e7e7e7;
+    width: 100%;
+    padding: 6px;
+    font-weight: bold;
+    color: #4078c0;
+    background: #fff;
+    margin-top:20px;
+    border-top: 1px solid #e5e5e5;
+    border-radius: 3px;
+    /*position: absolute;*/
+    display: block;
+    bottom: 0;
+    z-index: 3;
+    text-align: center;
+}
 
+.show-all-btn:hover {
+    background-color: #f9f9f9;
+    text-decoration: none;
+}
+
+.show-all-wrp{
+    margin-bottom: -20px;
+}

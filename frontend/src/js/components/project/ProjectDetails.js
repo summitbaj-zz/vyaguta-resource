@@ -22,7 +22,7 @@
     var SwimLaneChart = require('../../util/charts/SwimLaneChart');
     var TeamMemberView = require('./member/TeamMemberView');
     var Contract = require('./contract/Contract');
-    var History = require('./History');
+    var HistoryItem = require('./HistoryItem');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -34,6 +34,7 @@
     var ProjectDetails = React.createClass({
         getInitialState: function () {
             return {
+                containsMoreHistories: false,
                 selectedTeamMember: {},
                 project: {
                     id: null,
@@ -67,70 +68,123 @@
                 },
                 history: [
                     {
-                        id:1,
+                        id: 1,
                         type: 'project',
                         projectId: '1',
-                        changes:{
-                            accountManager:{firstName:'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
                             startDate: '334-3434-3434',
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:2,
+                    }, {
+                        id: 2,
                         type: 'project',
                         projectId: '1',
-                        changes:{
+                        changes: {
                             startDate: '334-3434-3434',
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:3,
+                    }, {
+                        id: 3,
                         type: 'project',
                         projectId: '1',
-                        changes:{
-                            accountManager:{firstName:'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
                             startDate: '334-3434-3434',
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:4,
+                    }, {
+                        id: 4,
                         type: 'contract',
                         projectId: '1',
-                        changes:{
+                        changes: {
                             budgetType: {id: 2, title: 'fixed'},
                             startDate: '334-3434-3434',
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:5,
+                    }, {
+                        id: 5,
                         type: 'contract',
                         projectId: '1',
-                        changes:{
+                        changes: {
                             startDate: '334-3434-3434',
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:6,
+                    }, {
+                        id: 6,
                         type: 'contractMember',
                         projectId: '1',
-                        changes:{
+                        changes: {
                             allocation: 100,
                             endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
-                    },{id:7,
+                    }, {
+                        id: 7,
                         type: 'contractMember',
                         projectId: '1',
-                        add:{
+                        add: {
                             allocation: 100,
                             endDate: '1212-34-43',
                             startDate: '2323-34-44'
+                        },
+                        createdBy: 'Bishal shrestha',
+                        createdAt: '2049-02-03'
+                    },
+                    {
+                        id: 8,
+                        type: 'project',
+                        projectId: '1',
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                            startDate: '334-3434-3434',
+                            endDate: '1212-34-43'
+                        },
+                        createdBy: 'Bishal shrestha',
+                        createdAt: '2049-02-03'
+                    },
+                    {
+                        id: 9,
+                        type: 'project',
+                        projectId: '1',
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                            startDate: '334-3434-3434',
+                            endDate: '1212-34-43'
+                        },
+                        createdBy: 'Bishal shrestha',
+                        createdAt: '2049-02-03'
+                    },
+                    {
+                        id: 10,
+                        type: 'project',
+                        projectId: '1',
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                            startDate: '334-3434-3434',
+                            endDate: '1212-34-43'
+                        },
+                        createdBy: 'Bishal shrestha',
+                        createdAt: '2049-02-03'
+                    }, {
+                        id: 11,
+                        type: 'project',
+                        projectId: '1',
+                        changes: {
+                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
+                            startDate: '334-3434-3434',
+                            endDate: '1212-34-43'
                         },
                         createdBy: 'Bishal shrestha',
                         createdAt: '2049-02-03'
@@ -142,6 +196,10 @@
         componentDidMount: function () {
             this.setState({project: this.getFakeProjectDetails()});
             console.log(this.state.project);
+            if (this.state.history.length > 10) {
+                this.state.history.splice(10, this.state.history.length);
+                this.setState({containsMoreHistories: true});
+            }
             //this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
         },
 
@@ -365,8 +423,6 @@
         },
 
         setMemberToBeInModal: function (teamMember) {
-            console.log('bis');
-            console.log('teamMember')
             this.setState({selectedTeamMember: teamMember});
         },
 
@@ -376,8 +432,10 @@
             );
         },
 
-        renderHistoryItem: function(history){
-            return(
+        renderHistoryItems: function (history) {
+
+            console.log('jlsdf')
+            return (
                 <HistoryItem history={history} key={history.id}/>
             )
         },
@@ -387,6 +445,7 @@
                 background: this.state.project.projectStatus.color
             };
             var contractIds = Object.assign(this.state.project.contracts);
+
             return (
                 <div>
                     <EntityHeader header="Project Details" routes={this.props.routes}/>
@@ -447,66 +506,14 @@
                                             </div>
                                             <div className="timeline block-content-full">
                                                 <ul className="timeline-list timeline-hover">
-                                                    {this.state.history.map(this.renderHistoryItem)}
-                                                    <li>
-                                                        <div className="timeline-icon"><i
-                                                            className="fa fa-pencil"></i>
-                                                        </div>
-                                                        <div className="timeline-time">8:00 am</div>
-                                                        <div className="timeline-content">
-                                                            <p className="push-bit"><strong>Team Member</strong>
-                                                            </p>
-                                                            <p className="push-bit">Anjali Shakya was added to
-                                                                this
-                                                                team</p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="timeline-icon"><i
-                                                            className="fa fa-file-text"></i>
-                                                        </div>
-                                                        <div className="timeline-time">9:15 am</div>
-                                                        <div className="timeline-content">
-                                                            <p className="push-bit"><strong>Web Design
-                                                                Session</strong>
-                                                            </p>
-                                                            A1 Conference Room
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="timeline-icon"><i
-                                                            className="fa fa-coffee"></i>
-                                                        </div>
-                                                        <div className="timeline-time">10:30 am</div>
-                                                        <div className="timeline-content"><strong>Coffee
-                                                            Break</strong>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="timeline-icon"><i
-                                                            className="fa fa-coffee"></i>
-                                                        </div>
-                                                        <div className="timeline-time">10:30 am</div>
-                                                        <div className="timeline-content"><strong>Coffee
-                                                            Break</strong>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="timeline-icon"><i
-                                                            className="fa fa-pencil"></i>
-                                                        </div>
-                                                        <div className="timeline-time">8:00 am</div>
-                                                        <div className="timeline-content">
-                                                            <p className="push-bit"><strong>Team Member</strong>
-                                                            </p>
-                                                            <p className="push-bit">An awesome breakfast will
-                                                                wait
-                                                                for
-                                                                you at the lobby!</p>
-                                                        </div>
-                                                    </li>
+                                                    {this.state.history.map(this.renderHistoryItems)}
                                                 </ul>
-                                                View All
+
+                                            </div>
+                                            <div className="block-title show-all-wrp">
+                                                {this.state.containsMoreHistories &&
+                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + this.state.project.id} title="Add Project"
+                                                      className="show-all-btn">View All</Link>}
                                             </div>
                                         </div>
                                     </div>
