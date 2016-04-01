@@ -19,7 +19,6 @@
             )
         },
 
-
         addAllocation: function (event) {
             event.preventDefault();
             this.props.actions.addAllocation();

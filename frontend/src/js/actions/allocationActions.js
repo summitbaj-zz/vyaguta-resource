@@ -30,9 +30,16 @@
             }
         },
 
+        listAllocations: function(allocations) {
+            return {
+                type: actionTypeConstant.LIST_ALLOCATIONS,
+                allocations: allocations
+            }
+        },
+
         clearAllocations: function() {
             return {
-                type: actionTypeConstant.CLEAR_ALLOCATION
+                type: actionTypeConstant.CLEAR_ALLOCATIONS
             }
         }
 

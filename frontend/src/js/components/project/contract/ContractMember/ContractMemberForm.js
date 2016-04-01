@@ -15,6 +15,7 @@
     var ContractMemberForm = React.createClass({
         componentDidMount: function () {
             var that = this;
+
             $('#addContractMember').modal('show');
             $('#addContractMember').on('hidden.bs.modal', function (event) {
                 that.props.toggleModalState(event);
@@ -22,7 +23,10 @@
         },
 
         saveContractMember: function () {
-            var data = {};
+            var data = {
+                allocation: this.props.allocations
+            };
+
             this.props.actions.addContractMember(this.props.contractIndex, data);
             $('#addContractMember').modal('hide');
         },

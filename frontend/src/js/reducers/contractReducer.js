@@ -39,11 +39,11 @@
             case actionTypeConstant.HANDLE_CONTRACT_CHANGE:
                 var newState = _.cloneDeep(state);
                 newState.contracts[action.index][action.key] = action.value;
-                return  newState;
+                return newState;
 
             case actionTypeConstant.ADD_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
-                if(!newState.contracts[action.index].contractMembers) {
+                if (!newState.contracts[action.index].contractMembers) {
                     newState.contracts[action.index].contractMembers = [];
                 }
 
@@ -63,13 +63,19 @@
                 newState.allocations.push(emptyAllocationObject);
                 return newState;
 
+            case actionTypeConstant.LIST_ALLOCATIONS:
+                var newState = _.cloneDeep(state);
+                newState.allocations = action.allocations;
+
+                return newState;
+
             case actionTypeConstant.CLEAR_CONTRACTS:
                 var newState = _.cloneDeep(state);
                 newState.contracts = [];
 
                 return newState;
 
-            case actionTypeConstant.CLEAR_ALLOCATION:
+            case actionTypeConstant.CLEAR_ALLOCATIONS:
                 var newState = _.cloneDeep(state);
                 newState.allocations = [];
 

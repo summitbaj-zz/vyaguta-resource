@@ -31,7 +31,10 @@
                 <ContractMember key={key}
                                 index={key}
                                 setMemberIndex={this.setMemberIndex}
-                                toggleModalState={this.toggleModalState}/>
+                                toggleModalState={this.toggleModalState}
+                                check={true}
+                                actions={this.props.actions}
+                                contractMember={this.props.contractMembers[key]}/>
             )
         },
 

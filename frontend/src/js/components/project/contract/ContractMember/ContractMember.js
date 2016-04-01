@@ -15,6 +15,8 @@
 
     var ContractMember = React.createClass({
         showModal:function(event) {
+            event.preventDefault();
+            this.props.actions.listAllocations(this.props.contractMember.allocation);
             this.props.toggleModalState(event);
         },
 

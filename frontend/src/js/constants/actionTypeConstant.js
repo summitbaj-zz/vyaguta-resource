@@ -20,7 +20,8 @@
 
         //Allocation Actions
         ADD_ALLOCATION : 'ADD_ALLOCATION',
-        CLEAR_ALLOCATION: 'CLEAR_ALLOCATION',
+        LIST_ALLOCATIONS: 'LIST_ALLOCATIONS',
+        CLEAR_ALLOCATIONS: 'CLEAR_ALLOCATIONS',
 
         //Team Member actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',
