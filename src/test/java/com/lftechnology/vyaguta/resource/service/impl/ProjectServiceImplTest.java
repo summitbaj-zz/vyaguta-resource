@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,7 +29,6 @@ import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
-import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
@@ -50,6 +50,8 @@ public class ProjectServiceImplTest {
 
     Project project;
 
+    private UUID id = UUID.randomUUID();
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -60,7 +62,7 @@ public class ProjectServiceImplTest {
     public void testSaveWhenTagIdisNullAndTagTitleIsGiven() {
 
         // arrange
-        Tag tag = this.buildTag("asdf", "java");
+        Tag tag = this.buildTag(id, "java");
         List<Tag> tags = new ArrayList<>();
         tags.add(this.buildTag(null, "Maven"));
         project.setTags(tags);
@@ -72,7 +74,7 @@ public class ProjectServiceImplTest {
 
         // assert
         Mockito.verify(tagDao).save(Mockito.anyObject());
-        Mockito.verify(tagDao, Mockito.never()).findById(Mockito.anyString());
+        Mockito.verify(tagDao, Mockito.never()).findById(UUID.randomUUID());
         Mockito.verify(projectDao).save(project);
     }
 
@@ -113,12 +115,12 @@ public class ProjectServiceImplTest {
     public void testMergeWhenProjectIdIsNotValidExpectObjectNotFoundExceptio() {
 
         // arrange
-        Mockito.when(projectDao.findById("123")).thenThrow(ObjectNotFoundException.class);
+        Mockito.when(projectDao.findById(id)).thenThrow(ObjectNotFoundException.class);
 
         exception.expect(ObjectNotFoundException.class);
 
         // act
-        this.projectServiceImpl.merge("123", project);
+        this.projectServiceImpl.merge(id, project);
     }
 
     @Test
@@ -127,16 +129,16 @@ public class ProjectServiceImplTest {
         // arrange
         Project projectOld = this.buildProject();
         projectOld.setTitle("Old title");
-        Mockito.when(projectDao.findById("123")).thenReturn(projectOld);
+        Mockito.when(projectDao.findById(id)).thenReturn(projectOld);
         Mockito.when(projectDao.update(projectOld)).thenReturn(projectOld);
 
         // act
-        Project resultProject = this.projectServiceImpl.merge("123", project);
+        Project resultProject = this.projectServiceImpl.merge(id, project);
 
         // assert
         assertThat(resultProject.getTitle(), is(projectOld.getTitle()));
         Mockito.verify(projectDao).update(projectOld);
-        Mockito.verify(projectDao).findById("123");
+        Mockito.verify(projectDao).findById(id);
     }
 
     @SuppressWarnings("unchecked")
@@ -144,26 +146,26 @@ public class ProjectServiceImplTest {
     public void testRemoveByIdWhenProjectIdIsNotValidExpectNoObjectFoundException() {
 
         // arrange
-        Mockito.when(projectDao.findById("123")).thenThrow(ObjectNotFoundException.class);
+        Mockito.when(projectDao.findById(id)).thenThrow(ObjectNotFoundException.class);
 
         exception.expect(ObjectNotFoundException.class);
 
         // act
-        this.projectServiceImpl.removeById("123");
+        this.projectServiceImpl.removeById(id);
     }
 
     @Test
     public void testRemoveByIdWhenIdIsValid() {
 
         // arrange
-        Mockito.when(projectDao.findById("123")).thenReturn(project);
+        Mockito.when(projectDao.findById(id)).thenReturn(project);
         Mockito.doNothing().when(projectDao).remove(project);
 
         // act
-        this.projectServiceImpl.removeById("123");
+        this.projectServiceImpl.removeById(id);
 
         // assert
-        Mockito.verify(projectDao).findById("123");
+        Mockito.verify(projectDao).findById(id);
         Mockito.verify(projectDao).remove(project);
     }
 
@@ -171,13 +173,13 @@ public class ProjectServiceImplTest {
     public void testfindById() {
 
         // arrange
-        Mockito.when(projectDao.findById("123")).thenReturn(project);
+        Mockito.when(projectDao.findById(id)).thenReturn(project);
 
         // act
-        this.projectServiceImpl.findById("123");
+        this.projectServiceImpl.findById(id);
 
         // assert
-        Mockito.verify(projectDao).findById("123");
+        Mockito.verify(projectDao).findById(id);
     }
 
     @Test
@@ -246,7 +248,7 @@ public class ProjectServiceImplTest {
         Mockito.verify(projectDao).findByFilter(queryParameters);
     }
 
-    private Tag buildTag(String id, String title) {
+    private Tag buildTag(UUID id, String title) {
         Tag tag = new Tag();
         tag.setId(id);
         tag.setTitle(title);
@@ -255,33 +257,25 @@ public class ProjectServiceImplTest {
 
     private Project buildProject() {
         Project project = new Project();
-        project.setId("1234");
+        project.setId(UUID.randomUUID());
         project.setTitle("Vyaguta");
         project.setCreatedAt(LocalDateTime.now());
-        project.setCreatedBy(new User("abc"));
-        project.setBudgetType(buildBudgetType());
+        project.setCreatedBy(new User(UUID.randomUUID()));
         project.setProjectType(buildProjectType());
         project.setProjectStatus(buildProjectStatus());
         return project;
     }
 
-    private BudgetType buildBudgetType() {
-        BudgetType budgetType = new BudgetType();
-        budgetType.setId("1234");
-        budgetType.setTitle("budget type");
-        return budgetType;
-    }
-
     private ProjectType buildProjectType() {
         ProjectType projectType = new ProjectType();
-        projectType.setId("1234");
+        projectType.setId(UUID.randomUUID());
         projectType.setTitle("project type");
         return projectType;
     }
 
     private ProjectStatus buildProjectStatus() {
         ProjectStatus projectStatus = new ProjectStatus();
-        projectStatus.setId("1234");
+        projectStatus.setId(UUID.randomUUID());
         projectStatus.setTitle("project status");
         return projectStatus;
     }

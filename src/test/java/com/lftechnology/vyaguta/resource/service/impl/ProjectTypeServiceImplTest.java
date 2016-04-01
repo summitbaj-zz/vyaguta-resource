@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class ProjectTypeServiceImplTest {
     @Mock
     private ProjectTypeDao projectTypeDao;
 
-    private final String testId = "asdf";
+    private final UUID testId = UUID.randomUUID();
 
     @Before
     public void setup() {
@@ -231,7 +232,7 @@ public class ProjectTypeServiceImplTest {
     private ProjectType buildProjectType() {
         ProjectType projectType = new ProjectType();
         User user = this.buildUser();
-        projectType.setId("1");
+        projectType.setId(UUID.randomUUID());
         projectType.setTitle("Test Title");
         projectType.setCreatedBy(user);
         projectType.setUpdatedAt(LocalDateTime.now());
@@ -242,7 +243,7 @@ public class ProjectTypeServiceImplTest {
     private User buildUser() {
         User user = new User();
         user.setEmail("achyutpokhrel@lftechnology.com");
-        user.setId("12345");
+        user.setId(UUID.randomUUID());
         user.setName("achyut pokhrel");
         return user;
     }

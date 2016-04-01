@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class TagServiceImplTest {
     @Mock
     private TagDao tagDao;
 
-    private final String testId = "asdf";
+    private final UUID testId = UUID.randomUUID();
 
     @Before
     public void setup() {
@@ -225,7 +226,7 @@ public class TagServiceImplTest {
     private Tag buildTag() {
         Tag tag = new Tag();
         User user = this.buildUser();
-        tag.setId("1");
+        tag.setId(UUID.randomUUID());
         tag.setTitle("Test Title");
         tag.setCreatedBy(user);
         tag.setUpdatedAt(LocalDateTime.now());
@@ -236,7 +237,7 @@ public class TagServiceImplTest {
     private User buildUser() {
         User user = new User();
         user.setEmail("achyutpokhrel@lftechnology.com");
-        user.setId("12345");
+        user.setId(UUID.randomUUID());
         user.setName("achyut pokhrel");
         return user;
     }
