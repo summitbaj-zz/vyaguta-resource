@@ -67,6 +67,7 @@
                     {this.state.isModalActive &&
                     <ContractMemberForm toggleModalState={this.toggleModalState}
                                         actions={this.props.actions}
+                                        allocations={this.props.allocations}
                                         contractIndex={this.props.contractIndex}
                                         contractMember={this.props.contractMembers && this.props.contractMembers[this.state.memberIndex]}/>}
                 </div>

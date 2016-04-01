@@ -13,9 +13,14 @@
         //Contract Actions
         ADD_CONTRACT: 'ADD_CONTRACT',
         HANDLE_CONTRACT_CHANGE: 'HANDLE_CONTRACT_CHANGE',
+        CLEAR_CONTRACTS: 'CLEAR_CONTRACTS',
 
         //Contract Member Actions
         ADD_CONTRACT_MEMBER: 'ADD_CONTRACT_MEMBER',
+
+        //Allocation Actions
+        ADD_ALLOCATION : 'ADD_ALLOCATION',
+        CLEAR_ALLOCATION: 'CLEAR_ALLOCATION',
 
         //Team Member actions
         ADD_TEAM_MEMBER: 'ADD_TEAM_MEMBER',

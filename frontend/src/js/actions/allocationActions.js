@@ -1,7 +1,7 @@
 /**
  * Created by
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 3/30/16.
+ * on 4/1/16.
  */
 
 ;(function () {
@@ -14,30 +14,29 @@
      * Contract CRUD actions inside of Create Project
      */
 
-    var contractActions = {
-        addContract: function() {
+    var allocationActions = {
+        addAllocation: function() {
             return {
-                type: actionTypeConstant.ADD_CONTRACT
+                type: actionTypeConstant.ADD_ALLOCATION
             }
         },
 
-        handleContractChange: function(index, key, value) {
+        handleAllocationChange: function(index, key, value) {
             return {
-                type: actionTypeConstant.HANDLE_CONTRACT_CHANGE,
+                type: actionTypeConstant.HANDLE_ALLOCATION_CHANGE,
                 index: index,
                 key: key,
                 value: value
             }
         },
 
-        clearContracts: function() {
+        clearAllocations: function() {
             return {
-                type: actionTypeConstant.CLEAR_CONTRACTS
+                type: actionTypeConstant.CLEAR_ALLOCATION
             }
-        },
-
+        }
 
     }
 
-    module.exports = contractActions;
+    module.exports = allocationActions;
 })();

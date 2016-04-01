@@ -40,6 +40,7 @@
     var crudActions = require('../../actions/crudActions');
     var apiActions = require('../../actions/apiActions');
     var teamMemberActions = require('../../actions/teamMemberActions');
+    var contractActions = require('../../actions/contractActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -74,6 +75,7 @@
         componentWillUnmount: function () {
             this.props.actions.clearMemberState();
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.clearContracts();
             this.props.actions.apiClearState();
         },
 
@@ -400,7 +402,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions), dispatch)
+            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions, contractActions), dispatch)
         }
     };
 

@@ -13,7 +13,9 @@
     var _ = require('lodash');
 
     var initialState = {
-        contracts: []
+        contracts: [],
+        teamMembers: [],
+        allocations: []
     };
 
     var contractReducer = function (state, action) {
@@ -23,7 +25,7 @@
             case actionTypeConstant.ADD_CONTRACT:
                 var newState = _.cloneDeep(state);
 
-                var emptyObject = {
+                var emptyContractObject = {
                     budgetType: null,
                     startDate: null,
                     endDate: null,
@@ -31,7 +33,7 @@
                     contractMembers: null
                 }
 
-                newState.contracts.push(emptyObject);
+                newState.contracts.push(emptyContractObject);
                 return newState;
 
             case actionTypeConstant.HANDLE_CONTRACT_CHANGE:
@@ -46,6 +48,31 @@
                 }
 
                 newState.contracts[action.index].contractMembers.push(action.data);
+                return newState;
+
+            case actionTypeConstant.ADD_ALLOCATION:
+                var newState = _.cloneDeep(state);
+
+                var emptyAllocationObject = {
+                    role: null,
+                    joinDate: null,
+                    endDate: null,
+                    allocation: null,
+                    billed: null
+                }
+                newState.allocations.push(emptyAllocationObject);
+                return newState;
+
+            case actionTypeConstant.CLEAR_CONTRACTS:
+                var newState = _.cloneDeep(state);
+                newState.contracts = [];
+
+                return newState;
+
+            case actionTypeConstant.CLEAR_ALLOCATION:
+                var newState = _.cloneDeep(state);
+                newState.allocations = [];
+
                 return newState;
 
             default:

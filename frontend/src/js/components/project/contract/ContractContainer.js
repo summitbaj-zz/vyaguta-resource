@@ -23,6 +23,7 @@
     var teamMemberActions = require('../../../actions/teamMemberActions');
     var contractActions = require('../../../actions/contractActions');
     var contractMemberActions = require('../../../actions/contractMemberActions');
+    var allocationActions = require('../../../actions/allocationActions');
 
     var ContractContainer = React.createClass({
         addContract: function (event) {
@@ -40,6 +41,7 @@
                              apiState={this.props.apiState}
                              teamMembers={this.props.teamMembers}
                              memberIndexInModal={this.props.memberIndexInModal}
+                             allocations={this.props.allocations}
             />
         },
 
@@ -72,7 +74,8 @@
             apiState: state.apiReducer,
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
-            contracts: state.contractReducer.contracts
+            contracts: state.contractReducer.contracts,
+            allocations: state.contractReducer.allocations
         }
     };
 
@@ -82,7 +85,8 @@
                                                      crudActions,
                                                      apiActions,
                                                      contractActions,
-                                                     contractMemberActions), dispatch)
+                                                     contractMemberActions,
+                                                     allocationActions), dispatch)
         }
     };
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ContractContainer);

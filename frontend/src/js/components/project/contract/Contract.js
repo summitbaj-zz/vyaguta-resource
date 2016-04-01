@@ -134,6 +134,7 @@
 
                             <ContractMemberContainer
                                 contractIndex={this.props.index}
+                                allocations={this.props.allocations}
                                 contractMembers={this.props.contract && this.props.contract.contractMembers}
                                 actions={this.props.actions}/>
                         </div>
