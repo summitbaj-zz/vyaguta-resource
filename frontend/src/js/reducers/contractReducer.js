@@ -15,7 +15,8 @@
     var initialState = {
         contracts: [],
         teamMembers: [],
-        allocations: []
+        allocations: [],
+        selectedContractMember: {}
     };
 
     var contractReducer = function (state, action) {
@@ -24,7 +25,6 @@
         switch (action.type) {
             case actionTypeConstant.ADD_CONTRACT:
                 var newState = _.cloneDeep(state);
-
                 var emptyContractObject = {
                     budgetType: null,
                     startDate: null,
@@ -32,7 +32,6 @@
                     resource: null,
                     contractMembers: null
                 }
-
                 newState.contracts.push(emptyContractObject);
                 return newState;
 
@@ -41,18 +40,25 @@
                 newState.contracts[action.index][action.key] = action.value;
                 return newState;
 
+            case actionTypeConstant.INITIALIZE_CONTRACT_MEMBER:
+                var newState = _.cloneDeep(state);
+                var emptyContractMemberObject = {
+                    contractMemberId: null,
+                    allocations: []
+                };
+                newState.selectedContractMember = emptyContractMemberObject;
+                return newState;
+
             case actionTypeConstant.ADD_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
                 if (!newState.contracts[action.index].contractMembers) {
                     newState.contracts[action.index].contractMembers = [];
                 }
-
                 newState.contracts[action.index].contractMembers.push(action.data);
                 return newState;
 
             case actionTypeConstant.ADD_ALLOCATION:
                 var newState = _.cloneDeep(state);
-
                 var emptyAllocationObject = {
                     role: null,
                     joinDate: null,
@@ -60,25 +66,22 @@
                     allocation: null,
                     billed: null
                 }
-                newState.allocations.push(emptyAllocationObject);
+                newState.selectedContractMember.allocations.push(emptyAllocationObject);
                 return newState;
 
-            case actionTypeConstant.LIST_ALLOCATIONS:
+            case actionTypeConstant.SELECT_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
-                newState.allocations = action.allocations;
-
+                newState.selectedContractMember = action.contractMember;
                 return newState;
 
             case actionTypeConstant.CLEAR_CONTRACTS:
                 var newState = _.cloneDeep(state);
                 newState.contracts = [];
-
                 return newState;
 
-            case actionTypeConstant.CLEAR_ALLOCATIONS:
+            case actionTypeConstant.CLEAR_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
-                newState.allocations = [];
-
+                newState.selectedContractMember = {};
                 return newState;
 
             default:

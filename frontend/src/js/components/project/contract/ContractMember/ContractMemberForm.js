@@ -24,7 +24,8 @@
 
         saveContractMember: function () {
             var data = {
-                allocation: this.props.allocations
+                contractMemberId: this.refs.employee.value ,
+                allocations: this.props.selectedContractMember.allocations
             };
 
             this.props.actions.addContractMember(this.props.contractIndex, data);
@@ -32,7 +33,7 @@
         },
 
         componentWillUnmount: function() {
-            this.props.actions.clearAllocations();
+            this.props.actions.clearContractMember();
         },
 
         render: function () {
@@ -53,11 +54,13 @@
                                             <select ref="employee" id="employee" name="employee"
                                                     className="form-control">
                                                 <option value="0">Please select</option>
+                                                <option value="1">Pratish Shrestha</option>
+                                                <option value="2">Bishal Shrestha </option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <AllocationContainer allocations={this.props.allocations}
+                                    <AllocationContainer selectedContractMember={this.props.selectedContractMember}
                                                          actions={this.props.actions}/>
 
                                 </div>

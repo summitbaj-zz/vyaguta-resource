@@ -41,7 +41,7 @@
                              apiState={this.props.apiState}
                              teamMembers={this.props.teamMembers}
                              memberIndexInModal={this.props.memberIndexInModal}
-                             allocations={this.props.allocations}
+                             selectedContractMember={this.props.selectedContractMember}
             />
         },
 
@@ -75,7 +75,8 @@
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             contracts: state.contractReducer.contracts,
-            allocations: state.contractReducer.allocations
+            allocations: state.contractReducer.allocations,
+            selectedContractMember: state.contractReducer.selectedContractMember
         }
     };
 

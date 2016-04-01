@@ -136,6 +136,7 @@
                                 contractIndex={this.props.index}
                                 allocations={this.props.allocations}
                                 contractMembers={this.props.contract && this.props.contract.contractMembers}
+                                selectedContractMember={this.props.selectedContractMember}
                                 actions={this.props.actions}/>
                         </div>
                     </div>

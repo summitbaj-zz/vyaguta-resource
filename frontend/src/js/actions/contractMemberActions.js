@@ -22,6 +22,25 @@
                 index: index,
                 data: data
             }
+        },
+
+        initializeContractMember: function() {
+            return {
+                type: actionTypeConstant.INITIALIZE_CONTRACT_MEMBER
+            }
+        },
+
+        selectContractMember: function(contractMember) {
+            return {
+                type: actionTypeConstant.SELECT_CONTRACT_MEMBER,
+                contractMember: contractMember
+            }
+        },
+
+        clearContractMember: function() {
+            return {
+                type:actionTypeConstant.CLEAR_CONTRACT_MEMBER
+            }
         }
     }
 

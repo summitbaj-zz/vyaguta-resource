@@ -38,8 +38,13 @@
             )
         },
 
-        toggleModalState: function (event) {
+        initializeModal: function(event) {
             event.preventDefault();
+            this.props.actions.initializeContractMember();
+            this.toggleModalState();
+        },
+
+        toggleModalState: function () {
             this.setState({isModalActive: (this.state.isModalActive) ? false : true})
         },
 
@@ -57,7 +62,7 @@
                                             <a href="#"
                                                className="add-team"
                                                data-target="#addTeam"
-                                               onClick={this.toggleModalState}>
+                                               onClick={this.initializeModal}>
                                                 <i className="fa fa-plus"></i>
                                                 <span className="on-hover"></span>
                                             </a>
@@ -70,9 +75,9 @@
                     {this.state.isModalActive &&
                     <ContractMemberForm toggleModalState={this.toggleModalState}
                                         actions={this.props.actions}
-                                        allocations={this.props.allocations}
-                                        contractIndex={this.props.contractIndex}
-                                        contractMember={this.props.contractMembers && this.props.contractMembers[this.state.memberIndex]}/>}
+                                        selectedContractMember={this.props.selectedContractMember}
+                                        contractIndex={this.props.contractIndex}/>
+                    }
                 </div>
             )
         }
