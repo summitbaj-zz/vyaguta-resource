@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.loading.PrivateClassLoader;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -66,6 +68,9 @@ public class Contract extends BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate actualEndDate;
 
+    @Transient
+    private String reason;
+
     public Project getProject() {
         return project;
     }
@@ -112,6 +117,14 @@ public class Contract extends BaseEntity implements Serializable {
 
     public void setContractMembers(List<ContractMember> contractMembers) {
         this.contractMembers = contractMembers;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override

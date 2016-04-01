@@ -52,7 +52,8 @@ public class ProjectHistory implements Serializable {
     private Project project;
 
     @Column(name = "batch_no")
-    private String batch;
+    @Type(type = "pg-uuid")
+    private UUID batch;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
@@ -88,6 +89,22 @@ public class ProjectHistory implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
+    public ProjectHistory() {
+        super();
+    }
+
+    public ProjectHistory(Project project) {
+        // this.setBatch(UUID.randomUUID());
+        this.setProject(project);
+        this.setTitle(project.getTitle());
+        this.setDescription(project.getDescription());
+        this.setAccountManager(project.getAccountManager());
+        this.setClient(project.getClient());
+        this.setProjectStatus(project.getProjectStatus());
+        this.setProjectType(project.getProjectType());
+        this.setReason(project.getReason());
+    }
+
     public UUID getId() {
         return id;
     }
@@ -104,11 +121,11 @@ public class ProjectHistory implements Serializable {
         this.project = project;
     }
 
-    public String getBatch() {
+    public UUID getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(UUID batch) {
         this.batch = batch;
     }
 

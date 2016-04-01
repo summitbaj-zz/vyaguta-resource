@@ -29,7 +29,8 @@ public interface ContractMemberHistoryDao {
             getEm().flush();
             getEm().refresh(contractMemberHistory);
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
+            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
         }
         return contractMemberHistory;
     }

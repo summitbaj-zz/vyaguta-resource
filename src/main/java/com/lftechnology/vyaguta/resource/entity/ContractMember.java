@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -69,6 +70,9 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
+    @Transient
+    private String reason;
+
     public Contract getContract() {
         return contract;
     }
@@ -123,6 +127,14 @@ public class ContractMember extends BaseEntity implements Serializable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override
