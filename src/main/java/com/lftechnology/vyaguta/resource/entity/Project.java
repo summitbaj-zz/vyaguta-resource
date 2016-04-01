@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -37,6 +38,7 @@ public class Project extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 6415143172601079320L;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     private String description;

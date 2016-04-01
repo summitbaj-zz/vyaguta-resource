@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
@@ -54,6 +55,7 @@ public class ProjectHistory implements Serializable {
     private String batch;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     private String description;
