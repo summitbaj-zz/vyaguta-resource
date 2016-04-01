@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -59,7 +60,7 @@ public class ProjectStatusRs {
     @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id,
+    public Response update(@PathParam("id") UUID id,
             @NotNull(message = "Request body expected") @Valid ProjectStatus projectStatusNew) {
         ProjectStatus projectStatus = projectStatusService.merge(id, projectStatusNew);
         return Response.status(Response.Status.OK).entity(projectStatus).build();
@@ -69,7 +70,7 @@ public class ProjectStatusRs {
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         ProjectStatus projectStatus = projectStatusService.findById(id);
         if (projectStatus != null) {
             return Response.status(Response.Status.OK).entity(projectStatus).build();
@@ -82,7 +83,7 @@ public class ProjectStatusRs {
     @DELETE
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         projectStatusService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }

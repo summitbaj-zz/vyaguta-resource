@@ -3,6 +3,8 @@ package com.lftechnology.vyaguta.resource.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -20,7 +22,6 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -43,8 +44,7 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonBackReference
     private Contract contract;
 
-    @Convert(converter = EmployeeConverter.class)
-    @Column(name = "employee")
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee") ))
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)

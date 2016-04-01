@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -64,7 +65,7 @@ public class ClientRs {
     @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid Client clientNew) {
+    public Response update(@PathParam("id") UUID id, @NotNull @Valid Client clientNew) {
         Client client = clientService.merge(id, clientNew);
         return Response.status(Response.Status.OK).entity(JsonToStringBuilder.toString(client)).build();
     }
@@ -73,7 +74,7 @@ public class ClientRs {
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         log.debug("client Id: {}", id);
         Client client = clientService.findById(id);
         if (client != null) {
@@ -87,7 +88,7 @@ public class ClientRs {
     @DELETE
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         log.debug("client Id: {}", id);
         clientService.removeById(id);
         return Response.status(Response.Status.OK).build();

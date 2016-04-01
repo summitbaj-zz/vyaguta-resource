@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -28,7 +29,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public ProjectStatus merge(String id, ProjectStatus obj) {
+    public ProjectStatus merge(UUID id, ProjectStatus obj) {
         ProjectStatus projectStatus = this.findById(id);
         if (projectStatus == null) {
             throw new ObjectNotFoundException();
@@ -45,7 +46,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         ProjectStatus projectStatus = this.findById(id);
         if (projectStatus == null) {
             throw new ObjectNotFoundException();
@@ -54,7 +55,7 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
     }
 
     @Override
-    public ProjectStatus findById(String id) {
+    public ProjectStatus findById(UUID id) {
         return projectStatusDao.findById(id);
     }
 

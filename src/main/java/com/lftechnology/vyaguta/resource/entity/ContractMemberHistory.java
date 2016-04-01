@@ -3,7 +3,10 @@ package com.lftechnology.vyaguta.resource.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -13,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
@@ -22,11 +28,9 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
 import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
 import com.lftechnology.vyaguta.commons.pojo.User;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -41,7 +45,8 @@ public class ContractMemberHistory implements Serializable {
     private static final long serialVersionUID = 8270620804537730752L;
 
     @Id
-    private String id;
+    @Type(type = "pg-uuid")
+    private UUID id;
 
     @Column(name = "batch_no")
     private String batch;
@@ -54,8 +59,7 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     private Contract contract;
 
-    @Column(name = "employee")
-    @Convert(converter = EmployeeConverter.class)
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
     @ManyToOne
@@ -80,8 +84,7 @@ public class ContractMemberHistory implements Serializable {
 
     private String reason;
 
-    @Column(name = "created_by")
-    @Convert(converter = UserConverter.class)
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
     private User createdBy;
@@ -92,11 +95,11 @@ public class ContractMemberHistory implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -225,9 +228,7 @@ public class ContractMemberHistory implements Serializable {
     public void prePersist() {
         this.setId(GuidUtil.generate());
         this.setCreatedAt(LocalDateTime.now());
-        User user = new User();
-        user.setId("1");
-        this.setCreatedBy(user);
+        this.setCreatedBy(SecurityRequestContext.getCurrentUser());
     }
 
 }

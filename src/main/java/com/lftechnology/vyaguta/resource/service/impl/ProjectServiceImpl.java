@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -46,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project merge(String id, Project obj) {
+    public Project merge(UUID id, Project obj) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -71,7 +72,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -80,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(String id) {
+    public Project findById(UUID id) {
         return projectDao.findById(id);
     }
 

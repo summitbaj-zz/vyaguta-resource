@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 @RunWith(MockitoJUnitRunner.class)
 public class BudgetTypeServiceImplTest {
 
-    private static final String ID = "86e14841918a43abad9dd96d4d41acf4";
+    private static final UUID ID = "86e14841918a43abad9dd96d4d41acf4";
     private static final Long COUNT = 20L;
 
     @Mock
