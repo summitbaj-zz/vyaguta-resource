@@ -1160,6 +1160,7 @@ li.dropdown-header {
     float: left;
     width: 70px;
     text-align: right;
+    position: relative;
 }
 
 .timeline-list .timeline-content {
@@ -1168,6 +1169,11 @@ li.dropdown-header {
 
 .block-content-full .timeline-content {
     padding-right: 20px;
+}
+
+.timeline-reason{
+    position: fixed;
+    display: block;
 }
 
 .media-feed {
@@ -1491,4 +1497,13 @@ ul.pagination li {
 
 .show-all-wrp{
     margin-bottom: -20px;
+}
+.tooltip.top .tooltip-inner {
+    background-color: #FDFCD1;
+    color: #000000;
+    border: 1px solid black;
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: #FDFCD1;
+
 }
