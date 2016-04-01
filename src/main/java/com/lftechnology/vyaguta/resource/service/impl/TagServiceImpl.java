@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -33,7 +34,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag merge(String id, Tag obj) {
+    public Tag merge(UUID id, Tag obj) {
         Tag tag = this.findById(id);
         if (tag == null) {
             throw new ObjectNotFoundException();
@@ -49,7 +50,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         Tag tag = this.findById(id);
         if (tag == null) {
             throw new ObjectNotFoundException();
@@ -58,7 +59,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findById(String id) {
+    public Tag findById(UUID id) {
         return tagDao.findById(id);
     }
 

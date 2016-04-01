@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,7 +32,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectRole;
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectRoleServiceImplTest {
 
-    private static final String ID = "0f9cf012de5f492991bb0ca7214064a8";
+    private static final UUID ID = UUID.randomUUID();
     private static final Long COUNT = 20L;
 
     @Mock
@@ -82,8 +83,8 @@ public class ProjectRoleServiceImplTest {
     public void testMergeProjectRole() {
         // arrange
         ProjectRole projectRole = this.buildProjectRole();
-        Mockito.when(this.projectRoleDao.findById(Matchers.anyString())).thenReturn(projectRole);
-        Mockito.when(this.projectRoleService.findById(Matchers.anyString())).thenReturn(projectRole);
+        Mockito.when(this.projectRoleDao.findById(ID)).thenReturn(projectRole);
+        Mockito.when(this.projectRoleService.findById(ID)).thenReturn(projectRole);
 
         // act
         this.projectRoleService.merge(ID, projectRole);
@@ -97,7 +98,7 @@ public class ProjectRoleServiceImplTest {
 
         // arrange
         ProjectRole projectRole = new ProjectRole();
-        Mockito.when(this.projectRoleDao.findById(Matchers.anyString())).thenReturn(null);
+        Mockito.when(this.projectRoleDao.findById(UUID.randomUUID())).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
 
         // act
@@ -122,8 +123,8 @@ public class ProjectRoleServiceImplTest {
     public void testRemoveProjectRoleById() {
         // arrange
         ProjectRole projectRole = this.buildProjectRole();
-        Mockito.when(this.projectRoleDao.findById(Matchers.anyString())).thenReturn(projectRole);
-        Mockito.when(this.projectRoleService.findById(Matchers.anyString())).thenReturn(projectRole);
+        Mockito.when(this.projectRoleDao.findById(ID)).thenReturn(projectRole);
+        Mockito.when(this.projectRoleService.findById(ID)).thenReturn(projectRole);
 
         // act
         this.projectRoleService.removeById(ID);
@@ -136,7 +137,7 @@ public class ProjectRoleServiceImplTest {
     @Test
     public void testRemoveProjectRoleByIdWhenObjectNotFoundException() {
         // arrange
-        Mockito.when(this.projectRoleService.findById(Matchers.anyString())).thenReturn(null);
+        Mockito.when(this.projectRoleService.findById(ID)).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
         // act
         this.projectRoleService.removeById(ID);
@@ -146,13 +147,13 @@ public class ProjectRoleServiceImplTest {
     @Test
     public void findProjectRoleById() {
         // arrange
-        Mockito.when(this.projectRoleDao.findById(Matchers.anyString())).thenReturn(new ProjectRole());
+        Mockito.when(this.projectRoleDao.findById(ID)).thenReturn(new ProjectRole());
 
         // act
         this.projectRoleService.findById(ID);
 
         // assert
-        Mockito.verify(projectRoleDao).findById(Matchers.anyString());
+        Mockito.verify(projectRoleDao).findById(ID);
 
     }
 
@@ -184,7 +185,8 @@ public class ProjectRoleServiceImplTest {
     @Test
     public void testFindProjectRole() {
         // arrange
-        Mockito.when(this.projectRoleDao.find(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<ProjectRole>());
+        Mockito.when(this.projectRoleDao.find(Matchers.anyInt(), Matchers.anyInt()))
+                .thenReturn(new ArrayList<ProjectRole>());
 
         // act
         this.projectRoleService.find(Matchers.anyInt(), Matchers.anyInt());

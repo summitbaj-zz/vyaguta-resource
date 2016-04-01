@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -59,7 +60,7 @@ public class ProjectRoleRs {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid ProjectRole projectRoleNew) {
+    public Response update(@PathParam("id") UUID id, @NotNull @Valid ProjectRole projectRoleNew) {
         log.debug("project role Id: {}", id);
         ProjectRole projectRole = projectRoleService.merge(id, projectRoleNew);
         return Response.status(Response.Status.OK).entity(projectRole).build();
@@ -68,7 +69,7 @@ public class ProjectRoleRs {
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         log.debug("project role Id: {}", id);
         ProjectRole projectRole = projectRoleService.findById(id);
         if (projectRole != null) {
@@ -81,7 +82,7 @@ public class ProjectRoleRs {
     @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         log.debug("project role Id: {}", id);
         projectRoleService.removeById(id);
         return Response.status(Response.Status.OK).build();

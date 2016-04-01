@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 
@@ -18,7 +19,7 @@ import com.lftechnology.vyaguta.resource.sort.ProjectStatusSort;
  *
  */
 @Stateless
-public class ProjectStatusDaoImpl extends BaseDao<ProjectStatus, String>implements ProjectStatusDao {
+public class ProjectStatusDaoImpl extends BaseDao<ProjectStatus, UUID> implements ProjectStatusDao {
 
     private ProjectStatusSort projectStatusSort = new ProjectStatusSort();
     private ProjectStatusFilter projectStatusFilter = new ProjectStatusFilter();

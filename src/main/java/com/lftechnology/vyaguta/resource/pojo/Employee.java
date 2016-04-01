@@ -1,21 +1,37 @@
 package com.lftechnology.vyaguta.resource.pojo;
 
+import java.io.Serializable;
+import java.util.UUID;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
+
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-public class Employee {
+@Embeddable
+public class Employee implements Serializable {
 
-    private String id;
+    private static final long serialVersionUID = 1584639393971035213L;
+
+    @Type(type = "pg-uuid")
+    private UUID id;
+
+    @Transient
     private String firstName;
+
+    @Transient
     private String lastName;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

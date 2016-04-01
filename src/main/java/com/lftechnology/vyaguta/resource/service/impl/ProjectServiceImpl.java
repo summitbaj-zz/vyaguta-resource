@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -15,6 +16,8 @@ import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
+import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
@@ -36,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         this.fixTags(project);
-        project.getContracts().addAll(project.getContracts());
+        this.fixContract(project);
         return projectDao.save(project);
     }
 
@@ -46,7 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project merge(String id, Project obj) {
+    public Project merge(UUID id, Project obj) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -71,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -80,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(String id) {
+    public Project findById(UUID id) {
         return projectDao.findById(id);
     }
 
@@ -128,6 +131,15 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }));
         return tags.size() > 0 ? tags.get(0) : null;
+    }
+
+    private void fixContract(Project project) {
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                cm.setContract(contract);
+            }
+            contract.setProject(project);
+        }
     }
 
     @SuppressWarnings("serial")

@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 
@@ -16,7 +17,7 @@ import com.lftechnology.vyaguta.resource.sort.BudgetTypeSort;
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
 @Stateless
-public class BudgetTypeDaoImpl extends BaseDao<BudgetType, String>implements BudgetTypeDao {
+public class BudgetTypeDaoImpl extends BaseDao<BudgetType, UUID> implements BudgetTypeDao {
 
     private BudgetTypeSort budgetTypeSort = new BudgetTypeSort();
     private BudgetTypeFilter budgetTypeFilter = new BudgetTypeFilter();

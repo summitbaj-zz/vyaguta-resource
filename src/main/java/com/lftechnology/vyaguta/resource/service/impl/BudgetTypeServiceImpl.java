@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,7 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
     }
 
     @Override
-    public BudgetType merge(String id, BudgetType obj) {
+    public BudgetType merge(UUID id, BudgetType obj) {
         BudgetType budgetType = this.findById(id);
         if (budgetType == null) {
             throw new ObjectNotFoundException();
@@ -46,7 +47,7 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         BudgetType budgetType = this.findById(id);
         if (budgetType == null) {
             throw new ObjectNotFoundException();
@@ -55,7 +56,7 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
     }
 
     @Override
-    public BudgetType findById(String id) {
+    public BudgetType findById(UUID id) {
         return budgetTypeDao.findById(id);
     }
 

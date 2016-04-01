@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -21,6 +22,7 @@ public class BudgetType extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -3510694911514582414L;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     public String getTitle() {

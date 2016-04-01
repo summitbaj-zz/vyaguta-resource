@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -17,12 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -37,6 +38,7 @@ public class Project extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 6415143172601079320L;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     private String description;
@@ -53,8 +55,7 @@ public class Project extends BaseEntity implements Serializable {
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @Column(name = "account_manager")
-    @Convert(converter = EmployeeConverter.class)
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager") ))
     private Employee accountManager;
 
     @ManyToMany(fetch = FetchType.EAGER)
