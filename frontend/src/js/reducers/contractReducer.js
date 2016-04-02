@@ -29,9 +29,16 @@
                     startDate: null,
                     endDate: null,
                     resource: null,
-                    contractMembers: null
+                    contractMembers: []
                 }
                 newState.contracts.push(emptyContractObject);
+                return newState;
+
+            case actionTypeConstant.SELECT_ITEM:
+                var newState = _.cloneDeep(state);
+                if(action.entity == 'projects') {
+                    newState.contracts = action.data.contracts;
+                }
                 return newState;
 
             case actionTypeConstant.HANDLE_CONTRACT_CHANGE:
@@ -39,11 +46,18 @@
                 newState.contracts[action.index][action.key] = action.value;
                 return newState;
 
+            case actionTypeConstant.HANDLE_CONTRACT_SELECT_OPTION_CHANGE:
+                var newState = _.cloneDeep(state);
+                newState.contracts[action.index][action.key] = {id: action.value};
+                return newState;
+
             case actionTypeConstant.INITIALIZE_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
                 var emptyContractMemberObject = {
                     employee: null,
-                    allocations: []
+                    allocations: [
+                        {}
+                    ]
                 };
                 newState.selectedContractMember = emptyContractMemberObject;
                 return newState;

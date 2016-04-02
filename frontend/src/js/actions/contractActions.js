@@ -30,6 +30,15 @@
             }
         },
 
+        handleContractSelectOptionChange: function(index, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_CONTRACT_SELECT_OPTION_CHANGE,
+                index: index,
+                key: key,
+                value: value
+            }
+        },
+
         clearContracts: function() {
             return {
                 type: actionTypeConstant.CLEAR_CONTRACTS

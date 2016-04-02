@@ -16,6 +16,7 @@
 
     //libraries
     var DatePicker = require('react-datepicker');
+    var moment = require('moment');
 
     var Allocation = React.createClass({
         componentDidMount: function() {
@@ -40,11 +41,11 @@
         },
 
         handleChangeJoinDate: function (date) {
-            this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date);
+            this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date.format('YYYY-MM-DD'));
         },
 
         handleChangeEndDate: function (date) {
-            this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date);
+            this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date.format('YYYY-MM-DD'));
         },
 
         handleCheckBox: function(event) {
@@ -96,14 +97,14 @@
                                     Duration</label>
                                 <div className="col-md-8">
                                     <div className="input-group input-daterange">
-                                        <DatePicker selected={this.props.allocation && this.props.allocation.joinDate}
+                                        <DatePicker selected={this.props.allocation.joinDate && moment(this.props.allocation.joinDate)}
                                             className="form-control"
                                             placeholderText="From"
                                             popoverTargetOffset='40px 0px'
                                             onChange={this.handleChangeJoinDate}/>
                                                                 <span className="input-group-addon"><i
                                                                     className="fa fa-angle-right"></i></span>
-                                        <DatePicker selected={this.props.allocation && this.props.allocation.endDate}
+                                        <DatePicker selected={this.props.allocation.endDate && moment(this.props.allocation.endDate)}
                                             className="form-control"
                                             placeholderText="To"
                                             popoverTargetOffset='40px 0px'

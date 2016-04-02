@@ -187,10 +187,9 @@
                 'projectType': (this.refs.projectType.value != 0) ? {"id": this.refs.projectType.value} : null,
                 'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
                 'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
-                'budgetType': (this.refs.budgetType.value != 0) ? {"id": this.refs.budgetType.value} : null,
-                'startDate': (this.state.startDate) ? this.state.startDate.format('YYYY-MM-DD') : '',
-                'endDate': (this.state.endDate) ? this.state.endDate.format('YYYY-MM-DD') : '',
-                'tags': this.state.technologyStack
+                'tags': this.state.technologyStack,
+                'accountManager': null,
+                'contracts': this.props.contracts
             };
         },
 
@@ -398,7 +397,8 @@
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             selectedItem: state.crudReducer.selectedItem,
-            apiState: state.apiReducer
+            apiState: state.apiReducer,
+            contracts: state.contractReducer.contracts
         }
     };
 
