@@ -61,6 +61,7 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
+            this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
         },
 
         componentWillReceiveProps: function (props) {
@@ -392,6 +393,7 @@
             budgetTypes: state.crudReducer.budgetTypes,
             projectTypes: state.crudReducer.projectTypes,
             projectStatus: state.crudReducer.projectStatus,
+            projectRoles: state.crudReducer.projectRoles,
             clients: state.crudReducer.clients,
             teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,

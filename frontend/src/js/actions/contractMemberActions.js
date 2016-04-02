@@ -24,6 +24,15 @@
             }
         },
 
+        updateContractMember: function(contractIndex, memberIndex, data) {
+            return {
+                type: actionTypeConstant.UPDATE_CONTRACT_MEMBER,
+                contractIndex: contractIndex,
+                memberIndex: memberIndex,
+                data: data
+            }
+        },
+
         initializeContractMember: function() {
             return {
                 type: actionTypeConstant.INITIALIZE_CONTRACT_MEMBER
@@ -34,6 +43,14 @@
             return {
                 type: actionTypeConstant.SELECT_CONTRACT_MEMBER,
                 contractMember: contractMember
+            }
+        },
+
+        handleContractMemberSelectOptionChange: function(key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_CONTRACT_MEMBER_SELECT_OPTION_CHANGE,
+                key: key,
+                value: value
             }
         },
 

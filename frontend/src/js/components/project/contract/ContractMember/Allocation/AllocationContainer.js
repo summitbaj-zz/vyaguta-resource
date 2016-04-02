@@ -15,7 +15,12 @@
     var AllocationContainer = React.createClass({
         renderAllocation: function (key) {
             return (
-                <Allocation key={key} index={key}/>
+                <Allocation key={key}
+                            index={key}
+                            allocation={this.props.allocations[key]}
+                            actions={this.props.actions}
+                            projectRoles={this.props.projectRoles}
+                            memberIndex={this.props.memberIndex}/>
             )
         },
 
@@ -25,12 +30,11 @@
         },
 
         render: function () {
-            debugger;
             return (
                 <div className="panel-group custom-accordion" id="accordion" role="tablist"
                      aria-multiselectable="true">
 
-                    {this.props.selectedContractMember.allocations && Object.keys(this.props.selectedContractMember.allocations).map(this.renderAllocation)}
+                    {this.props.allocations && Object.keys(this.props.allocations).map(this.renderAllocation)}
 
                     <div className="btn-block padding-v-10">
                         <a className="btn btn-xs btn-default"

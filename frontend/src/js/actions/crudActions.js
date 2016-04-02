@@ -201,7 +201,6 @@
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
-
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));

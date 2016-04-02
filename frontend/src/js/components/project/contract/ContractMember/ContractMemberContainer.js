@@ -76,7 +76,10 @@
                     <ContractMemberForm toggleModalState={this.toggleModalState}
                                         actions={this.props.actions}
                                         selectedContractMember={this.props.selectedContractMember}
-                                        contractIndex={this.props.contractIndex}/>
+                                        memberIndex = {this.state.memberIndex}
+                                        setMemberIndex = {this.setMemberIndex}
+                                        contractIndex={this.props.contractIndex}
+                                        projectRoles={this.props.projectRoles}/>
                     }
                 </div>
             )

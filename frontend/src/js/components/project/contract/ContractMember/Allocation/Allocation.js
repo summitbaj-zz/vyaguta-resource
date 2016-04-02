@@ -11,13 +11,53 @@
     //React and redux dependencies
     var React = require('react');
 
+    //components
+    var SelectOption = require('../../../SelectOption');
+
     //libraries
     var DatePicker = require('react-datepicker');
 
     var Allocation = React.createClass({
         componentDidMount: function() {
             var contractAccordion = this.refs["collapse" + this.props.index];
-            contractAccordion.click();
+            if( !this.props.memberIndex) {
+                contractAccordion.click();
+            }
+        },
+
+        handleAllocationSelectOptionChange: function(event) {
+            var key = event.target.name;
+            var value = event.target.value;
+
+            this.props.actions.handleAllocationSelectOptionChange(this.props.index, key, value);
+        },
+
+        handleAllocationInputChange: function(event) {
+            var key = event.target.name;
+            var value = event.target.value;
+
+            this.props.actions.handleAllocationInputChange(this.props.index, key, value);
+        },
+
+        handleChangeJoinDate: function (date) {
+            this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date);
+        },
+
+        handleChangeEndDate: function (date) {
+            this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date);
+        },
+
+        handleCheckBox: function(event) {
+            var key = event.target.name;
+            var value = event.target.checked;
+            this.props.actions.handleAllocationInputChange(this.props.index, key, value);
+        },
+
+        renderProjectRoles: function (key) {
+            return (
+                <SelectOption key={key} index={key} id={this.props.projectRoles[key].id}
+                              option={this.props.projectRoles[key].title}/>
+            )
         },
 
         render: function () {
@@ -39,14 +79,15 @@
                             <div className="form-group">
                                 <label className="control-label col-md-4">Role</label>
                                 <div className="col-md-8">
-                                    <select ref="role" id="role" name="role"
-                                            className="form-control">
+                                    <select ref="role"
+                                            id="role"
+                                            name="role"
+                                            className="form-control"
+                                            value={this.props.allocation.role &&
+                                                    this.props.allocation.role.id}
+                                            onChange={this.handleAllocationSelectOptionChange}>
                                         <option value="0">Please select</option>
-                                        <option value="1">Developer</option>
-                                        <option value="2">Tester</option>
-                                        <option value="3">Team Lead</option>
-                                        <option value="4">SA</option>
-                                        <option value="5">PM</option>
+                                        {Object.keys(this.props.projectRoles).map(this.renderProjectRoles)}
                                     </select>
                                 </div>
                             </div>
@@ -55,16 +96,18 @@
                                     Duration</label>
                                 <div className="col-md-8">
                                     <div className="input-group input-daterange">
-                                        <DatePicker
+                                        <DatePicker selected={this.props.allocation && this.props.allocation.joinDate}
                                             className="form-control"
                                             placeholderText="From"
-                                            popoverTargetOffset='40px 0px'/>
+                                            popoverTargetOffset='40px 0px'
+                                            onChange={this.handleChangeJoinDate}/>
                                                                 <span className="input-group-addon"><i
                                                                     className="fa fa-angle-right"></i></span>
-                                        <DatePicker
+                                        <DatePicker selected={this.props.allocation && this.props.allocation.endDate}
                                             className="form-control"
                                             placeholderText="To"
-                                            popoverTargetOffset='40px 0px'/>
+                                            popoverTargetOffset='40px 0px'
+                                            onChange={this.handleChangeEndDate}/>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +118,8 @@
                                         <input ref="allocation" name="allocation" type="text"
                                                placeholder="0"
                                                className="form-control"
-                                               onChange={this.handleInputChange}/>
+                                               onChange={this.handleAllocationInputChange}
+                                                value={this.props.allocation && this.props.allocation.allocation}/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-percent"></i></span>
                                     </div>
@@ -84,10 +128,12 @@
                             <div className="form-group">
                                 <label className="control-label col-md-4">Billed</label>
                                 <div className="col-md-8">
-                                    <label htmlFor="billed-resource"
+                                    <label htmlFor={"billed-resource" + this.props.index}
                                            className="billed-resource switch switch-default">
                                         <input type="checkbox" name="billed"
-                                               id="billed-resource"
+                                               id={'billed-resource' + this.props.index}
+                                               checked={this.props.allocation.billed}
+                                               onChange={this.handleCheckBox}
                                         />
                                         <span data-toggle="tooltip"></span>
                                     </label>

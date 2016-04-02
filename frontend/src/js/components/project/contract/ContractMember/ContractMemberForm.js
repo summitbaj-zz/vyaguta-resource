@@ -24,17 +24,31 @@
 
         saveContractMember: function () {
             var data = {
-                contractMemberId: this.refs.employee.value ,
+                employee: {id: this.refs.employee.value},
                 allocations: this.props.selectedContractMember.allocations
             };
 
-            this.props.actions.addContractMember(this.props.contractIndex, data);
+            if (this.props.memberIndex) {
+                this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
+            } else {
+                this.props.actions.addContractMember(this.props.contractIndex, data);
+            }
             $('#addContractMember').modal('hide');
         },
 
-        componentWillUnmount: function() {
+        componentWillUnmount: function () {
+            this.props.setMemberIndex(null);
             this.props.actions.clearContractMember();
         },
+
+        handleContractMemberSelectOptionChange: function (event) {
+            var key = event.target.name;
+            var value = event.target.value;
+
+            this.props.actions.handleContractMemberSelectOptionChange(key, value);
+        },
+
+
 
         render: function () {
             return (
@@ -51,17 +65,24 @@
                                     <div className="form-group">
                                         <label className="control-label col-md-4">Team Member</label>
                                         <div className="col-md-8">
-                                            <select ref="employee" id="employee" name="employee"
-                                                    className="form-control">
+                                            <select ref="employee"
+                                                    id="employee"
+                                                    name="employee"
+                                                    className="form-control"
+                                                    value={this.props.selectedContractMember.employee
+                                                           && this.props.selectedContractMember.employee.id}
+                                                    onChange={this.handleContractMemberSelectOptionChange}>
                                                 <option value="0">Please select</option>
                                                 <option value="1">Pratish Shrestha</option>
-                                                <option value="2">Bishal Shrestha </option>
+                                                <option value="2">Bishal Shrestha</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <AllocationContainer selectedContractMember={this.props.selectedContractMember}
-                                                         actions={this.props.actions}/>
+                                    <AllocationContainer allocations={this.props.selectedContractMember.allocations}
+                                                         actions={this.props.actions}
+                                                         projectRoles={this.props.projectRoles}
+                                                         memberIndex={this.props.memberIndex}/>
 
                                 </div>
                             </div>
@@ -69,12 +90,22 @@
                                 <button type="button" className="btn btn-sm btn-ghost" id="close-btn"
                                         data-dismiss="modal">Close
                                 </button>
+                                {!this.props.memberIndex &&
                                 <button type="button"
                                         className="btn btn-sm btn-success"
                                         onClick={this.saveContractMember}>
                                     <i className="fa fa-plus"></i>
-                                    Add Team Member
+                                    Add Member
                                 </button>
+                                }
+                                {this.props.memberIndex &&
+                                <button type="button"
+                                        className="btn btn-sm btn-success"
+                                        onClick={this.saveContractMember}>
+                                    <i className="fa fa-plus"></i>
+                                    Update
+                                </button>
+                                }
                             </div>
                         </div>
                     </div>

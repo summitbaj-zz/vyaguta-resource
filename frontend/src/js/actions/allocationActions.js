@@ -37,6 +37,24 @@
             }
         },
 
+        handleAllocationSelectOptionChange: function(index, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_ALLOCATION_SELECT_OPTION_CHANGE,
+                index: index,
+                key: key,
+                value: value
+            }
+        },
+
+        handleAllocationInputChange: function(index, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_ALLOCATION_INPUT_CHANGE,
+                index: index,
+                key: key,
+                value: value
+            }
+        },
+
         clearAllocations: function() {
             return {
                 type: actionTypeConstant.CLEAR_ALLOCATIONS

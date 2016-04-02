@@ -14,8 +14,9 @@
     var ContractMemberForm = require('./ContractMemberForm');
 
     var ContractMember = React.createClass({
-        showModal:function(event) {
+        showModal: function (event) {
             event.preventDefault();
+            this.props.setMemberIndex(this.props.index);
             this.props.actions.selectContractMember(this.props.contractMember);
             this.props.toggleModalState();
         },
@@ -27,7 +28,8 @@
                         <img alt="avatar"
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className="user-info">
-                            <span>Billed</span>
+                            <span>{(this.props.contractMember.allocations[this.props.contractMember.allocations.length - 1].billed)?
+                                'Billed' : 'Unbilled'}</span>
                             <span className="status">Active</span>
                         </div>
                     </a>

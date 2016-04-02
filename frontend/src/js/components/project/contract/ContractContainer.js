@@ -1,4 +1,4 @@
-/**
+    /**
  * Created by
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 3/30/16.
@@ -36,6 +36,7 @@
                              index={key}
                              actions={this.props.actions}
                              budgetTypes={this.props.budgetTypes}
+                             projectRoles={this.props.projectRoles}
                              contract={this.props.contracts[key]}
                              selectedItem={this.props.selectedItem}
                              apiState={this.props.apiState}
@@ -70,6 +71,7 @@
     var mapStateToProps = function (state) {
         return {
             budgetTypes: state.crudReducer.budgetTypes,
+            projectRoles: state.crudReducer.projectRoles,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,
             teamMembers: state.teamMemberReducer.teamMembers,

@@ -18,7 +18,7 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var SwimLaneChart = require('../../util/charts/SwimLaneChart');
+    //var SwimLaneChart = require('../../util/charts/SwimLaneChart');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -87,7 +87,7 @@
                                     </table>
 
                                 </div>
-                                <SwimLaneChart width="960"/>
+
                             </div>
                         </div>
                     </div>
