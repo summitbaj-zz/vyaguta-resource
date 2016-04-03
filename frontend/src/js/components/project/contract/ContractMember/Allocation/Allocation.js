@@ -19,47 +19,55 @@
     var moment = require('moment');
 
     var Allocation = React.createClass({
-        componentDidMount: function() {
+        componentDidMount: function () {
+            debugger;
             var contractAccordion = this.refs["collapse" + this.props.index];
-            if( !this.props.memberIndex) {
-                contractAccordion.click();
-            }
+            setTimeout(function() {
+                    contractAccordion.click();
+            },100);
         },
 
-        handleAllocationSelectOptionChange: function(event) {
+        handleAllocationSelectOptionChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
             this.props.actions.handleAllocationSelectOptionChange(this.props.index, key, value);
-        },
+        }
 
-        handleAllocationInputChange: function(event) {
+        ,
+
+        handleAllocationInputChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
             this.props.actions.handleAllocationInputChange(this.props.index, key, value);
-        },
+        }
+        ,
 
         handleChangeJoinDate: function (date) {
             this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date.format('YYYY-MM-DD'));
-        },
+        }
+        ,
 
         handleChangeEndDate: function (date) {
             this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date.format('YYYY-MM-DD'));
-        },
+        }
+        ,
 
-        handleCheckBox: function(event) {
+        handleCheckBox: function (event) {
             var key = event.target.name;
             var value = event.target.checked;
             this.props.actions.handleAllocationInputChange(this.props.index, key, value);
-        },
+        }
+        ,
 
         renderProjectRoles: function (key) {
             return (
                 <SelectOption key={key} index={key} id={this.props.projectRoles[key].id}
                               option={this.props.projectRoles[key].title}/>
             )
-        },
+        }
+        ,
 
         render: function () {
             return (
@@ -97,14 +105,16 @@
                                     Duration</label>
                                 <div className="col-md-8">
                                     <div className="input-group input-daterange">
-                                        <DatePicker selected={this.props.allocation.joinDate && moment(this.props.allocation.joinDate)}
+                                        <DatePicker
+                                            selected={this.props.allocation.joinDate && moment(this.props.allocation.joinDate)}
                                             className="form-control"
                                             placeholderText="From"
                                             popoverTargetOffset='40px 0px'
                                             onChange={this.handleChangeJoinDate}/>
                                                                 <span className="input-group-addon"><i
                                                                     className="fa fa-angle-right"></i></span>
-                                        <DatePicker selected={this.props.allocation.endDate && moment(this.props.allocation.endDate)}
+                                        <DatePicker
+                                            selected={this.props.allocation.endDate && moment(this.props.allocation.endDate)}
                                             className="form-control"
                                             placeholderText="To"
                                             popoverTargetOffset='40px 0px'
@@ -120,7 +130,7 @@
                                                placeholder="0"
                                                className="form-control"
                                                onChange={this.handleAllocationInputChange}
-                                                value={this.props.allocation && this.props.allocation.allocation}/>
+                                               value={this.props.allocation && this.props.allocation.allocation}/>
                                                 <span className="input-group-addon"><i
                                                     className="fa fa-percent"></i></span>
                                     </div>
@@ -148,4 +158,5 @@
     });
 
     module.exports = Allocation;
-})();
+})
+();

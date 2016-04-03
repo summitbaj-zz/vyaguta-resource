@@ -22,7 +22,6 @@
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
-    var classNames = require('classnames');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -34,7 +33,10 @@
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/formValidator');
+
+    //util
     var apiUtil = require('../../util/apiUtil');
+    var convertContractHash = require('../../util/convertContractHash')
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -181,6 +183,8 @@
         },
 
         getFormData: function () {
+            var contracts = convertContractHash.toBackEndHash(this.props.contracts);
+
             return {
                 'title': this.refs.title.value,
                 'description': this.refs.description.value,
@@ -189,7 +193,7 @@
                 'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
                 'tags': this.state.technologyStack,
                 'accountManager': null,
-                'contracts': this.props.contracts
+                'contracts': contracts
             };
         },
 
@@ -356,7 +360,7 @@
                                             <span className="help-block"></span>
                                         </div>
 
-                                        <ContractContainer />
+                                        <ContractContainer  params={this.props.params}/>
 
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">

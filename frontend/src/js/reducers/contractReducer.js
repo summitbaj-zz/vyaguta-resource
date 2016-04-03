@@ -9,11 +9,20 @@
     //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
 
+    //util
+    var convertContractHash = require('../util/convertContractHash');
+
     //libraries
     var _ = require('lodash');
 
     var initialState = {
-        contracts: [],
+        contracts: [{
+            budgetType: null,
+            startDate: null,
+            endDate: null,
+            resource: null,
+            contractMembers: []
+        }],
         allocations: [],
         selectedContractMember: {}
     };
@@ -36,8 +45,8 @@
 
             case actionTypeConstant.SELECT_ITEM:
                 var newState = _.cloneDeep(state);
-                if(action.entity == 'projects') {
-                    newState.contracts = action.data.contracts;
+                if (action.entity == 'projects') {
+                    newState.contracts = convertContractHash.toFrontEndHash(action.data.contracts);
                 }
                 return newState;
 
@@ -55,9 +64,13 @@
                 var newState = _.cloneDeep(state);
                 var emptyContractMemberObject = {
                     employee: null,
-                    allocations: [
-                        {}
-                    ]
+                    allocations: [{
+                        role: null,
+                        joinDate: null,
+                        endDate: null,
+                        allocation: null,
+                        billed: false
+                    }]
                 };
                 newState.selectedContractMember = emptyContractMemberObject;
                 return newState;
@@ -94,7 +107,14 @@
 
             case actionTypeConstant.CLEAR_CONTRACTS:
                 var newState = _.cloneDeep(state);
-                newState.contracts = [];
+                newState.contracts = [{
+                    budgetType: null,
+                    startDate: null,
+                    endDate: null,
+                    resource: null,
+                    contractMembers: []
+                }];
+
                 return newState;
 
             case actionTypeConstant.CLEAR_CONTRACT_MEMBER:

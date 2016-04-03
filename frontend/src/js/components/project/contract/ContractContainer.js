@@ -35,6 +35,7 @@
             return <Contract key={key}
                              index={key}
                              actions={this.props.actions}
+                             params={this.props.params}
                              budgetTypes={this.props.budgetTypes}
                              projectRoles={this.props.projectRoles}
                              contract={this.props.contracts[key]}

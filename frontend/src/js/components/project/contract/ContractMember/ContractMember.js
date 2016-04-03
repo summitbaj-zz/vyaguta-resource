@@ -28,8 +28,7 @@
                         <img alt="avatar"
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className="user-info">
-                            <span>{(this.props.contractMember.allocations[this.props.contractMember.allocations.length - 1].billed)?
-                                'Billed' : 'Unbilled'}</span>
+                            <span>Billed</span>
                             <span className="status">Active</span>
                         </div>
                     </a>
