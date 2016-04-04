@@ -60,7 +60,7 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
     @ManyToOne

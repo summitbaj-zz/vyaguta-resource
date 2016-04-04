@@ -45,7 +45,7 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonBackReference
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)

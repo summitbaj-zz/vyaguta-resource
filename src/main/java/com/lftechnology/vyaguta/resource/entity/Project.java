@@ -56,7 +56,7 @@ public class Project extends BaseEntity implements Serializable {
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id") ))
     private Employee accountManager;
 
     @ManyToMany(fetch = FetchType.EAGER)
