@@ -390,7 +390,6 @@
             projectStatus: state.crudReducer.projectStatus,
             projectRoles: state.crudReducer.projectRoles,
             clients: state.crudReducer.clients,
-            teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,

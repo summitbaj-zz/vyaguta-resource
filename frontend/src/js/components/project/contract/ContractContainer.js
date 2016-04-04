@@ -79,7 +79,6 @@
             projectRoles: state.crudReducer.projectRoles,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,
-            teamMembers: state.teamMemberReducer.teamMembers,
             memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             contracts: state.contractReducer.contracts,
             allocations: state.contractReducer.allocations,
