@@ -151,9 +151,10 @@
                 });
 
         },
+
         logOut: function(){
-            localStorage.access_token = null;
-            localStorage.refresh_token = null;
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
             window.location.href = window.location.origin;
         }
     };
