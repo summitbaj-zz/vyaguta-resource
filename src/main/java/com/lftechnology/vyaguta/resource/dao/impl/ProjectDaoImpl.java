@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -19,7 +20,7 @@ import com.lftechnology.vyaguta.resource.sort.ProjectSort;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-public class ProjectDaoImpl extends BaseDao<Project, String>implements ProjectDao {
+public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao {
 
     public static final String START_DATE = "startDate";
     public static final String END_DATE = "endDate";

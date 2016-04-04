@@ -12,7 +12,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectRole;
 public class ProjectRoleFilter extends CommonFilter<ProjectRole> {
 
     public ProjectRoleFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
     }
 }

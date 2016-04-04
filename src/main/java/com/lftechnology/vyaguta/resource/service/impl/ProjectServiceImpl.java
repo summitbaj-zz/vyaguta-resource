@@ -1,9 +1,11 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -11,10 +13,12 @@ import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
+import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
-import com.lftechnology.vyaguta.resource.entity.ProjectMember;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -34,7 +38,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project save(Project project) {
-        return projectDao.save(this.fixTags(this.fixProjectMembers(project)));
+        this.fixTags(project);
+        this.fixContract(project);
+        return projectDao.save(project);
     }
 
     @Override
@@ -43,19 +49,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project merge(String id, Project obj) {
+    public Project merge(UUID id, Project obj) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
         }
+
+        this.fixTags(obj);
+        project.getContracts().clear();
+        project.getContracts().addAll(obj.getContracts());
         project.setTitle(obj.getTitle());
         project.setDescription(obj.getDescription());
         project.setProjectStatus(obj.getProjectStatus());
         project.setProjectType(obj.getProjectType());
-        project.setBudgetType(obj.getBudgetType());
-        project.setStartDate(obj.getStartDate());
-        project.setEndDate(obj.getEndDate());
-        project.setTags(this.fixTags(obj).getTags());
+        project.setAccountManager(obj.getAccountManager());
+        project.setTags(obj.getTags());
         project.setClient(obj.getClient());
         return this.update(project);
     }
@@ -66,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -75,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(String id) {
+    public Project findById(UUID id) {
         return projectDao.findById(id);
     }
 
@@ -94,34 +102,44 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDao.find(start, offset);
     }
 
-    private Project fixTags(Project project) {
+    private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
-        List<Tag> uniqueTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing id and
-         * title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
-        uniqueTagList = project.getTags().stream().distinct().collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
+                .collect(Collectors.toList());
 
-        for (Tag tempTag : uniqueTagList) {
-            if (tempTag.getId() == null && tempTag.getTitle() != null) {
-                tempTag = tagDao.save(tempTag);
+        for (final Tag tempTag : uniqueTagList) {
+            Tag result = findTagByTitle(tempTag.getTitle());
+
+            if (result == null) {
+                newTagList.add(tagDao.save(tempTag));
             } else {
-                if (tagDao.findById(tempTag.getId()) == null) {
-                    throw new ObjectNotFoundException("No tag found for id: " + tempTag.getId());
-                }
+                newTagList.add(result);
             }
-            newTagList.add(tempTag);
         }
         project.setTags(newTagList);
-        return project;
     }
 
-    private Project fixProjectMembers(Project project) {
-        for (ProjectMember pm : project.getProjectMembers()) {
-            pm.setProject(project);
+    @SuppressWarnings({ "serial" })
+    private Tag findTagByTitle(String title) {
+        List<Tag> tags = tagDao.findByFilter(new MultivaluedMapImpl<>(new HashMap<String, List<String>>() {
+            {
+                put("title", Arrays.asList(title));
+            }
+        }));
+        return tags.size() > 0 ? tags.get(0) : null;
+    }
+
+    private void fixContract(Project project) {
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                cm.setContract(contract);
+            }
+            contract.setProject(project);
         }
-        return project;
     }
 
     @SuppressWarnings("serial")

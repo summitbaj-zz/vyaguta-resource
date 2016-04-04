@@ -232,7 +232,7 @@
 
             if (title && title != this.state.projectName) {
                 this.setState({isRequesting: true});
-                apiUtil.fetchByQuery(resourceConstant.PROJECTS, title, this.checkTitle, 'all');
+                apiUtil.fetchByTitle(resourceConstant.PROJECTS, title, this.checkTitle);
 
             } else {
                 formValidator.validateField(event);

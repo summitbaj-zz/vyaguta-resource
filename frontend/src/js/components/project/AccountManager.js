@@ -31,17 +31,29 @@
             var that = this;
             this.setState({suggestions: []});
             this.setState({isRequesting: true});
-            apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.changeSuggestionState);
+            apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input, this.changeSuggestionState);
         },
 
         getSuggestionName: function () {
             var names = [];
             for (var i = 0; i < this.state.suggestions.length; i++) {
-                names.push(this.getAppendedName(i));
+                names.push({id: this.state.suggestions[i].id, title: this.getAppendedName(i)});
             }
             return names;
         },
 
+        setAccountManagerId: function (id) {
+            if (id) {
+                this.setState({isAccountManagerValid: true});
+                var accountManager = {'id': id};
+                this.props.setManager(accountManager);
+                this.showValidity('has-success has-feedback');
+            } else {
+                this.setState({isAccountManagerValid: false});
+                this.props.setManager(null);
+                this.showValidity();
+            }
+        },
 
         getAppendedName: function (index) {
             var name;
@@ -54,53 +66,11 @@
             return name;
         },
 
-        fetchNamesForValidation: function () {
-            this.setState({suggestions: []});
-
-            if (this.refs.inputTag.value) {
-                this.setState({isRequesting: true});
-                apiUtil.fetchAllFromCore(resourceConstant.EMPLOYEES, this.validateManager);
-            } else {
-                this.showValidity(null, null, {});
-            }
-
-        },
-
-        validateManager: function (data) {
-            this.setState({suggestions: data || []});
-            this.setState({isRequesting: false});
-            this.setState({isAccountManagerValid: false});
-
-            var input = this.refs.inputTag;
-
-            for (var i = 0; i < this.state.suggestions.length; i++) {
-                if (input.value === this.getAppendedName(i) && !$('.manager-input').is(':focus')) {
-                    this.setState({isAccountManagerValid: true});
-                    var accountManager = {'id': this.state.suggestions[i].id};
-                    this.showValidity('has-success has-feedback', null, accountManager);
-                    return;
-                }
-            }
-            this.showValidity('has-error', messageConstant.INVALID_ACCOUNT_MANAGER_MESSAGE, null);
-
-        },
-
-        showValidity: function (className, message, accountManager) {
+        showValidity: function (className) {
             var parentElement = $('#account-manager').parent().parent();
-            parentElement.removeClass('has-error');
             parentElement.removeClass('has-success');
-            this.props.setManager(accountManager);
-
-            if (!$('.manager-input').is(':focus')) {
-                parentElement.addClass(className);
-                this.refs.availableMessage.innerHTML = message;
-            }
+            parentElement.addClass(className);
             this.setState({suggestions: []});
-        },
-
-        removeMessage: function () {
-            this.setState({isAccountManagerValid: false});
-            this.refs.availableMessage.innerHTML = '';
         },
 
         render: function () {
@@ -111,8 +81,7 @@
                     <div className="manager-parent">
                         <input type="text" placeholder="Account Manager Name" ref="inputTag" id="account-manager"
                                className="form-control manager-input" autoComplete="off"
-                               onFocus={this.removeMessage}
-                               onBlur={this.fetchNamesForValidation} id="account-manager"
+                               onBlur={this.checkName} id="account-manager"
                                onChange={this.props.fieldChange}
                         />
                         {this.state.isAccountManagerValid && <span
@@ -121,7 +90,10 @@
 
                         <AutoComplete inputField="manager-input" suggestions={suggestionTitle}
                                       generateSuggestions={this.updateSuggestions}
-                                      isRequesting={this.state.isRequesting}/>
+                                      isRequesting={this.state.isRequesting}
+                                      setSelectedItemId={this.setAccountManagerId}
+                                      isRestrictedToSuggestions={true}
+                        />
                         <span className="help-block" ref="availableMessage"></span>
                     </div>
 

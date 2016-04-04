@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 
@@ -18,7 +19,7 @@ import com.lftechnology.vyaguta.resource.sort.TagSort;
  *
  */
 @Stateless
-public class TagDaoImpl extends BaseDao<Tag, String>implements TagDao {
+public class TagDaoImpl extends BaseDao<Tag, UUID> implements TagDao {
 
     private TagSort tagSort = new TagSort();
     private TagFilter tagFilter = new TagFilter();

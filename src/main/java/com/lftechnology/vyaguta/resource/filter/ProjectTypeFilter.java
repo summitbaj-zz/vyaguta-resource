@@ -13,7 +13,7 @@ import com.lftechnology.vyaguta.resource.entity.ProjectType;
 public class ProjectTypeFilter extends CommonFilter<ProjectType>implements Filterable<ProjectType> {
 
     public ProjectTypeFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
     }
 

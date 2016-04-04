@@ -13,7 +13,7 @@ import com.lftechnology.vyaguta.resource.entity.BudgetType;
 public class BudgetTypeFilter extends CommonFilter<BudgetType>implements Filterable<BudgetType> {
 
     public BudgetTypeFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy(CommonConstant.TITLE);
         searchByField("q", CommonConstant.TITLE);
     }
 }

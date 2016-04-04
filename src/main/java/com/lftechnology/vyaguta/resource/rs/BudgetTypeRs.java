@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -57,7 +58,7 @@ public class BudgetTypeRs {
     @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid BudgetType budgetTypeNew) {
+    public Response update(@PathParam("id") UUID id, @NotNull @Valid BudgetType budgetTypeNew) {
         BudgetType budgetType = budgetTypeService.merge(id, budgetTypeNew);
         return Response.status(Response.Status.OK).entity(budgetType).build();
     }
@@ -66,7 +67,7 @@ public class BudgetTypeRs {
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         BudgetType budgetType = budgetTypeService.findById(id);
         if (budgetType != null) {
             return Response.status(Response.Status.OK).entity(budgetType).build();
@@ -79,7 +80,7 @@ public class BudgetTypeRs {
     @DELETE
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         budgetTypeService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }

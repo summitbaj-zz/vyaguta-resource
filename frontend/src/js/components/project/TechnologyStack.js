@@ -5,7 +5,7 @@
     var React = require('react');
 
     //components
-    var ApiUtil = require('../../util/apiUtil');
+    var apiUtil = require('../../util/apiUtil');
     var Tagging = require('../common/tag/Tagging');
     var resourceConstant = require('../../constants/resourceConstant');
 
@@ -23,12 +23,12 @@
         },
 
         getTitle: function (tags) {
-            var tagTitle = [];
+            var tag = [];
             var technologyStack = tags || [];
             for (var i = 0; i < technologyStack.length; i++) {
-                tagTitle[i] = technologyStack[i].title;
+                tag[i] = {id: technologyStack[i].id, title: technologyStack[i].title};
             }
-            return tagTitle;
+            return tag;
         },
 
         changeTagState: function (data) {
@@ -40,7 +40,7 @@
             this.setState({isRequesting: true});
             this.setState({suggestions: []});
 
-            ApiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState, 'any');
+            apiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
         },
 
         addTag: function (tag) {

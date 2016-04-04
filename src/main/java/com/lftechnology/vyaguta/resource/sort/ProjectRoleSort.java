@@ -11,6 +11,6 @@ import com.lftechnology.vyaguta.resource.entity.ProjectRole;
 public class ProjectRoleSort extends CommonSort<ProjectRole> {
 
     public ProjectRoleSort() {
-        sortByField("title");
+        sortBy("title");
     }
 }

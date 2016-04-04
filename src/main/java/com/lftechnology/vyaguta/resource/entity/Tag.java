@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -31,6 +32,7 @@ public class Tag extends BaseEntity implements Serializable {
     public static final String FIND_BY_TITLE = PREFIX + "findByTitle";
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)

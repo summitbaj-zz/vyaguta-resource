@@ -14,13 +14,13 @@ import com.lftechnology.vyaguta.resource.entity.Project;
 public class ProjectFilter extends CommonFilter<Project>implements Filterable<Project> {
 
     public ProjectFilter() {
-        findByField(CommonConstant.TITLE);
+        filterBy("title");
         searchByField("q", CommonConstant.TITLE);
-        filterByDateField(ProjectDaoImpl.START_DATE);
-        filterByDateField(ProjectDaoImpl.END_DATE);
-        filterByField(ProjectDaoImpl.PROJECT_TYPE, CommonConstant.TITLE);
-        filterByField(ProjectDaoImpl.PROJECT_STATUS, CommonConstant.TITLE);
-        filterByField(ProjectDaoImpl.BUDGET_TYPE, CommonConstant.TITLE);
+        filterByDate(ProjectDaoImpl.START_DATE);
+        filterByDate(ProjectDaoImpl.END_DATE);
+        filterBy("projectType.title");
+        filterBy("projectStatus.title");
+        filterBy("budgetType.title");
     }
 
 }

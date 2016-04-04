@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,7 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
     }
 
     @Override
-    public ProjectRole merge(String id, ProjectRole obj) {
+    public ProjectRole merge(UUID id, ProjectRole obj) {
         ProjectRole projectRole = this.findById(id);
         if (projectRole == null) {
             throw new ObjectNotFoundException();
@@ -47,7 +48,7 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         ProjectRole projectRole = this.findById(id);
         if (projectRole == null) {
             throw new ObjectNotFoundException();
@@ -56,7 +57,7 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
     }
 
     @Override
-    public ProjectRole findById(String id) {
+    public ProjectRole findById(UUID id) {
         return projectRoleDao.findById(id);
     }
 

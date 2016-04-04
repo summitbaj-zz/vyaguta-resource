@@ -11,6 +11,6 @@ import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 public class ProjectStatusSort extends CommonSort<ProjectStatus> {
 
     public ProjectStatusSort() {
-        sortByField("title");
+        sortBy("title");
     }
 }

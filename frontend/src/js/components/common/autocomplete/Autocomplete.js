@@ -10,7 +10,9 @@
     var AutoComplete = React.createClass({
         getInitialState: function () {
             return {
-                suggestions: []
+                suggestions: [],
+                selected: false,
+                selectedId: null
             }
         },
         componentDidMount: function () {
@@ -23,6 +25,18 @@
 
         focusOut: function () {
             selectedIndex = -1;
+            var input = document.getElementsByClassName(this.props.inputField)[0];
+
+            if (this.props.isRestrictedToSuggestions) {
+                if (!this.state.selected) {
+                    input.value = '';
+                    this.props.setSelectedItemId(null);
+                } else {
+                    this.props.setSelectedItemId(this.state.selectedId);
+                }
+                input.blur();
+            }
+            this.setState({suggestions: []});
         },
 
         getSelectedIndex: function () {
@@ -58,6 +72,9 @@
                 event.preventDefault();
                 this.enterKeyPressed();
             } else {
+                if (this.isValidKey(event)) {
+                    this.setState({selected: false});
+                }
                 this.setState({suggestions: []});
             }
         },
@@ -89,23 +106,35 @@
 
         enterKeyPressed: function () {
             if (selectedIndex > -1) {
-                this.setInputValue(this.props.suggestions[selectedIndex]);
+                this.setInputValue(this.state.suggestions[selectedIndex].title);
+                this.setState({selectedId: this.state.suggestions[selectedIndex].id});
                 this.removeHoverState();
+                this.setState({selected: true});
             }
-            selectedIndex = -1;
-
+            this.focusOut();
         },
 
         generateSuggestions: function (event) {
-            clearTimeout(typingTimer);
             var that = this;
-            typingTimer = setTimeout(function () {
-                var pressed = String.fromCharCode(event.keyCode);
-                var inputValue = event.target.value;
-                if (inputValue && ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue))) {
-                    that.props.generateSuggestions(inputValue.toLowerCase());
-                }
-            }, 200);
+            var pressed = String.fromCharCode(event.keyCode);
+            var inputValue = event.target.value;
+
+            if (inputValue && that.isValidKey(event)) {
+                clearTimeout(typingTimer);
+
+                typingTimer = setTimeout(function () {
+                    that.props.generateSuggestions(inputValue);
+                }, 200);
+            }
+        },
+
+        isValidKey: function (event) {
+            var inputValue = event.target.value;
+            if ((event.keyCode > 47 && event.keyCode < 112) || (event.keyCode > 185) || (event.keyCode === 8 || event.keyCode === 46 && inputValue)) {
+                return true;
+            } else {
+                return false;
+            }
         },
 
         setInputValue: function (value) {
@@ -117,12 +146,16 @@
             return (
                 <div className='suggestion' key={value}
                      onMouseDown={this.suggestionClicked.bind(null, this.state.suggestions[value])}
-                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.state.suggestions[value]}</div>
+                     onMouseOver={this.suggestionHovered.bind(null, value)}>{this.state.suggestions[value].title}</div>
             );
         },
 
-        suggestionClicked: function (value) {
-            this.setInputValue(value);
+        suggestionClicked: function (suggestions) {
+            this.setInputValue(suggestions.title);
+            this.setState({selected: true});
+            selectedIndex = -1;
+            this.setState({suggestions: []});
+            this.setState({selectedId: suggestions.id});
         },
 
 
@@ -138,7 +171,8 @@
             var suggestions = [];
 
             for (var i = 0; i < nextSuggestions.length; i++) {
-                var matchIndex = nextSuggestions[i].search(inputValue);
+                var suggestionItem = nextSuggestions[i].title.toLowerCase();
+                var matchIndex = suggestionItem.search(inputValue.toLowerCase());
                 if (matchIndex > -1) {
                     suggestions.push(nextSuggestions[i]);
                 }
@@ -146,8 +180,16 @@
             this.setState({suggestions: suggestions});
         },
 
+        getSuggestionTitles: function () {
+            var titles = [];
+            for (var i = 0; i < this.state.suggestions.length; i++) {
+                titles.push(this.state.suggestions[i].title);
+            }
+            return titles;
+        },
+
         render: function () {
-            var suggestionId = Object.keys(this.state.suggestions);
+            var suggestionId = Object.keys(this.getSuggestionTitles());
             var isRequesting = this.props.isRequesting || false;
             return (
                 <div>

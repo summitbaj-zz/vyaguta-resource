@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client merge(String id, Client obj) {
+    public Client merge(UUID id, Client obj) {
         Client client = this.findById(id);
         if (client == null) {
             throw new ObjectNotFoundException();
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         Client client = this.findById(id);
         if (client == null) {
             throw new ObjectNotFoundException();
@@ -60,7 +61,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client findById(String id) {
+    public Client findById(UUID id) {
         return clientDao.findById(id);
     }
 
