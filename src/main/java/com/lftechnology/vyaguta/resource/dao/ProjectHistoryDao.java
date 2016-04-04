@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -11,6 +12,8 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
 
 /**
@@ -27,8 +30,7 @@ public interface ProjectHistoryDao {
             getEm().flush();
             getEm().refresh(projectHistory);
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
-                    persistenceException.getCause());
+            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
         }
         return projectHistory;
     }
@@ -43,5 +45,12 @@ public interface ProjectHistoryDao {
     }
 
     public EntityManager getEm();
+
+    public default List<ProjectHistory> historyById(UUID id) {
+        Project project = new Project();
+        project.setId(id);
+        return getEm().createNamedQuery(ProjectHistory.FIND_BY_PROJECT, ProjectHistory.class).setParameter("project", project)
+                .getResultList();
+    };
 
 }

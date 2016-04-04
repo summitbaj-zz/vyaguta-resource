@@ -12,8 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
@@ -39,9 +42,12 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "project_histories")
+@NamedQueries({ @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project") })
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
+    private static final String PREFIX = "vyaguta.resource.entity.";
+    public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
@@ -60,7 +66,7 @@ public class ProjectHistory implements Serializable {
 
     private String description;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager")))
     private Employee accountManager;
 
     @ManyToOne
@@ -77,7 +83,7 @@ public class ProjectHistory implements Serializable {
 
     private String reason;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by")))
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
     private User createdBy;
@@ -87,6 +93,9 @@ public class ProjectHistory implements Serializable {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
+
+    @Transient
+    private boolean isChanged;
 
     public UUID getId() {
         return id;
@@ -184,6 +193,14 @@ public class ProjectHistory implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public boolean isChanged() {
+        return isChanged;
+    }
+
+    public void setChanged(boolean isChanged) {
+        this.isChanged = isChanged;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -215,4 +232,5 @@ public class ProjectHistory implements Serializable {
         this.setCreatedAt(LocalDateTime.now());
         this.setCreatedBy(SecurityRequestContext.getCurrentUser());
     }
+
 }

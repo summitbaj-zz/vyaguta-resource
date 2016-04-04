@@ -41,8 +41,7 @@ public class ProjectRs {
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projects = projectService
-                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
+        Map<String, Object> projects = projectService.findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(projects).build();
     }
 
@@ -85,5 +84,13 @@ public class ProjectRs {
     public Response remove(@PathParam("id") UUID id) {
         projectService.removeById(id);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @Path("/history/{id}")
+    @GET
+    @RolesAllowed({ "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response history(@PathParam("id") UUID id) {
+        return Response.status(Response.Status.OK).entity(projectService.history(id)).build();
     }
 }
