@@ -150,6 +150,11 @@
                     window.location.href = window.location.origin;
                 });
 
+        },
+        logOut: function(){
+            localStorage.access_token = null;
+            localStorage.refresh_token = null;
+            window.location.href = window.location.origin;
         }
     };
 
