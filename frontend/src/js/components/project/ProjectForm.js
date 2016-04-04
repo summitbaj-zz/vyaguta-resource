@@ -64,6 +64,7 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
+            this.props.actions.fetchAllFromCore(resourceConstant.EMPLOYEES);
         },
 
         componentWillReceiveProps: function (props) {
@@ -154,17 +155,8 @@
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
-
-            //temporary fix until backEnd tasks are completed
-
-            var tempProjectMember = _.cloneDeep(this.props.teamMembers);
-
-            for (var key in tempProjectMember) {
-                tempProjectMember[key].joinDate = tempProjectMember[key].joinDate.format('YYYY-MM-DD');
-                tempProjectMember[key].endDate = tempProjectMember[key].endDate.format('YYYY-MM-DD');
-                delete tempProjectMember[key]['memberRole'];
-            }
             var project = this.getFormData();
+
             var requiredField = {
                 'title': this.refs.title.value
             };
@@ -192,7 +184,7 @@
                 'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
                 'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
                 'tags': this.state.technologyStack,
-                'accountManager': null,
+                'accountManager': this.state.accountManager,
                 'contracts': contracts
             };
         },

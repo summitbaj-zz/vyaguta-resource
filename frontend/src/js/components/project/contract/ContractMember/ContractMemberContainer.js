@@ -79,7 +79,8 @@
                                         memberIndex = {this.state.memberIndex}
                                         setMemberIndex = {this.setMemberIndex}
                                         contractIndex={this.props.contractIndex}
-                                        projectRoles={this.props.projectRoles}/>
+                                        projectRoles={this.props.projectRoles}
+                                        employees={this.props.employees}/>
                     }
                 </div>
             )

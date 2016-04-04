@@ -11,6 +11,7 @@
 
     //components
     var AllocationContainer = require('./Allocation/AllocationContainer');
+    var SelectOption = require('../../SelectOption');
 
     var ContractMemberForm = React.createClass({
         componentDidMount: function () {
@@ -21,6 +22,14 @@
                 that.props.toggleModalState(event);
             })
         },
+
+        renderEmployees: function (key) {
+            return (
+                <SelectOption key={key} index={key} id={this.props.employees[key].id}
+                              option={this.props.employees[key].firstName}/>
+            )
+        },
+
 
         saveContractMember: function () {
             var data = {
@@ -49,7 +58,6 @@
         },
 
 
-
         render: function () {
             return (
                 <div className="modal fade" id="addContractMember" tabIndex="-1" role="dialog">
@@ -73,8 +81,7 @@
                                                            && this.props.selectedContractMember.employee.id}
                                                     onChange={this.handleContractMemberSelectOptionChange}>
                                                 <option value="0">Please select</option>
-                                                <option value="1">Pratish Shrestha</option>
-                                                <option value="2">Bishal Shrestha</option>
+                                                {Object.keys(this.props.employees).map(this.renderEmployees)}
                                             </select>
                                         </div>
                                     </div>

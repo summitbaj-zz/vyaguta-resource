@@ -27,7 +27,8 @@
         },
 
         componentDidMount: function () {
-            $('collapseContract' + this.props.index).collapse('show');
+            var contractAccordion = this.refs["collapseContract" + this.props.index];
+            contractAccordion.click();
         },
 
         renderBudgetType: function (key) {
@@ -52,6 +53,10 @@
             this.props.actions.handleContractChange(this.props.index, key, value);
         },
 
+        deleteContract: function() {
+
+        },
+
         handleContractSelectOptionChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
@@ -71,9 +76,11 @@
                                data-parent="#contractAccordion"
                                aria-expanded="false"
                                aria-controls={"collapseContract" + this.props.index}>
-                                Contract {this.props.index}
+                                Contract {parseInt(this.props.index) + 1}
                             </a>
+
                         </h4>
+
                     </div>
                     <div id={"collapseContract" + this.props.index}
                          className="panel-collapse collapse"
@@ -145,7 +152,8 @@
                                 contractMembers={this.props.contract && this.props.contract.contractMembers}
                                 selectedContractMember={this.props.selectedContractMember}
                                 actions={this.props.actions}
-                                projectRoles={this.props.projectRoles}/>
+                                projectRoles={this.props.projectRoles}
+                                employees={this.props.employees}/>
                         </div>
                     </div>
                 </div>

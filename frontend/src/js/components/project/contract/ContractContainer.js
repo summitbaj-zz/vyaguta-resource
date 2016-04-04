@@ -1,4 +1,4 @@
-    /**
+/**
  * Created by
  * Pratish Shrestha <pratishshrestha@lftechnology.com>
  * on 3/30/16.
@@ -36,12 +36,12 @@
                              index={key}
                              actions={this.props.actions}
                              params={this.props.params}
+                             employees={this.props.employees}
                              budgetTypes={this.props.budgetTypes}
                              projectRoles={this.props.projectRoles}
                              contract={this.props.contracts[key]}
                              selectedItem={this.props.selectedItem}
                              apiState={this.props.apiState}
-                             teamMembers={this.props.teamMembers}
                              memberIndexInModal={this.props.memberIndexInModal}
                              selectedContractMember={this.props.selectedContractMember}
             />
@@ -51,10 +51,13 @@
             return (
                 <div className="block-chunk">
                     <div className="block-title-border">Contract Details
-                        <div className="block-options"><a href="#"
-                                                          className="btn btn-alt btn-sm btn-default"
-                                                          onClick={this.addContract}>
-                            <i className="fa fa-plus"></i></a></div>
+                        <div className="block-options">
+                            <a href="#"
+                               className="btn btn-alt btn-sm btn-default"
+                               onClick={this.addContract}>
+                                <i className="fa fa-plus"></i>
+                            </a>
+                        </div>
                     </div>
                     <div className="form-group">
                         <div className="panel-group custom-accordion" id="contractAccordion"
@@ -71,6 +74,7 @@
 
     var mapStateToProps = function (state) {
         return {
+            employees: state.crudReducer.employees,
             budgetTypes: state.crudReducer.budgetTypes,
             projectRoles: state.crudReducer.projectRoles,
             selectedItem: state.crudReducer.selectedItem,
@@ -86,11 +90,11 @@
     var mapDispatchToProps = function (dispatch) {
         return {
             actions: bindActionCreators(_.assign({}, teamMemberActions,
-                                                     crudActions,
-                                                     apiActions,
-                                                     contractActions,
-                                                     contractMemberActions,
-                                                     allocationActions), dispatch)
+                crudActions,
+                apiActions,
+                contractActions,
+                contractMemberActions,
+                allocationActions), dispatch)
         }
     };
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ContractContainer);

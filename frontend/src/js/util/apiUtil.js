@@ -83,20 +83,11 @@
                 .set('Accept', 'application/json');
         },
 
-        fetchAllFromCore: function (resourceName, callback) {
-            request
+        fetchAllFromCore: function (resourceName) {
+            return request
                 .get(coreUrl + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response.body);
-                }, function (error) {
-                    if (error.status = 401) {
-                        apiUtil.refreshSession().then(function (response) {
-                            apiUtil.fetchAllFromCore(resourceName, callback);
-                        });
-                    }
-                });
+                .set('Accept', 'application/json');
         },
 
         fetchByQueryFromCore: function (resourceName, data, callback) {

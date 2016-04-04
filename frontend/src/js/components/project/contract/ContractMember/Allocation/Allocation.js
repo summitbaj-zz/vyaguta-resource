@@ -20,7 +20,8 @@
 
     var Allocation = React.createClass({
         componentDidMount: function () {
-            $('collapse' + this.props.index).collapse('show');
+            var contractAccordion = this.refs["collapse" + this.props.index];
+            contractAccordion.click();
         },
 
         handleAllocationSelectOptionChange: function (event) {
@@ -28,42 +29,35 @@
             var value = event.target.value;
 
             this.props.actions.handleAllocationSelectOptionChange(this.props.index, key, value);
-        }
-
-        ,
+        },
 
         handleAllocationInputChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
             this.props.actions.handleAllocationInputChange(this.props.index, key, value);
-        }
-        ,
+        },
 
         handleChangeJoinDate: function (date) {
             this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date.format('YYYY-MM-DD'));
-        }
-        ,
+        },
 
         handleChangeEndDate: function (date) {
             this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date.format('YYYY-MM-DD'));
-        }
-        ,
+        },
 
         handleCheckBox: function (event) {
             var key = event.target.name;
             var value = event.target.checked;
             this.props.actions.handleAllocationInputChange(this.props.index, key, value);
-        }
-        ,
+        },
 
         renderProjectRoles: function (key) {
             return (
                 <SelectOption key={key} index={key} id={this.props.projectRoles[key].id}
                               option={this.props.projectRoles[key].title}/>
             )
-        }
-        ,
+        },
 
         render: function () {
             return (
@@ -75,7 +69,7 @@
                                                        href={"#collapse" + this.props.index}
                                                        aria-expanded="false"
                                                        aria-controls={"collapse" + this.props.index}>
-                            Allocation </a>
+                            Allocation {parseInt(this.props.index) + 1}</a>
                         </h4>
                     </div>
                     <div id={"collapse" + this.props.index} className="panel-collapse collapse" role="tabpanel"
@@ -113,6 +107,7 @@
                                             selected={this.props.allocation.endDate && moment(this.props.allocation.endDate)}
                                             className="form-control"
                                             placeholderText="To"
+                                            minDate={this.props.allocation.joinDate && moment(this.props.allocation.joinDate)}
                                             popoverTargetOffset='40px 0px'
                                             onChange={this.handleChangeEndDate}/>
                                     </div>
