@@ -67,6 +67,8 @@ public class Contract extends BaseEntity implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate actualEndDate;
+    
+    private String resource;
 
     @Transient
     private String reason;
@@ -125,6 +127,14 @@ public class Contract extends BaseEntity implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+    
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
     @Override

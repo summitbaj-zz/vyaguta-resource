@@ -81,9 +81,11 @@ public class ContractHistory implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate actualEndDate;
 
+    private String resource;
+
     private String reason;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by")))
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
     private User createdBy;
@@ -194,6 +196,14 @@ public class ContractHistory implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
     @Override

@@ -154,6 +154,7 @@ CREATE TABLE contracts (
     start_date date,
     end_date date,
     actual_end_date date,
+    resource text,
     created_by uuid NOT NULL,
     updated_by uuid,
     created_at timestamp with time zone NOT NULL,
@@ -227,6 +228,7 @@ CREATE TABLE contract_histories (
     start_date date,
     end_date date,
     actual_end_date date,
+    resource text,
     reason text,
     created_by uuid NOT NULL,
     created_at timestamp with time zone NOT NULL
