@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -64,6 +66,7 @@ public class Project extends BaseEntity implements Serializable {
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
+    @Fetch (FetchMode.SUBSELECT)
     @JsonManagedReference
     private List<Contract> contracts = new ArrayList<>();
 
