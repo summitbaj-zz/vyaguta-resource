@@ -27,8 +27,7 @@
         },
 
         componentDidMount: function () {
-            var contractAccordion = this.refs["collapseContract" + this.props.index];
-            contractAccordion.click();
+            $('collapseContract' + this.props.index).collapse('show');
         },
 
         renderBudgetType: function (key) {

@@ -20,11 +20,7 @@
 
     var Allocation = React.createClass({
         componentDidMount: function () {
-            debugger;
-            var contractAccordion = this.refs["collapse" + this.props.index];
-            setTimeout(function() {
-                    contractAccordion.click();
-            },100);
+            $('collapse' + this.props.index).collapse('show');
         },
 
         handleAllocationSelectOptionChange: function (event) {
