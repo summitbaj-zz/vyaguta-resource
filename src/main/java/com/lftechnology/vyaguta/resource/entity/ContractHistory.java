@@ -48,7 +48,8 @@ public class ContractHistory implements Serializable {
     private UUID id;
 
     @Column(name = "batch_no")
-    private String batch;
+    @Type(type = "pg-uuid")
+    private UUID batch;
 
     @ManyToOne
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
@@ -93,6 +94,20 @@ public class ContractHistory implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
+    public ContractHistory() {
+        super();
+    }
+
+    public ContractHistory(Contract contract) {
+        this.setContract(contract);
+        this.setActualEndDate(contract.getActualEndDate());
+        this.setStartDate(contract.getStartDate());
+        this.setEndDate(contract.getEndDate());
+        this.setBudgetType(contract.getBudgetType());
+        this.setReason(contract.getReason());
+        this.setProject(contract.getProject());
+    }
+
     public UUID getId() {
         return id;
     }
@@ -101,11 +116,11 @@ public class ContractHistory implements Serializable {
         this.id = id;
     }
 
-    public String getBatch() {
+    public UUID getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(UUID batch) {
         this.batch = batch;
     }
 

@@ -49,7 +49,8 @@ public class ContractMemberHistory implements Serializable {
     private UUID id;
 
     @Column(name = "batch_no")
-    private String batch;
+    @Type(type = "pg-uuid")
+    private UUID batch;
 
     @ManyToOne
     @JoinColumn(name = "contract_member_id", referencedColumnName = "id")
@@ -59,7 +60,7 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee") ))
     private Employee employee;
 
     @ManyToOne
@@ -95,6 +96,22 @@ public class ContractMemberHistory implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
+    public ContractMemberHistory() {
+        super();
+    }
+
+    public ContractMemberHistory(ContractMember contractMember) {
+        this.setContractMember(contractMember);
+        this.setAllocation(contractMember.getAllocation());
+        this.setBilled(contractMember.isBilled());
+        this.setProjectRole(contractMember.getRole());
+        this.setContract(contractMember.getContract());
+        this.setEmployee(contractMember.getEmployee());
+        this.setJoinDate(contractMember.getJoinDate());
+        this.setEndDate(contractMember.getEndDate());
+        this.setReason(contractMember.getReason());
+    }
+
     public UUID getId() {
         return id;
     }
@@ -103,11 +120,11 @@ public class ContractMemberHistory implements Serializable {
         this.id = id;
     }
 
-    public String getBatch() {
+    public UUID getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(UUID batch) {
         this.batch = batch;
     }
 
