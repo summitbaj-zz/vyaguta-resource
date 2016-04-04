@@ -9,7 +9,6 @@
     var browserHistory = ReactRouter.browserHistory;
     var IndexRoute = ReactRouter.IndexRoute;
 
-
     if (localStorage.access_token) {
         var routes = (
             <Router history={browserHistory}>

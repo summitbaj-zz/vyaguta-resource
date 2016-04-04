@@ -6,8 +6,7 @@
     var apiUtil = require('../../../util/apiUtil.js');
 
     var DropDownList = React.createClass({
-        logOut: function(){
-            console.log('logout')
+        logOut: function () {
             apiUtil.logOut();
         },
 
