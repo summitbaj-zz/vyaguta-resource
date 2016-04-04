@@ -46,7 +46,6 @@
             case actionTypeConstant.SELECT_ITEM:
                 var newState = _.cloneDeep(state);
                 if (action.entity == 'projects') {
-                    debugger;
                     newState.contracts = convertContractHash.toFrontEndHash(action.data.contracts);
                 }
                 return newState;

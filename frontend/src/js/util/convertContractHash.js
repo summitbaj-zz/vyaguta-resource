@@ -10,7 +10,6 @@
 
     var convertContractHash = {
         toFrontEndHash: function (contracts) {
-            debugger;
             for (var i = 0; i < contracts.length; i++) {
                 var newContractMembers = [];
                 for (var j = 0; j < contracts[i].contractMembers.length; j++) {
