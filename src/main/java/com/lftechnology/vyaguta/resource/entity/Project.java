@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -65,6 +66,9 @@ public class Project extends BaseEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
     @JsonManagedReference
     private List<Contract> contracts = new ArrayList<>();
+
+    @Transient
+    private String reason;
 
     public String getTitle() {
         return title;
@@ -128,6 +132,14 @@ public class Project extends BaseEntity implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @PrePersist

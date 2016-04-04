@@ -11,14 +11,22 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractHistory;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -36,6 +44,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Inject
     private TagDao tagDao;
 
+    @Inject
+    private ProjectHistoryDao projectHistoryDao;
+
+    @Inject
+    private ContractHistoryDao contractHistoryDao;
+
+    @Inject
+    private ContractMemberHistoryDao contractMemberHistoryDao;
+
     @Override
     public Project save(Project project) {
         this.fixTags(project);
@@ -45,11 +62,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Project project) {
-        return projectDao.update(project);
+        project = projectDao.update(project);
+        this.logHistory(project);
+        return project;
     }
 
     @Override
     public Project merge(UUID id, Project obj) {
+        if (!this.hasReason(obj)) {
+            throw new ParameterFormatException("Reason field expected");
+        }
+
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
@@ -65,6 +88,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setAccountManager(obj.getAccountManager());
         project.setTags(obj.getTags());
         project.setClient(obj.getClient());
+        project.setReason(obj.getReason());
         return this.update(project);
     }
 
@@ -100,6 +124,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> find(Integer start, Integer offset) {
         return projectDao.find(start, offset);
+    }
+
+    @Override
+    @SuppressWarnings("serial")
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectDao.count(queryParameters));
+                put("data", projectDao.findByFilter(queryParameters));
+            }
+        };
     }
 
     private void fixTags(Project project) {
@@ -142,14 +177,41 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    @SuppressWarnings("serial")
-    @Override
-    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return new HashMap<String, Object>() {
-            {
-                put("count", projectDao.count(queryParameters));
-                put("data", projectDao.findByFilter(queryParameters));
+    private boolean hasReason(Project project) {
+        if (!Strings.isNullOrEmpty(project.getReason())) {
+            return true;
+        }
+        for (Contract contract : project.getContracts()) {
+            if (!Strings.isNullOrEmpty(contract.getReason())) {
+                return true;
             }
-        };
+            for (ContractMember cm : contract.getContractMembers()) {
+                if (!Strings.isNullOrEmpty(cm.getReason())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
+    private void logHistory(Project project) {
+        UUID uuid = UUID.randomUUID();
+
+        ProjectHistory projectHistory = new ProjectHistory(project);
+        projectHistory.setBatch(uuid);
+
+        for (Contract contract : project.getContracts()) {
+            ContractHistory contractHistory = new ContractHistory(contract);
+            contractHistory.setBatch(uuid);
+            contractHistoryDao.save(contractHistory);
+
+            for (ContractMember cm : contract.getContractMembers()) {
+                ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
+                contractMemberHistory.setBatch(uuid);
+                contractMemberHistoryDao.save(contractMemberHistory);
+            }
+        }
+        projectHistoryDao.save(projectHistory);
+    }
+
 }
