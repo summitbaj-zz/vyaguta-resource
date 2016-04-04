@@ -13,14 +13,11 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var SelectOption = require('../SelectOption');
     var Contract = require('./Contract');
-    var TeamMemberForm = require('../member/TeamMemberForm');
 
     //actions
     var crudActions = require('../../../actions/crudActions');
     var apiActions = require('../../../actions/apiActions');
-    var teamMemberActions = require('../../../actions/teamMemberActions');
     var contractActions = require('../../../actions/contractActions');
     var contractMemberActions = require('../../../actions/contractMemberActions');
     var allocationActions = require('../../../actions/allocationActions');
@@ -79,7 +76,6 @@
             projectRoles: state.crudReducer.projectRoles,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,
-            memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             contracts: state.contractReducer.contracts,
             allocations: state.contractReducer.allocations,
             selectedContractMember: state.contractReducer.selectedContractMember
@@ -88,7 +84,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions,
+            actions: bindActionCreators(_.assign({},
                 crudActions,
                 apiActions,
                 contractActions,

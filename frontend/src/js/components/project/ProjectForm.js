@@ -28,8 +28,6 @@
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
-    var TeamMemberForm = require('./member/TeamMemberForm');
-    var TeamMember = require('./member/TeamMember');
     var ReasonModal = require('./ReasonModal');
     var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/formValidator');
@@ -41,7 +39,6 @@
     //actions
     var crudActions = require('../../actions/crudActions');
     var apiActions = require('../../actions/apiActions');
-    var teamMemberActions = require('../../actions/teamMemberActions');
     var contractActions = require('../../actions/contractActions');
 
     var ProjectForm = React.createClass({
@@ -77,7 +74,6 @@
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearMemberState();
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
             this.props.actions.clearContracts();
             this.props.actions.apiClearState();
@@ -139,17 +135,6 @@
                 <SelectOption key={key} index={key} id={this.props.clients[key].id}
                               option={this.props.clients[key].email}/>
             )
-        },
-
-        renderTeamMember: function (key) {
-            return (
-                <TeamMember key={key} index={key} actions={this.props.actions}/>
-            )
-        },
-
-        clearMemberIndexInModal: function () {
-            this.props.actions.clearMemberIndex();
-            document.querySelector('#team-member-form').reset();
         },
 
         //called when form is submitted
@@ -373,9 +358,6 @@
                         </div>
                     </div>
 
-
-                    <TeamMemberForm actions={this.props.actions} teamMembers={this.props.teamMembers}
-                                    memberIndexInModal={this.props.memberIndexInModal}/>
                     <ReasonModal updateProject={this.updateProject}/>
 
                 </div>
@@ -390,7 +372,6 @@
             projectStatus: state.crudReducer.projectStatus,
             projectRoles: state.crudReducer.projectRoles,
             clients: state.crudReducer.clients,
-            memberIndexInModal: state.teamMemberReducer.memberIndexInModal,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,
             contracts: state.contractReducer.contracts
@@ -399,7 +380,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, teamMemberActions, crudActions, apiActions, contractActions), dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions, contractActions), dispatch)
         }
     };
 

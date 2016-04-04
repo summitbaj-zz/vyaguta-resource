@@ -12,7 +12,6 @@
 
     //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
-    var resourceConstant = require('../constants/resourceConstant');
 
     //libraries
     var _ = require('lodash');
@@ -23,7 +22,6 @@
 
     //actions
     var apiActions = require('./apiActions');
-    var teamMemberActions = require('./teamMemberActions');
 
     //constants
     var messageConstant = require('../constants/messageConstant');

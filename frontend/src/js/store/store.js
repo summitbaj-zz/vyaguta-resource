@@ -14,7 +14,6 @@
 
     //reducers
     var crudReducer = require('../reducers/crudReducer');
-    var teamMemberReducer = require('../reducers/teamMemberReducer');
     var apiReducer = require('../reducers/apiReducer');
     var contractReducer = require('../reducers/contractReducer');
 
