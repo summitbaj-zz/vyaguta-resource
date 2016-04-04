@@ -61,7 +61,7 @@ public class ProjectHistory implements Serializable {
 
     private String description;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id") ))
     private Employee accountManager;
 
     @ManyToOne
