@@ -20,9 +20,6 @@
                     <td>{this.props.index}</td>
                     <td>{this.props.project.title}</td>
                     <td>{this.props.project.projectType && this.props.project.projectType.title}</td>
-                    <td>{this.props.project.budgetType && this.props.project.budgetType.title}</td>
-                    <td>{this.props.project.startDate}</td>
-                    <td>{this.props.project.endDate}</td>
                     <td><span
                         className="label text-uppercase"
                         style={style}>{this.props.project.projectStatus && this.props.project.projectStatus.title}</span>

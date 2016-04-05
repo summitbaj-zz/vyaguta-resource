@@ -12,22 +12,32 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractDao;
+import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectHistoryRootDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractHistory;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
+import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Stateless
@@ -42,6 +52,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Inject
     private TagDao tagDao;
 
+    @Inject
+    private ContractDao contractDao;
+
+    @Inject
+    private ContractHistoryDao contractHistoryDao;
+
+    @Inject
+    private ProjectHistoryRootDao projectHistoryRootDao;
+
+    @Inject
+    private ContractMemberHistoryDao contractMemberHistoryDao;
+
     @Override
     public Project save(Project project) {
         this.fixTags(project);
@@ -51,19 +73,25 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Project project) {
-        return projectDao.update(project);
+        project = projectDao.update(project);
+        this.logHistory(project);
+        return project;
     }
 
     @Override
     public Project merge(UUID id, Project obj) {
+        if (!this.hasReason(obj)) {
+            throw new ParameterFormatException("Reason field expected");
+        }
+
         Project project = this.findById(id);
         if (project == null) {
             throw new ObjectNotFoundException();
         }
 
         this.fixTags(obj);
-        project.getContracts().clear();
-        project.getContracts().addAll(obj.getContracts());
+        this.fixContracts(project, obj);
+
         project.setTitle(obj.getTitle());
         project.setDescription(obj.getDescription());
         project.setProjectStatus(obj.getProjectStatus());
@@ -71,6 +99,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setAccountManager(obj.getAccountManager());
         project.setTags(obj.getTags());
         project.setClient(obj.getClient());
+        project.setReason(obj.getReason());
         return this.update(project);
     }
 
@@ -108,6 +137,17 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDao.find(start, offset);
     }
 
+    @Override
+    @SuppressWarnings("serial")
+    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectDao.count(queryParameters));
+                put("data", projectDao.findByFilter(queryParameters));
+            }
+        };
+    }
+
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
@@ -125,6 +165,21 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         project.setTags(newTagList);
+    }
+
+    private void fixContracts(Project project, Project obj) {
+        project.getContracts().clear();
+        project.getContracts().addAll(obj.getContracts());
+
+        for (Contract c : obj.getContracts()) {
+            c.setProject(project);
+
+            if (c.getId() == null)
+                this.contractDao.save(c);
+            else
+                this.contractDao.update(c);
+        }
+
     }
 
     @SuppressWarnings({ "serial" })
@@ -146,15 +201,36 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    @SuppressWarnings("serial")
-    @Override
-    public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
-        return new HashMap<String, Object>() {
-            {
-                put("count", projectDao.count(queryParameters));
-                put("data", projectDao.findByFilter(queryParameters));
+    private boolean hasReason(Project project) {
+        if (!Strings.isNullOrEmpty(project.getReason())) {
+            return true;
+        }
+        return false;
+    }
+
+    private void logHistory(Project project) {
+        UUID uuid = UUID.randomUUID();
+
+        ProjectHistory projectHistory = new ProjectHistory(project);
+        projectHistory.setBatch(uuid);
+
+        ProjectHistoryRoot projectHistoryRoot = new ProjectHistoryRoot();
+        projectHistoryRoot.setId(uuid);
+        projectHistoryRoot.setReason(project.getReason());
+        projectHistoryRootDao.save(projectHistoryRoot);
+
+        for (Contract contract : project.getContracts()) {
+            ContractHistory contractHistory = new ContractHistory(contract);
+            contractHistory.setBatch(uuid);
+            contractHistoryDao.save(contractHistory);
+
+            for (ContractMember cm : contract.getContractMembers()) {
+                ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
+                contractMemberHistory.setBatch(uuid);
+                contractMemberHistoryDao.save(contractMemberHistory);
             }
-        };
+        }
+        projectHistoryDao.save(projectHistory);
     }
 
     @Override
@@ -198,17 +274,6 @@ public class ProjectServiceImpl implements ProjectService {
         } else if (record1.getDescription() != null && record2.getDescription() != null
                 && !record1.getDescription().equals(record2.getDescription())) {
             alterMap.put("description", record2.getDescription());
-        }
-
-        if (record1.getReason() == null && record2.getReason() != null) {
-            alterMap.put("reason", record2.getReason());
-
-        } else if (record1.getReason() != null && record2.getReason() == null) {
-            alterMap.put("reason", null);
-
-        } else if (record1.getReason() != null && record2.getReason() != null && !record1.getReason().equals(record2.getReason())) {
-            alterMap.put("reason", record2.getReason());
-
         }
         if (record1.getAccountManager() == null && record2.getAccountManager() != null) {
             alterMap.put("accountManager", record2.getAccountManager());
@@ -257,8 +322,6 @@ public class ProjectServiceImpl implements ProjectService {
         if (count >= 1) {
             alterMap.put("batchNo", record2.getBatch());
             alterMap.put("project", record2.getProject());
-            alterMap.put("createdAt", record2.getCreatedAt());
-            alterMap.put("createdBy", record2.getCreatedBy());
             alterMap.put("isChanged", true);
         }
         return alterMap;
@@ -275,8 +338,6 @@ public class ProjectServiceImpl implements ProjectService {
         newMap.put("client", record.getClient());
         newMap.put("batchNo", record.getBatch());
         newMap.put("project", record.getProject());
-        newMap.put("createdAt", record.getCreatedAt());
-        newMap.put("createdBy", record.getCreatedBy());
         newMap.put("isChanged", false);
         return newMap;
     }

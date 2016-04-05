@@ -1361,4 +1361,10 @@ ul.pagination li {
                            not supported by any browser */
 }
 
+.delete-btn {
+    cursor: pointer;
+}
 
+.col-250 {
+    width: 250px;
+}

@@ -20,7 +20,8 @@
                 projectType: {},
                 projectStatus: {},
                 accountManager: {},
-                client: {}
+                client: {},
+                contracts:{}
             },
             projectRoles: {},
             budgetTypes: {},
