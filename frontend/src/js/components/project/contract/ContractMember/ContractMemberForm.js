@@ -30,9 +30,10 @@
         },
 
         renderEmployees: function (key) {
+            var employeeName = this.props.employees[key].firstName + ' ' + this.props.employees[key].middleName + ' ' + this.props.employees[key].lastName;
             return (
                 <SelectOption key={key} index={key} id={this.props.employees[key].id}
-                              option={this.props.employees[key].firstName}/>
+                              option={employeeName}/>
             )
         },
 
