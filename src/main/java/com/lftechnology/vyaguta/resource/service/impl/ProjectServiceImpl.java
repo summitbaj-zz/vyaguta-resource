@@ -16,6 +16,7 @@ import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
@@ -46,6 +47,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private TagDao tagDao;
+
+    @Inject
+    private ContractDao contractDao;
 
     @Inject
     private ProjectHistoryDao projectHistoryDao;
@@ -85,8 +89,8 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         this.fixTags(obj);
-        project.getContracts().clear();
-        project.getContracts().addAll(obj.getContracts());
+        this.fixContracts(project, obj);
+
         project.setTitle(obj.getTitle());
         project.setDescription(obj.getDescription());
         project.setProjectStatus(obj.getProjectStatus());
@@ -160,6 +164,21 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         project.setTags(newTagList);
+    }
+
+    private void fixContracts(Project project, Project obj) {
+        project.getContracts().clear();
+        project.getContracts().addAll(obj.getContracts());
+
+        for (Contract c : obj.getContracts()) {
+            c.setProject(project);
+
+            if (c.getId() == null)
+                this.contractDao.save(c);
+            else
+                this.contractDao.update(c);
+        }
+
     }
 
     @SuppressWarnings({ "serial" })
