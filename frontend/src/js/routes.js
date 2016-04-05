@@ -8,10 +8,12 @@
     var Route = ReactRouter.Route;
     var browserHistory = ReactRouter.browserHistory;
     var IndexRoute = ReactRouter.IndexRoute;
+    var IndexRedirect = ReactRouter.IndexRedirect;
 
     if (localStorage.access_token) {
         var routes = (
             <Router history={browserHistory}>
+
                 <Route path="/" name="Dashboard" component={require('./components/App')}>
                     <IndexRoute component={require('./components/dashboard/Dashboard')}/>
 
@@ -70,6 +72,9 @@
                                component={require('./components/client/ClientForm')}/>
                     </Route>
 
+                    <Route path="*">
+                        <IndexRedirect to="/" />
+                    </Route>
                 </Route>
             </Router>
         );

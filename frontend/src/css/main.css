@@ -1364,3 +1364,7 @@ ul.pagination li {
 .delete-btn {
     cursor: pointer;
 }
+
+.col-250 {
+    width: 250px;
+}
