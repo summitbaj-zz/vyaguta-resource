@@ -20,6 +20,7 @@ import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectHistoryRootDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractHistory;
@@ -27,12 +28,14 @@ import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
+import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Stateless
@@ -49,6 +52,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractHistoryDao contractHistoryDao;
+
+    @Inject
+    private ProjectHistoryRootDao projectHistoryRootDao;
 
     @Inject
     private ContractMemberHistoryDao contractMemberHistoryDao;
@@ -140,11 +146,9 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
-        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
-                .collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
         for (final Tag tempTag : uniqueTagList) {
             Tag result = findTagByTitle(tempTag.getTitle());
@@ -181,16 +185,6 @@ public class ProjectServiceImpl implements ProjectService {
         if (!Strings.isNullOrEmpty(project.getReason())) {
             return true;
         }
-        for (Contract contract : project.getContracts()) {
-            if (!Strings.isNullOrEmpty(contract.getReason())) {
-                return true;
-            }
-            for (ContractMember cm : contract.getContractMembers()) {
-                if (!Strings.isNullOrEmpty(cm.getReason())) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
@@ -199,6 +193,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         ProjectHistory projectHistory = new ProjectHistory(project);
         projectHistory.setBatch(uuid);
+
+        ProjectHistoryRoot projectHistoryRoot = new ProjectHistoryRoot();
+        projectHistoryRoot.setId(uuid);
+        projectHistoryRoot.setReason(project.getReason());
+        projectHistoryRootDao.save(projectHistoryRoot);
 
         for (Contract contract : project.getContracts()) {
             ContractHistory contractHistory = new ContractHistory(contract);

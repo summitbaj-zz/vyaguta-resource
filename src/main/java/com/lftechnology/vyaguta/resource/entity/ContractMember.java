@@ -32,8 +32,8 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_members")
-@NamedQueries({
-        @NamedQuery(name = ContractMember.FIND_BY_CONTRACT, query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
+@NamedQueries({ @NamedQuery(name = ContractMember.FIND_BY_CONTRACT,
+        query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
 public class ContractMember extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4463672032184656029L;
@@ -45,7 +45,7 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonBackReference
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id")))
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -69,9 +69,6 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
-
-    @Transient
-    private String reason;
 
     public Contract getContract() {
         return contract;
@@ -127,14 +124,6 @@ public class ContractMember extends BaseEntity implements Serializable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
     }
 
     @Override
