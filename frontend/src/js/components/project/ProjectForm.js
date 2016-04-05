@@ -83,16 +83,21 @@
             return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
-                    var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    } else {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
+                    }
+
                     options.push({value: response.body.data[i].id, label: employeeName});
                 }
-                ;
+
                 return {options: options};
             });
         },
 
         handleAutoCompleteChange: function (value) {
-            this.props.actions.handleSelectOptionChange('projects','accountManager', value);
+            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value);
         },
 
 
@@ -173,11 +178,11 @@
         },
 
         getFormData: function () {
-            var contracts = convertContractHash.toBackEndHash(this.props.contracts)
+            var contracts = convertContractHash.toBackEndHash(this.props.contracts);
 
-            if(this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
-                var accountManager = {id : this.props.selectedItem.projects.accountManager.id.value}
-            }else {
+            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
+                var accountManager = {id: this.props.selectedItem.projects.accountManager.id.value}
+            } else {
                 var accountManager = null;
             }
 
@@ -362,7 +367,7 @@
                                             <span className="help-block"></span>
                                         </div>
 
-                                        <ContractContainer  params={this.props.params}/>
+                                        <ContractContainer params={this.props.params}/>
 
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">

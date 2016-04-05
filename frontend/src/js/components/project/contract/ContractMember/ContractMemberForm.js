@@ -46,7 +46,11 @@
             return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
-                    var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    } else {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
+                    }
                     options.push({value: response.body.data[i].id, label: employeeName});
                 }
                 return {options: options};
@@ -54,9 +58,10 @@
         },
 
         saveContractMember: function () {
-            if(this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.id) {
-                var employee = {id : this.props.selectedContractMember.employee.id.value}
-            }else {
+            if (this.props.selectedContractMember.employee &&
+                <this className="props selectedContractMember employee id"></this>) {
+                var employee = {id: this.props.selectedContractMember.employee.id.value}
+            } else {
                 var employee = null;
             }
 
