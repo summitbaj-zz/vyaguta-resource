@@ -22,6 +22,7 @@
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
+    var Select = require('react-select');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -45,7 +46,6 @@
         getInitialState: function () {
             return {
                 technologyStack: [],
-                accountManager: {},
                 projectName: null,
                 isProjectNameValid: false,
                 isRequesting: false
@@ -79,9 +79,22 @@
             this.props.actions.apiClearState();
         },
 
-        setManager: function (value) {
-            this.setState({accountManager: value});
+        loadEmployees: function (input) {
+            return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
+                var options = [];
+                for (var i = 0; i < response.body.data.length; i++) {
+                    var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    options.push({value: response.body.data[i].id, label: employeeName});
+                }
+                ;
+                return {options: options};
+            });
         },
+
+        handleAutoCompleteChange: function (value) {
+            this.props.actions.handleSelectOptionChange('projects','accountManager', value);
+        },
+
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
@@ -160,7 +173,13 @@
         },
 
         getFormData: function () {
-            var contracts = convertContractHash.toBackEndHash(this.props.contracts);
+            var contracts = convertContractHash.toBackEndHash(this.props.contracts)
+
+            if(this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
+                var accountManager = {id : this.props.selectedItem.projects.accountManager.id.value}
+            }else {
+                var accountManager = null;
+            }
 
             return {
                 'title': this.refs.title.value,
@@ -169,7 +188,7 @@
                 'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
                 'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
                 'tags': this.state.technologyStack,
-                'accountManager': this.state.accountManager,
+                'accountManager': accountManager,
                 'contracts': contracts
             };
         },
@@ -302,8 +321,14 @@
                                                     <span className="help-block"></span>
                                                 </div>
 
-                                                <AccountManager setManager={this.setManager}
-                                                                handleChange={this.handleChange}/>
+                                                <div className="col-md-6 col-lg-4 element">
+                                                    <label>Account Manager</label>
+                                                    <Select.Async name="employee"
+                                                                  value={this.props.selectedItem.projects.accountManager &&
+                                                        this.props.selectedItem.projects.accountManager.id}
+                                                                  loadOptions={this.loadEmployees}
+                                                                  onChange={this.handleAutoCompleteChange}/>
+                                                </div>
 
                                             </div>
                                         </div>

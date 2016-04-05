@@ -25,12 +25,6 @@
     var Select = require('react-select');
 
     var ContractMemberForm = React.createClass({
-        getInitialState: function () {
-            return {
-                employeeId: null
-            }
-        },
-
         componentDidMount: function () {
             var that = this;
 
@@ -55,14 +49,19 @@
                     var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
                     options.push({value: response.body.data[i].id, label: employeeName});
                 }
-                ;
                 return {options: options};
             });
         },
 
         saveContractMember: function () {
+            if(this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.id) {
+                var employee = {id : this.props.selectedContractMember.employee.id.value}
+            }else {
+                var employee = null;
+            }
+
             var data = {
-                employee: {id: this.props.selectedContractMember.employee.id.value},
+                employee: employee,
                 allocations: this.props.selectedContractMember.allocations
             };
 
@@ -116,7 +115,7 @@
                                     </div>
 
                                     <AllocationContainer allocations={this.props.selectedContractMember.allocations}
-                                                             actions={this.props.actions}
+                                                         actions={this.props.actions}
                                                          projectRoles={this.props.projectRoles}
                                                          memberIndex={this.props.memberIndex}/>
 
