@@ -60,6 +60,11 @@
                 newState.contracts[action.index][action.key] = {id: action.value};
                 return newState;
 
+            case actionTypeConstant.DELETE_CONTRACT:
+                var newState = _.cloneDeep(state);
+                newState.contracts.splice(action.index, 1);
+                return newState;
+
             case actionTypeConstant.INITIALIZE_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
                 var emptyContractMemberObject = {
@@ -88,6 +93,12 @@
                 newState.contracts[action.contractIndex].contractMembers[action.memberIndex] = action.data;
                 return newState;
 
+            case actionTypeConstant.DELETE_CONTRACT_MEMBER:
+                var newState = _.cloneDeep(state);
+                newState.contracts[action.contractIndex].contractMembers.splice(action.memberIndex, 1);
+
+                return newState;
+
             case actionTypeConstant.ADD_ALLOCATION:
                 var newState = _.cloneDeep(state);
                 var emptyAllocationObject = {
@@ -98,6 +109,11 @@
                     billed: false
                 }
                 newState.selectedContractMember.allocations.push(emptyAllocationObject);
+                return newState;
+
+            case actionTypeConstant.DELETE_ALLOCATION:
+                var newState = _.cloneDeep(state);
+                newState.selectedContractMember.allocations.splice(action.index, 1);
                 return newState;
 
             case actionTypeConstant.SELECT_CONTRACT_MEMBER:

@@ -18,6 +18,12 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
+    //util
+    var alertBox = require('../../../util/alertBox');
+
+    //constants
+    var messageConstant = require('../../../constants/messageConstant');
+
     var Contract = React.createClass({
         getInitialState: function () {
             return {
@@ -53,8 +59,13 @@
             this.props.actions.handleContractChange(this.props.index, key, value);
         },
 
-        deleteContract: function() {
+        deleteContract: function (event) {
+            event.preventDefault();
+            var that = this;
 
+            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+                that.props.actions.deleteContract(that.props.index);
+            });
         },
 
         handleContractSelectOptionChange: function (event) {
@@ -67,8 +78,8 @@
         render: function () {
             return (
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id={"heading" + this.props.index}>
-                        <h4 className="panel-title">
+                    <div className="panel-heading clearfix" role="tab" id={"heading" + this.props.index}>
+                        <h4 className="panel-title pull-left">
                             <a href={"#collapseContract" + this.props.index}
                                role="button"
                                ref={"collapseContract" + this.props.index}
@@ -80,7 +91,10 @@
                             </a>
 
                         </h4>
-
+                        {this.props.totalContracts > 1 &&
+                            <span href="#" onClick={this.deleteContract} className="pull-right"><i className="delete-btn fa fa-close"></i>
+                            </span>
+                        }
                     </div>
                     <div id={"collapseContract" + this.props.index}
                          className="panel-collapse collapse"
@@ -114,22 +128,24 @@
                                         <label className="control-label">Contract Date</label>
                                         <div data-date-format="mm/dd/yyyy"
                                              className="input-group input-daterange">
-                                            <DatePicker selected={this.props.contract.startDate && moment(this.props.contract.startDate)}
-                                                        onChange={this.handleChangeStartDate}
-                                                        className="form-control"
-                                                        placeholderText="From"
-                                                        popoverTargetOffset='40px 0px'
-                                                        disabled={this.props.apiState.isRequesting}
+                                            <DatePicker
+                                                selected={this.props.contract.startDate && moment(this.props.contract.startDate)}
+                                                onChange={this.handleChangeStartDate}
+                                                className="form-control"
+                                                placeholderText="From"
+                                                popoverTargetOffset='40px 0px'
+                                                disabled={this.props.apiState.isRequesting}
                                             />
                                                     <span className="input-group-addon"><i
                                                         className="fa fa-angle-right"></i></span>
-                                            <DatePicker selected={this.props.contract.endDate && moment(this.props.contract.endDate)}
-                                                        onChange={this.handleChangeEndDate}
-                                                        className="form-control"
-                                                        minDate={this.props.contract.startDate && moment(this.props.contract.startDate) }
-                                                        placeholderText="To"
-                                                        popoverTargetOffset='40px 0px'
-                                                        disabled={this.props.apiState.isRequesting}
+                                            <DatePicker
+                                                selected={this.props.contract.endDate && moment(this.props.contract.endDate)}
+                                                onChange={this.handleChangeEndDate}
+                                                className="form-control"
+                                                minDate={this.props.contract.startDate && moment(this.props.contract.startDate) }
+                                                placeholderText="To"
+                                                popoverTargetOffset='40px 0px'
+                                                disabled={this.props.apiState.isRequesting}
                                             />
                                         </div>
                                     </div>

@@ -37,9 +37,9 @@
                              budgetTypes={this.props.budgetTypes}
                              projectRoles={this.props.projectRoles}
                              contract={this.props.contracts[key]}
+                             totalContracts={this.props.contracts.length}
                              selectedItem={this.props.selectedItem}
                              apiState={this.props.apiState}
-                             memberIndexInModal={this.props.memberIndexInModal}
                              selectedContractMember={this.props.selectedContractMember}
             />
         },

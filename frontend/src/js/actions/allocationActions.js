@@ -55,6 +55,13 @@
             }
         },
 
+        deleteAllocation: function(index) {
+            return {
+                type: actionTypeConstant.DELETE_ALLOCATION,
+                index: index
+            }
+        },
+
         clearAllocations: function() {
             return {
                 type: actionTypeConstant.CLEAR_ALLOCATIONS

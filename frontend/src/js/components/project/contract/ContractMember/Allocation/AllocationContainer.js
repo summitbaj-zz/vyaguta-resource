@@ -20,6 +20,7 @@
                             allocation={this.props.allocations[key]}
                             actions={this.props.actions}
                             projectRoles={this.props.projectRoles}
+                            totalAllocations={this.props.allocations.length}
                             memberIndex={this.props.memberIndex}/>
             )
         },

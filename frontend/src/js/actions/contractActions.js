@@ -39,6 +39,13 @@
             }
         },
 
+        deleteContract: function(index) {
+            return {
+                type: actionTypeConstant.DELETE_CONTRACT,
+                index: index
+            }
+        },
+
         clearContracts: function() {
             return {
                 type: actionTypeConstant.CLEAR_CONTRACTS

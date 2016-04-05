@@ -18,6 +18,12 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
+    //util
+    var alertBox = require('../../../../../util/alertBox');
+
+    //constants
+    var messageConstant = require('../../../../../constants/messageConstant');
+
     var Allocation = React.createClass({
         componentDidMount: function () {
             var contractAccordion = this.refs["collapse" + this.props.index];
@@ -59,18 +65,32 @@
             )
         },
 
+        deleteAllocation: function (event) {
+            event.preventDefault();
+
+            var that = this;
+
+            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+                that.props.actions.deleteAllocation(that.props.index);
+            });
+        },
+
         render: function () {
             return (
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id={"heading" + this.props.index}>
-                        <h4 className="panel-title"><a role="button" data-toggle="collapse"
-                                                       ref={"collapse" + this.props.index}
-                                                       data-parent="#accordion"
-                                                       href={"#collapse" + this.props.index}
-                                                       aria-expanded="false"
-                                                       aria-controls={"collapse" + this.props.index}>
+                    <div className="panel-heading clearfix" role="tab" id={"heading" + this.props.index}>
+                        <h4 className="panel-title  pull-left"><a role="button" data-toggle="collapse"
+                                                                  ref={"collapse" + this.props.index}
+                                                                  data-parent="#accordion"
+                                                                  href={"#collapse" + this.props.index}
+                                                                  aria-expanded="false"
+                                                                  aria-controls={"collapse" + this.props.index}>
                             Allocation {parseInt(this.props.index) + 1}</a>
                         </h4>
+                        { this.props.totalAllocations > 1 &&
+                            <span href="#" onClick={this.deleteAllocation} className="pull-right"><i
+                            className="delete-btn fa fa-close"></i></span>
+                        }
                     </div>
                     <div id={"collapse" + this.props.index} className="panel-collapse collapse" role="tabpanel"
                          aria-labelledby={"heading"+ this.props.index}>

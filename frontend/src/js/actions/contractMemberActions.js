@@ -54,6 +54,14 @@
             }
         },
 
+        deleteContractMember: function(contractIndex, memberIndex) {
+            return {
+                type: actionTypeConstant.DELETE_CONTRACT_MEMBER,
+                contractIndex: contractIndex,
+                memberIndex: memberIndex
+            }
+        },
+
         clearContractMember: function() {
             return {
                 type:actionTypeConstant.CLEAR_CONTRACT_MEMBER
