@@ -20,6 +20,7 @@ import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ReasonHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractHistory;
@@ -27,12 +28,14 @@ import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
+import com.lftechnology.vyaguta.resource.entity.ReasonHistory;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Stateless
@@ -49,6 +52,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractHistoryDao contractHistoryDao;
+    
+    @Inject
+    private ReasonHistoryDao reasonHistoryDao;
 
     @Inject
     private ContractMemberHistoryDao contractMemberHistoryDao;
@@ -198,7 +204,12 @@ public class ProjectServiceImpl implements ProjectService {
         UUID uuid = UUID.randomUUID();
 
         ProjectHistory projectHistory = new ProjectHistory(project);
-        projectHistory.setBatch(uuid);
+        projectHistory.setBatch(uuid); 
+        
+        ReasonHistory reasonHistory = new ReasonHistory();
+        reasonHistory.setId(uuid);
+        reasonHistory.setReason(project.getReason());
+        reasonHistoryDao.save(reasonHistory);
 
         for (Contract contract : project.getContracts()) {
             ContractHistory contractHistory = new ContractHistory(contract);
