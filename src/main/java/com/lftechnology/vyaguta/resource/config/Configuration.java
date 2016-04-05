@@ -14,6 +14,9 @@ public class Configuration {
     private static Configuration instance;
     private String configFile = "config.properties";
     private Properties properties;
+    
+    private String authUrl;
+    private String vyagutaCoreUrl;
 
     private Configuration() {
         try {
@@ -36,9 +39,6 @@ public class Configuration {
         }
         return instance;
     }
-
-    private String authUrl;
-    private String vyagutaCoreUrl;
 
     public String getAuthUrl() {
         return authUrl;
