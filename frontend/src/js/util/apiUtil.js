@@ -95,11 +95,7 @@
                 .get(coreUrl + resourceName.toLowerCase() + '?q=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .then(function (error) {
-                    if (error.status == 401) {
-                        apiUtil.refreshSession();
-                    }
-                });
+
         },
 
         create: function (resourceName, data) {

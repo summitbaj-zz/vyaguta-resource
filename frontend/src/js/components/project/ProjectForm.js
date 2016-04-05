@@ -84,15 +84,19 @@
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
                     if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
-                        var employeeName = response.body.data[i].firstName + ' ' + ' ' + response.body.data[i].lastName;
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
                     } else {
-                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + response.body.data[i].lastName;
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
                     }
 
                     options.push({value: response.body.data[i].id, label: employeeName});
                 }
 
                 return {options: options};
+            }, function (error) {
+                if (error.status == 401) {
+                    apiUtil.refreshSession();
+                }
             });
         },
 
