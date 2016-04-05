@@ -46,9 +46,7 @@ public interface ProjectHistoryDao {
 
     public EntityManager getEm();
 
-    public default List<ProjectHistory> historyById(UUID id) {
-        Project project = new Project();
-        project.setId(id);
+    public default List<ProjectHistory> findHistory(Project project) {
         return getEm().createNamedQuery(ProjectHistory.FIND_BY_PROJECT, ProjectHistory.class).setParameter("project", project)
                 .getResultList();
     };

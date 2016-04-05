@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.rs;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -86,11 +87,16 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).build();
     }
 
-    @Path("/history/{id}")
+    @Path("{projectId}/history")
     @GET
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response history(@PathParam("id") UUID id) {
-        return Response.status(Response.Status.OK).entity(projectService.history(id)).build();
+    public List<Map<String, Object>> history(@PathParam("projectId") UUID projectId) {
+        Project project = projectService.findById(projectId);
+        if (project != null) {
+            return projectService.findHistory(project);
+        } else {
+            throw new ObjectNotFoundException();
+        }
     }
 }

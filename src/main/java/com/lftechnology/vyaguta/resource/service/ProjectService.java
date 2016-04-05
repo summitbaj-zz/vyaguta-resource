@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,5 +14,5 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  */
 public interface ProjectService extends CrudService<Project, UUID> {
 
-    public Map<String, Object> history(UUID id);
+    public List<Map<String, Object>> findHistory(Project project);
 }

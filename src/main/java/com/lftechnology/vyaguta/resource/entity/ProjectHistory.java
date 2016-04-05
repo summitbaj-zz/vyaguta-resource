@@ -47,9 +47,9 @@ public class ProjectHistory implements Serializable {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @Column(name = "batch_id")
-    @Type(type = "pg-uuid")
-    private UUID batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
@@ -77,7 +77,6 @@ public class ProjectHistory implements Serializable {
     }
 
     public ProjectHistory(Project project) {
-        // this.setBatch(UUID.randomUUID());
         this.setProject(project);
         this.setTitle(project.getTitle());
         this.setDescription(project.getDescription());
@@ -106,11 +105,11 @@ public class ProjectHistory implements Serializable {
         this.project = project;
     }
 
-    public UUID getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(UUID batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 

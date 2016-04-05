@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -29,17 +31,20 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
  */
 @Entity
 @Table(name = "contract_histories")
+@NamedQueries({ @NamedQuery(name = ContractHistory.FIND_BY_PROJECT, query = "SELECT ch FROM ContractHistory ch WHERE ch.project = :project") })
 public class ContractHistory implements Serializable {
 
     private static final long serialVersionUID = -4315662140074205279L;
+    private static final String PREFIX = "vyaguta.resource.entity.ContractHistory.";
+    public static final String FIND_BY_PROJECT = ContractHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
     private UUID id;
 
-    @Column(name = "batch_id")
-    @Type(type = "pg-uuid")
-    private UUID batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @ManyToOne
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
@@ -94,11 +99,11 @@ public class ContractHistory implements Serializable {
         this.id = id;
     }
 
-    public UUID getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(UUID batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
