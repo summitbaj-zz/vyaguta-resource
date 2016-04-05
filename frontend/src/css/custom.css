@@ -500,11 +500,11 @@ footer a, footer a:hover {
 	border-radius: 50%;
 }
 
-.user-list li.user-active .user-info .status:before{
+.user-list li .user-active .status:before{
 	background: #4CAF50;
 }
 
-.user-list li.user-inactive .user-info .status:before{
+.user-list li .user-inactive .status:before{
 	background: #eff0f1;
 }
 

@@ -48,14 +48,6 @@
             this.props.actions.apiClearState();
         },
 
-        deleteProject: function (key) {
-            var that = this;
-
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECTS, id);
-            });
-        },
-
         renderProject: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
 

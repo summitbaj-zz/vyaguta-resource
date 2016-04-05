@@ -1361,4 +1361,6 @@ ul.pagination li {
                            not supported by any browser */
 }
 
-
+.delete-btn {
+    cursor: pointer;
+}

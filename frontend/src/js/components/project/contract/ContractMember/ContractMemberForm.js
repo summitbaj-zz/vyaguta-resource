@@ -13,6 +13,12 @@
     var AllocationContainer = require('./Allocation/AllocationContainer');
     var SelectOption = require('../../SelectOption');
 
+    //util
+    var alertBox = require('../../../../util/alertBox');
+
+    //constants
+    var messageConstant = require('../../../../constants/messageConstant');
+
     var ContractMemberForm = React.createClass({
         componentDidMount: function () {
             var that = this;
@@ -57,7 +63,14 @@
             this.props.actions.handleContractMemberSelectOptionChange(key, value);
         },
 
+        deleteContractMember: function () {
+            var that = this;
 
+            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+                that.props.actions.deleteContractMember(that.props.contractIndex, that.props.memberIndex);
+                $('#addContractMember').modal('hide');
+            });
+        },
         render: function () {
             return (
                 <div className="modal fade" id="addContractMember" tabIndex="-1" role="dialog">
@@ -94,9 +107,6 @@
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-sm btn-ghost" id="close-btn"
-                                        data-dismiss="modal">Close
-                                </button>
                                 {!this.props.memberIndex &&
                                 <button type="button"
                                         className="btn btn-sm btn-success"
@@ -109,8 +119,16 @@
                                 <button type="button"
                                         className="btn btn-sm btn-success"
                                         onClick={this.saveContractMember}>
-                                    <i className="fa fa-plus"></i>
+                                    <i className="fa fa-edit"></i>
                                     Update
+                                </button>
+                                }
+                                {this.props.memberIndex &&
+                                <button type="button"
+                                        className="btn btn-sm btn-danger"
+                                        onClick={this.deleteContractMember}>
+                                    <i className="fa fa-close"></i>
+                                    Delete
                                 </button>
                                 }
                             </div>
