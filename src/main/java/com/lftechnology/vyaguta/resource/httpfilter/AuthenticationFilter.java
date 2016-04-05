@@ -19,6 +19,7 @@ import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.exception.AuthenticationException;
 import com.lftechnology.vyaguta.commons.pojo.Role;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.resource.config.Configuration;
 
 /**
  * 
@@ -28,6 +29,8 @@ import com.lftechnology.vyaguta.commons.pojo.User;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
+
+    private String validateUrl = Configuration.instance().getAuthUrl() + "userinfo/";
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -75,8 +78,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private User validateToken(String token) {
         Client client = ClientBuilder.newClient();
-        Response response = client.target("http://localhost:8080/vyaguta-auth/userinfo/").request()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
+        Response response = client.target(validateUrl).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
         if (response.getStatus() == 200) {
             return response.readEntity(User.class);
         } else if (response.getStatus() == 401) {
