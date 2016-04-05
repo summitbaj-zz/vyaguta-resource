@@ -17,7 +17,7 @@ import com.lftechnology.vyaguta.resource.entity.Contract;
  */
 public class ContractDaoImpl extends BaseDao<Contract, UUID> implements ContractDao {
 
-    public ContractDaoImpl(Class<Contract> entityClass) {
+    public ContractDaoImpl() {
         super(Contract.class);
     }
 
