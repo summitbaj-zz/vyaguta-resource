@@ -31,8 +31,8 @@ import com.lftechnology.vyaguta.commons.pojo.User;
  *
  */
 @Entity
-@Table(name = "reason_histories")
-public class ReasonHistory implements Serializable {
+@Table(name = "project_history_root")
+public class ProjectHistoryRoot implements Serializable {
 
     private static final long serialVersionUID = 1146094129268668576L;
 
@@ -101,7 +101,7 @@ public class ReasonHistory implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ReasonHistory other = (ReasonHistory) obj;
+        ProjectHistoryRoot other = (ProjectHistoryRoot) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

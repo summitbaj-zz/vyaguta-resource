@@ -20,7 +20,7 @@ import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
-import com.lftechnology.vyaguta.resource.dao.ReasonHistoryDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectHistoryRootDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractHistory;
@@ -28,7 +28,7 @@ import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
-import com.lftechnology.vyaguta.resource.entity.ReasonHistory;
+import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
     private ContractHistoryDao contractHistoryDao;
     
     @Inject
-    private ReasonHistoryDao reasonHistoryDao;
+    private ProjectHistoryRootDao projectHistoryRootDao;
 
     @Inject
     private ContractMemberHistoryDao contractMemberHistoryDao;
@@ -206,10 +206,10 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectHistory projectHistory = new ProjectHistory(project);
         projectHistory.setBatch(uuid); 
         
-        ReasonHistory reasonHistory = new ReasonHistory();
-        reasonHistory.setId(uuid);
-        reasonHistory.setReason(project.getReason());
-        reasonHistoryDao.save(reasonHistory);
+        ProjectHistoryRoot projectHistoryRoot = new ProjectHistoryRoot();
+        projectHistoryRoot.setId(uuid);
+        projectHistoryRoot.setReason(project.getReason());
+        projectHistoryRootDao.save(projectHistoryRoot);
 
         for (Contract contract : project.getContracts()) {
             ContractHistory contractHistory = new ContractHistory(contract);

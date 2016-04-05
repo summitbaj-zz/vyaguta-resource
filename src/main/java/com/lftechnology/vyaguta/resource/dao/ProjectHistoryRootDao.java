@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
-import com.lftechnology.vyaguta.resource.entity.ReasonHistory;
+import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 
 /**
  * 
@@ -19,27 +19,27 @@ import com.lftechnology.vyaguta.resource.entity.ReasonHistory;
  *
  */
 @FunctionalInterface
-public interface ReasonHistoryDao {
+public interface ProjectHistoryRootDao {
 
     public EntityManager getEm();
 
-    public default ReasonHistory save(ReasonHistory reasonHistory) {
+    public default ProjectHistoryRoot save(ProjectHistoryRoot projectHistoryRoot) {
         try {
-            getEm().persist(reasonHistory);
+            getEm().persist(projectHistoryRoot);
             getEm().flush();
-            getEm().refresh(reasonHistory);
+            getEm().refresh(projectHistoryRoot);
         } catch (PersistenceException persistenceException) {
             throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
         }
-        return reasonHistory;
+        return projectHistoryRoot;
     }
 
-    public default List<ReasonHistory> findAll() {
+    public default List<ProjectHistoryRoot> findAll() {
         CriteriaBuilder criteriaBuilder = getEm().getCriteriaBuilder();
-        CriteriaQuery<ReasonHistory> criteriaQuery = criteriaBuilder.createQuery(ReasonHistory.class);
-        Root<ReasonHistory> from = criteriaQuery.from(ReasonHistory.class);
-        CriteriaQuery<ReasonHistory> select = criteriaQuery.select(from);
-        TypedQuery<ReasonHistory> typedQuery = getEm().createQuery(select);
+        CriteriaQuery<ProjectHistoryRoot> criteriaQuery = criteriaBuilder.createQuery(ProjectHistoryRoot.class);
+        Root<ProjectHistoryRoot> from = criteriaQuery.from(ProjectHistoryRoot.class);
+        CriteriaQuery<ProjectHistoryRoot> select = criteriaQuery.select(from);
+        TypedQuery<ProjectHistoryRoot> typedQuery = getEm().createQuery(select);
         return typedQuery.getResultList();
     }
 }
