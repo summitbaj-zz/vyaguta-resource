@@ -196,7 +196,7 @@ CREATE TABLE reason_histories (
     id uuid NOT NULL,
     reason text,
     created_by uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL
 );
 ALTER TABLE reason_histories OWNER TO frieddust;
 ALTER TABLE ONLY reason_histories
