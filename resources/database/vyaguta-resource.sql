@@ -192,15 +192,15 @@ ALTER TABLE ONLY contract_members
 	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 	
 	
-CREATE TABLE reason_histories (
+CREATE TABLE project_history_root (
     id uuid NOT NULL,
     reason text,
     created_by uuid NOT NULL,
     created_at timestamp with time zone NOT NULL
 );
-ALTER TABLE reason_histories OWNER TO frieddust;
-ALTER TABLE ONLY reason_histories
-    ADD CONSTRAINT reason_histories_pkey PRIMARY KEY (id);
+ALTER TABLE project_history_root OWNER TO frieddust;
+ALTER TABLE ONLY project_history_root
+    ADD CONSTRAINT project_history_root_pkey PRIMARY KEY (id);
     
 	
 CREATE TABLE project_histories (
@@ -226,7 +226,7 @@ ALTER TABLE ONLY project_histories
 ALTER TABLE ONLY project_histories 
 	ADD CONSTRAINT clients_fk FOREIGN KEY(client_id) REFERENCES clients ON DELETE CASCADE;
 ALTER TABLE ONLY project_histories 
-	ADD CONSTRAINT reason_histories_fk FOREIGN KEY(batch_id) REFERENCES reason_histories ON DELETE CASCADE;
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
     
     
 CREATE TABLE contract_histories (
@@ -250,7 +250,7 @@ ALTER TABLE ONLY contract_histories
 ALTER TABLE ONLY contract_histories 
 	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
 ALTER TABLE ONLY contract_histories 
-	ADD CONSTRAINT reason_histories_fk FOREIGN KEY(batch_id) REFERENCES reason_histories ON DELETE CASCADE;
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
     
     
 CREATE TABLE contract_member_histories (
@@ -275,7 +275,7 @@ ALTER TABLE ONLY contract_member_histories
 ALTER TABLE ONLY contract_member_histories 
 	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 ALTER TABLE ONLY contract_member_histories 
-	ADD CONSTRAINT reason_histories_fk FOREIGN KEY(batch_id) REFERENCES reason_histories ON DELETE CASCADE;
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
