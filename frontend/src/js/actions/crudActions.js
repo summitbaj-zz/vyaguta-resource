@@ -217,6 +217,15 @@
             }
         },
 
+        handleSelectOptionChange: function (entity, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_SELECT_OPTION_CHANGE,
+                entity: entity,
+                key: key,
+                value: value
+            }
+        },
+
         fetchByQuery: function (entity, data, sortBy) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));

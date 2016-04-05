@@ -62,6 +62,11 @@
                 newState.selectedItem[action.entity][action.key] = action.value;
                 return newState;
 
+            case actionTypeConstant.HANDLE_SELECT_OPTION_CHANGE:
+                var newState = _.cloneDeep(state);
+                newState.selectedItem[action.entity][action.key] = {id: action.value};
+                return newState;
+
             case actionTypeConstant.CLEAR_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = {};

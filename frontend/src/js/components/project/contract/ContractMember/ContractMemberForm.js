@@ -15,9 +15,14 @@
 
     //util
     var alertBox = require('../../../../util/alertBox');
+    var apiUtil = require('../../../../util/apiUtil');
 
     //constants
     var messageConstant = require('../../../../constants/messageConstant');
+    var resourceConstant = require('../../../../constants/resourceConstant');
+
+    //libraries
+    var Select = require('react-select');
 
     var ContractMemberForm = React.createClass({
         componentDidMount: function () {
@@ -37,10 +42,31 @@
             )
         },
 
+        loadEmployees: function (input) {
+            return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
+                var options = [];
+                for (var i = 0; i < response.body.data.length; i++) {
+                    if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
+                    } else {
+                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
+                    }
+                    options.push({value: response.body.data[i].id, label: employeeName});
+                }
+                return {options: options};
+            });
+        },
 
         saveContractMember: function () {
+            if (this.props.selectedContractMember.employee &&
+                <this className="props selectedContractMember employee id"></this>) {
+                var employee = {id: this.props.selectedContractMember.employee.id.value}
+            } else {
+                var employee = null;
+            }
+
             var data = {
-                employee: {id: this.refs.employee.value},
+                employee: employee,
                 allocations: this.props.selectedContractMember.allocations
             };
 
@@ -57,13 +83,6 @@
             this.props.actions.clearContractMember();
         },
 
-        handleContractMemberSelectOptionChange: function (event) {
-            var key = event.target.name;
-            var value = event.target.value;
-
-            this.props.actions.handleContractMemberSelectOptionChange(key, value);
-        },
-
         deleteContractMember: function () {
             var that = this;
 
@@ -72,6 +91,11 @@
                 $('#addContractMember').modal('hide');
             });
         },
+
+        handleAutoCompleteChange: function (value) {
+            this.props.actions.handleContractMemberSelectOptionChange('employee', value);
+        },
+
         render: function () {
             return (
                 <div className="modal fade" id="addContractMember" tabIndex="-1" role="dialog">
@@ -87,16 +111,11 @@
                                     <div className="form-group">
                                         <label className="control-label col-md-4">Team Member</label>
                                         <div className="col-md-8">
-                                            <select ref="employee"
-                                                    id="employee"
-                                                    name="employee"
-                                                    className="form-control"
-                                                    value={this.props.selectedContractMember.employee
+                                            <Select.Async name="employee"
+                                                          value={this.props.selectedContractMember.employee
                                                            && this.props.selectedContractMember.employee.id}
-                                                    onChange={this.handleContractMemberSelectOptionChange}>
-                                                <option value="0">Please select</option>
-                                                {Object.keys(this.props.employees).map(this.renderEmployees)}
-                                            </select>
+                                                          loadOptions={this.loadEmployees}
+                                                          onChange={this.handleAutoCompleteChange}/>
                                         </div>
                                     </div>
 
