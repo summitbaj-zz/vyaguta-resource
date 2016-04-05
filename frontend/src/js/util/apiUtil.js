@@ -94,7 +94,8 @@
             return request
                 .get(coreUrl + resourceName.toLowerCase() + '?q=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json');
+                .set('Accept', 'application/json')
+
         },
 
         create: function (resourceName, data) {
