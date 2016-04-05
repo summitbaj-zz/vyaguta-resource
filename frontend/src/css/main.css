@@ -1361,4 +1361,22 @@ ul.pagination li {
                            not supported by any browser */
 }
 
+/*carousel*/
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
 
+.carousel-indicators li{
+    border: 1px solid grey;
+}
+
+.carousel-indicators .active {
+    background-color: grey;
+}
+
+.not-found-message{
+    padding-left: 15px;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+}

@@ -134,9 +134,6 @@
 
         function rebundle() {
             var stream = bundler
-                .transform(envify({
-                    NODE_ENV: env
-                }))
                 .bundle();
             return stream
                 .on('error', handleErrors)
@@ -144,7 +141,6 @@
                 .pipe(buffer())
                 .pipe(gulpif(isProduction, uglify()).on('error', gutil.log))
                 .pipe(gulp.dest(config.paths.distJs))
-                .pipe(reload({stream: true}))
         }
 
         // listen for an update and run rebundle
