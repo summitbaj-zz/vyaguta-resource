@@ -52,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractHistoryDao contractHistoryDao;
-    
+
     @Inject
     private ProjectHistoryRootDao projectHistoryRootDao;
 
@@ -146,11 +146,9 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
-        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
-                .collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
         for (final Tag tempTag : uniqueTagList) {
             Tag result = findTagByTitle(tempTag.getTitle());
@@ -187,16 +185,6 @@ public class ProjectServiceImpl implements ProjectService {
         if (!Strings.isNullOrEmpty(project.getReason())) {
             return true;
         }
-        for (Contract contract : project.getContracts()) {
-            if (!Strings.isNullOrEmpty(contract.getReason())) {
-                return true;
-            }
-            for (ContractMember cm : contract.getContractMembers()) {
-                if (!Strings.isNullOrEmpty(cm.getReason())) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
@@ -204,8 +192,8 @@ public class ProjectServiceImpl implements ProjectService {
         UUID uuid = UUID.randomUUID();
 
         ProjectHistory projectHistory = new ProjectHistory(project);
-        projectHistory.setBatch(uuid); 
-        
+        projectHistory.setBatch(uuid);
+
         ProjectHistoryRoot projectHistoryRoot = new ProjectHistoryRoot();
         projectHistoryRoot.setId(uuid);
         projectHistoryRoot.setReason(project.getReason());
