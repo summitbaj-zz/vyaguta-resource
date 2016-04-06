@@ -63,6 +63,18 @@ body, html, #page-container, #vyaguta-body, #sidebar, .sidebar-scroll, .sidebar-
 	margin: 10px 0;
 	font-weight: 300;
 }
+
+.widget-custom {
+	background: #fafafa;
+	border: 1px solid #f6f6f6  ;
+}
+.widget-custom .cards h3{
+	font-size: 15px;
+	font-weight: 400;
+}
+.widget-custom .cards .cards-text {
+	font-size: 12px;
+}
 .cards span {
 	display: block;
 	text-align: center;
@@ -73,7 +85,7 @@ body, html, #page-container, #vyaguta-body, #sidebar, .sidebar-scroll, .sidebar-
 	font-weight: 500;
 }
 .cards-text, .cards-text span {
-	font-size: 18px;
+	font-size: 12px;
 	font-weight: 300;
 	margin: 3px 0;
 }

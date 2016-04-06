@@ -13,25 +13,25 @@
                 freeResources: [
                     {
                         id: 1,
-                        name: 'Anjali Shakya',
+                        name: 'Kailash Raj Bijayanada',
                         allocation: '50%',
                         post: 'S. UI/UX Designer'
                     },
                     {
                         id: 2,
-                        name: 'An Shakya',
+                        name: 'Mohammed Naved Ansari',
                         allocation: '50%',
                         post: 'S. UI/UX Designer'
                     },
                     {
                         id: 3,
-                        name: 'Anjali Shakya',
+                        name: 'Pritush Bahadur Shrestha',
                         allocation: '50%',
                         post: 'S. UI/UX Designer'
                     },
                     {
                         id: 4,
-                        name: 'An Shakya',
+                        name: 'Anish Krishna Manandhar',
                         allocation: '50%',
                         post: 'S. UI/UX Designer'
                     },
