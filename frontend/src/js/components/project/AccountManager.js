@@ -12,7 +12,6 @@
     var apiUtil = require('../../util/apiUtil');
     var AutoComplete = require('../common/autocomplete/Autocomplete');
 
-
     var AccountManager = React.createClass({
         getInitialState: function () {
             return {

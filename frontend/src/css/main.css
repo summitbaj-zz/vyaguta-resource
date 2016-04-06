@@ -1361,6 +1361,7 @@ ul.pagination li {
                            not supported by any browser */
 }
 
+/*accordion delete button*/
 .delete-btn {
     cursor: pointer;
 }
@@ -1368,3 +1369,9 @@ ul.pagination li {
 .col-250 {
     width: 250px;
 }
+
+/*autocomplete*/
+.Select-menu-outer {
+    z-index: 3;
+}
+
