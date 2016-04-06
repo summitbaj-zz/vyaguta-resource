@@ -1,4 +1,4 @@
-git ;(function () {
+;(function () {
     'use strict';
 
     //React and Redux dependencies
