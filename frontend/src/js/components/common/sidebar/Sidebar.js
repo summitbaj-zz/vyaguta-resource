@@ -24,23 +24,23 @@
                                     className="fa fa-dashboard fa-fw"></i><span className="xn-text">Dashboard</span>
                                 </IndexLink></li>
                                 <li><Link to={urlConstant.BUDGET_TYPES.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Budget Types</span>
+                                    className="fa fa-wrench fa-fw"></i><span className="xn-text">Budget Types</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_STATUS.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span
+                                    className="fa fa-wrench fa-fw"></i><span
                                     className="xn-text">Project Status</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_TYPES.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Types</span>
-                                </Link></li>
-                                <li><Link to={urlConstant.PROJECTS.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Projects</span>
+                                    className="fa fa-wrench fa-fw"></i><span className="xn-text">Project Types</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.PROJECT_ROLES.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Project Roles</span>
+                                    className="fa fa-wrench fa-fw"></i><span className="xn-text">Project Roles</span>
+                                </Link></li>
+                                <li><Link to={urlConstant.PROJECTS.INDEX} activeClassName="active"><i
+                                    className="fa fa-bar-chart fa-fw"></i><span className="xn-text">Projects</span>
                                 </Link></li>
                                 <li><Link to={urlConstant.CLIENTS.INDEX} activeClassName="active"><i
-                                    className="fa fa-dashboard fa-fw"></i><span className="xn-text">Clients</span>
+                                    className="fa fa-users fa-fw"></i><span className="xn-text">Clients</span>
                                 </Link></li>
                             </ul>
                         </div>

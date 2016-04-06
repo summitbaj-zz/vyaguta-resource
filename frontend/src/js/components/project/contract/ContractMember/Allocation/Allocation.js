@@ -79,22 +79,23 @@
             return (
                 <div className="panel panel-default">
                     <div className="panel-heading clearfix" role="tab" id={"heading" + this.props.index}>
-                        <h4 className="panel-title  pull-left"><a role="button" data-toggle="collapse"
+                        <h4 className="panel-title"><a role="button" data-toggle="collapse"
                                                                   ref={"collapse" + this.props.index}
                                                                   data-parent="#accordion"
                                                                   href={"#collapse" + this.props.index}
                                                                   aria-expanded="false"
                                                                   aria-controls={"collapse" + this.props.index}>
                             Allocation {parseInt(this.props.index) + 1}</a>
-                        </h4>
-                        { this.props.totalAllocations > 1 &&
+                            { this.props.totalAllocations > 1 &&
                             <span href="#" onClick={this.deleteAllocation} className="pull-right"><i
-                            className="delete-btn fa fa-close"></i></span>
-                        }
+                                className="delete-btn fa fa-close"></i></span>
+                            }
+                        </h4>
+
                     </div>
                     <div id={"collapse" + this.props.index} className="panel-collapse collapse" role="tabpanel"
                          aria-labelledby={"heading"+ this.props.index}>
-                        <div className="panel-body">
+                        <div className="panel-body no-padding">
                             <div className="form-group">
                                 <label className="control-label col-md-4">Role</label>
                                 <div className="col-md-8">
@@ -137,7 +138,11 @@
                                 <label className="control-label col-md-4">Allocation</label>
                                 <div className="col-md-8">
                                     <div className="input-group">
-                                        <input ref="allocation" name="allocation" type="text"
+                                        <input ref="allocation"
+                                               name="allocation"
+                                               type="number"
+                                               max="100"
+                                               min="0"
                                                placeholder="0"
                                                className="form-control"
                                                onChange={this.handleAllocationInputChange}

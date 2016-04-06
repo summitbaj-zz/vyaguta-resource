@@ -54,9 +54,7 @@
                 email: this.refs.email.value
             };
 
-            formValidator.validateForm(requiredFields);
-
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(requiredFields)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.CLIENTS, client, this.props.params.id);
                 } else {
@@ -116,12 +114,12 @@
                                         <div className="col-md-6 col-lg-4 element">
                                             <label className="control-label">Phone Number</label>
                                             <div>
-                                                <input type="text" ref="phone" name="phone"
-                                                       value={this.props.selectedItem.clients.phone}
+                                                <input type="text" ref="phone" name="phoneNo"
+                                                       value={this.props.selectedItem.clients.phoneNo}
                                                        onChange={this.fieldChange}
                                                        placeholder="Phone Number"
                                                        className="form-control"
-                                                       id="phone"
+                                                       id="phoneNo"
                                                 />
                                             </div>
                                             <span className="help-block" ref="availableMessage"></span>

@@ -1368,3 +1368,8 @@ ul.pagination li {
 .col-250 {
     width: 250px;
 }
+
+.Select-menu-outer {
+    z-index: 3;
+}
+
