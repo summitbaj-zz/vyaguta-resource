@@ -79,7 +79,7 @@
             return (
                 <div className="panel panel-default">
                     <div className="panel-heading clearfix" role="tab" id={"heading" + this.props.index}>
-                        <h4 className="panel-title pull-left">
+                        <h4 className="panel-title">
                             <a href={"#collapseContract" + this.props.index}
                                role="button"
                                ref={"collapseContract" + this.props.index}
@@ -89,18 +89,18 @@
                                aria-controls={"collapseContract" + this.props.index}>
                                 Contract {parseInt(this.props.index) + 1}
                             </a>
-
-                        </h4>
-                        {this.props.totalContracts > 1 &&
+                            {this.props.totalContracts > 1 &&
                             <span href="#" onClick={this.deleteContract} className="pull-right"><i className="delete-btn fa fa-close"></i>
                             </span>
-                        }
+                            }
+                        </h4>
+
                     </div>
                     <div id={"collapseContract" + this.props.index}
                          className="panel-collapse collapse"
                          role="tabpanel"
                          aria-labelledby={"heading" + this.props.index}>
-                        <div className="panel-body">
+                        <div className="panel-body no-padding">
                             <div className="form-group clearfix">
                                 <div className="row multiple-element">
 

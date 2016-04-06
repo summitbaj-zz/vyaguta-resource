@@ -30,7 +30,6 @@
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
     var ReasonModal = require('./ReasonModal');
-    var AccountManager = require('./AccountManager');
     var formValidator = require('../../util/formValidator');
 
     //util
@@ -168,9 +167,7 @@
                 'title': this.refs.title.value
             };
 
-            formValidator.validateForm(requiredField);
-
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(requiredField)) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
@@ -184,7 +181,9 @@
         getFormData: function () {
             var contracts = convertContractHash.toBackEndHash(this.props.contracts);
 
-            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
+            if (this.props.params.id && this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
+                var accountManager = {id: this.props.selectedItem.projects.accountManager.id}
+            } else if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
                 var accountManager = {id: this.props.selectedItem.projects.accountManager.id.value}
             } else {
                 var accountManager = null;
@@ -205,11 +204,11 @@
         updateProject: function (reason) {
             var project = this.getFormData();
             project['reason'] = reason;
-            var requiredField = {
+            var requiredFieldForUpdate = {
                 'reason': reason
             };
-            formValidator.validateForm(requiredField);
-            if (formValidator.isValid()) {
+
+            if (formValidator.isValid(requiredFieldForUpdate)) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
             } else {
@@ -302,7 +301,8 @@
                                                             id="projectType"
                                                             value={this.props.selectedItem.projects.projectType &&
                                                                this.props.selectedItem.projects.projectType.id}
-                                                            onChange={this.handleChange}>
+                                                            onChange={this.handleChange}
+                                                    >
                                                         <option value="0">Please Select</option>
 
                                                         {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
@@ -336,7 +336,8 @@
                                                                   value={this.props.selectedItem.projects.accountManager &&
                                                         this.props.selectedItem.projects.accountManager.id}
                                                                   loadOptions={this.loadEmployees}
-                                                                  onChange={this.handleAutoCompleteChange}/>
+                                                                  onChange={this.handleAutoCompleteChange}
+                                                                  disabled={this.props.apiState.isRequesting}/>
                                                 </div>
 
                                             </div>

@@ -390,7 +390,7 @@ footer a, footer a:hover {
 	color: #394263;
 }
 .custom-accordion .panel-title a{
-	display: block;
+	display: inline-block;
 }
 
 /**---User-list-widget---**/
@@ -527,6 +527,9 @@ footer a, footer a:hover {
 	.block-title-border .block-options {
 		margin: 0;
 	}
+	.custom-accordion .panel-title a{
+		width: 94%;
+	}
 }
 @media only screen and (min-width : 480px) {
 	.block-title-border .block-options {
@@ -538,7 +541,11 @@ footer a, footer a:hover {
 }
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
+	.custom-accordion .panel-title a{
+		width: 97%;
+	}
 }
+
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
 }
@@ -557,4 +564,8 @@ footer a, footer a:hover {
 
 .icon-space{
 	margin: 0 5px 0 0;
+}
+
+.no-padding{
+	padding: 0 !important;
 }

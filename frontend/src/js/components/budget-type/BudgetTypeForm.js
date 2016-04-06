@@ -53,9 +53,7 @@
                 title: this.refs.budgetType.value
             }
 
-            formValidator.validateForm(budgetType);
-
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(budgetType)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
                 } else {

@@ -35,8 +35,9 @@
             var todaysDate = Date.now();
             var allocations = this.props.contractMember.allocations;
             var endDate = Date.parse(allocations[allocations.length - 1].endDate);
+            var joinDate = Date.parse(allocations[allocations.length - 1].joinDate);
 
-            if (todaysDate > endDate) {
+            if (todaysDate > joinDate && todaysDate < endDate) {
                 return true;
             }
 
