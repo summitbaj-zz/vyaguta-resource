@@ -1,7 +1,6 @@
 package com.lftechnology.vyaguta.resource.dao;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -12,7 +11,6 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
-import com.lftechnology.vyaguta.resource.entity.ContractHistory;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 

@@ -1,7 +1,6 @@
 package com.lftechnology.vyaguta.resource.dao;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
