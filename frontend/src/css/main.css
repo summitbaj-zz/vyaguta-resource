@@ -1,12 +1,7 @@
-/* Include Roboto font from Google Web Fonts */
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900');
-@import url('forms.css');
-
 body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #394263;
     font-size: 13px;
-    background-color: #222222;
 }
 
 #page-container, #main-container, #page-content + footer {
@@ -1160,7 +1155,6 @@ li.dropdown-header {
     float: left;
     width: 70px;
     text-align: right;
-    position: relative;
 }
 
 .timeline-list .timeline-content {
@@ -1169,11 +1163,6 @@ li.dropdown-header {
 
 .block-content-full .timeline-content {
     padding-right: 20px;
-}
-
-.timeline-reason {
-    position: fixed;
-    display: block;
 }
 
 .media-feed {
@@ -1507,6 +1496,7 @@ ul.pagination li {
 
 .tooltip.top .tooltip-arrow {
     border-top-color: #FDFCD1;
+}
 
 .delete-btn {
     cursor: pointer;
@@ -1518,6 +1508,4 @@ ul.pagination li {
 
 .Select-menu-outer {
     z-index: 3;
-}
-
 }
