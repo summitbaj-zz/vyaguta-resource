@@ -40,6 +40,26 @@ public class ProjectFilter extends CommonFilter<Project>implements Filterable<Pr
                 return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
             }
         });
+        
+        filterMap.put("contract.startDate", new EntityFilter<Project>() {
+
+            @Override
+            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
+                Join join = cm.getRoot().join("contracts");
+                Path path = join.get("startDate");
+                return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            }
+        });
+        
+        filterMap.put("contract.actualEndDate", new EntityFilter<Project>() {
+
+            @Override
+            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
+                Join join = cm.getRoot().join("contracts");
+                Path path = join.get("actualEndDate");
+                return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            }
+        });
     }
 
 }
