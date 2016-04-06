@@ -36,7 +36,7 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
-    private static final String PREFIX = "vyaguta.resource.entity.";
+    private static final String PREFIX = "vyaguta.resource.entity.ProjectHistory.";
     public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
     @Id
