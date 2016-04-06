@@ -43,9 +43,8 @@
             var projectRole = {
                 title: this.refs.title.value
             }
-            formValidator.validateForm(projectRole);
 
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(projectRole)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
                 } else {

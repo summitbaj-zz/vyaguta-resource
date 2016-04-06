@@ -18,12 +18,12 @@
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <div className="modal-title">Reason *</div>
+                                <div className="modal-title">Please enter appropriate reason for editing this project *</div>
                             </div>
                             <div className="modal-body">
                                 <div className="form-group">
                                         <textarea name="reason" ref="reason" id="reason"
-                                                  placeholder="Please enter the reason for editing this project."
+                                                  placeholder=""
                                                   className="form-control" rows="4" onBlur={formValidator.validateField}
                                                   onFocus={formValidator.removeError.bind(null, 'reason')}></textarea>
                                     <span className="help-block" ref="availableMessage"></span>

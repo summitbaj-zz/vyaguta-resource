@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -19,7 +21,6 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
@@ -33,17 +34,21 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_member_histories")
+@NamedQueries({ @NamedQuery(name = ContractMemberHistory.FIND_BY_PROJECT,
+        query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contract.project = :project") })
 public class ContractMemberHistory implements Serializable {
 
     private static final long serialVersionUID = 8270620804537730752L;
+    private static final String PREFIX = "vyaguta.resource.entity.ContractMemberHistory.";
+    public static final String FIND_BY_PROJECT = ContractMemberHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
     private UUID id;
 
-    @Column(name = "batch_id")
-    @Type(type = "pg-uuid")
-    private UUID batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @ManyToOne
     @JoinColumn(name = "contract_member_id", referencedColumnName = "id")
@@ -60,9 +65,9 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private ProjectRole projectRole;
 
-    private float allocation;
+    private Float allocation;
 
-    private boolean billed;
+    private Boolean billed;
 
     @Column(name = "join_date")
     @Convert(converter = LocalDateAttributeConverter.class)
@@ -99,11 +104,11 @@ public class ContractMemberHistory implements Serializable {
         this.id = id;
     }
 
-    public UUID getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(UUID batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
@@ -139,19 +144,19 @@ public class ContractMemberHistory implements Serializable {
         this.projectRole = projectRole;
     }
 
-    public float getAllocation() {
+    public Float getAllocation() {
         return allocation;
     }
 
-    public void setAllocation(float allocation) {
+    public void setAllocation(Float allocation) {
         this.allocation = allocation;
     }
 
-    public boolean isBilled() {
+    public Boolean isBilled() {
         return billed;
     }
 
-    public void setBilled(boolean billed) {
+    public void setBilled(Boolean billed) {
         this.billed = billed;
     }
 

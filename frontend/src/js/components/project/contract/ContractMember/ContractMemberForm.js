@@ -16,6 +16,7 @@
     //util
     var alertBox = require('../../../../util/alertBox');
     var apiUtil = require('../../../../util/apiUtil');
+    var formValidator = require('../../../../util/formValidator');
 
     //constants
     var messageConstant = require('../../../../constants/messageConstant');
@@ -23,6 +24,7 @@
 
     //libraries
     var Select = require('react-select');
+    var Toastr = require('toastr');
 
     var ContractMemberForm = React.createClass({
         componentDidMount: function () {
@@ -62,8 +64,11 @@
         },
 
         saveContractMember: function () {
-            if (this.props.selectedContractMember.employee &&
-                <this className="props selectedContractMember employee id"></this>) {
+            if (this.props.memberIndex && this.props.selectedContractMember.employee &&
+                this.props.selectedContractMember.employee.id) {
+                var employee = {id: this.props.selectedContractMember.employee.id}
+            } else if (this.props.selectedContractMember.employee &&
+                this.props.selectedContractMember.employee.id) {
                 var employee = {id: this.props.selectedContractMember.employee.id.value}
             } else {
                 var employee = null;
@@ -74,12 +79,18 @@
                 allocations: this.props.selectedContractMember.allocations
             };
 
-            if (this.props.memberIndex) {
-                this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
-            } else {
-                this.props.actions.addContractMember(this.props.contractIndex, data);
+
+            if(employee != null) {
+                if (this.props.memberIndex) {
+                    this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
+                } else {
+                    this.props.actions.addContractMember(this.props.contractIndex, data);
+                }
+                $('#addContractMember').modal('hide');
+            }else {
+                Toastr.error("Please select Team Member", messageConstant.TOASTR_INVALID_HEADER);
             }
-            $('#addContractMember').modal('hide');
+
         },
 
         componentWillUnmount: function () {
