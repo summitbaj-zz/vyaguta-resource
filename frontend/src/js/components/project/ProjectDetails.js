@@ -19,6 +19,7 @@
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
+
     var SwimLaneChart = require('../../util/charts/SwimLaneChart');
     var TeamMemberView = require('./member/TeamMemberView');
     var Contract = require('./contract/Contract');

@@ -15,9 +15,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
+import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.exception.AuthenticationException;
 import com.lftechnology.vyaguta.commons.pojo.Role;
 import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.resource.config.Configuration;
 
 /**
  * 
@@ -28,14 +30,20 @@ import com.lftechnology.vyaguta.commons.pojo.User;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
+    private String validateUrl = Configuration.instance().getAuthUrl() + "userinfo/";
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+
+        SecurityRequestContext.setCurrentUser(null);
 
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
             final String token = authorizationHeader.substring("Bearer".length()).trim();
             final User user = validateToken(token);
+
+            SecurityRequestContext.setCurrentUser(user);
 
             requestContext.setSecurityContext(new SecurityContext() {
 
@@ -65,15 +73,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                     return null;
                 }
             });
-        } else {
-            throw new AuthenticationException();
         }
     }
 
     private User validateToken(String token) {
         Client client = ClientBuilder.newClient();
-        Response response = client.target("http://localhost:8080/vyaguta-auth/userinfo/").request()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
+        Response response = client.target(validateUrl).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
         if (response.getStatus() == 200) {
             return response.readEntity(User.class);
         } else if (response.getStatus() == 401) {

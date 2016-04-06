@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -33,7 +34,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
     }
 
     @Override
-    public ProjectType merge(String id, ProjectType obj) {
+    public ProjectType merge(UUID id, ProjectType obj) {
         ProjectType projectType = this.findById(id);
         if (projectType == null) {
             throw new ObjectNotFoundException();
@@ -48,7 +49,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(UUID id) {
         ProjectType projectType = this.findById(id);
         if (projectType == null) {
             throw new ObjectNotFoundException();
@@ -57,7 +58,7 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
     }
 
     @Override
-    public ProjectType findById(String id) {
+    public ProjectType findById(UUID id) {
         return projectTypeDao.findById(id);
     }
 

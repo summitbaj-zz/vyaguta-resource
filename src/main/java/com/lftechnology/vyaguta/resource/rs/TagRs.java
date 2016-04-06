@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -68,7 +69,7 @@ public class TagRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Update exisitng tag")
-    public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") String id,
+    public Response update(@ApiParam(value = "id that needs to be updated", required = true) @PathParam("id") UUID id,
             @ApiParam(value = "Tag object to update", required = true) @NotNull(message = "Request body expected") @Valid Tag tagNew) {
         Tag tag = tagService.merge(id, tagNew);
         return Response.status(Response.Status.OK).entity(tag).build();
@@ -79,7 +80,7 @@ public class TagRs {
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get a tag")
-    public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") String id) {
+    public Response findById(@ApiParam(value = "Specific tag id", required = true) @PathParam("id") UUID id) {
         Tag tag = tagService.findById(id);
         if (tag != null) {
             return Response.status(Response.Status.OK).entity(tag).build();
@@ -94,7 +95,7 @@ public class TagRs {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Delete a tag")
     public Response remove(
-            @ApiParam(value = "Tag id that needs to be deleted", required = true) @PathParam("id") String id) {
+            @ApiParam(value = "Tag id that needs to be deleted", required = true) @PathParam("id") UUID id) {
         tagService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }

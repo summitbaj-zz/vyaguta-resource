@@ -2,14 +2,23 @@ package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.management.loading.PrivateClassLoader;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
@@ -29,12 +38,17 @@ public class Contract extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 647756185379538980L;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JsonBackReference
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
     private BudgetType budgetType;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "contract", orphanRemoval = true)
+    @JsonManagedReference
+    List<ContractMember> contractMembers = new ArrayList<>();
 
     @Column(name = "start_date")
     @Convert(converter = LocalDateAttributeConverter.class)
@@ -53,6 +67,8 @@ public class Contract extends BaseEntity implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate actualEndDate;
+
+    private String resource;
 
     public Project getProject() {
         return project;
@@ -92,6 +108,68 @@ public class Contract extends BaseEntity implements Serializable {
 
     public void setActualEndDate(LocalDate actualEndDate) {
         this.actualEndDate = actualEndDate;
+    }
+
+    public List<ContractMember> getContractMembers() {
+        return contractMembers;
+    }
+
+    public void setContractMembers(List<ContractMember> contractMembers) {
+        this.contractMembers = contractMembers;
+    }
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + ((project == null) ? 0 : project.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof Contract)) {
+            return false;
+        }
+        Contract other = (Contract) obj;
+        if (endDate == null) {
+            if (other.endDate != null) {
+                return false;
+            }
+        } else if (!endDate.equals(other.endDate)) {
+            return false;
+        }
+        if (project == null) {
+            if (other.project != null) {
+                return false;
+            }
+        } else if (!project.equals(other.project)) {
+            return false;
+        }
+        if (startDate == null) {
+            if (other.startDate != null) {
+                return false;
+            }
+        } else if (!startDate.equals(other.startDate)) {
+            return false;
+        }
+        return true;
     }
 
 }

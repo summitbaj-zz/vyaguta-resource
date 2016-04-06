@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 
@@ -18,7 +19,7 @@ import com.lftechnology.vyaguta.resource.sort.ProjectTypeSort;
  *
  */
 @Stateless
-public class ProjectTypeDaoImpl extends BaseDao<ProjectType, String>implements ProjectTypeDao {
+public class ProjectTypeDaoImpl extends BaseDao<ProjectType, UUID> implements ProjectTypeDao {
 
     private ProjectTypeSort projectTypeSort = new ProjectTypeSort();
     private ProjectTypeFilter projectTypeFilter = new ProjectTypeFilter();

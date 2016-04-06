@@ -1,107 +1,99 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserConverter;
-import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
-import com.lftechnology.vyaguta.commons.pojo.User;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
+import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
+
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
 @Entity
 @Table(name = "project_histories")
+@NamedQueries({ @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project") })
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
+    private static final String PREFIX = "vyaguta.resource.entity.ProjectHistory.";
+    public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
     @Id
-    private String id;
+    @Type(type = "pg-uuid")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @Column(name = "batch_no")
-    private String batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     private String description;
+
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id")))
+    private Employee accountManager;
 
     @ManyToOne
     @JoinColumn(name = "project_type_id", referencedColumnName = "id")
     private ProjectType projectType;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
-    private BudgetType budgetType;
-
-    @ManyToOne
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @Column(name = "start_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate startDate;
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
-    @Column(name = "end_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate endDate;
+    public ProjectHistory() {
+        super();
+    }
 
-    @Column(name = "account_manager")
-    @Convert(converter = EmployeeConverter.class)
-    private Employee accountManager;
+    public ProjectHistory(Project project) {
+        this.setProject(project);
+        this.setTitle(project.getTitle());
+        this.setDescription(project.getDescription());
+        this.setAccountManager(project.getAccountManager());
+        this.setClient(project.getClient());
+        this.setProjectStatus(project.getProjectStatus());
+        this.setProjectType(project.getProjectType());
+    }
 
-    private String reason;
+    @Transient
+    private boolean isChanged;
 
-    @Column(name = "created_by")
-    @Convert(converter = UserConverter.class)
-    @JsonDeserialize(using = UserDeserializer.class)
-    @JsonSerialize(using = UserSerializer.class)
-    private User createdBy;
-
-    @Column(name = "created_at")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime createdAt;
-
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -113,11 +105,11 @@ public class ProjectHistory implements Serializable {
         this.project = project;
     }
 
-    public String getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
@@ -137,20 +129,20 @@ public class ProjectHistory implements Serializable {
         this.description = description;
     }
 
+    public Employee getAccountManager() {
+        return accountManager;
+    }
+
+    public void setAccountManager(Employee accountManager) {
+        this.accountManager = accountManager;
+    }
+
     public ProjectType getProjectType() {
         return projectType;
     }
 
     public void setProjectType(ProjectType projectType) {
         this.projectType = projectType;
-    }
-
-    public BudgetType getBudgetType() {
-        return budgetType;
-    }
-
-    public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
     }
 
     public ProjectStatus getProjectStatus() {
@@ -161,52 +153,42 @@ public class ProjectHistory implements Serializable {
         this.projectStatus = projectStatus;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public Client getClient() {
+        return client;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProjectHistory other = (ProjectHistory) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 
-    public Employee getAccountManager() {
-        return accountManager;
-    }
-
-    public void setAccountManager(Employee accountManager) {
-        this.accountManager = accountManager;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    @PrePersist
+    public void prePersist() {
+        this.setId(GuidUtil.generate());
     }
 
 }

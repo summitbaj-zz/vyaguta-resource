@@ -12,7 +12,6 @@
 
     //constants
     var actionTypeConstant = require('../constants/actionTypeConstant');
-    var resourceConstant = require('../constants/resourceConstant');
 
     //libraries
     var _ = require('lodash');
@@ -23,7 +22,6 @@
 
     //actions
     var apiActions = require('./apiActions');
-    var teamMemberActions = require('./teamMemberActions');
 
     //constants
     var messageConstant = require('../constants/messageConstant');
@@ -75,6 +73,28 @@
      */
 
     var crudActions = {
+        fetchAllFromCore: function (entity) {
+            return function (dispatch) {
+                dispatch(apiActions.apiRequest(entity));
+
+                return (apiUtil.fetchAllFromCore(entity).then(function (response) {
+                    dispatch(apiActions.apiResponse(entity));
+                    dispatch(actions.list(entity, response.body));
+                }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        apiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.fetchAllFromCore(entity));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
+                }));
+            }
+        },
+
         fetchAll: function (entity) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
@@ -197,11 +217,19 @@
             }
         },
 
+        handleSelectOptionChange: function (entity, key, value) {
+            return {
+                type: actionTypeConstant.HANDLE_SELECT_OPTION_CHANGE,
+                entity: entity,
+                key: key,
+                value: value
+            }
+        },
+
         fetchByQuery: function (entity, data, sortBy) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
-
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));

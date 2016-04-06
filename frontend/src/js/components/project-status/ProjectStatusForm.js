@@ -71,9 +71,7 @@
                 title: this.refs.title.value
             }
 
-            formValidator.validateForm(requiredField);
-
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(requiredField)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {

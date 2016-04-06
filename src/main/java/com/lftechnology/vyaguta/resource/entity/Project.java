@@ -1,13 +1,13 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -18,17 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
-import com.lftechnology.vyaguta.resource.jpautil.EmployeeConverter;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -43,6 +41,7 @@ public class Project extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 6415143172601079320L;
 
     @NotBlank(message = "Title cannot be blank.")
+    @Size(max = 255)
     private String title;
 
     private String description;
@@ -56,36 +55,24 @@ public class Project extends BaseEntity implements Serializable {
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "budget_type_id", referencedColumnName = "id")
-    private BudgetType budgetType;
-
-    @ManyToOne
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @Column(name = "start_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate startDate;
-
-    @Column(name = "end_date")
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate endDate;
-
-    @Column(name = "account_manager")
-    @Convert(converter = EmployeeConverter.class)
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id")))
     private Employee accountManager;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
+    @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     @JsonManagedReference
-    private List<ProjectMember> projectMembers = new ArrayList<>();
+    private List<Contract> contracts = new ArrayList<>();
+
+    @Transient
+    private String reason;
 
     public String getTitle() {
         return title;
@@ -111,14 +98,6 @@ public class Project extends BaseEntity implements Serializable {
         this.projectType = projectType;
     }
 
-    public BudgetType getBudgetType() {
-        return budgetType;
-    }
-
-    public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
-    }
-
     public Employee getAccountManager() {
         return accountManager;
     }
@@ -135,22 +114,6 @@ public class Project extends BaseEntity implements Serializable {
         this.projectStatus = projectStatus;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     public List<Tag> getTags() {
         return tags;
     }
@@ -159,12 +122,12 @@ public class Project extends BaseEntity implements Serializable {
         this.tags = tag;
     }
 
-    public List<ProjectMember> getProjectMembers() {
-        return projectMembers;
+    public List<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setProjectmembers(List<ProjectMember> projectMembers) {
-        this.projectMembers = projectMembers;
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public Client getClient() {
@@ -173,6 +136,39 @@ public class Project extends BaseEntity implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Project other = (Project) obj;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        return true;
     }
 
     @PrePersist

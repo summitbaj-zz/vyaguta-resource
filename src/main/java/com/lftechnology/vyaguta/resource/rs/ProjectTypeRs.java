@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -59,7 +60,7 @@ public class ProjectTypeRs {
     @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid ProjectType projectTypeNew) {
+    public Response update(@PathParam("id") UUID id, @NotNull @Valid ProjectType projectTypeNew) {
         ProjectType projectType = projectTypeService.merge(id, projectTypeNew);
         return Response.status(Response.Status.OK).entity(projectType).build();
     }
@@ -68,7 +69,7 @@ public class ProjectTypeRs {
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         ProjectType projectType = projectTypeService.findById(id);
         if (projectType != null) {
             return Response.status(Response.Status.OK).entity(projectType).build();
@@ -81,7 +82,7 @@ public class ProjectTypeRs {
     @DELETE
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         projectTypeService.removeById(id);
         return Response.status(Response.Status.OK).build();
     }

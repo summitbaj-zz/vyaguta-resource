@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,7 +39,7 @@ import com.lftechnology.vyaguta.resource.entity.Client;
 @RunWith(MockitoJUnitRunner.class)
 public class ClientServiceImplTest {
 
-    private static final String ID = "542aecf1e87a4e018d67e58e4d30298f";
+    private static final UUID ID = UUID.randomUUID();
     private static final Long COUNT = 20L;
 
     @Mock
@@ -89,8 +90,8 @@ public class ClientServiceImplTest {
     public void testMergeClient() {
         // arrange
         Client client = this.buildClient();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(client);
-        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(client);
+        Mockito.when(this.clientDao.findById(ID)).thenReturn(client);
+        Mockito.when(this.clientService.findById(ID)).thenReturn(client);
 
         // act
         this.clientService.merge(ID, client);
@@ -104,7 +105,7 @@ public class ClientServiceImplTest {
 
         // arrange
         Client client = new Client();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(null);
+        Mockito.when(this.clientDao.findById(UUID.randomUUID())).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
 
         // act
@@ -129,8 +130,8 @@ public class ClientServiceImplTest {
     public void testRemoveClientById() {
         // arrange
         Client client = this.buildClient();
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(client);
-        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(client);
+        Mockito.when(this.clientDao.findById(ID)).thenReturn(client);
+        Mockito.when(this.clientService.findById(ID)).thenReturn(client);
 
         // act
         this.clientService.removeById(ID);
@@ -143,7 +144,7 @@ public class ClientServiceImplTest {
     @Test
     public void testRemoveClientByIdWhenObjectNotFoundException() {
         // arrange
-        Mockito.when(this.clientService.findById(Matchers.anyString())).thenReturn(null);
+        Mockito.when(this.clientService.findById(UUID.randomUUID())).thenReturn(null);
         exception.expect(ObjectNotFoundException.class);
         // act
         this.clientService.removeById(ID);
@@ -153,13 +154,13 @@ public class ClientServiceImplTest {
     @Test
     public void findClientById() {
         // arrange
-        Mockito.when(this.clientDao.findById(Matchers.anyString())).thenReturn(new Client());
+        Mockito.when(this.clientDao.findById(ID)).thenReturn(new Client());
 
         // act
         this.clientService.findById(ID);
 
         // assert
-        Mockito.verify(clientDao).findById(Matchers.anyString());
+        Mockito.verify(clientDao).findById(ID);
 
     }
 

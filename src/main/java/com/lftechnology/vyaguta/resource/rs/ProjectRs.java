@@ -1,6 +1,8 @@
 package com.lftechnology.vyaguta.resource.rs;
 
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -40,8 +42,7 @@ public class ProjectRs {
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
-        Map<String, Object> projects = projectService
-                .findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
+        Map<String, Object> projects = projectService.findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(projects).build();
     }
 
@@ -59,7 +60,7 @@ public class ProjectRs {
     @RolesAllowed({ "Admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @NotNull @Valid Project projectNew) {
+    public Response update(@PathParam("id") UUID id, @NotNull @Valid Project projectNew) {
         Project project = projectService.merge(id, projectNew);
         return Response.status(Response.Status.OK).entity(project).build();
     }
@@ -68,7 +69,7 @@ public class ProjectRs {
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findById(@PathParam("id") String id) {
+    public Response findById(@PathParam("id") UUID id) {
         Project project = projectService.findById(id);
         if (project != null) {
             return Response.status(Response.Status.OK).entity(project).build();
@@ -81,8 +82,21 @@ public class ProjectRs {
     @DELETE
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(@PathParam("id") String id) {
+    public Response remove(@PathParam("id") UUID id) {
         projectService.removeById(id);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @Path("{projectId}/history")
+    @GET
+    @RolesAllowed({ "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Map<String, Object>> history(@PathParam("projectId") UUID projectId) {
+        Project project = projectService.findById(projectId);
+        if (project != null) {
+            return projectService.findHistory(project);
+        } else {
+            throw new ObjectNotFoundException();
+        }
     }
 }

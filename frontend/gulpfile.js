@@ -36,7 +36,8 @@
                 './src/css/custom.css',
                 'node_modules/toastr/build/toastr.css',
                 'node_modules/react-datepicker/dist/react-datepicker.css',
-                'node_modules/jquery-confirm/dist/jquery-confirm.min.css'
+                'node_modules/jquery-confirm/dist/jquery-confirm.min.css',
+                'node_modules/react-select/dist/react-select.min.css'
             ],
             img: [
                 './src/img/*',
