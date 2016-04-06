@@ -1,5 +1,8 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,9 +14,13 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import com.google.common.base.Strings;
+import com.lftechnology.vyaguta.commons.diff.ObjectDiff;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
+import com.lftechnology.vyaguta.commons.exception.PropertyReadException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
@@ -42,17 +49,23 @@ import com.lftechnology.vyaguta.resource.service.ProjectService;
 @Stateless
 public class ProjectServiceImpl implements ProjectService {
 
+    private static final DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Inject
+    private Logger log;
+
     @Inject
     private ProjectDao projectDao;
+
+    @Inject
+    private ProjectHistoryDao projectHistoryDao;
 
     @Inject
     private TagDao tagDao;
 
     @Inject
     private ContractDao contractDao;
-
-    @Inject
-    private ProjectHistoryDao projectHistoryDao;
 
     @Inject
     private ContractHistoryDao contractHistoryDao;
@@ -67,7 +80,9 @@ public class ProjectServiceImpl implements ProjectService {
     public Project save(Project project) {
         this.fixTags(project);
         this.fixContract(project);
-        return projectDao.save(project);
+        projectDao.save(project);
+        this.logHistory(project);
+        return project;
     }
 
     @Override
@@ -175,8 +190,9 @@ public class ProjectServiceImpl implements ProjectService {
 
             if (c.getId() == null)
                 this.contractDao.save(c);
-            else
-                this.contractDao.update(c);
+            // else
+            // this.contractDao.update(c);
+            // TODO check this
         }
 
     }
@@ -209,27 +225,244 @@ public class ProjectServiceImpl implements ProjectService {
 
     private void logHistory(Project project) {
         UUID uuid = UUID.randomUUID();
+        ProjectHistoryRoot batch = new ProjectHistoryRoot();
+        batch.setId(uuid);
+        batch.setReason(project.getReason());
+        projectHistoryRootDao.save(batch);
 
         ProjectHistory projectHistory = new ProjectHistory(project);
-        projectHistory.setBatch(uuid);
-
-        ProjectHistoryRoot projectHistoryRoot = new ProjectHistoryRoot();
-        projectHistoryRoot.setId(uuid);
-        projectHistoryRoot.setReason(project.getReason());
-        projectHistoryRootDao.save(projectHistoryRoot);
+        projectHistory.setBatch(batch);
 
         for (Contract contract : project.getContracts()) {
             ContractHistory contractHistory = new ContractHistory(contract);
-            contractHistory.setBatch(uuid);
+            contractHistory.setBatch(batch);
             contractHistoryDao.save(contractHistory);
 
             for (ContractMember cm : contract.getContractMembers()) {
                 ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
-                contractMemberHistory.setBatch(uuid);
+                contractMemberHistory.setBatch(batch);
                 contractMemberHistoryDao.save(contractMemberHistory);
             }
         }
         projectHistoryDao.save(projectHistory);
     }
 
+    private List<Map<String, Object>> findProjectHistory(Project project) {
+        List<ProjectHistory> projectHistories = projectHistoryDao.findHistory(project);
+        List<Map<String, Object>> history = new ArrayList<>();
+
+        if (projectHistories.size() > 0) {
+            ProjectHistory record = projectHistories.get(0);
+            Map<String, Object> historyMap = this.buildProjectHistory(record);
+            history.add(historyMap);
+        }
+
+        for (int i = 0; i < projectHistories.size() - 1; i++) {
+            ProjectHistory recordFirst = projectHistories.get(i);
+            ProjectHistory recordSecond = projectHistories.get(i + 1);
+            Map<String, Object> diff = this.compareProjectHistory(recordFirst, recordSecond);
+            if (diff != null) {
+                history.add(diff);
+            }
+        }
+
+        return history;
+    }
+
+    private List<Map<String, Object>> findContractHistory(Project project) {
+        List<ContractHistory> contractHistories = contractHistoryDao.findHistory(project);
+        List<Map<String, Object>> history = new ArrayList<>();
+
+        if (contractHistories.size() > 0) {
+            ContractHistory record = contractHistories.get(0);
+            Map<String, Object> historyMap = this.buildContractHistory(record);
+            history.add(historyMap);
+        }
+
+        for (int i = 0; i < contractHistories.size() - 1; i++) {
+            ContractHistory recordFirst = contractHistories.get(i);
+            ContractHistory recordSecond = contractHistories.get(i + 1);
+            Map<String, Object> diff = this.compareContractHistory(recordFirst, recordSecond);
+            if (diff != null) {
+                history.add(diff);
+            }
+        }
+
+        return history;
+    }
+
+    private List<Map<String, Object>> findContractMemberHistory(Project project) {
+        List<ContractMemberHistory> contractMemberHistories = contractMemberHistoryDao.findHistory(project);
+        List<Map<String, Object>> history = new ArrayList<>();
+
+        if (contractMemberHistories.size() > 0) {
+            ContractMemberHistory record = contractMemberHistories.get(0);
+            Map<String, Object> historyMap = this.buildContractMemberHistory(record);
+            history.add(historyMap);
+        }
+
+        for (int i = 0; i < contractMemberHistories.size() - 1; i++) {
+            ContractMemberHistory recordFirst = contractMemberHistories.get(i);
+            ContractMemberHistory recordSecond = contractMemberHistories.get(i + 1);
+            Map<String, Object> diff = this.compareContractMemberHistory(recordFirst, recordSecond);
+            if (diff != null) {
+                history.add(diff);
+            }
+        }
+
+        return history;
+    }
+
+    @Override
+    public List<Map<String, Object>> findHistory(Project project) {
+        List<Map<String, Object>> history = new ArrayList<>();
+        history.addAll(findProjectHistory(project));
+        history.addAll(findContractHistory(project));
+        history.addAll(findContractMemberHistory(project));
+
+        history = history.stream().sorted(this::compare).collect(Collectors.toList());
+
+        for (Map<String, Object> map : history) {
+            LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
+            map.put("createdAt", formatDateTime(createdAt));
+        }
+
+        return history;
+    }
+
+    int compare(Map<String, Object> m1, Map<String, Object> m2) {
+        LocalDateTime d1 = (LocalDateTime) m1.get("createdAt");
+        LocalDateTime d2 = (LocalDateTime) m2.get("createdAt");
+
+        return d1.compareTo(d2);
+    }
+
+    private Map<String, Object> compareProjectHistory(ProjectHistory record1, ProjectHistory record2) {
+        String[] fields = new String[] { "title", "description", "accountManager", "projectType", "projectStatus", "client" };
+        Map<String, Object> map = null;
+        try {
+
+            map = ObjectDiff.changedValues(record1, record2, fields);
+            if (map.size() == 0)
+                return null;
+
+            map.put("batch", record2.getBatch().getId());
+            map.put("reason", record2.getBatch().getReason());
+            map.put("changed", true);
+            map.put("changedEntity", "Project");
+            map.put("createdBy", record2.getBatch().getCreatedBy());
+            map.put("createdAt", record2.getBatch().getCreatedAt());
+        } catch (PropertyReadException e) {
+            log.debug(e.getMessage(), e);
+        }
+        return map;
+    }
+
+    private Map<String, Object> compareContractHistory(ContractHistory record1, ContractHistory record2) {
+        String[] fields = new String[] { "budgetType", "contract", "endDate", "project", "startDate", "actualEndDate", "resource" };
+
+        Map<String, Object> map = null;
+
+        try {
+            map = ObjectDiff.changedValues(record1, record2, fields);
+            if (map.size() == 0)
+                return null;
+
+            map.put("batch", record2.getBatch().getId());
+            map.put("reason", record2.getBatch().getReason());
+            map.put("changed", true);
+            map.put("changedEntity", "Contract");
+            map.put("createdBy", record2.getBatch().getCreatedBy());
+            map.put("createdAt", record2.getBatch().getCreatedAt());
+        } catch (PropertyReadException e) {
+            log.debug(e.getMessage(), e);
+        }
+
+        return map;
+    }
+
+    private Map<String, Object> compareContractMemberHistory(ContractMemberHistory record1, ContractMemberHistory record2) {
+        String[] fields =
+                new String[] { "contractMember", "contract", "employee", "projectRole", "allocation", "billed", "joinDate", "endDate" };
+
+        Map<String, Object> map = null;
+        try {
+            map = ObjectDiff.changedValues(record1, record2, fields);
+            if (map.size() == 0)
+                return null;
+
+            map.put("batch", record2.getBatch().getId());
+            map.put("reason", record2.getBatch().getReason());
+            map.put("changed", true);
+            map.put("changedEntity", "ContractMember");
+            map.put("createdBy", record2.getBatch().getCreatedBy());
+            map.put("createdAt", record2.getBatch().getCreatedAt());
+        } catch (PropertyReadException e) {
+            log.debug(e.getMessage(), e);
+        }
+        return map;
+    }
+
+    private Map<String, Object> buildProjectHistory(ProjectHistory record) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", record.getTitle());
+        map.put("description", record.getDescription());
+        map.put("accountManager", record.getAccountManager());
+        map.put("projectType", record.getProjectType());
+        map.put("projectStatus", record.getProjectStatus());
+        map.put("client", record.getClient());
+        map.put("batch", record.getBatch().getId());
+        map.put("reason", record.getBatch().getReason());
+        map.put("changed", false);
+        map.put("changedEntity", "Project");
+
+        map.put("createdBy", record.getBatch().getCreatedBy());
+        map.put("createdAt", record.getBatch().getCreatedAt());
+
+        return map;
+    }
+
+    private Map<String, Object> buildContractHistory(ContractHistory record) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("budgetType", record.getBudgetType());
+        map.put("endDate", formatDate(record.getEndDate()));
+        map.put("resource", record.getResource());
+        map.put("startDate", formatDate(record.getStartDate()));
+        map.put("actualEndDate", formatDate(record.getActualEndDate()));
+        map.put("batch", record.getBatch().getId());
+        map.put("reason", record.getBatch().getReason());
+        map.put("changed", false);
+        map.put("changedEntity", "Contract");
+
+        map.put("createdBy", record.getBatch().getCreatedBy());
+        map.put("createdAt", record.getBatch().getCreatedAt());
+
+        return map;
+    }
+
+    private Map<String, Object> buildContractMemberHistory(ContractMemberHistory record) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", record.getEmployee());
+        map.put("joinDate", formatDate(record.getJoinDate()));
+        map.put("endDate", formatDate(record.getEndDate()));
+        map.put("projectRole", record.getProjectRole());
+        map.put("allocation", record.getAllocation());
+        map.put("batch", record.getBatch().getId());
+        map.put("reason", record.getBatch().getReason());
+        map.put("changed", false);
+        map.put("changedEntity", "ContractMember");
+
+        map.put("createdBy", record.getBatch().getCreatedBy());
+        map.put("createdAt", record.getBatch().getCreatedAt());
+
+        return map;
+    }
+
+    private static String formatDateTime(LocalDateTime dateTime) {
+        return dateTime == null ? null : dateTime.format(formatterDateTime);
+    }
+
+    private static String formatDate(LocalDate date) {
+        return date == null ? null : date.format(formatterDate);
+    }
 }

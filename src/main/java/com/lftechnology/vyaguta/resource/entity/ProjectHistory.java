@@ -10,8 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
@@ -29,9 +32,12 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "project_histories")
+@NamedQueries({ @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project") })
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
+    private static final String PREFIX = "vyaguta.resource.entity.ProjectHistory.";
+    public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
@@ -41,9 +47,9 @@ public class ProjectHistory implements Serializable {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @Column(name = "batch_id")
-    @Type(type = "pg-uuid")
-    private UUID batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
@@ -71,7 +77,6 @@ public class ProjectHistory implements Serializable {
     }
 
     public ProjectHistory(Project project) {
-        // this.setBatch(UUID.randomUUID());
         this.setProject(project);
         this.setTitle(project.getTitle());
         this.setDescription(project.getDescription());
@@ -80,6 +85,9 @@ public class ProjectHistory implements Serializable {
         this.setProjectStatus(project.getProjectStatus());
         this.setProjectType(project.getProjectType());
     }
+
+    @Transient
+    private boolean isChanged;
 
     public UUID getId() {
         return id;
@@ -97,11 +105,11 @@ public class ProjectHistory implements Serializable {
         this.project = project;
     }
 
-    public UUID getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(UUID batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
@@ -182,4 +190,5 @@ public class ProjectHistory implements Serializable {
     public void prePersist() {
         this.setId(GuidUtil.generate());
     }
+
 }
