@@ -11,6 +11,7 @@
         PROJECT_TYPES: 'projectTypes',
         PROJECT_ROLES: 'projectRoles',
         PROJECTS: 'projects',
+        ENDING_PROJECTS: 'endingProjects',
         CLIENTS: 'clients',
         ERROR_MESSAGE: 'errorMessage',
         VISIBLE: 'visible',

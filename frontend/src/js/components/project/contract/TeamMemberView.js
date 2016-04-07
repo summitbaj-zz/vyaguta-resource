@@ -11,7 +11,7 @@
             var teamMemberAllocations = this.props.selectedTeamMember.allocations;
             return (
                 <tr key={key}>
-                    <td>{key}</td>
+                    <td>{++key}</td>
                     <td>{teamMemberAllocations[key].role.title}</td>
                     <td>{teamMemberAllocations[key].allocation}</td>
                     <td>{teamMemberAllocations[key].joinDate}</td>
