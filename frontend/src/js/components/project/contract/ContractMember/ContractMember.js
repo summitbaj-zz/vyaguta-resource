@@ -13,6 +13,9 @@
     //components
     var ContractMemberForm = require('./ContractMemberForm');
 
+    //libraries
+    var moment = require('moment');
+
     var ContractMember = React.createClass({
         showModal: function (event) {
             event.preventDefault();
@@ -23,22 +26,31 @@
 
         isBilled: function () {
             var allocations = this.props.contractMember.allocations;
+            var todaysDate = moment();
 
-            if (allocations[allocations.length - 1].billed) {
-                return true;
+            for (var i = 0; i < allocations.length; i++) {
+                var joinDate = moment(allocations[allocations.length - 1].joinDate).subtract(1, 'd');
+                var endDate = moment(allocations[allocations.length - 1].endDate).add(1, 'd');
+
+                if (allocations[i].billed && todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                    return true;
+                }
             }
 
             return false;
         },
 
         isActive: function () {
-            var todaysDate = Date.now();
             var allocations = this.props.contractMember.allocations;
-            var endDate = Date.parse(allocations[allocations.length - 1].endDate);
-            var joinDate = Date.parse(allocations[allocations.length - 1].joinDate);
+            var todaysDate = moment();
 
-            if (todaysDate > joinDate && todaysDate < endDate) {
-                return true;
+            for (var i = 0; i < allocations.length; i++) {
+                var joinDate = moment(allocations[allocations.length - 1].joinDate).subtract(1, 'd');
+                var endDate = moment(allocations[allocations.length - 1].endDate).add(1, 'd');
+
+                if (todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                    return true;
+                }
             }
 
             return false;
@@ -51,6 +63,9 @@
                         <img alt="avatar"
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className={(this.isActive()) ? 'user-info user-active' : 'user-info user-inactive'}>
+                            <span>
+
+                            </span>
                             <span>
                             {(this.isBilled()) ? 'Billed' : 'Unbilled'}
                             </span>
