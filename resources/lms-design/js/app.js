@@ -21,13 +21,6 @@ var App = function() {
 
         // Sidebar navigation functionality
         handleNav();
-
-        // Interactive blocks functionality
-        interactiveBlocks();
-
-        // Template Options, change features
-        templateOptions();
-
         // Resize #page-content to fill empty space if exists (also add it to resize and orientationchange events)
         resizePageContent();
         $(window).resize(function(){ resizePageContent(); });
@@ -46,14 +39,6 @@ var App = function() {
 
         // Initialize Popovers
         $('[data-toggle="popover"], .enable-popover').popover({container: 'body', animation: true});
-
-
-        // Initialize Slider for Bootstrap
-        $('.input-slider').slider();
-
-        // Initialize Tags Input
-        $('.input-tags').tagsInput({ width: 'auto', height: 'auto'});
-
     };
 	
     /* Gets window width cross browser */

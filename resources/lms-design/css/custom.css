@@ -1,3 +1,4 @@
+@import url("fontface.css");
 /**---Custom---**/
 
 h1, h2, h3 {
@@ -7,9 +8,6 @@ h1, h2, h3 {
 ul {
 	list-style: none;
 }
-/*body, html, #page-container, #sidebar, .sidebar-scroll, .sidebar-content, .sidebar-nav, #main-container {
-	height: 100%;
-}*/
 .breadcrumb {
 	border-radius: 0;
 }
@@ -523,7 +521,10 @@ footer a, footer a:hover {
 }
 
 
-
+/**---Table---**/
+.table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td, .table tbody + tbody, .table-bordered, .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
+	  border-color: #f4f4f4;
+	}
 	
 /**---Responsive---**/
 /* Extra Small Devices, Phones */
