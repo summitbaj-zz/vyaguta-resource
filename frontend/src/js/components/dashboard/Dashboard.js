@@ -217,7 +217,7 @@
                         </a></div>
                         <div className="col-lg-12">
                             <div className="widget">
-                                <div className="widget-extra label-lg-grey">
+                                <div className="widget-extra widget-custom">
                                     <div className="widget-title">Booked Resources</div>
                                 </div>
                                 <div className="widget-extra-full">
@@ -243,7 +243,7 @@
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="widget">
-                                <div className="widget-extra label-lg-grey">
+                                <div className="widget-extra widget-custom">
                                     <div className="widget-title">Available Resources</div>
                                 </div>
                                 <div className="widget-extra-full">

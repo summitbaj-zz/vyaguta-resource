@@ -83,36 +83,19 @@
                 .set('Accept', 'application/json');
         },
 
-        fetchAllFromCore: function (resourceName, callback) {
-            request
+        fetchAllFromCore: function (resourceName) {
+            return request
                 .get(coreUrl + resourceName.toLowerCase())
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
-                .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response.body);
-                }, function (error) {
-                    if (error.status = 401) {
-                        apiUtil.refreshSession().then(function (response) {
-                            apiUtil.fetchAllFromCore(resourceName, callback);
-                        });
-                    }
-                });
+                .set('Accept', 'application/json');
         },
 
-        fetchByQueryFromCore: function (resourceName, data, callback) {
-            request
+        fetchByQueryFromCore: function (resourceName, data) {
+            return request
                 .get(coreUrl + resourceName.toLowerCase() + '?q=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response.body.data);
-                }, function (error) {
-                    if (error.status = 401) {
-                        apiUtil.refreshSession().then(function (response) {
-                            apiUtil.fetchByQueryFromCore(resourceName, data, callback);
-                        });
-                    }
-                });
+
         },
 
         create: function (resourceName, data) {
@@ -138,6 +121,14 @@
                 .set('Accept', 'application/json')
         },
 
+        fetchAllHistories: function(resourceName, id){
+            return request
+                .get(url + resourceName.toLowerCase() + '/' + id + '/history')
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+
+        },
+
         refreshSession: function () {
             return request
                 .post(authUrl)
@@ -150,6 +141,12 @@
                     window.location.href = window.location.origin;
                 });
 
+        },
+
+        logOut: function(){
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            window.location.href = window.location.origin;
         }
     };
 

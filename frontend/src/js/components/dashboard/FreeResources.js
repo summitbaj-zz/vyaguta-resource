@@ -60,7 +60,7 @@
         render: function () {
             if (this.props.resources && this.props.resources.length > 0) {
                 return (
-                    <div id="myCarousel" className="carousel slide" data-ride="carousel">
+                    <div id="myCarousel" className="carousel slide" data-ride="carousel" data-interval="false">
                         {this.showFreeResources()}
                         {this.renderCarouselIndicator()}
                         <a className="left carousel-control" href="#myCarousel" role="button" data-slide="prev">

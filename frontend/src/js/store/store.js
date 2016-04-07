@@ -14,14 +14,16 @@
 
     //reducers
     var crudReducer = require('../reducers/crudReducer');
-    var teamMemberReducer = require('../reducers/teamMemberReducer');
     var apiReducer = require('../reducers/apiReducer');
+    var contractReducer = require('../reducers/contractReducer');
+    var historyReducer = require('../reducers/historyReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
-        teamMemberReducer: teamMemberReducer,
-        apiReducer: apiReducer
+        apiReducer: apiReducer,
+        contractReducer: contractReducer,
+        historyReducer: historyReducer
         //add for each reducers...
     });
 

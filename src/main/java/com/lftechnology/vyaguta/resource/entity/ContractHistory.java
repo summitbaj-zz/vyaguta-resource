@@ -2,17 +2,16 @@ package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -20,17 +19,10 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
-import com.lftechnology.vyaguta.commons.pojo.User;
 
 /**
  * 
@@ -39,16 +31,20 @@ import com.lftechnology.vyaguta.commons.pojo.User;
  */
 @Entity
 @Table(name = "contract_histories")
+@NamedQueries({ @NamedQuery(name = ContractHistory.FIND_BY_PROJECT, query = "SELECT ch FROM ContractHistory ch WHERE ch.project = :project") })
 public class ContractHistory implements Serializable {
 
     private static final long serialVersionUID = -4315662140074205279L;
+    private static final String PREFIX = "vyaguta.resource.entity.ContractHistory.";
+    public static final String FIND_BY_PROJECT = ContractHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
     private UUID id;
 
-    @Column(name = "batch_no")
-    private String batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @ManyToOne
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
@@ -80,18 +76,20 @@ public class ContractHistory implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate actualEndDate;
 
-    private String reason;
+    private String resource;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
-    @JsonDeserialize(using = UserDeserializer.class)
-    @JsonSerialize(using = UserSerializer.class)
-    private User createdBy;
+    public ContractHistory() {
+        super();
+    }
 
-    @Column(name = "created_at")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime createdAt;
+    public ContractHistory(Contract contract) {
+        this.setContract(contract);
+        this.setActualEndDate(contract.getActualEndDate());
+        this.setStartDate(contract.getStartDate());
+        this.setEndDate(contract.getEndDate());
+        this.setBudgetType(contract.getBudgetType());
+        this.setProject(contract.getProject());
+    }
 
     public UUID getId() {
         return id;
@@ -101,11 +99,11 @@ public class ContractHistory implements Serializable {
         this.id = id;
     }
 
-    public String getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
@@ -157,28 +155,12 @@ public class ContractHistory implements Serializable {
         this.actualEndDate = actualEndDate;
     }
 
-    public String getReason() {
-        return reason;
+    public String getResource() {
+        return resource;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
     @Override
@@ -209,7 +191,5 @@ public class ContractHistory implements Serializable {
     @PrePersist
     public void prePersist() {
         this.setId(GuidUtil.generate());
-        this.setCreatedAt(LocalDateTime.now());
-        this.setCreatedBy(SecurityRequestContext.getCurrentUser());
     }
 }

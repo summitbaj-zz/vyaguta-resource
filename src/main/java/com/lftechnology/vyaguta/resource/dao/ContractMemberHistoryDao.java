@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
+import com.lftechnology.vyaguta.resource.entity.Project;
 
 /**
  * 
@@ -42,5 +43,10 @@ public interface ContractMemberHistoryDao {
         TypedQuery<ContractMemberHistory> typedQuery = getEm().createQuery(select);
         return typedQuery.getResultList();
     }
+
+    public default List<ContractMemberHistory> findHistory(Project project) {
+        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class)
+                .setParameter("project", project).getResultList();
+    };
 
 }

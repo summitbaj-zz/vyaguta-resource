@@ -48,14 +48,6 @@
             this.props.actions.apiClearState();
         },
 
-        deleteProject: function (key) {
-            var that = this;
-
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECTS, id);
-            });
-        },
-
         renderProject: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
 
@@ -108,7 +100,7 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="title"
+                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="title"
                                         onClick={this.sort.bind(null, 'title')}>
                                         Project
                                         <i className="fa fa-sort pull-right"></i>
@@ -116,21 +108,6 @@
                                     <th className="cursor-pointer sort noselect" data-sort="none" id="projectType"
                                         onClick={this.sort.bind(null, 'projectType')}>
                                         Project Type
-                                        <i className="fa fa-sort pull-right"></i>
-                                    </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="budgetType"
-                                        onClick={this.sort.bind(null, 'budgetType')}>
-                                        Budget Type
-                                        <i className="fa fa-sort pull-right"></i>
-                                    </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="startDate"
-                                        onClick={this.sort.bind(null, 'startDate')}>
-                                        Start Date
-                                        <i className="fa fa-sort pull-right"></i>
-                                    </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="endDate"
-                                        onClick={this.sort.bind(null, 'endDate')}>
-                                        End Date
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
                                     <th className="cursor-pointer sort noselect" data-sort="none" id="projectStatus"

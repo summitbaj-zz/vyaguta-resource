@@ -43,9 +43,8 @@
             var projectType = {
                 title: this.refs.title.value
             }
-            formValidator.validateForm(projectType);
 
-            if (formValidator.isValid()) {
+            if (formValidator.isValid(projectType)) {
                 if (this.props.params.id) {
                     this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
                 } else {

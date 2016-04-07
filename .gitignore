@@ -22,3 +22,4 @@ frontend/app/vendor
 frontend/test/scripts/
 
 src/main/resources/META-INF/persistence.xml
+src/main/resources/config.properties

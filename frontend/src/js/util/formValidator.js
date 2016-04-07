@@ -6,11 +6,19 @@
         var that = this;
         var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        this.validateForm = function (formDatas) {
+        this.isValid = function (formDatas) {
+            var error;
             for (var key in formDatas) {
                 if (formDatas[key] == '') {
                     this.showErrors(key, messageConstant.REQUIRED_MESSAGE);
+                    error = true;
                 }
+            }
+
+            if(error > 0) {
+                return false;
+            }else {
+                return true;
             }
         }
 
@@ -38,13 +46,6 @@
                 parentElement.removeClass('has-error');
             }
             parentElement.children('span').html('');
-        }
-
-        this.isValid = function () {
-            if ($('.has-error').length == 0)
-                return true;
-            else
-                return false;
         }
 
         this.validateField = function (event) {

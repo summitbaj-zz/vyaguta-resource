@@ -1,34 +1,27 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeAttributeConverter;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.LocalDateTimeSerializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserDeserializer;
-import com.lftechnology.vyaguta.commons.jpautil.UserSerializer;
-import com.lftechnology.vyaguta.commons.pojo.User;
+
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -39,9 +32,12 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "project_histories")
+@NamedQueries({ @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project") })
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
+    private static final String PREFIX = "vyaguta.resource.entity.ProjectHistory.";
+    public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
     @Id
     @Type(type = "pg-uuid")
@@ -51,8 +47,9 @@ public class ProjectHistory implements Serializable {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
-    @Column(name = "batch_no")
-    private String batch;
+    @ManyToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private ProjectHistoryRoot batch;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
@@ -60,7 +57,7 @@ public class ProjectHistory implements Serializable {
 
     private String description;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager") ))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id")))
     private Employee accountManager;
 
     @ManyToOne
@@ -75,18 +72,22 @@ public class ProjectHistory implements Serializable {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
-    private String reason;
+    public ProjectHistory() {
+        super();
+    }
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
-    @JsonDeserialize(using = UserDeserializer.class)
-    @JsonSerialize(using = UserSerializer.class)
-    private User createdBy;
+    public ProjectHistory(Project project) {
+        this.setProject(project);
+        this.setTitle(project.getTitle());
+        this.setDescription(project.getDescription());
+        this.setAccountManager(project.getAccountManager());
+        this.setClient(project.getClient());
+        this.setProjectStatus(project.getProjectStatus());
+        this.setProjectType(project.getProjectType());
+    }
 
-    @Column(name = "created_at")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime createdAt;
+    @Transient
+    private boolean isChanged;
 
     public UUID getId() {
         return id;
@@ -104,11 +105,11 @@ public class ProjectHistory implements Serializable {
         this.project = project;
     }
 
-    public String getBatch() {
+    public ProjectHistoryRoot getBatch() {
         return batch;
     }
 
-    public void setBatch(String batch) {
+    public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
     }
 
@@ -160,30 +161,6 @@ public class ProjectHistory implements Serializable {
         this.client = client;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -212,7 +189,6 @@ public class ProjectHistory implements Serializable {
     @PrePersist
     public void prePersist() {
         this.setId(GuidUtil.generate());
-        this.setCreatedAt(LocalDateTime.now());
-        this.setCreatedBy(SecurityRequestContext.getCurrentUser());
     }
+
 }
