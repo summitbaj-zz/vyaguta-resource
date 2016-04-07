@@ -11,7 +11,7 @@ var Footer = require('./common/footer/Footer');
 var App = React.createClass({
     render: function () {
         return (
-            <div id="page-container" className="sidebar-partial sidebar-visible-lg">
+            <div id="page-container" className="header-fixed-top footer-fixed sidebar-partial sidebar-visible-lg">
                 <Sidebar/>
                 <div id="main-container">
                     <Header/>
