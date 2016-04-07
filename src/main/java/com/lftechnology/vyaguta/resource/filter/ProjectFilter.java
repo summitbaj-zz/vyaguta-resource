@@ -60,6 +60,7 @@ public class ProjectFilter extends CommonFilter<Project> implements Filterable<P
                 return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
             }
         });
+        
         filterMap.put("contract.budgetType", new EntityFilter<Project>() {
 
             @Override
