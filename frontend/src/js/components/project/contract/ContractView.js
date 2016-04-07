@@ -9,7 +9,6 @@
     var ContractView = React.createClass({
 
         renderTeamMember: function (teamMember) {
-            console.log(teamMember)
             return (
                 <TeamMember key={teamMember.employee.id} contractMember={teamMember}
                             setMemberToBeInModal={this.props.setMemberToBeInModal}/>

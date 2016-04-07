@@ -28,7 +28,7 @@
     }
 
     var historyActions = {
-        fetchAllHistories: function(entity, id){
+        fetchAllHistories: function (entity, id) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchAllHistories(entity, id).then(function (response) {
@@ -47,7 +47,12 @@
                     }
                 }));
             }
-        }
+        },
+        clearHistory: function (entity) {
+            return {
+                type: actionTypeConstant.CLEAR_HISTORY
+            }
+        },
     }
     module.exports = historyActions;
 

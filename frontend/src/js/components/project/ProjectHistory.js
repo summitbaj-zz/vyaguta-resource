@@ -21,7 +21,10 @@
     var History = React.createClass({
         componentDidMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
+        },
 
+        componentWillUnmount: function(){
+            this.props.actions.clearHistory();
         },
 
         renderHistoryItems: function (key) {

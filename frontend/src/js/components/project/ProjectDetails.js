@@ -56,6 +56,7 @@
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
             this.props.actions.apiClearState();
+            this.props.actions.clearHistory();
         },
 
         getAccountManagerName: function () {
@@ -183,7 +184,7 @@
                                             </div>
                                             {this.state.containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + this.props.params.id}
+                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + project.id}
                                                       title="Add Project"
                                                       className="show-all-btn">View All</Link>
                                             </div>}

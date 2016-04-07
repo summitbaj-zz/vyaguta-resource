@@ -17,8 +17,7 @@
                 this.setAction();
                 this.setChangedEntity();
                 this.setActionData();
-                var time = this.getTime();
-                this.setState({createdAt: time});
+                this.setState({createdAt: this.getTime()});
             },
 
             setAction: function () {
@@ -28,7 +27,7 @@
                 } else {
                     action = 'edited';
                 }
-                this.state.action = action;
+               // this.state.action = action;
                 this.setState({action: action});
             },
 
@@ -51,7 +50,7 @@
             setActionData: function () {
                 var history = this.props.history || 0;
                 var actionData = {};
-                var invalidKeys = ['changed', 'changedEntity', 'createdBy', 'createdAt', 'employee', 'reason', 'batch'];
+                var invalidKeys = ['changed', 'changedEntity', 'createdBy', 'createdAt', 'employee', 'reason', 'batch', 'contractMember'];
 
                 for (var key in history) {
                     if (!(invalidKeys.indexOf(key) > -1) && (history[key] || (!history[key] && this.state.action == 'edited'))) {
@@ -88,13 +87,15 @@
                 var displayData;
                 if (!this.state.actionData[data]) {
                     return <p
-                        className="changed-field" key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
+                        className="changed-field"
+                        key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
                 } else if (typeof(this.state.actionData[data]) === 'object') {
                     displayData = this.getDataForDisplay(data);
                 } else {
                     displayData = this.state.actionData[data];
                 }
-                return (<p className="changed-field" key={data}>{this.changeKeyToDisplayableForm(data) + ' : ' + displayData}</p>);
+                return (<p className="changed-field"
+                           key={data}>{this.changeKeyToDisplayableForm(data) + ' : ' + displayData}</p>);
             },
 
             changeKeyToDisplayableForm: function (data) {

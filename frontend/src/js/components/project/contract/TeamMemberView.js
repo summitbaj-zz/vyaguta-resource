@@ -9,7 +9,6 @@
 
         renderAllocation: function (key) {
             var teamMemberAllocations = this.props.selectedTeamMember.allocations;
-            console.log(teamMemberAllocations);
             return (
                 <tr key={key}>
                     <td>{key}</td>
@@ -17,7 +16,7 @@
                     <td>{teamMemberAllocations[key].allocation}</td>
                     <td>{teamMemberAllocations[key].joinDate}</td>
                     <td>{teamMemberAllocations[key].endDate}</td>
-                    <td>{teamMemberAllocations[key].billed? 'Yes' : 'No'}</td>
+                    <td>{teamMemberAllocations[key].billed ? 'Yes' : 'No'}</td>
                 </tr>
             );
         },

@@ -20,6 +20,12 @@
                 newState.project = _.cloneDeep(action.data);
                 return newState;
 
+            case actionTypeConstant.CLEAR_HISTORY:
+                var newState = _.cloneDeep(state);
+                newState.project = {};
+
+                return newState;
+
             default:
                 return state;
         }
