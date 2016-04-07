@@ -1,6 +1,5 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,29 +14,16 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import com.google.common.base.Strings;
-import com.lftechnology.vyaguta.commons.diff.ObjectDiff;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
-import com.lftechnology.vyaguta.commons.exception.PropertyReadException;
-import com.lftechnology.vyaguta.commons.pojo.User;
-import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
-import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
-import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
-import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
-import com.lftechnology.vyaguta.resource.dao.ProjectHistoryDao;
-import com.lftechnology.vyaguta.resource.dao.ProjectHistoryRootDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
-import com.lftechnology.vyaguta.resource.entity.ContractHistory;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
-import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
-import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
-import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 import com.lftechnology.vyaguta.resource.service.EmployeeService;
@@ -67,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private EmployeeService employeeService;
-    
+
     @Inject
     private ProjectHistoryService projectHistoryService;
 
@@ -129,10 +115,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(UUID id) {
         Project project = projectDao.findById(id);
-        List<Project> data = new ArrayList<>();
-        data.add(project);
+        if (project == null)
+            return null;
 
-        fetchAndMergeAccountManagers(data);
+        fetchAndMergeAccountManagers(new ArrayList<Project>() {
+            {
+                add(project);
+            }
+        });
 
         return project;
     }
@@ -168,11 +158,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        if (data.size() == 0)
-            return;
-        
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
+        if (employeeIds.size() == 0)
+            return;
+
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
         for (Project project : data) {

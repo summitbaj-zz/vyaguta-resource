@@ -296,11 +296,10 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private void fetchAndMergeAccountManagers(List<Project> data) {
-        if (data.size() == 0)
-            return;
-
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
+        if (employeeIds.size() == 0)
+            return;
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
         for (Project project : data) {
@@ -313,10 +312,9 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private void fetchAndMergeUsers(List<Map<String, Object>> data) {
-        if (data.size() == 0)
-            return;
-
         List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct().collect(Collectors.toList());
+        if (userIds.size() == 0)
+            return;
         List<User> users = userService.fetchUsers(userIds);
 
         for (Map<String, Object> map : data) {
