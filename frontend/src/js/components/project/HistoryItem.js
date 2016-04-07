@@ -77,6 +77,8 @@
                     case 'accountManager':
                         //return this.getAppendedName(this.state.actionData[data]);
                         return 'Bishal Shrestha';                //until back end fixes it
+                    case 'client':
+                        return this.state.actionData[data].name;
                     default:
                         return this.state.actionData[data].title;
                 }
@@ -86,13 +88,13 @@
                 var displayData;
                 if (!this.state.actionData[data]) {
                     return <p
-                        className="push-bit" key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
+                        className="changed-field" key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
                 } else if (typeof(this.state.actionData[data]) === 'object') {
                     displayData = this.getDataForDisplay(data);
                 } else {
                     displayData = this.state.actionData[data];
                 }
-                return (<p className="push-bit" key={data}>{this.changeKeyToDisplayableForm(data) + ' : ' + displayData}</p>);
+                return (<p className="changed-field" key={data}>{this.changeKeyToDisplayableForm(data) + ' : ' + displayData}</p>);
             },
 
             changeKeyToDisplayableForm: function (data) {
@@ -111,20 +113,20 @@
                 var seconds = Math.floor((new Date() - date) / 1000);
 
                 var interval = Math.floor(seconds / 302400);
-                if (interval > 1) {
+                if (interval >= 1) {
                     var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
                     return convertedDate;
                 }
                 interval = Math.floor(seconds / 86400);
-                if (interval > 1) {
+                if (interval >= 1) {
                     return interval + " days ago";
                 }
                 interval = Math.floor(seconds / 3600);
-                if (interval > 1) {
+                if (interval >= 1) {
                     return interval + " hours ago";
                 }
                 interval = Math.floor(seconds / 60);
-                if (interval > 1) {
+                if (interval >= 1) {
                     return interval + " minutes ago";
                 }
                 return Math.floor(seconds) + " seconds ago";

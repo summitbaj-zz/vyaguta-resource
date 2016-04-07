@@ -1029,6 +1029,10 @@ li.dropdown-header {
     margin-bottom: 10px !important;
 }
 
+.changed-field {
+    margin-bottom: 0px;
+}
+
 .push {
     margin-bottom: 15px !important;
 }
@@ -1488,12 +1492,8 @@ ul.pagination li {
     margin-bottom: -20px;
 }
 
-.tooltip.top .tooltip-inner {
-    background-color: #FDFCD1;
-    color: #000000;
-    border: 1px solid black;
-}
-
+.tooltip-arrow,
+.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
 .tooltip.top .tooltip-arrow {
     border-top-color: #FDFCD1;
 }
@@ -1508,4 +1508,9 @@ ul.pagination li {
 
 .Select-menu-outer {
     z-index: 3;
+}
+
+.contract-wrp, .timeline-wrp{
+    margin-left: 20px;
+    margin-right: 20px;
 }
