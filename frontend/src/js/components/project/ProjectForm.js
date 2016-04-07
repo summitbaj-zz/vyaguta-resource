@@ -34,7 +34,8 @@
 
     //util
     var apiUtil = require('../../util/apiUtil');
-    var convertContractHash = require('../../util/convertContractHash')
+    var convertContractHash = require('../../util/convertContractHash');
+    var formUtil = require('../../util/formUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -61,6 +62,8 @@
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
             this.props.actions.fetchAllFromCore(resourceConstant.EMPLOYEES);
+
+            formUtil.disableForm('projectForm');
         },
 
         componentWillReceiveProps: function (props) {
@@ -76,6 +79,9 @@
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
             this.props.actions.clearContracts();
             this.props.actions.apiClearState();
+
+            //fixes modal freezing the application when back is pressed while it is open
+            $('#addContractMember').modal('hide');
         },
 
         loadEmployees: function (input) {
@@ -260,7 +266,7 @@
                         <div className="col-lg-12">
                             <div className="block">
                                 <div className="block-title-border">Project Details</div>
-                                <form className="form-bordered" method="post" onSubmit={this.saveProject}>
+                                <form className="form-bordered" method="post" onSubmit={this.saveProject} id="projectForm">
                                     <fieldset disabled={this.props.apiState.isRequesting}>
 
                                         <div className="form-group has-feedback">
