@@ -8,19 +8,32 @@
     //components
     var BreadCrumb = require('../breadcrumb/BreadCrumb');
 
+    //libraries
+    var NProgress = require('nprogress');
+
+    NProgress.configure({
+        showSpinner: false,
+        speed: 400,
+        minimum: 0.3
+    });
+
     var EntityHeader = React.createClass({
+        startLoader: function () {
+            NProgress.start();
+        },
+
+        endLoader: function () {
+            NProgress.done();
+        },
+
         render: function () {
             return (
                 <div className="row header-margin">
+                    {this.props.apiState.isRequesting ? this.startLoader() : this.endLoader()}
                     <div className="col-lg-12">
                         <div className="content-header">
                             <div className="header-section clearfix">
                                 <h1>{this.props.header}</h1>
-                                <span className="ajax-loader">
-                                    {this.props.apiState.isRequesting &&
-                                        <img src="img/ajax-loader.gif"/>
-                                    }
-                                    </span>
                             </div>
                         </div>
                         <BreadCrumb routes={this.props.routes}/>
