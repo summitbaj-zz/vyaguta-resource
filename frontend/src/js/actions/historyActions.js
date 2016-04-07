@@ -20,7 +20,7 @@
     var actions = {
         list: function (entity, data) {
             return {
-                type: actionTypeConstant.LIST,
+                type: actionTypeConstant.LIST_HISTORY,
                 entity: entity,
                 data: data
             }
@@ -28,10 +28,9 @@
     }
 
     var historyActions = {
-        fetchAll: function(entity, id){
+        fetchAllHistories: function(entity, id){
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
-
                 return (apiUtil.fetchAllHistories(entity, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.list(entity, response.body));
@@ -41,7 +40,7 @@
                         dispatch(apiActions.apiRequest(entity));
                         apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
-                            dispatch(historyActions.fetchAll(entity, id));
+                            dispatch(historyActions.fetchAllHistories(entity, id));
                         });
                     } else {
                         Toastr.error(error.response.body.error);

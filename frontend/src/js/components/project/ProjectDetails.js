@@ -28,6 +28,7 @@
     //actions
     var crudActions = require('../../actions/crudActions');
     var apiActions = require('../../actions/apiActions');
+    var historyActions = require('../../actions/historyActions');
 
     //libraries
     var _ = require('lodash');
@@ -66,142 +67,20 @@
                             }
                         ]
                     }]
-                },
-                history: [
-                    {
-                        id: 1,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 2,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 3,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 4,
-                        type: 'contract',
-                        projectId: '1',
-                        changes: {
-                            budgetType: {id: 2, title: 'fixed'},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 5,
-                        type: 'contract',
-                        projectId: '1',
-                        changes: {
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 6,
-                        type: 'contractMember',
-                        projectId: '1',
-                        changes: {
-                            allocation: 100,
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 7,
-                        type: 'contractMember',
-                        projectId: '1',
-                        add: {
-                            allocation: 100,
-                            endDate: '1212-34-43',
-                            startDate: '2323-34-44'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    },
-                    {
-                        id: 8,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    },
-                    {
-                        id: 9,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    },
-                    {
-                        id: 10,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }, {
-                        id: 11,
-                        type: 'project',
-                        projectId: '1',
-                        changes: {
-                            accountManager: {firstName: 'asdf', middleName: 'sdf', lastName: 'asdf', id: 2},
-                            startDate: '334-3434-3434',
-                            endDate: '1212-34-43'
-                        },
-                        createdBy: 'Bishal shrestha',
-                        createdAt: '2049-02-03'
-                    }
-                ]
+                }
             }
         },
 
         componentDidMount: function () {
             this.setState({project: this.getFakeProjectDetails()});
-            console.log(this.state.project);
-            if (this.state.history.length > 10) {
-                this.state.history.splice(10, this.state.history.length);
+            this.props.actions.fetchAll(resourceConstant.PROJECTS, this.props.params.id);
+        },
+
+        componentWillReceiveProps: function (nextProps) {
+            if (nextProps.histories && nextProps.histories.length > 5) {
+                histories = nextProps.histories.splice(5, nextProps.histories.length);
                 this.setState({containsMoreHistories: true});
             }
-            //this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
         },
 
         getFakeProjectDetails: function () {
@@ -345,61 +224,7 @@
         componentWillUnmount: function () {
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
             this.props.actions.apiClearState();
-        }
-        ,
-
-        unwantedFunction: function () {
-            /*<div className="row">
-             <div className="col-lg-12">
-             <div className="block full">
-             <div className="block-title">
-             <h2>Project Details</h2>
-             </div>
-             <div className="table-responsive">
-             <table className="table table-vcenter table-hover table-striped">
-             <tbody>
-             <tr>
-             <th>Project Name</th>
-             <td>{this.props.selectedItem.projects.title}</td>
-             </tr>
-             <tr>
-             <th>Description</th>
-             <td>{this.props.selectedItem.projects && this.props.selectedItem.projects.description}</td>
-             </tr>
-             <tr>
-             <th>Start Date</th>
-             <td>{this.props.selectedItem.projects.startDate}</td>
-             </tr>
-             <tr>
-             <th>End Date</th>
-             <td>{this.props.selectedItem.projects.endDate}</td>
-             </tr>
-             <tr>
-             <th>Budget Type</th>
-             <td>{this.props.selectedItem.projects.budgetType && this.props.selectedItem.projects.budgetType.title}</td>
-             </tr>
-             <tr>
-             <th>Project Type</th>
-             <td>{this.props.selectedItem.projects.projectType && this.props.selectedItem.projects.projectType.title}</td>
-             </tr>
-             <tr>
-             <th>Project Status</th>
-             <td>{this.props.selectedItem.projects.projectStatus && this.props.selectedItem.projects.projectStatus.title}</td>
-             </tr>
-             <tr>
-             <th>Account Manager</th>
-             <td></td>
-             </tr>
-             </tbody>
-             </table>
-
-             </div>
-             <SwimLaneChart width="960"/>
-             </div>
-             </div>
-             </div>*/
-        }
-        ,
+        },
 
         getAccountManagerName: function () {
             var accountManager = this.state.project.accountManager;
@@ -421,11 +246,13 @@
                         {technologyStack.title}
                 </span>
             );
-        },
+        }
+        ,
 
         setMemberToBeInModal: function (teamMember) {
             this.setState({selectedTeamMember: teamMember});
-        },
+        }
+        ,
 
         renderContract: function (contract) {
             return (
@@ -433,19 +260,19 @@
             );
         },
 
-        renderHistoryItems: function (history) {
-
-            console.log('jlsdf')
+        renderHistoryItems: function (key) {
             return (
-                <HistoryItem history={history} key={history.id}/>
+                <HistoryItem history={this.props.histories[key]} key={key}/>
             )
-        },
+        }
+        ,
 
         render: function () {
             var style = {
                 background: this.state.project.projectStatus.color
             };
             var contractIds = Object.assign(this.state.project.contracts);
+            var historyIds = Object.keys(this.props.histories);
 
             return (
                 <div>
@@ -507,15 +334,16 @@
                                             </div>
                                             <div className="timeline block-content-full">
                                                 <ul className="timeline-list timeline-hover">
-                                                    {this.state.history.map(this.renderHistoryItems)}
+                                                    {historyIds.map(this.renderHistoryItems)}
                                                 </ul>
 
                                             </div>
+                                            {this.state.containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                {this.state.containsMoreHistories &&
-                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + this.state.project.id} title="Add Project"
-                                                      className="show-all-btn">View All</Link>}
-                                            </div>
+                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + this.props.params.id}
+                                                      title="Add Project"
+                                                      className="show-all-btn">View All</Link>
+                                            </div>}
                                         </div>
                                     </div>
                                 </div>
@@ -531,13 +359,14 @@
 
     var mapStateToProps = function (state) {
         return {
-            selectedItem: state.crudReducer.selectedItem
+            selectedItem: state.crudReducer.selectedItem,
+            histories: state.historyReducer.project
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions, historyActions), dispatch)
         }
     };
 

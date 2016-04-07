@@ -155,16 +155,18 @@
         },
 
         componentDidMount: function () {
-            this.props.actions.fetchAll(resourceConstant.PROJECTS, '6f082e4c-9108-4566-bfa6-7db5bfe4e498');
+            this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
+
         },
 
-        renderHistoryItems: function (history) {
+        renderHistoryItems: function (key) {
             return (
-                <HistoryItem history={history} key={history.id}/>
+                <HistoryItem history={this.props.histories[key]} key={key}/>
             );
         },
 
         render: function () {
+            var historyIds = Object.keys(this.props.histories);
            return (
                 <div>
                     <EntityHeader header="History" routes={this.props.routes}/>
@@ -177,7 +179,7 @@
                                     </div>
                                     <div className="timeline block-content-full">
                                         <ul className="timeline-list timeline-hover">
-                                            {this.props.histories.map(this.renderHistoryItems)}
+                                            {historyIds.map(this.renderHistoryItems)}
                                         </ul>
                                     </div>
                                 </div>

@@ -15,11 +15,9 @@
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.LIST:
+            case actionTypeConstant.LIST_HISTORY:
                 var newState = _.cloneDeep(state);
                 newState.project = _.cloneDeep(action.data);
-                console.log(state.project)
-                console.log(action.entity)
                 return newState;
 
             default:
