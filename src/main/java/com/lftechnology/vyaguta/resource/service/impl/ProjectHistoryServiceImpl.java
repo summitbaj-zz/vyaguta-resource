@@ -171,7 +171,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         LocalDateTime d1 = (LocalDateTime) m1.get("createdAt");
         LocalDateTime d2 = (LocalDateTime) m2.get("createdAt");
 
-        return d1.compareTo(d2);
+        return d2.compareTo(d1);
     }
 
     private Map<String, Object> compareProjectHistory(ProjectHistory record1, ProjectHistory record2) {
