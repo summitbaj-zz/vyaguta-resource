@@ -136,7 +136,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findById(UUID id) {
-        return projectDao.findById(id);
+        Project project = projectDao.findById(id);
+        List<Project> data = new ArrayList<>();
+        data.add(project);
+        
+        fetchAndMergeAccountManagers(data);
+        
+        return project;
     }
 
     @Override
@@ -158,6 +164,18 @@ public class ProjectServiceImpl implements ProjectService {
     @SuppressWarnings("serial")
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         List<Project> data = projectDao.findByFilter(queryParameters);
+
+        fetchAndMergeAccountManagers(data);
+
+        return new HashMap<String, Object>() {
+            {
+                put("count", projectDao.count(queryParameters));
+                put("data", data);
+            }
+        };
+    }
+
+    public void fetchAndMergeAccountManagers(List<Project> data) {
         List<UUID> employeeIds = data.stream().map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
@@ -168,13 +186,6 @@ public class ProjectServiceImpl implements ProjectService {
                 }
             }
         }
-
-        return new HashMap<String, Object>() {
-            {
-                put("count", projectDao.count(queryParameters));
-                put("data", data);
-            }
-        };
     }
 
     private void fixTags(Project project) {
