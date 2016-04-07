@@ -34,6 +34,19 @@
                                component={require('./components/project-status/ProjectStatusForm')}/>
                     </Route>
 
+                <Route path="projects" name="Projects"
+                       component={require('./components/project/ProjectMain')}>
+                    <IndexRoute component={require('./components/project/ProjectList')}/>
+                    <Route path="new" name="Add"
+                           component={require('./components/project/ProjectForm')}/>
+                    <Route path="edit/:id" name="Edit"
+                           component={require('./components/project/ProjectForm')}/>
+                    <Route path="details/:id" name="Details"
+                           component={require('./components/project/ProjectDetails')}/>
+                    <Route path="history/:id" name="History"
+                           component={require('./components/project/ProjectHistory')}/>
+                </Route>
+
                     <Route path="projecttypes" name="Project Types"
                            component={require('./components/project-type/ProjectTypeMain')}>
                         <IndexRoute component={require('./components/project-type/ProjectTypeList')}/>
@@ -41,17 +54,6 @@
                                component={require('./components/project-type/ProjectTypeForm')}/>
                         <Route path="edit/:id" name="Edit"
                                component={require('./components/project-type/ProjectTypeForm')}/>
-                    </Route>
-
-                    <Route path="projects" name="Projects"
-                           component={require('./components/project/ProjectMain')}>
-                        <IndexRoute component={require('./components/project/ProjectList')}/>
-                        <Route path="new" name="Add"
-                               component={require('./components/project/ProjectForm')}/>
-                        <Route path="edit/:id" name="Edit"
-                               component={require('./components/project/ProjectForm')}/>
-                        <Route path="details/:id" name="Details"
-                               component={require('./components/project/ProjectDetails')}/>
                     </Route>
 
                     <Route path="projectRoles" name="ProjectRoles"

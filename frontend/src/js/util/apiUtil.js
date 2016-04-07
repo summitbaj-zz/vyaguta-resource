@@ -121,6 +121,14 @@
                 .set('Accept', 'application/json')
         },
 
+        fetchAllHistories: function(resourceName, id){
+            return request
+                .get(url + resourceName.toLowerCase() + '/' + id + '/history')
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+
+        },
+
         refreshSession: function () {
             return request
                 .post(authUrl)
