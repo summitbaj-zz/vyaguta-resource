@@ -81,10 +81,7 @@
         },
 
         setMemberToBeInModal: function (teamMember) {
-            console.log(teamMember);
-            console.log('asdf')
             this.setState({selectedTeamMember: teamMember});
-            $('#viewTeam').modal('show');
         },
 
         renderContract: function (key) {

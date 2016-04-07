@@ -1466,6 +1466,7 @@ ul.pagination li {
                            not supported by any browser */
 }
 
+/*show all button of history*/
 .show-all-btn {
     background-color: #e7e7e7;
     width: 100%;
@@ -1492,12 +1493,7 @@ ul.pagination li {
     margin-bottom: -20px;
 }
 
-.tooltip-arrow,
-.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
-.tooltip.top .tooltip-arrow {
-    border-top-color: #FDFCD1;
-}
-
+/*accordion delete button*/
 .delete-btn {
     cursor: pointer;
 }
@@ -1506,10 +1502,12 @@ ul.pagination li {
     width: 250px;
 }
 
+/*autocomplete*/
 .Select-menu-outer {
     z-index: 3;
 }
 
+/*margin for timeline and history*/
 .contract-wrp, .timeline-wrp{
     margin-left: 20px;
     margin-right: 20px;
