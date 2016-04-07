@@ -18,18 +18,13 @@
     });
 
     var EntityHeader = React.createClass({
-        startLoader: function () {
-            NProgress.start();
-        },
-
-        endLoader: function () {
-            NProgress.done();
+        componentWillReceiveProps: function(props) {
+            props.apiState.isRequesting ? NProgress.start() : NProgress.done();
         },
 
         render: function () {
             return (
                 <div className="row header-margin">
-                    {this.props.apiState.isRequesting ? this.startLoader() : this.endLoader()}
                     <div className="col-lg-12">
                         <div className="content-header">
                             <div className="header-section clearfix">
