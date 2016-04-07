@@ -14,7 +14,6 @@
             },
 
             componentDidMount: function () {
-                console.log(this.props.history)
                 this.setAction();
                 this.setChangedEntity();
                 this.setActionData();

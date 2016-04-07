@@ -99,7 +99,6 @@
         },
 
         fetchByField: function (resourceName, field, data) {
-            console.log(url + resourceName.toLowerCase() + '?' + field + '=' + data + '&start=1&offset=10');
             return request
                 .get(url + resourceName.toLowerCase() + '?' + field + '=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
@@ -134,7 +133,6 @@
                 .get(url + resourceName.toLowerCase() + '/' + id + '/history')
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-
         },
 
         refreshSession: function () {

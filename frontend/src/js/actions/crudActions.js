@@ -38,8 +38,8 @@
             }
         },
 
-        listEndDate: function(entity, data){
-            return{
+        listEndDate: function (entity, data) {
+            return {
                 type: actionTypeConstant.LIST_BY_END_DATE,
                 data: data
             }
@@ -260,7 +260,6 @@
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchByField(entity, field, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                    console.log(response.body)
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
@@ -282,7 +281,7 @@
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchByField(entity, field, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
-                   dispatch(actions.listEndDate(entity, response.body));
+                    dispatch(actions.listEndDate(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
