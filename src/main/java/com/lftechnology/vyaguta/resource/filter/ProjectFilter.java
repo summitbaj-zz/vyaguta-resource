@@ -27,7 +27,6 @@ public class ProjectFilter extends CommonFilter<Project> implements Filterable<P
 
         filterBy("projectType", "projectType|title");
         filterBy("projectStatus", "projectStatus|title");
-        filterBy("budgetType", "budgetType|title");
 
         searchByField("q", CommonConstant.TITLE);
 
