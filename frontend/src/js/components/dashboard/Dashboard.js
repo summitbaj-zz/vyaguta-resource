@@ -255,7 +255,7 @@
             };
             return (<tr key={key}>
                 <td>{++key}</td>
-                <td>{project.title}</td>
+                <td><Link to={urlConstant.PROJECTS.DETAILS+'/'+project.id}>{project.title}</Link></td>
                 <td>{project.projectType && project.projectType.title}</td>
                 <td><span className="label text-uppercase"
                           style={style}>{project.projectStatus && project.projectStatus.title}</span></td>
@@ -268,7 +268,7 @@
                         <Link to={urlConstant.PROJECTS.DETAILS +'/' + project.id} data-toggle="tooltip"
                               title="View Details"
                               className="btn btn-sm btn-default"><i
-                            className="fa fa-eye"></i></Link>
+                            className="glyphicon glyphicon-list-alt"></i></Link>
                     </div>
                 </td>
             </tr>);
@@ -368,7 +368,7 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Projects</th>
+                                    <th className="col-250">Projects</th>
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>

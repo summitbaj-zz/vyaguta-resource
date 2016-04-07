@@ -18,7 +18,7 @@
             return (
                 <tr>
                     <td>{this.props.index}</td>
-                    <td>{this.props.project.title}</td>
+                    <td><Link to={urlConstant.PROJECTS.DETAILS + '/' + id}>{this.props.project.title}</Link></td>
                     <td>{this.props.project.projectType && this.props.project.projectType.title}</td>
                     <td><span
                         className="label text-uppercase"
@@ -32,7 +32,7 @@
                             <Link to={urlConstant.PROJECTS.DETAILS +'/' + id} data-toggle="tooltip"
                                   title="View Details"
                                   className="btn btn-sm btn-default"><i
-                                className="fa fa-eye"></i></Link>
+                                className="glyphicon glyphicon-list-alt"></i></Link>
                         </div>
                     </td>
                 </tr>
