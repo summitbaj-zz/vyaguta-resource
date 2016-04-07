@@ -1,8 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,8 +19,11 @@ import com.lftechnology.vyaguta.commons.diff.ObjectDiff;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.exception.PropertyReadException;
+import com.lftechnology.vyaguta.commons.pojo.User;
+import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
@@ -38,6 +39,8 @@ import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
 import com.lftechnology.vyaguta.resource.entity.Tag;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
@@ -48,9 +51,6 @@ import com.lftechnology.vyaguta.resource.service.ProjectService;
  */
 @Stateless
 public class ProjectServiceImpl implements ProjectService {
-
-    private static final DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Inject
     private Logger log;
@@ -75,6 +75,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractMemberHistoryDao contractMemberHistoryDao;
+
+    @Inject
+    private EmployeeService employeeService;
 
     @Override
     public Project save(Project project) {
@@ -133,7 +136,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findById(UUID id) {
-        return projectDao.findById(id);
+        Project project = projectDao.findById(id);
+        List<Project> data = new ArrayList<>();
+        data.add(project);
+
+        fetchAndMergeAccountManagers(data);
+
+        return project;
     }
 
     @Override
@@ -154,12 +163,30 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @SuppressWarnings("serial")
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        List<Project> data = projectDao.findByFilter(queryParameters);
+
+        fetchAndMergeAccountManagers(data);
+
         return new HashMap<String, Object>() {
             {
                 put("count", projectDao.count(queryParameters));
-                put("data", projectDao.findByFilter(queryParameters));
+                put("data", data);
             }
         };
+    }
+
+    public void fetchAndMergeAccountManagers(List<Project> data) {
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
+        List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
+
+        for (Project project : data) {
+            for (Employee am : accountManagers) {
+                if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
+                    project.setAccountManager(am);
+                }
+            }
+        }
     }
 
     private void fixTags(Project project) {
@@ -324,7 +351,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         for (Map<String, Object> map : history) {
             LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
-            map.put("createdAt", formatDateTime(createdAt));
+            map.put("createdAt", DateUtil.formatDateTime(createdAt));
         }
 
         return history;
@@ -425,10 +452,10 @@ public class ProjectServiceImpl implements ProjectService {
     private Map<String, Object> buildContractHistory(ContractHistory record) {
         Map<String, Object> map = new HashMap<>();
         map.put("budgetType", record.getBudgetType());
-        map.put("endDate", formatDate(record.getEndDate()));
+        map.put("endDate", DateUtil.formatDate(record.getEndDate()));
         map.put("resource", record.getResource());
-        map.put("startDate", formatDate(record.getStartDate()));
-        map.put("actualEndDate", formatDate(record.getActualEndDate()));
+        map.put("startDate", DateUtil.formatDate(record.getStartDate()));
+        map.put("actualEndDate", DateUtil.formatDate(record.getActualEndDate()));
         map.put("batch", record.getBatch().getId());
         map.put("reason", record.getBatch().getReason());
         map.put("changed", false);
@@ -443,8 +470,8 @@ public class ProjectServiceImpl implements ProjectService {
     private Map<String, Object> buildContractMemberHistory(ContractMemberHistory record) {
         Map<String, Object> map = new HashMap<>();
         map.put("employee", record.getEmployee());
-        map.put("joinDate", formatDate(record.getJoinDate()));
-        map.put("endDate", formatDate(record.getEndDate()));
+        map.put("joinDate", DateUtil.formatDate(record.getJoinDate()));
+        map.put("endDate", DateUtil.formatDate(record.getEndDate()));
         map.put("projectRole", record.getProjectRole());
         map.put("allocation", record.getAllocation());
         map.put("batch", record.getBatch().getId());
@@ -458,11 +485,4 @@ public class ProjectServiceImpl implements ProjectService {
         return map;
     }
 
-    private static String formatDateTime(LocalDateTime dateTime) {
-        return dateTime == null ? null : dateTime.format(formatterDateTime);
-    }
-
-    private static String formatDate(LocalDate date) {
-        return date == null ? null : date.format(formatterDate);
-    }
 }
