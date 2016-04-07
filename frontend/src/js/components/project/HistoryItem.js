@@ -28,7 +28,7 @@
                 } else {
                     action = 'edited';
                 }
-               this.state.action = action;
+                this.state.action = action;
                 this.setState({action: action});
             },
 
@@ -76,7 +76,7 @@
                 switch (data) {
                     case 'accountManager':
                         //return this.getAppendedName(this.state.actionData[data]);
-                        return 'Bishal Shrestha';                //until back end fixes it
+                        return 'Richan Shrestha';                //until back end fixes it
                     case 'client':
                         return this.state.actionData[data].name;
                     default:
@@ -110,9 +110,14 @@
                     })
             },
 
+            changeTOGMT: function (date) {
+                return new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
+            },
+
             getTime: function () {
                 var date = new Date(this.props.history.createdAt);
-                var seconds = Math.floor((new Date() - date) / 1000);
+                var now = new Date();
+                var seconds = Math.floor((this.changeTOGMT(now) - this.changeTOGMT(date)) / 1000);
 
                 var interval = Math.floor(seconds / 302400);
                 if (interval >= 1) {

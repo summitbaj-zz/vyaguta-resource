@@ -14,8 +14,8 @@ public class ProjectSort extends CommonSort<Project> {
         sortBy("title");
         sortBy("startDate");
         sortBy("endDate");
-        sortBy("budgetType.title");
-        sortBy("projectStatus.title");
-        sortBy("projectType.title");
+        sortBy("budgetType|title");
+        sortBy("projectStatus|title");
+        sortBy("projectType|title");
     }
 }

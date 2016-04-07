@@ -13,7 +13,7 @@
 
         render: function () {
             return (
-                <header id="header" className="navbar navbar-default">
+                <header id="header" className="navbar navbar-default navbar-fixed-top">
                     <Hamburger/>
                     <SearchBar/>
                     <DropDownList/>

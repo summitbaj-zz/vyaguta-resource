@@ -24,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
 /**
@@ -36,6 +37,9 @@ public class ProjectRs {
 
     @Inject
     private ProjectService projectService;
+
+    @Inject
+    private ProjectHistoryService projectHistoryService;
 
     @Path("/")
     @GET
@@ -94,7 +98,7 @@ public class ProjectRs {
     public List<Map<String, Object>> history(@PathParam("projectId") UUID projectId) {
         Project project = projectService.findById(projectId);
         if (project != null) {
-            return projectService.findHistory(project);
+            return projectHistoryService.findHistory(project);
         } else {
             throw new ObjectNotFoundException();
         }
