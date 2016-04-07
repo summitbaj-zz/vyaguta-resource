@@ -17,7 +17,6 @@
                     <td>{this.props.client.email}</td>
                     <td>{this.props.client.phoneNo}</td>
                     <td>{this.props.client.skype}</td>
-                    <td>{this.props.client.address}</td>
                     <td className="text-center">
                         <div className="btn-group"><Link to={urlConstant.CLIENTS.EDIT + id} data-toggle="tooltip"
                                                          title="Edit"

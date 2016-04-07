@@ -853,6 +853,7 @@ li.dropdown-header {
     padding: 1px 4px;
     margin: 0 2px 0 0;
 }
+
 .badge {
     background: rgba(0, 0, 0, 0.3);
     padding: 3px 6px;
@@ -1392,6 +1393,11 @@ ul.pagination li {
 .col-250 {
     width: 250px;
 }
+
+.col-500 {
+    width: 500px;
+}
+
 
 /*autocomplete*/
 .Select-menu-outer {

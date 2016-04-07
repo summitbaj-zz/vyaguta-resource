@@ -107,12 +107,12 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="name"
+                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="name"
                                         onClick={this.sort.bind(null, 'name')}>
                                         Name
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="email"
+                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="email"
                                         onClick={this.sort.bind(null, 'email')}>
                                         Email Address
                                         <i className="fa fa-sort pull-right"></i>
@@ -125,11 +125,6 @@
                                     <th className="cursor-pointer sort noselect" data-sort="none" id="skype"
                                         onClick={this.sort.bind(null, 'skype')}>
                                         Skype Id
-                                        <i className="fa fa-sort pull-right"></i>
-                                    </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="address"
-                                        onClick={this.sort.bind(null, 'address')}>
-                                        Address
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
                                     <th className="text-center">Actions</th>

@@ -109,12 +109,12 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="title"
+                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="title"
                                         onClick={this.sort.bind(null, 'title')}>
                                         Project Status
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
-                                    <th>Preview</th>
+                                    <th className="col-250 ellipses">Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
