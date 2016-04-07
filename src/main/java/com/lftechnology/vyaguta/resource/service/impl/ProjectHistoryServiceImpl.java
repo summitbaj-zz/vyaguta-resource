@@ -87,7 +87,6 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                         .map(ph -> ph.getProject()).collect(Collectors.toList());
 
         fetchAndMergeAccountManagers(projects);
-        fetchAndMergeUsers(projects);
 
         if (projectHistories.size() > 0) {
             ProjectHistory record = projectHistories.get(0);
@@ -163,6 +162,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
             map.put("createdAt", DateUtil.formatDateTime(createdAt));
         }
+        fetchAndMergeUsers(history);
 
         return history;
     }
@@ -312,18 +312,17 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         }
     }
 
-    private void fetchAndMergeUsers(List<Project> data) {
+    private void fetchAndMergeUsers(List<Map<String, Object>> data) {
         if (data.size() == 0)
             return;
 
-        List<UUID> userIds = data.stream().filter(p -> p.getCreatedBy() != null).map(p -> p.getCreatedBy().getId()).distinct()
-                .collect(Collectors.toList());
+        List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct().collect(Collectors.toList());
         List<User> users = userService.fetchUsers(userIds);
 
-        for (Project project : data) {
+        for (Map<String, Object> map : data) {
             for (User createdBy : users) {
-                if (project.getCreatedBy() != null && createdBy.getId().equals(project.getCreatedBy().getId())) {
-                    project.setCreatedBy(createdBy);
+                if (createdBy.getId().equals(((User) map.get("createdBy")).getId())) {
+                    map.put("createdBy", createdBy);
                 }
             }
         }
