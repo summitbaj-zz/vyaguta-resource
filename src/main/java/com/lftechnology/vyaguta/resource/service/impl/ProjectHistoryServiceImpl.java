@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.diff.ObjectDiff;
 import com.lftechnology.vyaguta.commons.exception.PropertyReadException;
+import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.resource.dao.ContractHistoryDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberHistoryDao;
@@ -26,7 +27,10 @@ import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistoryRoot;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
+import com.lftechnology.vyaguta.resource.service.UserService;
 
 public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
@@ -44,6 +48,11 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     @Inject
     private ContractMemberHistoryDao contractMemberHistoryDao;
+
+    @Inject
+    private EmployeeService employeeService;
+    @Inject
+    private UserService userService;
 
     public void logHistory(Project project) {
         UUID uuid = UUID.randomUUID();
@@ -72,6 +81,13 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private List<Map<String, Object>> findProjectHistory(Project project) {
         List<ProjectHistory> projectHistories = projectHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
+
+        List<Project> projects =
+                projectHistories.stream().filter(ph -> ph.getProject() != null && ph.getProject().getAccountManager() != null)
+                        .map(ph -> ph.getProject()).collect(Collectors.toList());
+
+        fetchAndMergeAccountManagers(projects);
+        fetchAndMergeUsers(projects);
 
         if (projectHistories.size() > 0) {
             ProjectHistory record = projectHistories.get(0);
@@ -277,5 +293,39 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         map.put("createdAt", record.getBatch().getCreatedAt());
 
         return map;
+    }
+
+    private void fetchAndMergeAccountManagers(List<Project> data) {
+        if (data.size() == 0)
+            return;
+
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
+        List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
+
+        for (Project project : data) {
+            for (Employee am : accountManagers) {
+                if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
+                    project.setAccountManager(am);
+                }
+            }
+        }
+    }
+
+    private void fetchAndMergeUsers(List<Project> data) {
+        if (data.size() == 0)
+            return;
+
+        List<UUID> userIds = data.stream().filter(p -> p.getCreatedBy() != null).map(p -> p.getCreatedBy().getId()).distinct()
+                .collect(Collectors.toList());
+        List<User> users = userService.fetchUsers(userIds);
+
+        for (Project project : data) {
+            for (User createdBy : users) {
+                if (project.getCreatedBy() != null && createdBy.getId().equals(project.getCreatedBy().getId())) {
+                    project.setCreatedBy(createdBy);
+                }
+            }
+        }
     }
 }
