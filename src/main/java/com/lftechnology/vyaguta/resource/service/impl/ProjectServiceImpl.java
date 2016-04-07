@@ -176,6 +176,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
+        if (data.size() == 0)
+            return;
+        
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
