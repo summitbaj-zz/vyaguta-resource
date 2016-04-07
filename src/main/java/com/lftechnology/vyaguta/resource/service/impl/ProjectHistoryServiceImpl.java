@@ -159,13 +159,25 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
         history = history.stream().sorted(this::compare).collect(Collectors.toList());
 
-        for (Map<String, Object> map : history) {
-            LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
-            map.put("createdAt", DateUtil.formatDateTime(createdAt));
-        }
         fetchAndMergeUsers(history);
+        convertDateAndDateTimeToString(history);
 
         return history;
+    }
+
+    private void convertDateAndDateTimeToString(List<Map<String, Object>> data) {
+        for (Map<String, Object> map : data) {
+            for (String key : map.keySet()) {
+                Object value = map.get(key);
+                if (value != null && value instanceof LocalDate) {
+                    LocalDate date = (LocalDate) value;
+                    map.put(key, DateUtil.formatDate(date));
+                } else if (value != null && value instanceof LocalDateTime) {
+                    LocalDateTime dateTime = (LocalDateTime) value;
+                    map.put(key, DateUtil.formatDateTime(dateTime));
+                }
+            }
+        }
     }
 
     int compare(Map<String, Object> m1, Map<String, Object> m2) {
@@ -205,19 +217,6 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             map = ObjectDiff.changedValues(record1, record2, fields);
             if (map.size() == 0)
                 return null;
-            
-            if (map.get("startDate") != null) {
-                LocalDate startDate = (LocalDate) map.get("startDate");
-                map.put("startDate", DateUtil.formatDate(startDate));
-            }
-            if (map.get("endDate") != null) {
-                LocalDate endDate = (LocalDate) map.get("endDate");
-                map.put("endDate", DateUtil.formatDate(endDate));
-            }
-            if (map.get("actualEndDate") != null) {
-                LocalDate actualEndDate = (LocalDate) map.get("actualEndDate");
-                map.put("actualEndDate", DateUtil.formatDate(actualEndDate));
-            }
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
@@ -241,15 +240,6 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             map = ObjectDiff.changedValues(record1, record2, fields);
             if (map.size() == 0)
                 return null;
-            
-            if (map.get("joinDate") != null) {
-                LocalDate joinDate = (LocalDate) map.get("joinDate");
-                map.put("joinDate", DateUtil.formatDate(joinDate));
-            }
-            if (map.get("endDate") != null) {
-                LocalDate endDate = (LocalDate) map.get("endDate");
-                map.put("endDate", DateUtil.formatDate(endDate));
-            }
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
@@ -285,10 +275,10 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private Map<String, Object> buildContractHistory(ContractHistory record) {
         Map<String, Object> map = new HashMap<>();
         map.put("budgetType", record.getBudgetType());
-        map.put("endDate", DateUtil.formatDate(record.getEndDate()));
+        map.put("endDate", record.getEndDate());
         map.put("resource", record.getResource());
-        map.put("startDate", DateUtil.formatDate(record.getStartDate()));
-        map.put("actualEndDate", DateUtil.formatDate(record.getActualEndDate()));
+        map.put("startDate", record.getStartDate());
+        map.put("actualEndDate", record.getActualEndDate());
         map.put("batch", record.getBatch().getId());
         map.put("reason", record.getBatch().getReason());
         map.put("changed", false);
@@ -303,8 +293,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private Map<String, Object> buildContractMemberHistory(ContractMemberHistory record) {
         Map<String, Object> map = new HashMap<>();
         map.put("employee", record.getEmployee());
-        map.put("joinDate", DateUtil.formatDate(record.getJoinDate()));
-        map.put("endDate", DateUtil.formatDate(record.getEndDate()));
+        map.put("joinDate", record.getJoinDate());
+        map.put("endDate", record.getEndDate());
         map.put("projectRole", record.getProjectRole());
         map.put("allocation", record.getAllocation());
         map.put("batch", record.getBatch().getId());
