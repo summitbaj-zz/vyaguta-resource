@@ -192,19 +192,27 @@ ALTER TABLE ONLY contract_members
 	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
 	
 	
+CREATE TABLE project_history_root (
+    id uuid NOT NULL,
+    reason text,
+    created_by uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL
+);
+ALTER TABLE project_history_root OWNER TO frieddust;
+ALTER TABLE ONLY project_history_root
+    ADD CONSTRAINT project_history_root_pkey PRIMARY KEY (id);
+    
+	
 CREATE TABLE project_histories (
     id uuid NOT NULL,
-    batch_no uuid NOT NULL,
+    batch_id uuid NOT NULL,
     project_id uuid NOT NULL,
     title CITEXT NOT NULL,
     description text,
     account_manager_id uuid,
     project_type_id uuid,
     project_status_id uuid,
-    client_id uuid,
-    reason text,
-    created_by uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    client_id uuid
 );
 ALTER TABLE project_histories OWNER TO frieddust;
 ALTER TABLE ONLY project_histories
@@ -217,21 +225,20 @@ ALTER TABLE ONLY project_histories
 	ADD CONSTRAINT project_status_fk FOREIGN KEY(project_status_id) REFERENCES project_status ON DELETE CASCADE;
 ALTER TABLE ONLY project_histories 
 	ADD CONSTRAINT clients_fk FOREIGN KEY(client_id) REFERENCES clients ON DELETE CASCADE;
+ALTER TABLE ONLY project_histories 
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
     
     
 CREATE TABLE contract_histories (
     id uuid NOT NULL,
-    batch_no uuid NOT NULL,
+    batch_id uuid NOT NULL,
     contract_id uuid NOT NULL,
     project_id uuid NOT NULL,
     budget_type_id uuid,
     start_date date,
     end_date date,
     actual_end_date date,
-    resource text,
-    reason text,
-    created_by uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    resource text
 );
 ALTER TABLE contract_histories OWNER TO frieddust;
 ALTER TABLE ONLY contract_histories
@@ -242,11 +249,13 @@ ALTER TABLE ONLY contract_histories
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 ALTER TABLE ONLY contract_histories 
 	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
+ALTER TABLE ONLY contract_histories 
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
     
     
 CREATE TABLE contract_member_histories (
     id uuid NOT NULL,
-    batch_no uuid NOT NULL,
+    batch_id uuid NOT NULL,
     contract_member_id uuid NOT NULL,
     contract_id uuid NOT NULL,
     employee_id uuid NOT NULL,
@@ -254,10 +263,7 @@ CREATE TABLE contract_member_histories (
     allocation decimal(5,2),
     billed boolean,
     join_date date,
-    end_date date,
-    reason text,
-    created_by uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    end_date date
 );
 ALTER TABLE contract_member_histories OWNER TO frieddust;
 ALTER TABLE ONLY contract_member_histories
@@ -268,6 +274,8 @@ ALTER TABLE ONLY contract_member_histories
 	ADD CONSTRAINT contracts_fk FOREIGN KEY(contract_id) REFERENCES contracts ON DELETE CASCADE;
 ALTER TABLE ONLY contract_member_histories 
 	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
+ALTER TABLE ONLY contract_member_histories 
+	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
