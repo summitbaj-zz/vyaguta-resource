@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,6 +205,19 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             map = ObjectDiff.changedValues(record1, record2, fields);
             if (map.size() == 0)
                 return null;
+            
+            if (map.get("startDate") != null) {
+                LocalDate startDate = (LocalDate) map.get("startDate");
+                map.put("startDate", DateUtil.formatDate(startDate));
+            }
+            if (map.get("endDate") != null) {
+                LocalDate endDate = (LocalDate) map.get("endDate");
+                map.put("endDate", DateUtil.formatDate(endDate));
+            }
+            if (map.get("actualEndDate") != null) {
+                LocalDate actualEndDate = (LocalDate) map.get("actualEndDate");
+                map.put("actualEndDate", DateUtil.formatDate(actualEndDate));
+            }
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
@@ -227,6 +241,15 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             map = ObjectDiff.changedValues(record1, record2, fields);
             if (map.size() == 0)
                 return null;
+            
+            if (map.get("joinDate") != null) {
+                LocalDate joinDate = (LocalDate) map.get("joinDate");
+                map.put("joinDate", DateUtil.formatDate(joinDate));
+            }
+            if (map.get("endDate") != null) {
+                LocalDate endDate = (LocalDate) map.get("endDate");
+                map.put("endDate", DateUtil.formatDate(endDate));
+            }
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
