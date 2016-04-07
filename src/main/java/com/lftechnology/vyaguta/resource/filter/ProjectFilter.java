@@ -17,7 +17,7 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-public class ProjectFilter extends CommonFilter<Project>implements Filterable<Project> {
+public class ProjectFilter extends CommonFilter<Project> implements Filterable<Project> {
 
     public ProjectFilter() {
         filterBy("title");
@@ -27,7 +27,6 @@ public class ProjectFilter extends CommonFilter<Project>implements Filterable<Pr
 
         filterBy("projectType", "projectType|title");
         filterBy("projectStatus", "projectStatus|title");
-        filterBy("budgetType", "budgetType|title");
 
         searchByField("q", CommonConstant.TITLE);
 
@@ -40,7 +39,7 @@ public class ProjectFilter extends CommonFilter<Project>implements Filterable<Pr
                 return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
             }
         });
-        
+
         filterMap.put("contract.startDate", new EntityFilter<Project>() {
 
             @Override
@@ -50,7 +49,7 @@ public class ProjectFilter extends CommonFilter<Project>implements Filterable<Pr
                 return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
             }
         });
-        
+
         filterMap.put("contract.actualEndDate", new EntityFilter<Project>() {
 
             @Override
@@ -58,6 +57,16 @@ public class ProjectFilter extends CommonFilter<Project>implements Filterable<Pr
                 Join join = cm.getRoot().join("contracts");
                 Path path = join.get("actualEndDate");
                 return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            }
+        });
+        
+        filterMap.put("contract.budgetType", new EntityFilter<Project>() {
+
+            @Override
+            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
+                Join join = cm.getRoot().join("contracts").join("budgetType");
+                Path path = join.get("title");
+                return cm.getCriteriaBuilder().equal(path, value);
             }
         });
     }
