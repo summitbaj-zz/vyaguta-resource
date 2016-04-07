@@ -38,6 +38,13 @@
             }
         },
 
+        listEndDate: function(entity, data){
+            return{
+                type: actionTypeConstant.LIST_BY_END_DATE,
+                data: data
+            }
+        },
+
         delete: function (entity, id) {
             return {
                 type: actionTypeConstant.DELETE,
@@ -240,6 +247,49 @@
                         apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchByQuery(entity, data));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
+                }));
+            }
+        },
+
+        fetchByField: function (entity, field, data) {
+            return function (dispatch) {
+                dispatch(apiActions.apiRequest(entity));
+                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
+                    dispatch(apiActions.apiResponse(entity));
+                    console.log(response.body)
+                    dispatch(actions.list(entity, response.body));
+                }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        apiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.fetchByField(entity, field, data));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
+                }));
+            }
+        },
+
+        fetchByEndDate: function (entity, field, data) {
+            return function (dispatch) {
+                dispatch(apiActions.apiRequest(entity));
+                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
+                    dispatch(apiActions.apiResponse(entity));
+                   dispatch(actions.listEndDate(entity, response.body));
+                }, function (error) {
+                    dispatch(apiActions.apiResponse(entity));
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        apiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.fetchByField(entity, field, data));
                         });
                     } else {
                         Toastr.error(error.response.body.error);

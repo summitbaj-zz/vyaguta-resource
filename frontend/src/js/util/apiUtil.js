@@ -98,6 +98,14 @@
 
         },
 
+        fetchByField: function (resourceName, field, data) {
+            console.log(url + resourceName.toLowerCase() + '?' + field + '=' + data + '&start=1&offset=10');
+            return request
+                .get(url + resourceName.toLowerCase() + '?' + field + '=' + data)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+        },
+
         create: function (resourceName, data) {
             return request
                 .post(url + resourceName.toLowerCase())
@@ -121,7 +129,7 @@
                 .set('Accept', 'application/json')
         },
 
-        fetchAllHistories: function(resourceName, id){
+        fetchAllHistories: function (resourceName, id) {
             return request
                 .get(url + resourceName.toLowerCase() + '/' + id + '/history')
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
@@ -143,7 +151,7 @@
 
         },
 
-        logOut: function(){
+        logOut: function () {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             window.location.href = window.location.origin;

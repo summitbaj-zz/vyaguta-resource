@@ -1357,35 +1357,6 @@ ul.pagination li {
                            not supported by any browser */
 }
 
-/*carousel*/
-
-.carousel-control.left, .carousel-control.right {
-    background-image: none
-}
-
-.carousel-indicators li {
-    border: 1px solid grey;
-}
-
-.carousel-indicators .active {
-    background-color: grey;
-}
-
-.carousel-inner {
-    min-height: 532px;
-}
-
-.carousel-indicator {
-    width: 10%;
-}
-
-.not-found-message {
-    padding-left: 15px;
-    font-size: 14px;
-    font-weight: 300;
-    font-style: italic;
-}
-
 /*show all button of history*/
 .show-all-btn {
     background-color: #e7e7e7;
@@ -1431,4 +1402,8 @@ ul.pagination li {
 .contract-wrp, .timeline-wrp {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.list-group-project{
+    width: 50%;
 }
