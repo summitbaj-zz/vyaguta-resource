@@ -36,6 +36,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
         SecurityRequestContext.setCurrentUser(null);
+        SecurityRequestContext.setAccessToken(null);
 
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -44,6 +45,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             final User user = validateToken(token);
 
             SecurityRequestContext.setCurrentUser(user);
+            SecurityRequestContext.setAccessToken(token);
 
             requestContext.setSecurityContext(new SecurityContext() {
 
