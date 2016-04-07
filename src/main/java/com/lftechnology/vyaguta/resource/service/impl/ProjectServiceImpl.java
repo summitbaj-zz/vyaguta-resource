@@ -139,9 +139,9 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectDao.findById(id);
         List<Project> data = new ArrayList<>();
         data.add(project);
-        
+
         fetchAndMergeAccountManagers(data);
-        
+
         return project;
     }
 
@@ -176,7 +176,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
         for (Project project : data) {
