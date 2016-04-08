@@ -355,7 +355,7 @@
                         </div>
                     </div>
                     <div className="block clearfix">
-                        <div className="block-title"><h2>ProjectDetails</h2>
+                        <div className="block-title"><h2>Project Details</h2>
                             <div className="block-options pull-right">
                                 <Link to={urlConstant.PROJECTS.INDEX} title="List Project"
                                       className="btn btn-sm btn-ghost btn-success text-uppercase"> View All</Link>

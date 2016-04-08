@@ -3,6 +3,9 @@
 
     //React dependencies
     var React = require('react');
+
+    var moment = require('moment');
+
     var HistoryItem = React.createClass({
             getInitialState: function () {
                 return {
@@ -55,7 +58,6 @@
                 for (var key in history) {
                     if (!(invalidKeys.indexOf(key) > -1) && (history[key] || (!history[key] && this.state.action == 'edited'))) {
                         actionData[key] = history[key];
-
                     }
                 }
                 this.setState({actionData: actionData});
@@ -70,12 +72,10 @@
                 return name;
             },
 
-
             getDataForDisplay: function (data) {
                 switch (data) {
                     case 'accountManager':
-                        //return this.getAppendedName(this.state.actionData[data]);
-                        return 'Richan Shrestha';                //until back end fixes it
+                        return this.getAppendedName(this.state.actionData[data]);
                     case 'client':
                         return this.state.actionData[data].name;
                     default:
@@ -85,7 +85,11 @@
 
             listChanges: function (data) {
                 var displayData;
-                if (!this.state.actionData[data]) {
+                if (data == 'allocation') {
+                    displayData = this.state.actionData[data];
+                } else if (data == 'billed') {
+                    displayData = this.state.actionData[data] ? 'Yes' : 'No';
+                } else if (!this.state.actionData[data]) {
                     return <p
                         className="changed-field"
                         key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
@@ -109,23 +113,19 @@
                     })
             },
 
-            changeTOGMT: function (date) {
-                return new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
-            },
-
             getTime: function () {
-                var date = new Date(this.props.history.createdAt);
+                var date = new Date(moment(this.props.history.createdAt).format());
                 var now = new Date();
-                var seconds = Math.floor((this.changeTOGMT(now) - this.changeTOGMT(date)) / 1000);
-
+                var seconds = Math.floor(now - date) / 1000;
                 var interval = Math.floor(seconds / 302400);
+
                 if (interval >= 1) {
                     var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
                     return convertedDate;
                 }
                 interval = Math.floor(seconds / 86400);
                 if (interval >= 1) {
-                    return interval + " days ago";
+                    return interval + ' days ago';
                 }
                 interval = Math.floor(seconds / 3600);
                 if (interval >= 1) {
@@ -135,13 +135,18 @@
                 if (interval >= 1) {
                     return interval + " minutes ago";
                 }
-                return Math.floor(seconds) + " seconds ago";
+                interval = seconds;
+                if (interval >= 0) {
+                    return Math.floor(seconds) + " seconds ago";
+                }
+                var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                return convertedDate;
             },
 
             render: function () {
                 var actionClassName = (this.state.action == 'added') ? 'fa fa-plus' : 'fa fa-pencil';
                 var changeKeys = Object.keys(this.state.actionData);
-                var createdBy = this.props.history.createdBy.id && ' by ' + this.props.history.createdBy.id;
+                var createdBy = this.props.history.createdBy.name && ' by ' + this.props.history.createdBy.name;
                 return (
                     <li data-toggle="tooltip" title={this.props.history.reason}>
                         <div className="timeline-icon"><i

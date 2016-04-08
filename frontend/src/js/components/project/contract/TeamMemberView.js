@@ -16,7 +16,7 @@
                     <td>{teamMemberAllocation.allocation}</td>
                     <td>{teamMemberAllocation.joinDate}</td>
                     <td>{teamMemberAllocation.endDate}</td>
-                    <td>{teamMemberAllocation.billed}</td>
+                    <td>{teamMemberAllocation.billed ? 'Yes' : 'No'}</td>
                 </tr>
             );
         },
