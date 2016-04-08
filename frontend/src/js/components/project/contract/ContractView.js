@@ -17,7 +17,6 @@
 
         render: function () {
             var contract = this.props.contract;
-
             return (
                 <div className="panel panel-default">
                     <div className="panel-heading" role="tab" id={'heading' + contract.id}>

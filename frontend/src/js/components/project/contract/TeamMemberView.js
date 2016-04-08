@@ -8,15 +8,15 @@
     var TeamMemberView = React.createClass({
 
         renderAllocation: function (key) {
-            var teamMemberAllocations = this.props.selectedTeamMember.allocations;
+            var teamMemberAllocation = this.props.selectedTeamMember.allocations[key];
             return (
                 <tr key={key}>
                     <td>{++key}</td>
-                    <td>{teamMemberAllocations[key].role.title}</td>
-                    <td>{teamMemberAllocations[key].allocation}</td>
-                    <td>{teamMemberAllocations[key].joinDate}</td>
-                    <td>{teamMemberAllocations[key].endDate}</td>
-                    <td>{teamMemberAllocations[key].billed ? 'Yes' : 'No'}</td>
+                    <td>{teamMemberAllocation.role.title}</td>
+                    <td>{teamMemberAllocation.allocation}</td>
+                    <td>{teamMemberAllocation.joinDate}</td>
+                    <td>{teamMemberAllocation.endDate}</td>
+                    <td>{teamMemberAllocation.billed}</td>
                 </tr>
             );
         },
