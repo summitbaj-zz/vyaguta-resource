@@ -83,11 +83,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         List<ProjectHistory> projectHistories = projectHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
 
-        List<Project> projects =
-                projectHistories.stream().filter(ph -> ph.getProject() != null && ph.getProject().getAccountManager() != null)
-                        .map(ph -> ph.getProject()).collect(Collectors.toList());
-
-        fetchAndMergeAccountManagers(projects);
+        fetchAndMergeAccountManagers(projectHistories);
 
         if (projectHistories.size() > 0) {
             ProjectHistory record = projectHistories.get(0);
@@ -132,6 +128,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private List<Map<String, Object>> findContractMemberHistory(Project project) {
         List<ContractMemberHistory> contractMemberHistories = contractMemberHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
+
+        fetchAndMergeContractMembers(contractMemberHistories);
 
         if (contractMemberHistories.size() > 0) {
             ContractMemberHistory record = contractMemberHistories.get(0);
@@ -308,17 +306,17 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         return map;
     }
 
-    private void fetchAndMergeAccountManagers(List<Project> data) {
+    private void fetchAndMergeAccountManagers(List<ProjectHistory> data) {
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
         if (employeeIds.size() == 0)
             return;
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
-        for (Project project : data) {
+        for (ProjectHistory ph : data) {
             for (Employee am : accountManagers) {
-                if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
-                    project.setAccountManager(am);
+                if (ph.getAccountManager() != null && am.getId().equals(ph.getAccountManager().getId())) {
+                    ph.setAccountManager(am);
                 }
             }
         }
@@ -326,6 +324,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     private void fetchAndMergeUsers(List<Map<String, Object>> data) {
         List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct().collect(Collectors.toList());
+        System.out.println(userIds);
         if (userIds.size() == 0)
             return;
         List<User> users = userService.fetchUsers(userIds);
@@ -334,6 +333,29 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             for (User createdBy : users) {
                 if (createdBy.getId().equals(((User) map.get("createdBy")).getId())) {
                     map.put("createdBy", createdBy);
+                }
+            }
+        }
+    }
+
+    private void fetchAndMergeContractMembers(List<ContractMemberHistory> data) {
+        List<UUID> employeeIds = new ArrayList<>();
+        for (ContractMemberHistory cmh : data) {
+            for (ContractMember cm : cmh.getContract().getContractMembers()) {
+                employeeIds.add(cm.getEmployee().getId());
+            }
+        }
+        if (employeeIds.size() == 0)
+            return;
+
+        List<Employee> employees = employeeService.fetchEmployees(employeeIds);
+
+        for (ContractMemberHistory cmh : data) {
+            for (ContractMember cm : cmh.getContract().getContractMembers()) {
+                for (Employee employee : employees) {
+                    if (cm.getEmployee().getId().equals(employee.getId())) {
+                        cm.setEmployee(employee);
+                    }
                 }
             }
         }
