@@ -138,17 +138,19 @@
                                 <label className="control-label col-md-4">Allocation</label>
                                 <div className="col-md-8">
                                     <div className="input-group">
-                                        <input ref="allocation"
-                                               name="allocation"
-                                               type="number"
-                                               max="100"
-                                               min="0"
-                                               placeholder="0"
-                                               className="form-control"
-                                               onChange={this.handleAllocationInputChange}
-                                               value={this.props.allocation && this.props.allocation.allocation}/>
-                                                <span className="input-group-addon"><i
-                                                    className="fa fa-percent"></i></span>
+                                        <select  className="form-control"
+                                                 name="allocation" ref="allocation"
+                                                 id="allocation"
+                                                 value={this.props.allocation && this.props.allocation.allocation}
+                                                 onChange={this.handleAllocationInputChange}>
+                                            <option value="0">0</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="75">75</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                         <span className="input-group-addon"><i
+                                             className="fa fa-percent"></i></span>
                                     </div>
                                 </div>
                             </div>
