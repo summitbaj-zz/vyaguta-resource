@@ -76,9 +76,13 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             String[] contractMemberHistoryFields =
                     new String[] { "employee.id", "projectRole.id", "allocation", "billed", "joinDate", "endDate" };
 
+            if (recentPh == null)
+                projectHistory.setEvent(ProjectHistory.EVENT_TYPE_INSERT);
+
             if (recentPh == null || ObjectDiff.isDifferent(projectHistory, recentPh, projectHistoryFields)) {
                 projectHistoryRootDao.save(batch);
                 projectHistoryRootSaved = true;
+
                 projectHistoryDao.save(projectHistory);
             }
 
@@ -86,6 +90,9 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 ContractHistory contractHistory = new ContractHistory(contract);
                 contractHistory.setBatch(batch);
                 ContractHistory recentCh = contractHistoryDao.findMostRecent(contract);
+
+                if (recentCh == null)
+                    contractHistory.setEvent(ProjectHistory.EVENT_TYPE_INSERT);
 
                 if (recentCh == null || ObjectDiff.isDifferent(contractHistory, recentCh, contractHistoryFields)) {
                     if (!projectHistoryRootSaved) {
@@ -100,6 +107,9 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                     ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
                     contractMemberHistory.setBatch(batch);
                     ContractMemberHistory recentCmh = contractMemberHistoryDao.findMostRecent(cm);
+
+                    if (recentCmh == null)
+                        contractMemberHistory.setEvent(ProjectHistory.EVENT_TYPE_INSERT);
 
                     if (recentCmh == null || ObjectDiff.isDifferent(contractMemberHistory, recentCmh, contractMemberHistoryFields)) {
                         if (!projectHistoryRootSaved) {
