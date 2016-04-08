@@ -188,10 +188,8 @@
         getFormData: function () {
             var contracts = convertContractHash.toBackEndHash(this.props.contracts);
 
-            if (this.props.params.id && this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id){
+            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
                 var accountManager = {id: this.props.selectedItem.projects.accountManager.id};
-            }else if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
-                var accountManager = {id: this.props.selectedItem.projects.accountManager.id.value};
             } else {
                 var accountManager = null;
             }
