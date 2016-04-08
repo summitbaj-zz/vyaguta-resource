@@ -96,7 +96,7 @@
                             dispatch(crudActions.fetchAllFromCore(entity));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
@@ -118,7 +118,7 @@
                             dispatch(crudActions.fetchAll(entity));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
@@ -141,7 +141,7 @@
                             dispatch(crudActions.addItem(entity, data));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
@@ -164,7 +164,7 @@
                             dispatch(crudActions.updateItem(entity, data, id));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }))
             }
@@ -186,7 +186,7 @@
                             dispatch(crudActions.fetchById(entity, id));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }))
             }
@@ -209,7 +209,7 @@
                             dispatch(crudActions.deleteItem(entity, id));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }))
             }
@@ -249,7 +249,7 @@
                             dispatch(crudActions.fetchByQuery(entity, data));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
