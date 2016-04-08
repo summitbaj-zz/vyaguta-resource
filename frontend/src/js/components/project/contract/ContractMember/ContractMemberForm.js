@@ -64,12 +64,9 @@
         },
 
         saveContractMember: function () {
-            if (this.props.memberIndex && this.props.selectedContractMember.employee &&
+            if(this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
                 var employee = {id: this.props.selectedContractMember.employee.id}
-            } else if (this.props.selectedContractMember.employee &&
-                this.props.selectedContractMember.employee.id) {
-                var employee = {id: this.props.selectedContractMember.employee.id.value}
             } else {
                 var employee = null;
             }
@@ -108,7 +105,7 @@
         },
 
         handleAutoCompleteChange: function (value) {
-            this.props.actions.handleContractMemberSelectOptionChange('employee', value);
+            this.props.actions.handleContractMemberSelectOptionChange('employee', value.value);
         },
 
         render: function () {
