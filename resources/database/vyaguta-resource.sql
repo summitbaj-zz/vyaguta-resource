@@ -206,6 +206,7 @@ ALTER TABLE ONLY project_history_root
 CREATE TABLE project_histories (
     id uuid NOT NULL,
     batch_id uuid NOT NULL,
+    event_type int NOT NULL,
     project_id uuid NOT NULL,
     title CITEXT NOT NULL,
     description text,
@@ -232,6 +233,7 @@ ALTER TABLE ONLY project_histories
 CREATE TABLE contract_histories (
     id uuid NOT NULL,
     batch_id uuid NOT NULL,
+    event_type int NOT NULL,
     contract_id uuid NOT NULL,
     project_id uuid NOT NULL,
     budget_type_id uuid,
@@ -256,6 +258,7 @@ ALTER TABLE ONLY contract_histories
 CREATE TABLE contract_member_histories (
     id uuid NOT NULL,
     batch_id uuid NOT NULL,
+   	event_type int NOT NULL,
     contract_member_id uuid NOT NULL,
     contract_id uuid NOT NULL,
     employee_id uuid NOT NULL,
