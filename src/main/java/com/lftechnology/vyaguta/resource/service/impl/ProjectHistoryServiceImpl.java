@@ -209,7 +209,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private Map<String, Object> compareContractHistory(ContractHistory record1, ContractHistory record2) {
-        String[] fields = new String[] { "budgetType", "contract", "endDate", "project", "startDate", "actualEndDate", "resource" };
+        String[] fields = new String[] { "budgetType", "endDate", "startDate", "actualEndDate", "resource" };
 
         Map<String, Object> map = null;
 
@@ -232,8 +232,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private Map<String, Object> compareContractMemberHistory(ContractMemberHistory record1, ContractMemberHistory record2) {
-        String[] fields =
-                new String[] { "contractMember", "contract", "employee", "projectRole", "allocation", "billed", "joinDate", "endDate" };
+        String[] fields = new String[] { "employee", "projectRole", "allocation", "billed", "joinDate", "endDate" };
 
         Map<String, Object> map = null;
         try {
