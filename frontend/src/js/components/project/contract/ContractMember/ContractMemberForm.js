@@ -66,7 +66,7 @@
         saveContractMember: function () {
             if(this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
-                var employee = {id: this.props.selectedContractMember.employee.id}
+                var employee = this.props.selectedContractMember.employee
             } else {
                 var employee = null;
             }
