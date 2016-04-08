@@ -107,7 +107,7 @@
         },
 
         handleAutoCompleteChange: function (value) {
-            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value);
+            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value.value);
         },
 
 
