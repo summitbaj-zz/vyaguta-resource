@@ -1,9 +1,9 @@
 package com.lftechnology.vyaguta.resource.dao;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
-import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectHistory;
 
@@ -50,5 +49,14 @@ public interface ProjectHistoryDao {
         return getEm().createNamedQuery(ProjectHistory.FIND_BY_PROJECT, ProjectHistory.class).setParameter("project", project)
                 .getResultList();
     };
+
+    public default ProjectHistory findMostRecent(Project project) {
+        String jpql = "SELECT ph FROM ProjectHistory ph WHERE ph.project=:project ORDER BY ph.batch.createdBy DESC";
+        try {
+            return getEm().createQuery(jpql, ProjectHistory.class).setParameter("project", project).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 }

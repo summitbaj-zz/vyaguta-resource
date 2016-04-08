@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,6 +12,7 @@ import javax.persistence.criteria.Root;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.ContractMemberHistory;
 import com.lftechnology.vyaguta.resource.entity.Project;
 
@@ -45,8 +47,18 @@ public interface ContractMemberHistoryDao {
     }
 
     public default List<ContractMemberHistory> findHistory(Project project) {
-        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class)
-                .setParameter("project", project).getResultList();
+        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class).setParameter("project", project)
+                .getResultList();
     };
+
+    public default ContractMemberHistory findMostRecent(ContractMember contractMember) {
+        String jpql = "SELECT ch FROM ContractMemberHistory ch WHERE ch.contractMember=:contractMember ORDER BY ch.batch.createdBy DESC";
+        try {
+            return getEm().createQuery(jpql, ContractMemberHistory.class).setParameter("contractMember", contractMember).setMaxResults(1)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 }

@@ -58,27 +58,63 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private UserService userService;
 
     public void logHistory(Project project) {
-        UUID uuid = UUID.randomUUID();
-        ProjectHistoryRoot batch = new ProjectHistoryRoot();
-        batch.setId(uuid);
-        batch.setReason(project.getReason());
-        projectHistoryRootDao.save(batch);
+        try {
+            UUID uuid = UUID.randomUUID();
+            ProjectHistoryRoot batch = new ProjectHistoryRoot();
+            batch.setId(uuid);
+            batch.setReason(project.getReason());
 
-        ProjectHistory projectHistory = new ProjectHistory(project);
-        projectHistory.setBatch(batch);
+            boolean projectHistoryRootSaved = false;
 
-        for (Contract contract : project.getContracts()) {
-            ContractHistory contractHistory = new ContractHistory(contract);
-            contractHistory.setBatch(batch);
-            contractHistoryDao.save(contractHistory);
+            ProjectHistory projectHistory = new ProjectHistory(project);
+            projectHistory.setBatch(batch);
+            ProjectHistory recentPh = projectHistoryDao.findMostRecent(project);
 
-            for (ContractMember cm : contract.getContractMembers()) {
-                ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
-                contractMemberHistory.setBatch(batch);
-                contractMemberHistoryDao.save(contractMemberHistory);
+            String[] projectHistoryFields =
+                    new String[] { "title", "description", "accountManager.id", "client.id", "projectStatus.id", "projectType.id" };
+            String[] contractHistoryFields = new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate", "resource" };
+            String[] contractMemberHistoryFields =
+                    new String[] { "employee.id", "projectRole.id", "allocation", "billed", "joinDate", "endDate" };
+
+            if (recentPh == null || ObjectDiff.isDifferent(projectHistory, recentPh, projectHistoryFields)) {
+                projectHistoryRootDao.save(batch);
+                projectHistoryRootSaved = true;
+                projectHistoryDao.save(projectHistory);
             }
+
+            for (Contract contract : project.getContracts()) {
+                ContractHistory contractHistory = new ContractHistory(contract);
+                contractHistory.setBatch(batch);
+                ContractHistory recentCh = contractHistoryDao.findMostRecent(contract);
+
+                if (recentCh == null || ObjectDiff.isDifferent(contractHistory, recentCh, contractHistoryFields)) {
+                    if (!projectHistoryRootSaved) {
+                        projectHistoryRootDao.save(batch);
+                        projectHistoryRootSaved = true;
+                    }
+
+                    contractHistoryDao.save(contractHistory);
+                }
+
+                for (ContractMember cm : contract.getContractMembers()) {
+                    ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
+                    contractMemberHistory.setBatch(batch);
+                    ContractMemberHistory recentCmh = contractMemberHistoryDao.findMostRecent(cm);
+
+                    if (recentCmh == null || ObjectDiff.isDifferent(contractMemberHistory, recentCmh, contractMemberHistoryFields)) {
+                        if (!projectHistoryRootSaved) {
+                            projectHistoryRootDao.save(batch);
+                            projectHistoryRootSaved = true;
+                        }
+
+                        contractMemberHistoryDao.save(contractMemberHistory);
+                    }
+
+                }
+            }
+        } catch (PropertyReadException e) {
+            throw new RuntimeException(e);
         }
-        projectHistoryDao.save(projectHistory);
     }
 
     private List<Map<String, Object>> findProjectHistory(Project project) {
