@@ -1,0 +1,48 @@
+/*carousel*/
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+.carousel-indicators li {
+    border: 1px solid grey;
+}
+
+.carousel-indicators .active {
+    background-color: grey;
+}
+
+.carousel-inner {
+    min-height: 532px;
+}
+
+.carousel-control {
+    width: 8%;
+}
+
+.not-found-message {
+    padding-left: 15px;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.display-inline {
+    display: inline !important;
+}
+
+.cards-text span {
+    font-size: 18px;
+}
+
+.widget .widget-icon {
+    margin-top: 7px !important;
+}
+
+.side-text .text-light{
+    display: block;
+}
+
+.widget-simple{
+    min-height: 108px;
+}

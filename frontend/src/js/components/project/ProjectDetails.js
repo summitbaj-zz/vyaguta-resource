@@ -29,6 +29,7 @@
     var crudActions = require('../../actions/crudActions');
     var apiActions = require('../../actions/apiActions');
     var historyActions = require('../../actions/historyActions');
+    var contractActions = require('../../actions/contractActions');
 
     //libraries
     var _ = require('lodash');
@@ -57,6 +58,7 @@
             this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
             this.props.actions.apiClearState();
             this.props.actions.clearHistory();
+            this.props.actions.clearContracts();
         },
 
         getAccountManagerName: function () {
@@ -210,7 +212,7 @@
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, crudActions, apiActions, historyActions), dispatch)
+            actions: bindActionCreators(_.assign({}, crudActions, apiActions, historyActions, contractActions), dispatch)
         }
     };
 
