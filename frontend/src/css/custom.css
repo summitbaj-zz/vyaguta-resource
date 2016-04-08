@@ -16,7 +16,7 @@ ul {
     border-radius: 0;
 }
 #page-container{
-	overflow-x: visible;
+	/*overflow-x: visible;*/
 }
 /**---Sidebar---**/
 .sidebar-brand {
