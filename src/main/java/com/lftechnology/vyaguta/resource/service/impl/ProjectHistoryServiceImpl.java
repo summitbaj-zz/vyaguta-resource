@@ -341,8 +341,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private void fetchAndMergeContractMembers(List<ContractMemberHistory> data) {
         List<UUID> employeeIds = new ArrayList<>();
         for (ContractMemberHistory cmh : data) {
-            for (ContractMember cm : cmh.getContract().getContractMembers()) {
-                employeeIds.add(cm.getEmployee().getId());
+            if (cmh.getEmployee() != null) {
+                employeeIds.add(cmh.getEmployee().getId());
             }
         }
         if (employeeIds.size() == 0)
@@ -351,11 +351,9 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         List<Employee> employees = employeeService.fetchEmployees(employeeIds);
 
         for (ContractMemberHistory cmh : data) {
-            for (ContractMember cm : cmh.getContract().getContractMembers()) {
-                for (Employee employee : employees) {
-                    if (cm.getEmployee().getId().equals(employee.getId())) {
-                        cm.setEmployee(employee);
-                    }
+            for (Employee employee : employees) {
+                if (cmh.getEmployee() != null && cmh.getEmployee().getId().equals(employee.getId())) {
+                    cmh.setEmployee(employee);
                 }
             }
         }
