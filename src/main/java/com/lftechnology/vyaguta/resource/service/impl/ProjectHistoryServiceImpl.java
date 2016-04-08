@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 import com.lftechnology.vyaguta.resource.service.UserService;
 
+@Stateless
 public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     @Inject
@@ -56,38 +58,70 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private UserService userService;
 
     public void logHistory(Project project) {
-        UUID uuid = UUID.randomUUID();
-        ProjectHistoryRoot batch = new ProjectHistoryRoot();
-        batch.setId(uuid);
-        batch.setReason(project.getReason());
-        projectHistoryRootDao.save(batch);
+        try {
+            UUID uuid = UUID.randomUUID();
+            ProjectHistoryRoot batch = new ProjectHistoryRoot();
+            batch.setId(uuid);
+            batch.setReason(project.getReason());
 
-        ProjectHistory projectHistory = new ProjectHistory(project);
-        projectHistory.setBatch(batch);
+            boolean projectHistoryRootSaved = false;
 
-        for (Contract contract : project.getContracts()) {
-            ContractHistory contractHistory = new ContractHistory(contract);
-            contractHistory.setBatch(batch);
-            contractHistoryDao.save(contractHistory);
+            ProjectHistory projectHistory = new ProjectHistory(project);
+            projectHistory.setBatch(batch);
+            ProjectHistory recentPh = projectHistoryDao.findMostRecent(project);
 
-            for (ContractMember cm : contract.getContractMembers()) {
-                ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
-                contractMemberHistory.setBatch(batch);
-                contractMemberHistoryDao.save(contractMemberHistory);
+            String[] projectHistoryFields =
+                    new String[] { "title", "description", "accountManager.id", "client.id", "projectStatus.id", "projectType.id" };
+            String[] contractHistoryFields = new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate", "resource" };
+            String[] contractMemberHistoryFields =
+                    new String[] { "employee.id", "projectRole.id", "allocation", "billed", "joinDate", "endDate" };
+
+            if (recentPh == null || ObjectDiff.isDifferent(projectHistory, recentPh, projectHistoryFields)) {
+                projectHistoryRootDao.save(batch);
+                projectHistoryRootSaved = true;
+                projectHistoryDao.save(projectHistory);
             }
+
+            for (Contract contract : project.getContracts()) {
+                ContractHistory contractHistory = new ContractHistory(contract);
+                contractHistory.setBatch(batch);
+                ContractHistory recentCh = contractHistoryDao.findMostRecent(contract);
+
+                if (recentCh == null || ObjectDiff.isDifferent(contractHistory, recentCh, contractHistoryFields)) {
+                    if (!projectHistoryRootSaved) {
+                        projectHistoryRootDao.save(batch);
+                        projectHistoryRootSaved = true;
+                    }
+
+                    contractHistoryDao.save(contractHistory);
+                }
+
+                for (ContractMember cm : contract.getContractMembers()) {
+                    ContractMemberHistory contractMemberHistory = new ContractMemberHistory(cm);
+                    contractMemberHistory.setBatch(batch);
+                    ContractMemberHistory recentCmh = contractMemberHistoryDao.findMostRecent(cm);
+
+                    if (recentCmh == null || ObjectDiff.isDifferent(contractMemberHistory, recentCmh, contractMemberHistoryFields)) {
+                        if (!projectHistoryRootSaved) {
+                            projectHistoryRootDao.save(batch);
+                            projectHistoryRootSaved = true;
+                        }
+
+                        contractMemberHistoryDao.save(contractMemberHistory);
+                    }
+
+                }
+            }
+        } catch (PropertyReadException e) {
+            throw new RuntimeException(e);
         }
-        projectHistoryDao.save(projectHistory);
     }
 
     private List<Map<String, Object>> findProjectHistory(Project project) {
         List<ProjectHistory> projectHistories = projectHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
 
-        List<Project> projects =
-                projectHistories.stream().filter(ph -> ph.getProject() != null && ph.getProject().getAccountManager() != null)
-                        .map(ph -> ph.getProject()).collect(Collectors.toList());
-
-        fetchAndMergeAccountManagers(projects);
+        fetchAndMergeAccountManagers(projectHistories);
 
         if (projectHistories.size() > 0) {
             ProjectHistory record = projectHistories.get(0);
@@ -132,6 +166,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private List<Map<String, Object>> findContractMemberHistory(Project project) {
         List<ContractMemberHistory> contractMemberHistories = contractMemberHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
+
+        fetchAndMergeContractMembers(contractMemberHistories);
 
         if (contractMemberHistories.size() > 0) {
             ContractMemberHistory record = contractMemberHistories.get(0);
@@ -209,7 +245,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private Map<String, Object> compareContractHistory(ContractHistory record1, ContractHistory record2) {
-        String[] fields = new String[] { "budgetType", "contract", "endDate", "project", "startDate", "actualEndDate", "resource" };
+        String[] fields = new String[] { "budgetType", "endDate", "startDate", "actualEndDate", "resource" };
 
         Map<String, Object> map = null;
 
@@ -232,8 +268,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     }
 
     private Map<String, Object> compareContractMemberHistory(ContractMemberHistory record1, ContractMemberHistory record2) {
-        String[] fields =
-                new String[] { "contractMember", "contract", "employee", "projectRole", "allocation", "billed", "joinDate", "endDate" };
+        String[] fields = new String[] { "employee", "projectRole", "allocation", "billed", "joinDate", "endDate" };
 
         Map<String, Object> map = null;
         try {
@@ -308,17 +343,17 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         return map;
     }
 
-    private void fetchAndMergeAccountManagers(List<Project> data) {
+    private void fetchAndMergeAccountManagers(List<ProjectHistory> data) {
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
         if (employeeIds.size() == 0)
             return;
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
-        for (Project project : data) {
+        for (ProjectHistory ph : data) {
             for (Employee am : accountManagers) {
-                if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
-                    project.setAccountManager(am);
+                if (ph.getAccountManager() != null && am.getId().equals(ph.getAccountManager().getId())) {
+                    ph.setAccountManager(am);
                 }
             }
         }
@@ -326,6 +361,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     private void fetchAndMergeUsers(List<Map<String, Object>> data) {
         List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct().collect(Collectors.toList());
+        System.out.println(userIds);
         if (userIds.size() == 0)
             return;
         List<User> users = userService.fetchUsers(userIds);
@@ -334,6 +370,27 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
             for (User createdBy : users) {
                 if (createdBy.getId().equals(((User) map.get("createdBy")).getId())) {
                     map.put("createdBy", createdBy);
+                }
+            }
+        }
+    }
+
+    private void fetchAndMergeContractMembers(List<ContractMemberHistory> data) {
+        List<UUID> employeeIds = new ArrayList<>();
+        for (ContractMemberHistory cmh : data) {
+            if (cmh.getEmployee() != null) {
+                employeeIds.add(cmh.getEmployee().getId());
+            }
+        }
+        if (employeeIds.size() == 0)
+            return;
+
+        List<Employee> employees = employeeService.fetchEmployees(employeeIds);
+
+        for (ContractMemberHistory cmh : data) {
+            for (Employee employee : employees) {
+                if (cmh.getEmployee() != null && cmh.getEmployee().getId().equals(employee.getId())) {
+                    cmh.setEmployee(employee);
                 }
             }
         }

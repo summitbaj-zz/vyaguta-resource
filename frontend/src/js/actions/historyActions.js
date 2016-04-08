@@ -43,7 +43,7 @@
                             dispatch(historyActions.fetchAllHistories(entity, id));
                         });
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }

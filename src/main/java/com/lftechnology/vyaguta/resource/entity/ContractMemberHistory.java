@@ -50,6 +50,9 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private ProjectHistoryRoot batch;
 
+    @Column(name = "event_type")
+    private Integer event;
+
     @ManyToOne
     @JoinColumn(name = "contract_member_id", referencedColumnName = "id")
     private ContractMember contractMember;
@@ -110,6 +113,14 @@ public class ContractMemberHistory implements Serializable {
 
     public void setBatch(ProjectHistoryRoot batch) {
         this.batch = batch;
+    }
+
+    public Integer getEvent() {
+        return event;
+    }
+
+    public void setEvent(Integer event) {
+        this.event = event;
     }
 
     public ContractMember getContractMember() {

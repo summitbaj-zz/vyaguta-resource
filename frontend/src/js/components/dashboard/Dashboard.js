@@ -18,6 +18,9 @@
     var resourceConstant = require('../../constants/resourceConstant');
     var urlConstant = require('../../constants/urlConstant');
 
+    //utils
+    var convertContractHash = require('../../util/convertContractHash');
+
     var Dashboard = React.createClass({
         getInitialState: function () {
             return {
@@ -204,12 +207,6 @@
             this.props.actions.fetchByEndDate(resourceConstant.PROJECTS, 'contract.endDate', request);
         },
 
-        componentWillReceiveProps: function (nextProps) {
-            if (nextProps.endingProjects) {
-                this.getEndingProjectsData(nextProps.endingProjects);
-            }
-        },
-
         isEnding: function (date) {
             var date1 = new Date();
             var date2 = new Date(date);
@@ -223,26 +220,28 @@
         getEndingProjectsData: function (endingProjects) {
             var that = this;
             var endingProjectsArray = [];
+            var id = 0;
 
             for (var i = 0; i < endingProjects.length; i++) {
-                for (var j = 0; j < endingProjects[i].contracts.length; j++) {
-                    var endingContract = endingProjects[i].contracts[j];
-                    if (that.isEnding(endingContract.endDate)) {
+                var endingContracts = convertContractHash.toFrontEndHash(endingProjects[i].contracts);
+                for (var j = 0; j < endingContracts.length; j++) {
+                    if (that.isEnding(endingContracts[j].endDate)) {
                         var endingProjectObject = {};
-                        endingProjectObject['endDate'] = endingContract.endDate;
+                        endingProjectObject['id'] = id;
+                        endingProjectObject['endDate'] = endingContracts[j].endDate;
                         endingProjectObject['project'] = endingProjects[i].title;
-                        endingProjectObject['resources'] = endingContract.contractMembers.length;
+                        endingProjectObject['resources'] = endingContracts[j].contractMembers.length;
+                        id++;
                         endingProjectsArray.push(endingProjectObject);
                     }
                 }
             }
-            this.setState({endingProjects: endingProjectsArray});
+            return endingProjectsArray;
         },
 
-        renderEndingProject: function (key) {
-            var endingProject = this.state.endingProjects[key];
+        renderEndingProject: function (endingProject) {
             return (
-                <li className="list-group-item" key={key}><span
+                <li className="list-group-item" key={endingProject.id}><span
                     className="list-group-project">{endingProject.project}</span>
                     <span>{endingProject.endDate}</span><span>{endingProject.resources}</span></li>
             );
@@ -255,17 +254,17 @@
             };
             return (<tr key={key}>
                 <td>{++key}</td>
-                <td><Link to={urlConstant.PROJECTS.DETAILS+'/'+project.id}>{project.title}</Link></td>
+                <td><Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}>{project.title}</Link></td>
                 <td>{project.projectType && project.projectType.title}</td>
                 <td><span className="label text-uppercase"
                           style={style}>{project.projectStatus && project.projectStatus.title}</span></td>
                 <td className="text-center">
-                    <div className="btn-group"><Link to={urlConstant.PROJECTS.EDIT + project.id}
+                    <div className="btn-group"><Link to={urlConstant.PROJECTS.INDEX + '/' + id}
                                                      data-toggle="tooltip"
                                                      title="Edit"
                                                      className="btn btn-sm btn-default"><i
                         className="fa fa-pencil"></i></Link>
-                        <Link to={urlConstant.PROJECTS.DETAILS +'/' + project.id} data-toggle="tooltip"
+                        <Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW} data-toggle="tooltip"
                               title="View Details"
                               className="btn btn-sm btn-default"><i
                             className="glyphicon glyphicon-list-alt"></i></Link>
@@ -274,15 +273,20 @@
             </tr>);
         },
 
-        getEndingProjectsResourceTotal: function () {
+        getEndingProjectsResourceTotal: function (endingProjects) {
             var resources = 0;
-            for (var i = 0; i < this.state.endingProjects.length; i++) {
-                resources += parseInt(this.state.endingProjects[i].resources);
+            for (var i = 0; i < endingProjects.length; i++) {
+                resources += parseInt(endingProjects[i].resources);
             }
             return resources;
         },
 
         render: function () {
+            var endingProjects;
+            if (this.props.endingProjects.length > 0) {
+                endingProjects = this.getEndingProjectsData(this.props.endingProjects);
+            }
+
             return (
                 <div id="page-content" className="page-content">
                     <div className="row header-margin">
@@ -406,9 +410,10 @@
                                             className="list-group-project">Projects</span>
                                             <span>End Date</span><span>Resources</span>
                                         </li>
-                                        {Object.keys(this.state.endingProjects).map(this.renderEndingProject)}
+                                        {endingProjects && endingProjects.map(this.renderEndingProject)}
                                         <li className="list-group-item">
-                                            <span>Total</span><span>{this.getEndingProjectsResourceTotal()}</span></li>
+                                            <span>Total</span><span>{endingProjects && this.getEndingProjectsResourceTotal(endingProjects) || 0}</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

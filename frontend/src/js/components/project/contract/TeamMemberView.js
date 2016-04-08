@@ -12,7 +12,7 @@
             return (
                 <tr key={key}>
                     <td>{++key}</td>
-                    <td>{teamMemberAllocation.role.title}</td>
+                    <td>{teamMemberAllocation.role && teamMemberAllocation.role.title}</td>
                     <td>{teamMemberAllocation.allocation}</td>
                     <td>{teamMemberAllocation.joinDate}</td>
                     <td>{teamMemberAllocation.endDate}</td>
