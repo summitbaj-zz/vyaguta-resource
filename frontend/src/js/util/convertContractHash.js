@@ -16,17 +16,22 @@
                     var allocations = [];
                     var employee = {'employee': contracts[i].contractMembers[j].employee};
                     var allocationObject = _.extend({}, contracts[i].contractMembers[j]);
+
                     delete allocationObject.employee;
                     allocations.push(allocationObject);
+
                     for (var k = j + 1; k < contracts[i].contractMembers.length; k++) {
                         if (contracts[i].contractMembers[j].employee.id == contracts[i].contractMembers[k].employee.id) {
+
                             employee = {'employee': contracts[i].contractMembers[k].employee};
                             allocationObject = _.extend({}, contracts[i].contractMembers[k]);
                             delete allocationObject.employee;
                             allocations.push(allocationObject);
                             contracts[i].contractMembers.splice(k, 1);
+                            k--;
                         }
                     }
+
                     var newContractMemberObject = _.extend({}, employee, {allocations: allocations});
                     newContractMembers.push(newContractMemberObject);
                 }

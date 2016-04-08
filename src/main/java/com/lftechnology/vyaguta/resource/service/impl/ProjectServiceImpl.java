@@ -199,14 +199,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         for (Contract c : obj.getContracts()) {
             c.setProject(project);
-
-            if (c.getId() == null)
-                this.contractDao.save(c);
-            // else
-            // this.contractDao.update(c);
-            // TODO check this
         }
-
     }
 
     @SuppressWarnings({ "serial" })

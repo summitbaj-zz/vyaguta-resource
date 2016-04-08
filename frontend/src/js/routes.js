@@ -39,11 +39,11 @@
                     <IndexRoute component={require('./components/project/ProjectList')}/>
                     <Route path="new" name="Add"
                            component={require('./components/project/ProjectForm')}/>
-                    <Route path="edit/:id" name="Edit"
+                    <Route path=":id" name="Edit"
                            component={require('./components/project/ProjectForm')}/>
-                    <Route path="details/:id" name="Details"
+                    <Route path=":id/view" name="Details"
                            component={require('./components/project/ProjectDetails')}/>
-                    <Route path="history/:id" name="History"
+                    <Route path=":id/history" name="History"
                            component={require('./components/project/ProjectHistory')}/>
                 </Route>
 

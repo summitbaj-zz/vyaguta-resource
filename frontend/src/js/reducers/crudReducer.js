@@ -29,7 +29,8 @@
             clients: {},
             projectStatus: {}
         },
-        pagination:{}
+        pagination:{},
+        endingProjects:[]
     };
 
 
@@ -40,6 +41,11 @@
             case actionTypeConstant.LIST:
                 var newState = _.cloneDeep(state);
                 newState[action.entity] = _.cloneDeep(action.data.data);
+                return newState;
+
+            case actionTypeConstant.LIST_BY_END_DATE:
+                var newState = _.cloneDeep(state);
+                newState.endingProjects = _.cloneDeep(action.data.data);
                 return newState;
 
             case actionTypeConstant.SELECT_ITEM:

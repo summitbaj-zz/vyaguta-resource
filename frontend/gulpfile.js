@@ -38,7 +38,9 @@
                 'node_modules/jquery-confirm/dist/jquery-confirm.min.css',
                 'node_modules/react-select/dist/react-select.min.css',
                 './src/css/main.css',
-                './src/css/custom.css'
+                './src/css/custom.css',
+                './src/css/dashboard.css'
+
             ],
             img: [
                 './src/img/*',

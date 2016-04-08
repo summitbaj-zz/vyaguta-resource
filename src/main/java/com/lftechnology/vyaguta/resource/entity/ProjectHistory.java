@@ -21,7 +21,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.lftechnology.vyaguta.commons.jpautil.GuidUtil;
-
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -50,6 +49,9 @@ public class ProjectHistory implements Serializable {
     @ManyToOne
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private ProjectHistoryRoot batch;
+
+    @Column(name = "event_type")
+    private Integer event;
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
@@ -107,6 +109,14 @@ public class ProjectHistory implements Serializable {
 
     public ProjectHistoryRoot getBatch() {
         return batch;
+    }
+
+    public Integer getEvent() {
+        return event;
+    }
+
+    public void setEvent(Integer event) {
+        this.event = event;
     }
 
     public void setBatch(ProjectHistoryRoot batch) {

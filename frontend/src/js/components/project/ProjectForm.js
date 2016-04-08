@@ -107,7 +107,7 @@
         },
 
         handleAutoCompleteChange: function (value) {
-            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value);
+            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value.value);
         },
 
 
@@ -189,7 +189,7 @@
             var contracts = convertContractHash.toBackEndHash(this.props.contracts);
 
             if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
-                var accountManager = {id: this.props.selectedItem.projects.accountManager.id.value}
+                var accountManager = {id: this.props.selectedItem.projects.accountManager.id};
             } else {
                 var accountManager = null;
             }

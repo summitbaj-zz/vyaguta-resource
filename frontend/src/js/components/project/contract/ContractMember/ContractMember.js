@@ -29,8 +29,8 @@
             var todaysDate = moment();
 
             for (var i = 0; i < allocations.length; i++) {
-                var joinDate = moment(allocations[allocations.length - 1].joinDate).subtract(1, 'd');
-                var endDate = moment(allocations[allocations.length - 1].endDate).add(1, 'd');
+                var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
+                var endDate = moment(allocations[i].endDate).add(1, 'd');
 
                 if (todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
                     return true;
@@ -46,8 +46,8 @@
                 var todaysDate = moment();
 
                 for (var i = 0; i < allocations.length; i++) {
-                    var joinDate = moment(allocations[allocations.length - 1].joinDate).subtract(1, 'd');
-                    var endDate = moment(allocations[allocations.length - 1].endDate).add(1, 'd');
+                    var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
+                    var endDate = moment(allocations[i].endDate).add(1, 'd');
 
                     if (allocations[i].billed && todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
                         return 'Billed';
