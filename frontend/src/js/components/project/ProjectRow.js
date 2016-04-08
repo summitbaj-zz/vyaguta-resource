@@ -18,18 +18,18 @@
             return (
                 <tr>
                     <td>{this.props.index}</td>
-                    <td><Link to={urlConstant.PROJECTS.DETAILS + '/' + id}>{this.props.project.title}</Link></td>
+                    <td><Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}>{this.props.project.title}</Link></td>
                     <td>{this.props.project.projectType && this.props.project.projectType.title}</td>
                     <td><span
                         className="label text-uppercase"
                         style={style}>{this.props.project.projectStatus && this.props.project.projectStatus.title}</span>
                     </td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={urlConstant.PROJECTS.EDIT + id} data-toggle="tooltip"
+                        <div className="btn-group"><Link to={urlConstant.PROJECTS.INDEX + '/' + id} data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>
-                            <Link to={urlConstant.PROJECTS.DETAILS +'/' + id} data-toggle="tooltip"
+                            <Link to={urlConstant.PROJECTS.INDEX +'/' + id +  urlConstant.PROJECTS.VIEW} data-toggle="tooltip"
                                   title="View Details"
                                   className="btn btn-sm btn-default"><i
                                 className="glyphicon glyphicon-list-alt"></i></Link>

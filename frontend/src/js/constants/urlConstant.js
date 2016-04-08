@@ -31,9 +31,8 @@
         PROJECTS: {
             INDEX: '/projects',
             NEW: '/projects/new',
-            EDIT: '/projects/edit/',
-            DETAILS: '/projects/details',
-            HISTORY: '/projects/history'
+            VIEW: '/view',
+            HISTORY: '/history'
         },
         CLIENTS: {
             INDEX: '/clients',
