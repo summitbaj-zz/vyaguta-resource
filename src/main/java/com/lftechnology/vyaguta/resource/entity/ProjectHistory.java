@@ -31,10 +31,15 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "project_histories")
-@NamedQueries({ @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project") })
+@NamedQueries({
+        @NamedQuery(name = ProjectHistory.FIND_BY_PROJECT, query = "SELECT ph FROM ProjectHistory ph WHERE ph.project = :project ORDER BY ph.batch.createdAt DESC") })
 public class ProjectHistory implements Serializable {
 
     private static final long serialVersionUID = -7863749153287317821L;
+
+    public static final Integer EVENT_TYPE_INSERT = 1;
+    public static final Integer EVENT_TYPE_UPDATE = 2;
+
     private static final String PREFIX = "vyaguta.resource.entity.ProjectHistory.";
     public static final String FIND_BY_PROJECT = ProjectHistory.PREFIX + "findByProject";
 
@@ -59,7 +64,7 @@ public class ProjectHistory implements Serializable {
 
     private String description;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id")))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id") ))
     private Employee accountManager;
 
     @ManyToOne
@@ -86,6 +91,7 @@ public class ProjectHistory implements Serializable {
         this.setClient(project.getClient());
         this.setProjectStatus(project.getProjectStatus());
         this.setProjectType(project.getProjectType());
+        this.setEvent(EVENT_TYPE_UPDATE);
     }
 
     @Transient

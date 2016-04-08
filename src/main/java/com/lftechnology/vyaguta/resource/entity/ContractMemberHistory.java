@@ -35,7 +35,7 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 @Entity
 @Table(name = "contract_member_histories")
 @NamedQueries({ @NamedQuery(name = ContractMemberHistory.FIND_BY_PROJECT,
-        query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contract.project = :project") })
+        query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contract.project = :project ORDER BY cmh.batch.createdAt DESC") })
 public class ContractMemberHistory implements Serializable {
 
     private static final long serialVersionUID = 8270620804537730752L;
@@ -97,6 +97,7 @@ public class ContractMemberHistory implements Serializable {
         this.setEmployee(contractMember.getEmployee());
         this.setJoinDate(contractMember.getJoinDate());
         this.setEndDate(contractMember.getEndDate());
+        this.setEvent(ProjectHistory.EVENT_TYPE_UPDATE);
     }
 
     public UUID getId() {
