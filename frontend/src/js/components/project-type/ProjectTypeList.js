@@ -43,6 +43,15 @@
             });
         },
 
+        componentWillReceiveProps: function (nextProps) {
+            if (this.props.pagination.page > 1 && !nextProps.projectTypes.length) {
+                this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {
+                    _start: 1,
+                    _limit: this.props.offset
+                }, sortBy);
+            }
+        },
+
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
             this.props.actions.apiClearState();
@@ -58,9 +67,13 @@
 
         deleteProjectType: function (id) {
             var that = this;
+            var pagination = {
+                _start: this.props.pagination.page || 1,
+                _limit: this.props.offset
+            };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECT_TYPES, id);
+                that.props.actions.deleteItem(resourceConstant.PROJECT_TYPES, id, pagination, sortBy);
             });
         },
 

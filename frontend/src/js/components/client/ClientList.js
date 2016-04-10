@@ -43,6 +43,15 @@
             });
         },
 
+        componentWillReceiveProps: function (nextProps) {
+            if (this.props.pagination.page > 1 && !nextProps.clients.length) {
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
+                    _start: 1,
+                    _limit: this.props.offset
+                }, sortBy);
+            }
+        },
+
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
             this.props.actions.apiClearState();
@@ -75,9 +84,13 @@
 
         deleteClient: function (id) {
             var that = this;
+            var pagination = {
+                _start: this.props.pagination.page || 1,
+                _limit: this.props.offset
+            };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.CLIENTS, id);
+                that.props.actions.deleteItem(resourceConstant.CLIENTS, id, pagination, sortBy);
             });
         },
 

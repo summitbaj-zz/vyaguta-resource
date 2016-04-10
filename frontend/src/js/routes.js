@@ -56,7 +56,7 @@
                                component={require('./components/project-type/ProjectTypeForm')}/>
                     </Route>
 
-                    <Route path="projectRoles" name="ProjectRoles"
+                    <Route path="projectRoles" name="Project Roles"
                            component={require('./components/project-role/ProjectRoleMain')}>
                         <IndexRoute component={require('./components/project-role/ProjectRoleList')}/>
                         <Route path="new" name="Add"

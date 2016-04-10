@@ -28,7 +28,7 @@
                             <li><a href="#"><i className="fa fa-user fa-fw"></i> User Profile</a></li>
                             <li><a href="#"><i className="fa fa-gear fa-fw"></i> Settings</a></li>
                             <li className="divider"></li>
-                            <li><a onClick={apiUtil.logOut}><i className="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            <li><a onClick={apiUtil.logOut} className="cursor-pointer"><i className="fa fa-sign-out fa-fw"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>

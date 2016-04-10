@@ -9,7 +9,7 @@
             return (
                 <footer className="clearfix">
                     <span></span> &copy;
-                    <a href="#" target="_blank">Leapfrog Technology Inc</a>
+                    <a href="http://www.lftechnology.com/">Leapfrog Technology Inc.</a>
                 </footer>
             )
         }

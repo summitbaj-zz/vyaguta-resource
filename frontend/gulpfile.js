@@ -104,7 +104,7 @@
         // Compiles CSS
         gulp.src(config.paths.css)
             .pipe(concat('bundle.css'))
-            .pipe(gulpif(isProduction, minifyCss()))
+            .pipe(gulpif(isProduction, minifyCss({processImport: false})))
             .pipe(gulp.dest(config.paths.distCss))
     });
 

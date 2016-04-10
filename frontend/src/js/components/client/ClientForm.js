@@ -87,7 +87,7 @@
                                            value={this.props.selectedItem.clients.name}
                                            onChange={this.fieldChange}
                                            onBlur={formValidator.validateField}
-                                           onFocus={formValidator.removeError.bind(null, 'name')}
+                                           onFocus={formValidator.removeFeedback.bind(null, 'name')}
                                            placeholder="Client Name"
                                            className="form-control"
                                            id="name"
@@ -103,7 +103,7 @@
                                                        value={this.props.selectedItem.clients.email}
                                                        onChange={this.fieldChange}
                                                        onBlur={formValidator.validateField}
-                                                       onFocus={formValidator.removeError.bind(null, 'email')}
+                                                       onFocus={formValidator.removeFeedback.bind(null, 'email')}
                                                        placeholder="Email Address"
                                                        className="form-control"
                                                        id="email"

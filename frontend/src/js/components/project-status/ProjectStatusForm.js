@@ -103,7 +103,7 @@
                                            value={this.props.selectedItem.projectStatus.title}
                                            onChange={this.handleChange}
                                            onBlur={formValidator.validateField}
-                                           onFocus={formValidator.removeError.bind(null, 'title')}
+                                           onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            placeholder="Project Status"
                                            className="form-control"
                                            id="title"

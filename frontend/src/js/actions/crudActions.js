@@ -192,14 +192,14 @@
             }
         },
 
-        deleteItem: function (entity, id) {
+        deleteItem: function (entity, id, pagination, sortBy) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.delete(entity, id).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
-                    dispatch(actions.delete(entity, id));
+                    dispatch(crudActions.fetchByQuery(entity, pagination, sortBy));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
@@ -238,6 +238,7 @@
                 dispatch(apiActions.apiRequest(entity));
                 return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
+
                     dispatch(actions.pageIndex(data, response.body.count));
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {

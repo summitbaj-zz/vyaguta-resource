@@ -221,31 +221,34 @@
             }
         },
 
-        checkTitle: function (title) {
-            this.setState({isRequesting: false});
-
-            if (title.length === 0) {
-                this.refs.title.parentElement.className = 'form-group has-success has-feedback';
-                this.setState({isProjectNameValid: true});
-                this.refs.availableMessage.innerHTML = '';
-            } else {
-                this.refs.title.parentElement.className = 'form-group has-error has-feedback';
-                this.refs.availableMessage.innerHTML = messageConstant.PROJECT_NAME_EXISTS_MESSAGE;
-            }
-        },
-
         validateTitle: function (event) {
             this.setState({isProjectNameValid: false});
-
             var title = this.refs.title.value;
+            var that = this;
 
             if (title && title != this.state.projectName) {
-                this.setState({isRequesting: true});
-                apiUtil.fetchByTitle(resourceConstant.PROJECTS, title, this.checkTitle);
-
+                that.setState({isRequesting: true});
+                formValidator.isTitleValid(resourceConstant.PROJECTS, event.target).then(function (response) {
+                    that.setState({isRequesting: false});
+                    response && that.setState({isProjectNameValid: true});
+                }, function (error) {
+                    that.setState({isRequesting: false});
+                    if (error.status == 401) {
+                        apiUtil.refreshSession().then(function (response) {
+                            that.validateTitle(that.refs.title.dispatchEvent(new Event('blur')));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    }
+                });
             } else {
                 formValidator.validateField(event);
             }
+        },
+
+        resetField: function () {
+            this.setState({isProjectNameValid: false});
+            formValidator.removeFeedback('title');
         },
 
         handleChange: function (event) {
@@ -265,7 +268,8 @@
                         <div className="col-lg-12">
                             <div className="block">
                                 <div className="block-title-border">Project Details</div>
-                                <form className="form-bordered" method="post" onSubmit={this.saveProject} id="projectForm">
+                                <form className="form-bordered" method="post" onSubmit={this.saveProject}
+                                      id="projectForm">
                                     <fieldset disabled={this.props.apiState.isRequesting}>
 
                                         <div className="form-group has-feedback">
@@ -275,7 +279,7 @@
                                                    className="form-control" id="title"
                                                    onChange={this.handleChange}
                                                    onBlur={this.validateTitle}
-                                                   onFocus={formValidator.removeError.bind(null, 'title')}/>
+                                                   onFocus={this.resetField}/>
                                             {this.state.isRequesting && <span
                                                 className="form-control-feedback validation-icon"
                                                 aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}

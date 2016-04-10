@@ -25,7 +25,7 @@
                                         <textarea name="reason" ref="reason" id="reason"
                                                   placeholder=""
                                                   className="form-control" rows="4" onBlur={formValidator.validateField}
-                                                  onFocus={formValidator.removeError.bind(null, 'reason')}></textarea>
+                                                  onFocus={formValidator.removeFeedback.bind(null, 'reason')}></textarea>
                                     <span className="help-block" ref="availableMessage"></span>
                                 </div>
                             </div>
