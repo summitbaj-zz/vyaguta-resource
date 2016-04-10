@@ -1306,6 +1306,10 @@ li.dropdown-header {
     z-index: 1052;
 }
 
+.datepicker__day--outside-month {
+    color: #d3d3d3;
+}
+
 .hover {
     background: #EAEDF1;
     cursor: pointer;

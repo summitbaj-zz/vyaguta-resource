@@ -89,8 +89,6 @@
                                            className="form-control"
                                            value={this.props.selectedItem.budgetTypes.title}
                                            id="title"
-                                           onBlur={formValidator.validateField}
-                                           onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            onChange={this.handleChange}
                                     />
                                     <span className="help-block"></span>

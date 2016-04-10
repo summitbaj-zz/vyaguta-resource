@@ -130,7 +130,7 @@
                                             </span>
                                             }
                                         </div>
-                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + project.id}
+                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id}
                                               data-toggle="tooltip"
                                               title="Edit"
                                               className="btn btn-sm btn-default">

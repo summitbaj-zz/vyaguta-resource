@@ -37,7 +37,7 @@
 
                     {this.props.allocations && Object.keys(this.props.allocations).map(this.renderAllocation)}
 
-                    <div className="btn-block padding-v-10">
+                    <div className="btn-block padding-v-10 clearfix">
                         <a className="btn btn-xs btn-default"
                            href="#"
                            onClick={this.addAllocation}>

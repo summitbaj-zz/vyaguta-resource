@@ -33,6 +33,7 @@
                 './src/css/bootstrap-colorselector.css',
                 './src/css/project-allocation-chart.css',
                 './src/css/nprogress.css',
+                './src/css/page-not-found.css',
                 'node_modules/toastr/build/toastr.css',
                 'node_modules/react-datepicker/dist/react-datepicker.css',
                 'node_modules/jquery-confirm/dist/jquery-confirm.min.css',

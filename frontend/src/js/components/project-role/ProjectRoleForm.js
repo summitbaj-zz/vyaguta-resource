@@ -76,8 +76,6 @@
                                     <input type="text" ref="title" name="title"
                                            value={this.props.selectedItem.projectRoles.title}
                                            onChange={this.fieldChange}
-                                           onBlur={formValidator.validateField}
-                                           onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            placeholder="Project Role"
                                            className="form-control"
                                            id="title"

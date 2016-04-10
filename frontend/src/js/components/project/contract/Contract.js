@@ -142,7 +142,7 @@
                                                 selected={this.props.contract.endDate && moment(this.props.contract.endDate)}
                                                 onChange={this.handleChangeEndDate}
                                                 className="form-control"
-                                                minDate={this.props.contract.startDate && moment(this.props.contract.startDate) }
+                                                minDate={this.props.contract.startDate && moment(this.props.contract.startDate)}
                                                 placeholderText="To"
                                                 popoverTargetOffset='40px 0px'
                                                 disabled={this.props.apiState.isRequesting}

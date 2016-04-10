@@ -8,7 +8,7 @@
     var Route = ReactRouter.Route;
     var browserHistory = ReactRouter.browserHistory;
     var IndexRoute = ReactRouter.IndexRoute;
-    var IndexRedirect = ReactRouter.IndexRedirect;
+    var Redirect = ReactRouter.Redirect;
 
     if (localStorage.access_token) {
         var routes = (
@@ -74,9 +74,10 @@
                                component={require('./components/client/ClientForm')}/>
                     </Route>
 
-                    <Route path="*">
-                        <IndexRedirect to="/" />
-                    </Route>
+
+                </Route>
+
+                <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}>
                 </Route>
             </Router>
         );

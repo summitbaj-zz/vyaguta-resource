@@ -70,18 +70,19 @@
             } else {
                 var employee = null;
             }
-
+            debugger;
             var data = {
                 employee: employee,
                 allocations: this.props.selectedContractMember.allocations
             };
 
-
             if(employee != null) {
                 if (this.props.memberIndex) {
                     this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
+                    Toastr.success("Contract Member has been edited");
                 } else {
                     this.props.actions.addContractMember(this.props.contractIndex, data);
+                    Toastr.success("Contract Member has been added");
                 }
                 $('#addContractMember').modal('hide');
             }else {
@@ -100,12 +101,14 @@
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
                 that.props.actions.deleteContractMember(that.props.contractIndex, that.props.memberIndex);
+                Toastr.success("Contract Member has been removed");
                 $('#addContractMember').modal('hide');
             });
         },
 
-        handleAutoCompleteChange: function (value) {
-            this.props.actions.handleContractMemberSelectOptionChange('employee', value.value);
+        handleAutoCompleteChange: function (employee) {
+            var employeeId = employee && employee.value;
+            this.props.actions.handleContractMemberSelectOptionChange('employee', employeeId);
         },
 
         render: function () {
