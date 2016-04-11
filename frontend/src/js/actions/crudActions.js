@@ -25,9 +25,7 @@
 
     //constants
     var messageConstant = require('../constants/messageConstant');
-
-    //components
-    var PageNotFoundError = require('../components/common/error-pages/PageNotFoundError');
+    var urlConstant = require('../constants/urlConstant');
 
     /**
      * Actions that are dispatched from crudActions
@@ -99,7 +97,7 @@
                             dispatch(crudActions.fetchAllFromCore(entity));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -123,7 +121,7 @@
                             dispatch(crudActions.fetchAll(entity));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -148,7 +146,7 @@
                             dispatch(crudActions.addItem(entity, data));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -173,7 +171,7 @@
                             dispatch(crudActions.updateItem(entity, data, id));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -198,7 +196,7 @@
                             dispatch(crudActions.fetchById(entity, id));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -223,7 +221,7 @@
                             dispatch(crudActions.deleteItem(entity, id));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -266,7 +264,7 @@
                             dispatch(crudActions.fetchByQuery(entity, data));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -289,7 +287,7 @@
                             dispatch(crudActions.fetchByField(entity, field, data));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -312,7 +310,7 @@
                             dispatch(crudActions.fetchByField(entity, field, data));
                         });
                     } else if (error.status == 404) {
-                        browserHistory.push('404NotFound');
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }

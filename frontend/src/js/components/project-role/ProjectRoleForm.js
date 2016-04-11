@@ -78,7 +78,7 @@
                                            onChange={this.fieldChange}
                                            placeholder="Project Role"
                                            onBlur={formValidator.validateField}
-                                           onFocus={formValidator.removeFeedback.bind(null, 'title')}s
+                                           onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            className="form-control"
                                            id="title"
                                     />

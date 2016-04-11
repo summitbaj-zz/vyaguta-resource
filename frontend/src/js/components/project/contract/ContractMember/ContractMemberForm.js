@@ -70,7 +70,7 @@
             } else {
                 var employee = null;
             }
-            debugger;
+
             var data = {
                 employee: employee,
                 allocations: this.props.selectedContractMember.allocations
