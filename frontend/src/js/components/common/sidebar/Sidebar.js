@@ -32,7 +32,7 @@
                                 </Link></li>
                                 <li><a className="sidebar-nav-menu" href="#"><i
                                     className="fa fa fa-cogs fa-fw"></i><span
-                                    className="xn-text">Settings</span><i
+                                    className="xn-text">Project Settings</span><i
                                     className="fa fa-angle-down sidebar-nav-indicator"></i></a>
                                     <ul>
                                         <li>

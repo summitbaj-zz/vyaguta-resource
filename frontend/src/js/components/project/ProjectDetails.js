@@ -181,7 +181,7 @@
                                             </div>
                                             {this.state.containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                <Link to={project.id + urlConstant.PROJECTS.HISTORY}
+                                                <Link to={urlConstant.PROJECTS.INDEX + '/' + project.id + urlConstant.PROJECTS.HISTORY}
                                                       title="Add Project"
                                                       className="show-all-btn">View All</Link>
                                             </div>}

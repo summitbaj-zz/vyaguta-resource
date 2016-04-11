@@ -264,7 +264,7 @@
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
                                   routes={this.props.routes}
-                                  title={this.props.selectedItem.projects ? this.props.selectedItem.projects.title : 'Project'}/>
+                                  title={this.props.selectedItem.projects.title || 'Project'}/>
 
                     <div className="row">
                         <div className="col-lg-12">

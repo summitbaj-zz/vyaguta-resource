@@ -9,6 +9,7 @@
 
     //components
     var FreeResources = require('./FreeResources');
+    var EntityHeader = require('../common/header/EntityHeader');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -292,15 +293,7 @@
 
             return (
                 <div id="page-content" className="page-content">
-                    <div className="row header-margin">
-                        <div className="col-lg-12">
-                            <div className="content-header">
-                                <div className="header-section">
-                                    <h1>Resource Utilization </h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <EntityHeader header="Resource Utilization"/>
                     <div className="row res-stats">
                         <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                             <div className="widget-simple">
