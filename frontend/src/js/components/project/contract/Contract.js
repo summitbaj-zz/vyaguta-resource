@@ -52,6 +52,10 @@
             this.props.actions.handleContractChange(this.props.index, 'endDate', date.format('YYYY-MM-DD'));
         },
 
+        handleChangeActualEndDate: function (date) {
+            this.props.actions.handleContractChange(this.props.index, 'actualEndDate', date.format('YYYY-MM-DD'));
+        },
+
         handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
@@ -90,7 +94,8 @@
                                 Contract {parseInt(this.props.index) + 1}
                             </a>
                             {this.props.totalContracts > 1 &&
-                            <span href="#" onClick={this.deleteContract} className="pull-right"><i className="delete-btn fa fa-close"></i>
+                            <span href="#" onClick={this.deleteContract} className="pull-right"><i
+                                className="delete-btn fa fa-close"></i>
                             </span>
                             }
                         </h4>
@@ -142,7 +147,7 @@
                                                 selected={this.props.contract.endDate && moment(this.props.contract.endDate)}
                                                 onChange={this.handleChangeEndDate}
                                                 className="form-control"
-                                                minDate={this.props.contract.startDate && moment(this.props.contract.startDate) }
+                                                minDate={this.props.contract.startDate && moment(this.props.contract.startDate)}
                                                 placeholderText="To"
                                                 popoverTargetOffset='40px 0px'
                                                 disabled={this.props.apiState.isRequesting}
@@ -151,6 +156,21 @@
                                     </div>
                                 </div>
                             </div>
+                            {this.props.params.id &&
+                                <div className="form-group">
+                                    <label className="control-label">Actual End-Date</label>
+                                    <div data-date-format="mm/dd/yyyy"
+                                         className="input-group input-daterange">
+                                        <DatePicker
+                                            selected={this.props.contract.actualEndDate && moment(this.props.contract.actualEndDate)}
+                                            onChange={this.handleChangeActualEndDate}
+                                            className="form-control"
+                                            popoverTargetOffset='40px 0px'
+                                            disabled={this.props.apiState.isRequesting}
+                                        />
+                                    </div>
+                                </div>
+                            }
 
                             <div className="form-group">
                                 <label>Contracted Resources</label>

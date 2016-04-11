@@ -10,6 +10,7 @@
 
     //libraries
     var NProgress = require('nprogress');
+    var DocumentTitle = require('react-document-title');
 
     NProgress.configure({
         showSpinner: false,
@@ -18,22 +19,24 @@
     });
 
     var EntityHeader = React.createClass({
-        componentWillReceiveProps: function(props) {
+        componentWillReceiveProps: function (props) {
             props.apiState.isRequesting ? NProgress.start() : NProgress.done();
         },
 
         render: function () {
             return (
-                <div className="row header-margin">
-                    <div className="col-lg-12">
-                        <div className="content-header">
-                            <div className="header-section clearfix">
-                                <h1>{this.props.header}</h1>
+                <DocumentTitle title={this.props.title || 'Vyaguta-resource'}>
+                    <div className="row header-margin">
+                        <div className="col-lg-12">
+                            <div className="content-header">
+                                <div className="header-section clearfix">
+                                    <h1>{this.props.header}</h1>
+                                </div>
                             </div>
+                            <BreadCrumb routes={this.props.routes}/>
                         </div>
-                        <BreadCrumb routes={this.props.routes}/>
                     </div>
-                </div>
+                </DocumentTitle>
             );
         }
     });

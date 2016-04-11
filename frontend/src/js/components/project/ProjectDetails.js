@@ -1,9 +1,3 @@
-/**
- * Created by
- * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 3/25/16.
- */
-
 ;(function () {
     'use-strict';
 
@@ -107,10 +101,11 @@
             };
             var contractIds = project.contracts && Object.keys(project.contracts);
             var historyIds = Object.keys(this.props.histories);
-           
+
             return (
                 <div>
-                    <EntityHeader header="Project Details" routes={this.props.routes}/>
+                    <EntityHeader header="Project Details" routes={this.props.routes}
+                                  title={project ? project.title : 'Project'}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">
@@ -130,7 +125,7 @@
                                             </span>
                                             }
                                         </div>
-                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + project.id}
+                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id}
                                               data-toggle="tooltip"
                                               title="Edit"
                                               className="btn btn-sm btn-default">
@@ -186,7 +181,7 @@
                                             </div>
                                             {this.state.containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + project.id}
+                                                <Link to={project.id + urlConstant.PROJECTS.HISTORY}
                                                       title="Add Project"
                                                       className="show-all-btn">View All</Link>
                                             </div>}

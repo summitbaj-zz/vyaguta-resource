@@ -66,7 +66,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.projectRoles ? this.props.selectedItem.projectRoles.title : 'Project Role'}/>
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
@@ -76,9 +77,9 @@
                                     <input type="text" ref="title" name="title"
                                            value={this.props.selectedItem.projectRoles.title}
                                            onChange={this.fieldChange}
+                                           placeholder="Project Role"
                                            onBlur={formValidator.validateField}
                                            onFocus={formValidator.removeFeedback.bind(null, 'title')}
-                                           placeholder="Project Role"
                                            className="form-control"
                                            id="title"
                                     />

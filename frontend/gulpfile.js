@@ -33,11 +33,13 @@
                 './src/css/bootstrap-colorselector.css',
                 './src/css/project-allocation-chart.css',
                 './src/css/nprogress.css',
+                './src/css/page-not-found.css',
                 'node_modules/toastr/build/toastr.css',
                 'node_modules/react-datepicker/dist/react-datepicker.css',
                 'node_modules/jquery-confirm/dist/jquery-confirm.min.css',
                 'node_modules/react-select/dist/react-select.min.css',
                 './src/css/main.css',
+                './src/css/fontface.css',
                 './src/css/custom.css',
                 './src/css/dashboard.css'
 
@@ -56,6 +58,7 @@
             customUI: [
                 './src/custom-ui/bootstrap.js',
                 './src/custom-ui/bootstrap-colorselector.js',
+                './src/custom-ui/plugins.js',
                 './src/custom-ui/app.js',
                 'node_modules/jquery-confirm/dist/jquery-confirm.min.js'
             ],
@@ -75,7 +78,7 @@
             .pipe(iconfont({
                 fontName: 'myfont', // required
                 prependUnicode: true, // recommended option
-                formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
+                formats: ['ttf','eot'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
             .pipe(gulp.dest(config.paths.distFonts));
