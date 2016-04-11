@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,13 +21,10 @@ public class DashboardServiceImpl implements DashBoardService {
     public List<Project> list(MultivaluedMap<String, String> queryParameter) {
         if (queryParameter.containsKey("contract.endDate")) {
             String parameter = queryParameter.getFirst("contract.endDate").replaceFirst("btn", "");
-            String dates[] = parameter.split("and");
-            List<Contract> contracts = dashboardDao.list(dates);
-            List<Project> projects = contracts.stream().map(p -> p.getProject()).distinct()
-                    .collect(Collectors.toList());
-            return projects;
+            List<Contract> contracts = dashboardDao.list(parameter.split("and"));
+            return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
         }
-        return null;
+        return new ArrayList<>();
     }
 
 }

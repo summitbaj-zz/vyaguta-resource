@@ -21,14 +21,13 @@ public class DashboardDaoImpl implements DashboardDao {
     private EntityManager em;
 
     @Override
-    public List<Contract> list(String dates[]) {
+    public List<Contract> list(String[] dates) {
         LocalDate pointOne = LocalDate.parse(dates[0], Constant.DATE_FORMAT_DB);
         LocalDate pointTwo = LocalDate.parse(dates[1], Constant.DATE_FORMAT_DB);
-        List<Contract> contracts = em
+        return em
                 .createQuery(
                         "SELECT c from Contract c WHERE c.endDate BETWEEN :pointOne AND :pointTwo order by c.endDate desc",
                         Contract.class)
                 .setParameter("pointOne", pointOne).setParameter("pointTwo", pointTwo).getResultList();
-        return contracts;
     }
 }

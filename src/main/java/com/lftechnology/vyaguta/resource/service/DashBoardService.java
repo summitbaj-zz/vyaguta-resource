@@ -10,6 +10,7 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
+@FunctionalInterface
 public interface DashBoardService {
 
     public List<Project> list(MultivaluedMap<String, String> queryParameter);
