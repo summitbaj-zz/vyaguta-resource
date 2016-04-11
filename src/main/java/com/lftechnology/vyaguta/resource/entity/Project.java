@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -36,9 +38,12 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "projects")
+@NamedQueries({ @NamedQuery(name = Project.FIND_BY_CLIENT, query = "SELECT p FROM Project p WHERE p.client = :client") })
 public class Project extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 6415143172601079320L;
+    private static final String PREFIX = "vyaguta.resource.entity.Project.";
+    public static final String FIND_BY_CLIENT = Project.PREFIX + "findByClient";
 
     @NotBlank(message = "Title cannot be blank.")
     @Size(max = 255)
