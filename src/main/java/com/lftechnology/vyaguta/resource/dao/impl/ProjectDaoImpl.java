@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,7 +11,9 @@ import org.slf4j.Logger;
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
+import com.lftechnology.vyaguta.resource.dao.ClientDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.filter.ProjectFilter;
 import com.lftechnology.vyaguta.resource.sort.ProjectSort;
@@ -32,6 +35,9 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
     private ProjectFilter projectFilter = new ProjectFilter();
 
     @Inject
+    private ClientDao clientDao;
+
+    @Inject
     Logger log;
 
     public ProjectDaoImpl() {
@@ -46,6 +52,15 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
     @Override
     public Map<String, EntitySorter<Project>> getSortOperations() {
         return projectSort.getSortOperations();
+    }
+
+    public void deleteClient(UUID id) {
+        Client client = this.clientDao.findById(id);
+        List<Project> projects = em.createNamedQuery(Project.FIND_BY_CLIENT, Project.class).setParameter("client", client).getResultList();
+        for (Project p : projects) {
+            p.setClient(null);
+            this.update(p);
+        }
     }
 
 }

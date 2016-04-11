@@ -6,21 +6,27 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.ClientDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.service.ClientService;
 
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
+@Transactional
 public class ClientServiceImpl implements ClientService {
 
     @Inject
     ClientDao clientDao;
-
+    
+    @Inject
+    private ProjectDao projectDao;
+    
     @Override
     public Client save(Client client) {
         return clientDao.save(client);
@@ -57,6 +63,7 @@ public class ClientServiceImpl implements ClientService {
         if (client == null) {
             throw new ObjectNotFoundException();
         }
+        projectDao.deleteClient(id);
         this.remove(client);
     }
 
