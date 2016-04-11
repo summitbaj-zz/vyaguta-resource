@@ -132,6 +132,7 @@
                                                           value={this.props.selectedContractMember.employee
                                                            && this.props.selectedContractMember.employee.id}
                                                           loadOptions={this.loadEmployees}
+                                                          autoLoad={false}
                                                           onChange={this.handleAutoCompleteChange}/>
                                         </div>
                                     </div>
