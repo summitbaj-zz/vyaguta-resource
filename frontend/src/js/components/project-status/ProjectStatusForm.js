@@ -92,7 +92,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Status':'Add Project Status'}
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.projectStatus && this.props.selectedItem.projectStatus.title || 'Project Status'}/>
                     <div className="block">
                         <div className="block-title-border">Project Status Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectStatus}>

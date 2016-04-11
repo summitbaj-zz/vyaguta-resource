@@ -110,7 +110,7 @@
            
             return (
                 <div>
-                    <EntityHeader header="Project Details" routes={this.props.routes}/>
+                    <EntityHeader header="Project Details" routes={this.props.routes} title={project && project.title || 'Project'}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">

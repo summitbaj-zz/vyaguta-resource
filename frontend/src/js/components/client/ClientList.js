@@ -105,7 +105,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Clients" routes={this.props.routes}/>
+                    <EntityHeader header="Clients" routes={this.props.routes} title="Clients"/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Client Details</h2>
