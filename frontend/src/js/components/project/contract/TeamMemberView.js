@@ -32,7 +32,8 @@
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <div className="modal-title">{teamMember.employee && teamMember.employee.id}</div>
+                                <div
+                                    className="modal-title">{teamMember.employee && teamMember.employee.firstName + ' ' + teamMember.employee.lastName}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="table-responsive">
