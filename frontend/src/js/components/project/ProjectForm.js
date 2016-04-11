@@ -106,10 +106,10 @@
             });
         },
 
-        handleAutoCompleteChange: function (value) {
-            this.props.actions.handleSelectOptionChange('projects', 'accountManager', value.value);
+        handleAutoCompleteChange: function (employee) {
+            var employeeId = employee && employee.value;
+            this.props.actions.handleSelectOptionChange('projects', 'accountManager', employeeId);
         },
-
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
