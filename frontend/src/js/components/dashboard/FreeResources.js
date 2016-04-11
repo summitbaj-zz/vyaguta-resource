@@ -22,7 +22,7 @@
                 resourceArray.push(this.renderResources(i * 16 + j));
             }
             return (
-                <div className={className}>{resourceArray}</div>
+                <div className={className} key={'resource' + i}>{resourceArray}</div>
             );
         },
 
@@ -30,7 +30,7 @@
             if (index < this.props.resources.length) {
                 var resource = this.props.resources[index];
                 return (
-                    <div className="col-xs-12 col-lg-3">
+                    <div className="col-xs-12 col-lg-3" key={index}>
                         <a className="widget widget-hover-effect1">
                             <div className="widget-simple widget-custom">
                                 <div className="cards">
@@ -52,7 +52,7 @@
             for (var i = 0; i < Math.ceil(totalData / 16); i++) {
                 (i == 0) ? className = 'active' : className = '';
                 indicators.push(<li data-target="#myCarousel" data-slide-to={i}
-                                    className={className}></li>);
+                                    className={className} key={'indicator' + i}></li>);
             }
             return (<ol className="carousel-indicators">{indicators}</ol>)
         },

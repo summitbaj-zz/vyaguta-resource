@@ -255,7 +255,8 @@
             };
             return (<tr key={key}>
                 <td>{++key}</td>
-                <td><Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}>{project.title}</Link></td>
+                <td><Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}>{project.title}</Link>
+                </td>
                 <td>{project.projectType && project.projectType.title}</td>
                 <td><span className="label text-uppercase"
                           style={style}>{project.projectStatus && project.projectStatus.title}</span></td>
@@ -265,7 +266,8 @@
                                                      title="Edit"
                                                      className="btn btn-sm btn-default"><i
                         className="fa fa-pencil"></i></Link>
-                        <Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW} data-toggle="tooltip"
+                        <Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}
+                              data-toggle="tooltip"
                               title="View Details"
                               className="btn btn-sm btn-default"><i
                             className="glyphicon glyphicon-list-alt"></i></Link>
@@ -332,27 +334,72 @@
                                     <div className="widget-title">Booked Resources</div>
                                 </div>
                                 <div className="widget-extra-full">
-                                    <div className="row text-center">
-                                        <div className="col-xs-12 col-lg-4 cards"><span
-                                            className="cards-counter">50%</span>
-                                            <span className="cards-text"><i className="fa fa-cogs"></i><span
-                                                className="display-inline">Services</span></span>
-                                            <small className="side-text"><span
-                                                className="text-light">Billed: 50 (50%)</span> <span
-                                                className="text-light">Unbilled: 50 (50%)</span></small>
+                                    <div className="row">
+                                        <div className="col-sm-6 col-md-4">
+                                            <div className="stat-block">
+                                                <div className="stat-title">
+                                                    <span className="stat-label"><i className="fa fa-cogs"></i>Services</span>
+                                                    <span className="color-lg-blue">50%</span>
+                                                </div>
+                                                <div className="stat-details clearfix">
+                                                    <div className="col-xs-6">
+                                                        <span className="stat-label">Billed</span>
+                                                        <div className="row breakdown">
+                                                            <span className="side-text clear">Percentage: <span
+                                                                className="color-lg-blue">75%</span></span>
+                                                            <span className="side-text clear">No.of: <span
+                                                                className="color-lg-blue">40</span></span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-6">
+                                                        <span className="stat-label">Unbilled</span>
+                                                        <div className="row breakdown">
+                                                            <span className="side-text clear">Percentage: <span
+                                                                className="color-lg-blue">25%</span></span>
+                                                            <span className="side-text clear">No.of: <span
+                                                                className="color-lg-blue">10</span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-xs-12 col-lg-4 cards"><span
-                                            className="cards-counter">25%</span>
-                                            <span className="cards-text"><i className="fa fa-cubes "></i><span
-                                                className="display-inline">Products</span></span>
-                                            <small className="side-text"><span
-                                                className="text-light">Billed: 25 (50%)</span> <span
-                                                className="text-light">Unbilled: 25 (50%)</span></small>
+                                        <div className="col-sm-6 col-md-4">
+                                            <div className="stat-block">
+                                                <div className="stat-title">
+                                                    <span className="stat-label"><i className="fa fa-cubes"></i>Product</span>
+                                                    <span className="color-lg-blue"> 25%</span>
+                                                </div>
+                                                <div className="stat-details clearfix">
+                                                    <div className="col-xs-6">
+                                                        <span className="stat-label">Billed</span>
+                                                        <div className="row breakdown">
+                                                            <span className="side-text clear">Percentage: <span
+                                                                className="color-lg-blue">75%</span></span>
+                                                            <span className="side-text clear">No.of: <span
+                                                                className="color-lg-blue">40</span></span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-6">
+                                                        <span className="stat-label">Unbilled</span>
+                                                        <div className="row breakdown">
+                                                            <span className="side-text clear">Percentage: <span
+                                                                className="color-lg-blue">75%</span></span>
+                                                            <span className="side-text clear">No.of: <span
+                                                                className="color-lg-blue">40</span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-xs-12 col-lg-4 cards"><span
-                                            className="cards-counter">25%</span>
-                                            <span className="cards-text"><i
-                                                className="fa fa-building-o"></i><span className="display-inline">Internal</span></span>
+                                        <div className="col-sm-6 col-md-4">
+                                            <div className="stat-block">
+                                                <div className="stat-title v-align-middle">
+                                                    <span className="stat-label"><i
+                                                        className="icomoon icon-project"></i>Internal</span>
+                                                    <span className="color-lg-blue">25%</span>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
