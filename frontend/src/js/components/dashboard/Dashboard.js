@@ -286,7 +286,7 @@
 
         render: function () {
             var endingProjects;
-            debugger;
+
             if (this.props.endingProjects.length > 0) {
                 endingProjects = this.getEndingProjectsData(this.props.endingProjects);
             }
