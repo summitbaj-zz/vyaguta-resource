@@ -73,12 +73,10 @@
                         <Route path="edit/:id" name="Edit"
                                component={require('./components/client/ClientForm')}/>
                     </Route>
-
-
                 </Route>
 
-                <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}>
-                </Route>
+                <Route path="404NotFound" component={require('./components/common/error-pages/PageNotFoundError')}/>
+                <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}/>
             </Router>
         );
     } else {

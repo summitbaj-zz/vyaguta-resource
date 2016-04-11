@@ -9,7 +9,14 @@
     //React dependencies
     var React = require('react');
 
+    //libraries
+    var NProgress = require('nprogress');
+
     var PageNotFoundError = React.createClass({
+        componentDidMount: function() {
+            NProgress.done();
+        },
+
         render: function() {
             return (
                 <div className="error">

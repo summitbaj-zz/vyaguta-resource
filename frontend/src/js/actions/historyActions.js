@@ -42,6 +42,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(historyActions.fetchAllHistories(entity, id));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push('404NotFound');
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
