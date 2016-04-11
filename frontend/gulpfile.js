@@ -89,7 +89,7 @@
             .pipe(iconfont({
                 fontName: 'myfont', // required
                 prependUnicode: true, // recommended option
-                formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
+                formats: ['ttf', 'eot'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
             .pipe(gulpif(isProduction, imagemin({
