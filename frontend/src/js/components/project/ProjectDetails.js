@@ -1,9 +1,3 @@
-/**
- * Created by
- * Pratish Shrestha <pratishshrestha@lftechnology.com>
- * on 3/25/16.
- */
-
 ;(function () {
     'use-strict';
 
@@ -186,7 +180,7 @@
                                             </div>
                                             {this.state.containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                <Link to={urlConstant.PROJECTS.HISTORY +'/' + project.id}
+                                                <Link to={project.id + urlConstant.PROJECTS.HISTORY}
                                                       title="Add Project"
                                                       className="show-all-btn">View All</Link>
                                             </div>}
