@@ -127,7 +127,7 @@
                                         Project Status
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
-                                    <th className="col-250 ellipses">Preview</th>
+                                    <th className="text-center col-250 ellipses">Preview</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>

@@ -41,7 +41,7 @@
         },
 
         isBilled: function () {
-            if(this.isActive()) {
+            if (this.isActive()) {
                 var allocations = this.props.contractMember.allocations;
                 var todaysDate = moment();
 
@@ -67,6 +67,9 @@
                         <img alt="avatar"
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className={(this.isActive()) ? 'user-info user-active' : 'user-info user-inactive'}>
+                            <span>
+                                {this.props.contractMember.employee.firstName + ' ' + this.props.contractMember.employee.lastName}
+                                </span>
                             <span>
                             {this.isBilled()}
                             </span>

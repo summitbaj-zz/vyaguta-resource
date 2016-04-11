@@ -86,51 +86,50 @@
 
         render: function () {
             return (
-                <DocumentTitle title="Project">
-                    <div>
-                        <EntityHeader header="Projects" routes={this.props.routes} title="Projects"/>
-                        <div className="block full">
-                            <div className="block-title">
-                                <h2>Project Details</h2>
-                                <div className="block-options pull-right">
-                                    <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
-                                          className="btn btn-sm btn-success btn-ghost text-uppercase"><i
-                                        className="fa fa-plus"></i> Add Project</Link>
-                                </div>
+                <div>
+                    <EntityHeader header="Projects" routes={this.props.routes} title="Projects"/>
+                    <div className="block full">
+                        <div className="block-title">
+                            <h2>Project Details</h2>
+                            <div className="block-options pull-right">
+                                <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
+                                      className="btn btn-sm btn-success btn-ghost text-uppercase"><i
+                                    className="fa fa-plus"></i> Add Project</Link>
                             </div>
-                            <div className="table-responsive">
-                                <table className="table table-vcenter table-bordered table-hover table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>S.No.</th>
-                                        <th className="cursor-pointer sort noselect col-250" data-sort="none" id="title"
-                                            onClick={this.sort.bind(null, 'title')}>
-                                            Project
-                                            <i className="fa fa-sort pull-right"></i>
-                                        </th>
-                                        <th className="cursor-pointer sort noselect" data-sort="none" id="projectType"
-                                            onClick={this.sort.bind(null, 'projectType')}>
-                                            Project Type
-                                            <i className="fa fa-sort pull-right"></i>
-                                        </th>
-                                        <th className="cursor-pointer sort noselect" data-sort="none" id="projectStatus"
-                                            onClick={this.sort.bind(null, 'projectStatus')}>
-                                            Project Status
-                                            <i className="fa fa-sort pull-right"></i>
-                                        </th>
-                                        <th className="text-center">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {Object.keys(this.props.projects).map(this.renderProject)}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
-                                        refreshList={this.refreshList}/>
                         </div>
+                        <div className="table-responsive">
+                            <table className="table table-vcenter table-bordered table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="title"
+                                        onClick={this.sort.bind(null, 'title')}>
+                                        Project
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="cursor-pointer sort noselect" data-sort="none" id="projectType"
+                                        onClick={this.sort.bind(null, 'projectType')}>
+                                        Project Type
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="text-center cursor-pointer sort noselect" data-sort="none"
+                                        id="projectStatus"
+                                        onClick={this.sort.bind(null, 'projectStatus')}>
+                                        Project Status
+                                        <i className="fa fa-sort pull-right"></i>
+                                    </th>
+                                    <th className="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {Object.keys(this.props.projects).map(this.renderProject)}
+                                </tbody>
+                            </table>
+                        </div>
+                        <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    refreshList={this.refreshList}/>
                     </div>
-                </DocumentTitle>
+                </div>
             );
         }
     });

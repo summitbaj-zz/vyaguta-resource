@@ -17,6 +17,9 @@
     //actions
     var apiActions = require('./apiActions');
 
+    //constants
+    var urlConstant = require('../constants/urlConstant');
+
     var actions = {
         list: function (entity, data) {
             return {
@@ -42,6 +45,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(historyActions.fetchAllHistories(entity, id));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }

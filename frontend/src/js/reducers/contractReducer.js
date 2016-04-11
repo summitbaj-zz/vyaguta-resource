@@ -140,7 +140,25 @@
 
             case actionTypeConstant.HANDLE_CONTRACT_MEMBER_SELECT_OPTION_CHANGE:
                 var newState = _.cloneDeep(state);
-                newState.selectedContractMember[action.key] = {id: action.value};
+                var employeeName = action.employeeFullName && action.employeeFullName.split(' ');
+
+                if (!employeeName) {
+                    newState.selectedContractMember[action.key] = {
+                        id: action.employeeId,
+                    };
+                } else if (employeeName.length == 2) {
+                    newState.selectedContractMember[action.key] = {
+                        id: action.employeeId,
+                        firstName: employeeName[0],
+                        lastName: employeeName[1]
+                    };
+                } else {
+                    newState.selectedContractMember[action.key] = {
+                        id: action.employeeId,
+                        firstName: employeeName[0],
+                        lastName: employeeName[2]
+                    };
+                }
                 return newState;
 
             case actionTypeConstant.HANDLE_ALLOCATION_SELECT_OPTION_CHANGE:

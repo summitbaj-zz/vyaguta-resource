@@ -20,7 +20,7 @@
                     <td>{this.props.index}</td>
                     <td><Link to={urlConstant.PROJECTS.INDEX + '/' + id +  urlConstant.PROJECTS.VIEW}>{this.props.project.title}</Link></td>
                     <td>{this.props.project.projectType && this.props.project.projectType.title}</td>
-                    <td><span
+                    <td className="text-center"><span
                         className="label text-uppercase"
                         style={style}>{this.props.project.projectStatus && this.props.project.projectStatus.title}</span>
                     </td>

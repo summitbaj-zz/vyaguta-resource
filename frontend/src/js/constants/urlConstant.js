@@ -42,8 +42,9 @@
 
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core',
-        AUTH_SERVER: '/api/auth/auth/refreshtoken'
+        AUTH_SERVER: '/api/auth/auth/refreshtoken',
 
+        PAGE_NOT_FOUND: '404PageNotFound'
     };
 
     module.exports = urlConstant;
