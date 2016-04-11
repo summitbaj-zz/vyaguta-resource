@@ -198,7 +198,6 @@
             var newDate = new Date();
             newDate.setDate(today.getDate() + value);
             return newDate.getFullYear() + '-' + ('0' + (newDate.getMonth() + 1)).slice(-2) + '-' + ('0' + newDate.getDate()).slice(-2);
-
         },
 
         componentDidMount: function () {
