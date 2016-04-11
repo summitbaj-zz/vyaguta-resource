@@ -76,7 +76,7 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Client':'Add Client'}
-                                  routes={this.props.routes} title={this.props.selectedItem.clients ? this.props.selectedItem.clients.name : 'Client'}/>
+                                  routes={this.props.routes} title={this.props.selectedItem.clients.name || 'Client'}/>
                     <div className="block">
                         <div className="block-title-border">Client Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveClient}>
