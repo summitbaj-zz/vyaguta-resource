@@ -42,7 +42,7 @@ public class ProjectHistoryRoot implements Serializable {
 
     private String reason;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by")))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "created_by") ))
     @JsonDeserialize(using = UserDeserializer.class)
     @JsonSerialize(using = UserSerializer.class)
     private User createdBy;
@@ -114,6 +114,12 @@ public class ProjectHistoryRoot implements Serializable {
     public void prePersist() {
         this.setCreatedAt(LocalDateTime.now());
         this.setCreatedBy(SecurityRequestContext.getCurrentUser());
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectHistoryRoot [id=" + id + ", reason=" + reason + ", createdBy=" + createdBy + ", createdAt="
+                + createdAt + "]";
     }
 
 }

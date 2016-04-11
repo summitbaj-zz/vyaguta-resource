@@ -207,4 +207,12 @@ public class ProjectHistory implements Serializable {
         this.setId(GuidUtil.generate());
     }
 
+    @Override
+    public String toString() {
+        return "ProjectHistory [id=" + id + ", project=" + project + ", batch=" + batch + ", event=" + event
+                + ", title=" + title + ", description=" + description + ", accountManager=" + accountManager
+                + ", projectType=" + projectType + ", projectStatus=" + projectStatus + ", client=" + client
+                + ", isChanged=" + isChanged + "]";
+    }
+
 }

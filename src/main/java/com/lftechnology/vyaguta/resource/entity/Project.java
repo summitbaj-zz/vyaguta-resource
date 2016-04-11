@@ -38,7 +38,8 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "projects")
-@NamedQueries({ @NamedQuery(name = Project.FIND_BY_CLIENT, query = "SELECT p FROM Project p WHERE p.client = :client") })
+@NamedQueries({
+        @NamedQuery(name = Project.FIND_BY_CLIENT, query = "SELECT p FROM Project p WHERE p.client = :client") })
 public class Project extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 6415143172601079320L;
@@ -63,12 +64,11 @@ public class Project extends BaseEntity implements Serializable {
     @JoinColumn(name = "project_status_id", referencedColumnName = "id")
     private ProjectStatus projectStatus;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id")))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "account_manager_id") ))
     private Employee accountManager;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @JoinTable(name = "projects_tags", joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id") , inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id") )
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
@@ -185,4 +185,12 @@ public class Project extends BaseEntity implements Serializable {
     public void preUpdates() {
         this.setTitle(this.getTitle().trim());
     }
+
+    @Override
+    public String toString() {
+        return "Project [title=" + title + ", description=" + description + ", projectType=" + projectType + ", client="
+                + client + ", projectStatus=" + projectStatus + ", accountManager=" + accountManager + ", tags=" + tags
+                + ", contracts=" + contracts + ", reason=" + reason + "]";
+    }
+
 }
