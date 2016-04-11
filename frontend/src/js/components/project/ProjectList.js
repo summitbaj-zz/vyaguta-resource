@@ -110,7 +110,7 @@
                                         Project Type
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="projectStatus"
+                                    <th className="text-center cursor-pointer sort noselect" data-sort="none" id="projectStatus"
                                         onClick={this.sort.bind(null, 'projectStatus')}>
                                         Project Status
                                         <i className="fa fa-sort pull-right"></i>

@@ -107,6 +107,7 @@
                                            onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            className="form-control"
                                            id="title"
+                                           maxlength="25"
                                     />
                                     <span className="help-block"></span>
                                 </div>

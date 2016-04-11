@@ -125,7 +125,7 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect col-500" data-sort="none" id="title"
+                                    <th className="cursor-pointer sort noselect col-400" data-sort="none" id="title"
                                         onClick={this.sort.bind(null, 'title')}>
                                         Budget Type
                                         <i className="fa fa-sort pull-right"></i>

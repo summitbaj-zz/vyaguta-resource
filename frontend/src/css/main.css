@@ -1394,8 +1394,16 @@ ul.pagination li {
     cursor: pointer;
 }
 
+.col-100 {
+    width: 100px;
+}
+
 .col-250 {
     width: 250px;
+}
+
+.col-400 {
+    width: 500px;
 }
 
 .col-500 {
