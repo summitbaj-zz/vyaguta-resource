@@ -204,7 +204,6 @@
             this.props.actions.fetchByField(resourceConstant.PROJECTS, 'projectStatus', 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-            console.log(request);
             this.props.actions.fetchByEndDate('dashboard', request);
         },
 
@@ -287,6 +286,7 @@
 
         render: function () {
             var endingProjects;
+            debugger;
             if (this.props.endingProjects.length > 0) {
                 endingProjects = this.getEndingProjectsData(this.props.endingProjects);
             }

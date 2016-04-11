@@ -164,7 +164,7 @@
         return buildScript(false);
     });
 
-    gulp.task('html', ['scripts','styles', 'custom_ ui'],function () {
+    gulp.task('html', ['scripts','styles', 'custom_ui'],function () {
         var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
         gulp.src('./index.html')
             .pipe(inject(sources, {
