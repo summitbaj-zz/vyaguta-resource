@@ -25,6 +25,7 @@
 
     //constants
     var messageConstant = require('../constants/messageConstant');
+    var urlConstant = require('../constants/urlConstant');
 
     /**
      * Actions that are dispatched from crudActions
@@ -95,6 +96,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchAllFromCore(entity));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -117,6 +120,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchAll(entity));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -140,6 +145,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.addItem(entity, data));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -163,6 +170,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.updateItem(entity, data, id));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -178,6 +187,7 @@
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
+                    debugger;
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
@@ -185,6 +195,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchById(entity, id));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -208,6 +220,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.deleteItem(entity, id));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -249,6 +263,8 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchByQuery(entity, data));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
@@ -270,8 +286,10 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchByField(entity, field, data));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
@@ -291,8 +309,10 @@
                             dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.fetchByField(entity, field, data));
                         });
+                    } else if (error.status == 404) {
+                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
                     } else {
-                        Toastr.error(error.response.body.error);
+                        Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));
             }
