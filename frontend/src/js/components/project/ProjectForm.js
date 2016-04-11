@@ -347,9 +347,10 @@
                                                         this.props.selectedItem.projects.accountManager.id}
                                                                   loadOptions={this.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
+                                                                  disabled={this.props.apiState.isRequesting}
+                                                                  minimumInput="1"
                                                                   disabled={this.props.apiState.isRequesting}/>
                                                 </div>
-
                                             </div>
                                         </div>
 
