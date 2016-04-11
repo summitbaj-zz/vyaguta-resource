@@ -46,11 +46,12 @@
             }
         },
 
-        handleContractMemberSelectOptionChange: function(key, value) {
+        handleContractMemberSelectOptionChange: function(key, employeeId, employeeFullName) {
             return {
                 type: actionTypeConstant.HANDLE_CONTRACT_MEMBER_SELECT_OPTION_CHANGE,
                 key: key,
-                value: value
+                employeeId: employeeId,
+                employeeFullName: employeeFullName
             }
         },
 

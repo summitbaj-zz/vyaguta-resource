@@ -108,7 +108,9 @@
 
         handleAutoCompleteChange: function (employee) {
             var employeeId = employee && employee.value;
-            this.props.actions.handleContractMemberSelectOptionChange('employee', employeeId);
+            var employeeFullName = employee && employee.label;
+
+            this.props.actions.handleContractMemberSelectOptionChange('employee', employeeId, employeeFullName);
         },
 
         render: function () {
