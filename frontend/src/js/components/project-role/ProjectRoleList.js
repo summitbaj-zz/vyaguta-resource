@@ -105,7 +105,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Roles" routes={this.props.routes}/>
+                    <EntityHeader header="Project Roles" routes={this.props.routes} title="Project Roles"/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Role Details</h2>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-vcenter table-hover table-striped">
+                            <table className="table table-vcenter table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>

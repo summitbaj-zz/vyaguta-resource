@@ -31,15 +31,6 @@ var App = function () {
         // Sidebar navigation functionality
         handleNav();
 
-        // Interactive blocks functionality
-        interactiveBlocks();
-
-        // Scroll to top functionality
-        scrollToTop();
-
-        // Template Options, change features
-        //templateOptions();
-
         // Resize #page-content to fill empty space if exists (also add it to resize and orientationchange events)
         resizePageContent();
         $(window).resize(function () {
@@ -153,50 +144,51 @@ var App = function () {
 
         // Primary Accordion functionality
         menuLinks.click(function () {
-            /*var link = $(this);
-             if (link.parent().hasClass('active') !== true) {
-             if (link.hasClass('open')) {
-             link.removeClass('open').next().slideUp(upSpeed, function(){
-             handlePageScroll(link, 200, 300);
-             });
-             // Resize #page-content to fill empty space if exists
-             setTimeout(resizePageContent, upSpeed);
-             }
-             else {
-             $('.sidebar-nav-menu.open').removeClass('open').next().slideUp(upSpeed);
-             link.addClass('open').next().slideDown(downSpeed, function(){
-             handlePageScroll(link, 150, 600);
-             });
-             // Resize #page-content to fill empty space if exists
-             setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
-             }
-             }
-             return false;*/
+            var link = $(this);
+            if (link.parent().hasClass('active') !== true) {
+                if (link.hasClass('open')) {
+                    link.removeClass('open').next().slideUp(upSpeed, function () {
+                        handlePageScroll(link, 200, 300);
+                    });
+                    // Resize #page-content to fill empty space if exists
+                    setTimeout(resizePageContent, upSpeed);
+                }
+                else {
+                    $('.sidebar-nav-menu.open').removeClass('open').next().slideUp(upSpeed);
+                    link.addClass('open').next().slideDown(downSpeed, function () {
+                        handlePageScroll(link, 150, 600);
+                    });
+                    // Resize #page-content to fill empty space if exists
+                    setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
+                }
+            }
+            return false;
         });
 
         // Submenu Accordion functionality
         submenuLinks.click(function () {
-            /*var link = $(this);
-             if (link.parent().hasClass('active') !== true) {
-             if (link.hasClass('open')) {
-             link.removeClass('open').next().slideUp(upSpeed, function(){
-             handlePageScroll(link, 200, 300);
-             });
-             // Resize #page-content to fill empty space if exists
-             setTimeout(resizePageContent, upSpeed);
-             }
-             else {
-             link.closest('ul').find('.sidebar-nav-submenu.open').removeClass('open').next().slideUp(upSpeed);
-             link.addClass('open').next().slideDown(downSpeed, function(){
-             handlePageScroll(link, 150, 600);
-             });
-             // Resize #page-content to fill empty space if exists
-             setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
-             }*/
-            //}
+                var link = $(this);
+                if (link.parent().hasClass('active') !== true) {
+                    if (link.hasClass('open')) {
+                        link.removeClass('open').next().slideUp(upSpeed, function () {
+                            handlePageScroll(link, 200, 300);
+                        });
+                        // Resize #page-content to fill empty space if exists
+                        setTimeout(resizePageContent, upSpeed);
+                    }
+                    else {
+                        link.closest('ul').find('.sidebar-nav-submenu.open').removeClass('open').next().slideUp(upSpeed);
+                        link.addClass('open').next().slideDown(downSpeed, function () {
+                            handlePageScroll(link, 150, 600);
+                        });
+                        // Resize #page-content to fill empty space if exists
+                        setTimeout(resizePageContent, ((upSpeed > downSpeed) ? upSpeed : downSpeed));
+                    }
+                }
 
-            return false;
-        });
+                return false;
+            }
+        );
     };
 
     /* Scrolls the page (static layout) or the sidebar scroll element (fixed header/sidebars layout) to a specific position - Used when a submenu opens */

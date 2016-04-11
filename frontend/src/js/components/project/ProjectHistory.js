@@ -37,7 +37,7 @@
             var historyIds = Object.keys(this.props.histories);
             return (
                 <div>
-                    <EntityHeader header="History" routes={this.props.routes}/>
+                    <EntityHeader header="History" routes={this.props.routes} title="History"/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">

@@ -107,7 +107,7 @@
             return (
                 <div>
                     <EntityHeader header="Project Status"
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes} title="Project Status"/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-vcenter table-hover table-striped">
+                            <table className="table table-vcenter table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
