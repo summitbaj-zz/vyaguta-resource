@@ -637,6 +637,7 @@ footer a, footer a:hover {
     height: auto !important;
     height: 160px;
     background: #f4f8fa;
+    position: relative;
 }
 
 .stat-title {
@@ -653,9 +654,12 @@ footer a, footer a:hover {
 }
 
 .stat-title .stat-label i {
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 18px;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 50px;
     margin: 0 5px 0 0;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 .stat-block .stat-details {

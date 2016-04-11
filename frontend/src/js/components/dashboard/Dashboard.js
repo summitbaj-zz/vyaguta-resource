@@ -304,14 +304,14 @@
                     <div className="row res-stats">
                         <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                             <div className="widget-simple">
-                                <div className="widget-icon label-green pull-left animation-fadeIn"><span
+                                <div className="widget-icon animation-fadeIn label-green pull-left"><span
                                     className="res-counter">100</span></div>
                                 <h3 className="widget-content text-right animation-pullDown"> Total Resource </h3>
                             </div>
                         </a></div>
                         <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                             <div className="widget-simple">
-                                <div className="widget-icon pull-left label-red animation-fadeIn"><span
+                                <div className="widget-icon animation-fadeIn pull-left label-red"><span
                                     className="res-counter">30</span>
                                 </div>
                                 <h3 className="widget-content text-right animation-pullDown"> Free Resources </h3>
@@ -319,7 +319,7 @@
                         </a></div>
                         <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                             <div className="widget-simple">
-                                <div className="widget-icon pull-left label-lg-blue animation-fadeIn"><span
+                                <div className="widget-icon animation-fadeIn pull-left label-lg-blue"><span
                                     className="res-counter">70</span></div>
                                 <h3 className="widget-content text-right animation-pullDown"> Booked Resources
                                     <small className="side-text"><span
@@ -328,7 +328,9 @@
                                 </h3>
                             </div>
                         </a></div>
-                        <div className="col-lg-12">
+                    </div>
+                                  <div className="row">
+                         <div className="col-lg-12">
                             <div className="widget">
                                 <div className="widget-extra widget-custom">
                                     <div className="widget-title">Booked Resources</div>

@@ -107,10 +107,11 @@
             };
             var contractIds = project.contracts && Object.keys(project.contracts);
             var historyIds = Object.keys(this.props.histories);
-           
+
             return (
                 <div>
-                    <EntityHeader header="Project Details" routes={this.props.routes} title={project && project.title || 'Project'}/>
+                    <EntityHeader header="Project Details" routes={this.props.routes}
+                                  title={project ? project.title : 'Project'}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">

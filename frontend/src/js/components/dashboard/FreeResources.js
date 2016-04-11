@@ -30,7 +30,7 @@
             if (index < this.props.resources.length) {
                 var resource = this.props.resources[index];
                 return (
-                    <div className="col-xs-12 col-lg-3" key={index}>
+                    <div className="col-xs-12 col-sm-6 col-lg-3" key={index}>
                         <a className="widget widget-hover-effect1">
                             <div className="widget-simple widget-custom">
                                 <div className="cards">
