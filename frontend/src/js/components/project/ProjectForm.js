@@ -62,7 +62,6 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
-            this.props.actions.fetchAllFromCore(resourceConstant.EMPLOYEES);
 
             formUtil.disableForm('projectForm');
         },
@@ -110,7 +109,6 @@
             var employeeId = employee && employee.value;
             this.props.actions.handleSelectOptionChange('projects', 'accountManager', employeeId);
         },
-
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
@@ -263,8 +261,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
-                                  routes={this.props.routes}/>
-
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.projects.title || 'Project'}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">
@@ -349,7 +347,8 @@
                                                                   onChange={this.handleAutoCompleteChange}
                                                                   disabled={this.props.apiState.isRequesting}
                                                                   minimumInput="1"
-                                                                  disabled={this.props.apiState.isRequesting}/>
+                                                                  disabled={this.props.apiState.isRequesting}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>

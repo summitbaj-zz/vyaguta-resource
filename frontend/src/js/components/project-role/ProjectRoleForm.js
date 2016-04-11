@@ -66,7 +66,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.projectRoles.title || 'Project Role'}/>
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>

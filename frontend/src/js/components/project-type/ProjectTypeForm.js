@@ -66,7 +66,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Type':'Add Project Type'}
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.projectTypes.title || 'Project Type'}/>
                     <div className="block">
                         <div className="block-title-border">Project Type Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectType}>

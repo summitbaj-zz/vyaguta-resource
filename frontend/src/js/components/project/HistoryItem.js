@@ -44,7 +44,7 @@
                         changedEntity = 'Contract';             //Until decided what to do.
                         break;
                     case 'ContractMember':
-                        changedEntity = 'Contract Member'      //Until back end fixes it.
+                        changedEntity = this.getAppendedName(this.props.history.employee) || 'Contract Member';
                         break;
                 }
                 this.setState({changedEntity: changedEntity});
@@ -63,12 +63,12 @@
                 this.setState({actionData: actionData});
             },
 
-            getAppendedName: function (accountManager) {
-                var name = accountManager.firstName;
-                if (accountManager.middleName) {
-                    name = name.concat(' ', accountManager.middleName);
+            getAppendedName: function (employee) {
+                var name = employee.firstName;
+                if (employee.middleName) {
+                    name = name.concat(' ', employee.middleName);
                 }
-                name = name.concat(' ', accountManager.lastName);
+                name = name.concat(' ', employee.lastName);
                 return name;
             },
 
@@ -129,15 +129,15 @@
                 }
                 interval = Math.floor(seconds / 3600);
                 if (interval >= 1) {
-                    return interval + " hours ago";
+                    return interval + ' hours ago';
                 }
                 interval = Math.floor(seconds / 60);
                 if (interval >= 1) {
-                    return interval + " minutes ago";
+                    return interval + ' minutes ago';
                 }
                 interval = seconds;
                 if (interval >= 0) {
-                    return Math.floor(seconds) + " seconds ago";
+                    return Math.floor(seconds) + ' seconds ago';
                 }
                 var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
                 return convertedDate;

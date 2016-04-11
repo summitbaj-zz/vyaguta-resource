@@ -110,7 +110,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Budget Types" routes={this.props.routes}/>
+                    <EntityHeader header="Budget Types" routes={this.props.routes} title="Budget Types"/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
@@ -121,11 +121,11 @@
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-vcenter table-hover table-striped">
+                            <table className="table table-vcenter table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect col-500" data-sort="none" id="title"
+                                    <th className="cursor-pointer sort noselect col-400" data-sort="none" id="title"
                                         onClick={this.sort.bind(null, 'title')}>
                                         Budget Type
                                         <i className="fa fa-sort pull-right"></i>

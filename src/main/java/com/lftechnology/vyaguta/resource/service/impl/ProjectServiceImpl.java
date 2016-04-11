@@ -124,6 +124,8 @@ public class ProjectServiceImpl implements ProjectService {
             }
         });
 
+        setEmployeeDetails(project);
+
         return project;
     }
 
@@ -158,8 +160,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
-                .distinct().collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null)
+                .map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
         if (employeeIds.size() == 0)
             return;
 
@@ -174,12 +176,39 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    public void setEmployeeDetails(Project project) {
+        List<UUID> employeeId = new ArrayList<>();
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                if (cm.getEmployee().getId() != null) {
+                    employeeId.add(cm.getEmployee().getId());
+                }
+            }
+        }
+
+        if (!employeeId.isEmpty()) {
+            List<Employee> employees = employeeService.fetchEmployees(employeeId);
+            for (Contract contract : project.getContracts()) {
+                for (ContractMember cm : contract.getContractMembers()) {
+                    for (Employee employee : employees) {
+
+                        if (cm.getEmployee().equals(employee)) {
+                            cm.setEmployee(employee);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
-        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
+                .collect(Collectors.toList());
 
         for (final Tag tempTag : uniqueTagList) {
             Tag result = findTagByTitle(tempTag.getTitle());

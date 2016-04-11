@@ -26,6 +26,8 @@
     //libraries
     var _ = require('lodash');
 
+    var DocumentTitle = require('react-document-title');
+
     //util
     var ApiUtil = require('../../util/apiUtil');
     var sortBy = '';
@@ -85,7 +87,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Projects" routes={this.props.routes}/>
+                    <EntityHeader header="Projects" routes={this.props.routes} title="Projects"/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Details</h2>
@@ -96,7 +98,7 @@
                             </div>
                         </div>
                         <div className="table-responsive">
-                            <table className="table table-vcenter table-hover table-striped">
+                            <table className="table table-vcenter table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
@@ -110,7 +112,8 @@
                                         Project Type
                                         <i className="fa fa-sort pull-right"></i>
                                     </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="projectStatus"
+                                    <th className="text-center cursor-pointer sort noselect" data-sort="none"
+                                        id="projectStatus"
                                         onClick={this.sort.bind(null, 'projectStatus')}>
                                         Project Status
                                         <i className="fa fa-sort pull-right"></i>

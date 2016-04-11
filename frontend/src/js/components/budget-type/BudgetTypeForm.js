@@ -76,7 +76,7 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id) ? 'Edit Budget Type' : 'Add Budget Type'}
-                                  routes={this.props.routes}/>
+                                  routes={this.props.routes} title={this.props.selectedItem.budgetTypes.title || 'Budget Type'}/>
                     <div className="block">
                         <div
                             className="block-title-border">Budget Type Details

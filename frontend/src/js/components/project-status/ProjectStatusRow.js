@@ -19,7 +19,7 @@
                 <tr>
                     <td>{this.props.index}</td>
                     <td>{this.props.projectStatus.title}</td>
-                    <td><span
+                    <td className="text-center"><span
                         className="label text-uppercase"
                         style={style}>{this.props.projectStatus.title}</span>
                     </td>
