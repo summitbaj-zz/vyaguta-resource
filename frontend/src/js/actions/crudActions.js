@@ -295,10 +295,10 @@
             }
         },
 
-        fetchByEndDate: function (entity, field, data) {
+        fetchByEndDate: function (entity, data) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));
-                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
+                return (apiUtil.fetchByEndDate(entity, data).then(function (response) {
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.listEndDate(entity, response.body));
                 }, function (error) {
@@ -307,7 +307,8 @@
                         dispatch(apiActions.apiRequest(entity));
                         apiUtil.refreshSession().then(function (response) {
                             dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchByField(entity, field, data));
+                            dispatch(crudActions.fetchByEndDate(entity, data))
+                            ;
                         });
                     } else if (error.status == 404) {
                         browserHistory.push(urlConstant.PAGE_NOT_FOUND);

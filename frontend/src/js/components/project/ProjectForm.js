@@ -111,7 +111,6 @@
             this.props.actions.handleSelectOptionChange('projects', 'accountManager', employeeId);
         },
 
-
         addTag: function (value) {
             this.state.technologyStack.push(value);
             this.setState({technologyStack: this.state.technologyStack});
@@ -265,7 +264,6 @@
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
                                   routes={this.props.routes}
                                   title={this.props.selectedItem.projects.title || 'Project'}/>
-
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">

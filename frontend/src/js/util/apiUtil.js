@@ -93,6 +93,13 @@
                 .set('Accept', 'application/json')
         },
 
+        fetchByEndDate: function (resourceName, data){
+            return request
+                .get(url + resourceName.toLowerCase() + '/projectending?contract.endDate=' + data)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+        },
+
         create: function (resourceName, data) {
             return request
                 .post(url + resourceName.toLowerCase())

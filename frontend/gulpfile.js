@@ -89,7 +89,7 @@
             .pipe(iconfont({
                 fontName: 'myfont', // required
                 prependUnicode: true, // recommended option
-                formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'], // default, 'woff2' and 'svg' are available
+                formats: ['ttf', 'eot'], // default, 'woff2' and 'svg' are available
                 timestamp: runTimestamp // recommended to get consistent builds when watching files
             }))
             .pipe(gulpif(isProduction, imagemin({
@@ -164,7 +164,7 @@
         return buildScript(false);
     });
 
-    gulp.task('html', ['scripts','styles', 'custom_ ui'],function () {
+    gulp.task('html', ['scripts','styles', 'custom_ui'],function () {
         var sources = gulp.src(['./dist/**/*.js', './dist/**/*.css'], {read: false});
         gulp.src('./index.html')
             .pipe(inject(sources, {
