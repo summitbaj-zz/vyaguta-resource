@@ -62,7 +62,6 @@
             this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
-            this.props.actions.fetchAllFromCore(resourceConstant.EMPLOYEES);
 
             formUtil.disableForm('projectForm');
         },
@@ -346,7 +345,9 @@
                                                         this.props.selectedItem.projects.accountManager.id}
                                                                   loadOptions={this.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
-                                                                  disabled={this.props.apiState.isRequesting}/>
+                                                                  autoLoad={false}
+                                                                  disabled={this.props.apiState.isRequesting}
+                                                    />
                                                 </div>
 
                                             </div>
