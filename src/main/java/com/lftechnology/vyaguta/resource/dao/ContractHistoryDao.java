@@ -32,7 +32,8 @@ public interface ContractHistoryDao {
             getEm().flush();
             getEm().refresh(contractHistory);
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
+            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
         }
         return contractHistory;
     }
@@ -47,14 +48,15 @@ public interface ContractHistoryDao {
     }
 
     public default List<ContractHistory> findHistory(Project project) {
-        return getEm().createNamedQuery(ContractHistory.FIND_BY_PROJECT, ContractHistory.class).setParameter("project", project)
-                .getResultList();
+        return getEm().createNamedQuery(ContractHistory.FIND_BY_PROJECT, ContractHistory.class)
+                .setParameter("project", project).getResultList();
     };
 
     public default ContractHistory findMostRecent(Contract contract) {
-        String jpql = "SELECT ch FROM ContractHistory ch WHERE ch.contract=:contract ORDER BY ch.batch.createdBy DESC";
+        String jpql = "SELECT ch FROM ContractHistory ch WHERE ch.contract=:contract ORDER BY ch.batch.createdAt DESC";
         try {
-            return getEm().createQuery(jpql, ContractHistory.class).setParameter("contract", contract).setMaxResults(1).getSingleResult();
+            return getEm().createQuery(jpql, ContractHistory.class).setParameter("contract", contract).setMaxResults(1)
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
