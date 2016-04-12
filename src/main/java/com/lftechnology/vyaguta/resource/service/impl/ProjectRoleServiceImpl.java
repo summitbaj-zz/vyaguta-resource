@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectRoleDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectRole;
 import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
@@ -20,6 +21,9 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
 
     @Inject
     ProjectRoleDao projectRoleDao;
+
+    @Inject
+    ContractMemberDao contractMemberDao;
 
     @Override
     public ProjectRole save(ProjectRole projectRole) {

@@ -11,14 +11,11 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
-import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
@@ -40,16 +37,10 @@ import com.lftechnology.vyaguta.resource.service.ProjectService;
 public class ProjectServiceImpl implements ProjectService {
 
     @Inject
-    private Logger log;
-
-    @Inject
     private ProjectDao projectDao;
 
     @Inject
     private TagDao tagDao;
-
-    @Inject
-    private ContractDao contractDao;
 
     @Inject
     private EmployeeService employeeService;
@@ -160,8 +151,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null)
-                .map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
+        List<UUID> employeeIds =
+                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
+                        .collect(Collectors.toList());
         if (employeeIds.size() == 0)
             return;
 
@@ -204,11 +196,9 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
-        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
-                .collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
         for (final Tag tempTag : uniqueTagList) {
             Tag result = findTagByTitle(tempTag.getTitle());

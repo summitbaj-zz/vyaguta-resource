@@ -28,8 +28,8 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
 
     @Override
     public List<ContractMember> findByContract(Contract contract) {
-        return em.createNamedQuery(ContractMember.FIND_BY_CONTRACT, ContractMember.class)
-                .setParameter("contract", contract).getResultList();
+        return em.createNamedQuery(ContractMember.FIND_BY_CONTRACT, ContractMember.class).setParameter("contract", contract)
+                .getResultList();
     }
 
     @Override

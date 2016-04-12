@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.BudgetTypeDao;
+import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.entity.BudgetType;
 import com.lftechnology.vyaguta.resource.service.BudgetTypeService;
 
@@ -20,6 +21,9 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
 
     @Inject
     BudgetTypeDao budgetTypeDao;
+
+    @Inject
+    ContractDao contractDao;
 
     @Override
     public BudgetType save(BudgetType budgetType) {

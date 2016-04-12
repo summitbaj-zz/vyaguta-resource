@@ -115,20 +115,25 @@
 
         getAutoCompleteValue: function () {
             var value = this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.id;
+            var employee = this.props.selectedContractMember.employee;
 
-            if (this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.firstName) {
-                var firstName = this.props.selectedContractMember.employee.firstName;
-                var lastName = this.props.selectedContractMember.employee.lastName;
+            if (employee && employee.id){
+                var firstName = employee.firstName;
+                var lastName = employee.lastName;
+                var middleName = '';
+
+                if(employee.middleName && employee.middleName != 'NULL') {
+                    middleName = employee.middleName + ' ';
+                }
 
                 return {
                     value: value,
-                    label: firstName + ' ' + lastName,
+                    label: firstName + ' ' + middleName + lastName
                 }
 
             } else {
                 return null;
             }
-
         },
 
         render: function () {
@@ -150,7 +155,7 @@
                                                           value={this.getAutoCompleteValue()}
                                                           loadOptions={this.loadEmployees}
                                                           onChange={this.handleAutoCompleteChange}
-                                                          minimumInput="1"/>
+                                                          minimumInput={1}/>
                                         </div>
                                     </div>
 

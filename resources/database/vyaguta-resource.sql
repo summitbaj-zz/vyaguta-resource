@@ -166,7 +166,7 @@ ALTER TABLE ONLY contracts
 ALTER TABLE ONLY contracts 
 	ADD CONSTRAINT projects_fk FOREIGN KEY(project_id) REFERENCES projects ON DELETE CASCADE;
 ALTER TABLE ONLY contracts 
-	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE CASCADE;
+	ADD CONSTRAINT budget_type_fk FOREIGN KEY(budget_type_id) REFERENCES budget_types ON DELETE RESTRICT;
     
 	
 CREATE TABLE contract_members (
@@ -189,7 +189,7 @@ ALTER TABLE ONLY contract_members
 ALTER TABLE ONLY contract_members 
 	ADD CONSTRAINT contracts_fk FOREIGN KEY(contract_id) REFERENCES contracts ON DELETE CASCADE;
 ALTER TABLE ONLY contract_members 
-	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE CASCADE;
+	ADD CONSTRAINT project_roles_fk FOREIGN KEY(role_id) REFERENCES project_roles ON DELETE RESTRICT;
 	
 	
 CREATE TABLE project_history_root (
