@@ -103,6 +103,7 @@
                     newState.selectedItem[action.entity][action.key] = {
                         id: action.id,
                         firstName: employeeName[0],
+                        middleName: employeeName[1],
                         lastName: employeeName[2]
                     };
                 }

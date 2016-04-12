@@ -262,14 +262,20 @@
 
         getAutoCompleteValue: function () {
             var value = this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id;
+            var accountManager = this.props.selectedItem.projects.accountManager;
 
-            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.firstName) {
-                var firstName = this.props.selectedItem.projects.accountManager.firstName;
-                var lastName = this.props.selectedItem.projects.accountManager.lastName;
+            if (accountManager && accountManager.id){
+                var firstName = accountManager.firstName;
+                var lastName = accountManager.lastName;
+                var middleName = '';
+
+                if(accountManager.middleName && accountManager.middleName != 'NULL') {
+                    middleName = accountManager.middleName + ' ';
+                }
 
                 return {
                     value: value,
-                    label: firstName + ' ' + lastName,
+                    label: firstName + ' ' + middleName + lastName
                 }
 
             } else {
@@ -366,7 +372,7 @@
                                                                   loadOptions={this.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
                                                                   disabled={this.props.apiState.isRequesting}
-                                                                  minimumInput="1"
+                                                                  minimumInput={1}
                                                     />
                                                 </div>
                                             </div>
