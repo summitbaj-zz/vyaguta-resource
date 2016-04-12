@@ -132,7 +132,6 @@
                                                           value={this.props.selectedContractMember.employee
                                                            && this.props.selectedContractMember.employee.id}
                                                           loadOptions={this.loadEmployees}
-                                                          minimumInput="1"
                                                           onChange={this.handleAutoCompleteChange}/>
                                         </div>
                                     </div>
