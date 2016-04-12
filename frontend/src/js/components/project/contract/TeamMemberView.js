@@ -21,6 +21,15 @@
             );
         },
 
+        getAppendedName: function (employee) {
+            var name = employee.firstName;
+            if (employee.middleName && employee.middleName != 'NULL') {
+                name = name.concat(' ', employee.middleName);
+            }
+            name = name.concat(' ', employee.lastName);
+            return name;
+        },
+
         render: function () {
             var teamMember = this.props.selectedTeamMember;
             if (teamMember.allocation)
@@ -33,7 +42,7 @@
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                                 <div
-                                    className="modal-title">{teamMember.employee && teamMember.employee.firstName + ' ' + teamMember.employee.lastName}</div>
+                                    className="modal-title">{teamMember.employee && this.getAppendedName(teamMember.employee)}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="table-responsive">
