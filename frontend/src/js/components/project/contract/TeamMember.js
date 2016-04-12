@@ -4,28 +4,44 @@
     //React dependencies
     var React = require('react');
 
-    var TeamMember = React.createClass({
-        isBilled: function () {
-            var allocations = this.props.contractMember.allocations;
+    //libraries
+    var moment = require('moment');
 
-            if (allocations[allocations.length - 1].billed) {
-                return true;
+    var TeamMember = React.createClass({
+        isActive: function () {
+            var allocations = this.props.contractMember.allocations;
+            var todaysDate = moment();
+
+            for (var i = 0; i < allocations.length; i++) {
+                var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
+                var endDate = moment(allocations[i].endDate).add(1, 'd');
+
+                if (todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                    return true;
+                }
             }
 
             return false;
         },
 
-        isActive: function () {
-            var todaysDate = Date.now();
-            var allocations = this.props.contractMember.allocations;
-            var endDate = Date.parse(allocations[allocations.length - 1].endDate);
-            var joinDate = Date.parse(allocations[allocations.length - 1].joinDate);
+        isBilled: function () {
+            if (this.isActive()) {
+                var allocations = this.props.contractMember.allocations;
+                var todaysDate = moment();
 
-            if (todaysDate > joinDate && todaysDate < endDate) {
-                return true;
+                for (var i = 0; i < allocations.length; i++) {
+                    var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
+                    var endDate = moment(allocations[i].endDate).add(1, 'd');
+
+                    if (allocations[i].billed && todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                        return 'Billed';
+                    }
+                }
+
+                return 'Unbilled';
             }
 
-            return false;
+            return '';
         },
 
         render: function () {
