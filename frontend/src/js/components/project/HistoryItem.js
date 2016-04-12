@@ -65,7 +65,7 @@
 
             getAppendedName: function (employee) {
                 var name = employee.firstName;
-                if (employee.middleName) {
+                if (employee.middleName && employee.middleName != 'NULL') {
                     name = name.concat(' ', employee.middleName);
                 }
                 name = name.concat(' ', employee.lastName);
@@ -99,7 +99,8 @@
                     displayData = this.state.actionData[data];
                 }
                 return (<p className="changed-field"
-                           key={data}>{this.changeKeyToDisplayableForm(data) + ' : ' + displayData}</p>);
+                           key={data}><span className="weight-500">{this.changeKeyToDisplayableForm(data)}</span>
+                    : {displayData}</p>);
             },
 
             changeKeyToDisplayableForm: function (data) {

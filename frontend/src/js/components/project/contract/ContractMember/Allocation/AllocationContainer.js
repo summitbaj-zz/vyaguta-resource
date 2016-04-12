@@ -41,7 +41,7 @@
                         <a className="btn btn-xs btn-default"
                            href="#"
                            onClick={this.addAllocation}>
-                            <i className="fa fa-plus icon-space"></i>Add Another Allocation
+                            <i className="fa fa-plus"></i>Add Another Allocation
                         </a>
                     </div>
                 </div>

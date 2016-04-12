@@ -60,7 +60,7 @@
             var name = '-';
             if (accountManager.id) {
                 name = accountManager.firstName;
-                if (accountManager.middleName) {
+                if (accountManager.middleName && accountManager.middleName != 'NULL') {
                     name = name.concat(' ', accountManager.middleName);
                 }
                 name = name.concat(' ', accountManager.lastName);

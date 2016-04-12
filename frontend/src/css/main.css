@@ -1611,3 +1611,7 @@ ul.pagination li {
 .list-group-project {
     width: 50%;
 }
+
+.weight-500{
+    font-weight: 500;
+}
