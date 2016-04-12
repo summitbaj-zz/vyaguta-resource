@@ -34,10 +34,14 @@
 
             return (
                 <li>
-                    <a href="#" className="view-team" data-toggle="modal" data-target="#viewTeam" onClick={this.props.setMemberToBeInModal.bind(null, teamMember)}>
+                    <a href="#" className="view-team" data-toggle="modal" data-target="#viewTeam"
+                       onClick={this.props.setMemberToBeInModal.bind(null, teamMember)}>
                         <img alt="avatar"
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className={(this.isActive()) ? 'user-info user-active' : 'user-info user-inactive'}>
+                            <span>
+                                {teamMember.employee.firstName + ' ' + teamMember.employee.lastName}
+                                </span>
                             <span>
                             {(this.isBilled()) ? 'Billed' : 'Unbilled'}
                             </span>

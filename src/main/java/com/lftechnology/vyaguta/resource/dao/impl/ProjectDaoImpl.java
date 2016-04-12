@@ -13,8 +13,12 @@ import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.ClientDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectStatusDao;
+import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
+import com.lftechnology.vyaguta.resource.entity.ProjectType;
 import com.lftechnology.vyaguta.resource.filter.ProjectFilter;
 import com.lftechnology.vyaguta.resource.sort.ProjectSort;
 
@@ -36,6 +40,12 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
 
     @Inject
     private ClientDao clientDao;
+
+    @Inject
+    private ProjectTypeDao projectTypeDao;
+
+    @Inject
+    private ProjectStatusDao projectStatusDao;
 
     @Inject
     Logger log;
@@ -61,6 +71,31 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
             p.setClient(null);
             this.update(p);
         }
+    }
+
+    @Override
+    public void deleteProjectType(UUID id) {
+        ProjectType projectType = this.projectTypeDao.findById(id);
+        List<Project> projects =
+                em.createNamedQuery(Project.FIND_BY_PROJECT_TYPE, Project.class).setParameter("projectType", projectType).getResultList();
+        for (Project p : projects) {
+            p.setProjectType(null);
+            this.update(p);
+        }
+
+    }
+
+    @Override
+    public void deleteProjectStatus(UUID id) {
+        ProjectStatus projectStatus = this.projectStatusDao.findById(id);
+        List<Project> projects =
+                em.createNamedQuery(Project.FIND_BY_PROJECT_STATUS, Project.class).setParameter("projectStatus", projectStatus)
+                        .getResultList();
+        for (Project p : projects) {
+            p.setProjectStatus(null);
+            this.update(p);
+        }
+
     }
 
 }

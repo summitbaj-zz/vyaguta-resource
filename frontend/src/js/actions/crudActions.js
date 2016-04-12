@@ -187,7 +187,6 @@
                     dispatch(apiActions.apiResponse(entity));
                     dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
-                    debugger;
                     dispatch(apiActions.apiResponse(entity));
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
