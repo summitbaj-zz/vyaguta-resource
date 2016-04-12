@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,6 +25,7 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 
 /**
  * 
@@ -31,7 +34,8 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
  */
 @Entity
 @Table(name = "contracts")
-public class Contract extends BaseEntity implements Serializable {
+@Where(clause="deleted='false'")
+public class Contract extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = 647756185379538980L;
 
@@ -67,6 +71,9 @@ public class Contract extends BaseEntity implements Serializable {
     private LocalDate actualEndDate;
 
     private String resource;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     public Project getProject() {
         return project;
@@ -122,6 +129,14 @@ public class Contract extends BaseEntity implements Serializable {
 
     public void setResource(String resource) {
         this.resource = resource;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

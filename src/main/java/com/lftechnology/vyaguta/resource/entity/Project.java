@@ -23,10 +23,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
+import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -36,7 +38,8 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "projects")
-public class Project extends BaseEntity implements Serializable {
+@Where(clause="deleted='false'")
+public class Project extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = 6415143172601079320L;
 
@@ -45,6 +48,9 @@ public class Project extends BaseEntity implements Serializable {
     private String title;
 
     private String description;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     @ManyToOne
     @JoinColumn(name = "project_type_id", referencedColumnName = "id")
@@ -73,6 +79,14 @@ public class Project extends BaseEntity implements Serializable {
 
     @Transient
     private String reason;
+    
+    public boolean isDeleted() {
+        return deleted;
+    }
+    
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getTitle() {
         return title;
