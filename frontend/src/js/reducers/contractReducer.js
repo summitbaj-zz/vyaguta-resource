@@ -156,6 +156,7 @@
                     newState.selectedContractMember[action.key] = {
                         id: action.employeeId,
                         firstName: employeeName[0],
+                        middleName: employeeName[1],
                         lastName: employeeName[2]
                     };
                 }
