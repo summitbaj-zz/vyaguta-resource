@@ -6,11 +6,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
-import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectTypeDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
 import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
@@ -20,14 +18,10 @@ import com.lftechnology.vyaguta.resource.service.ProjectTypeService;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-@Transactional
 public class ProjectTypeServiceImpl implements ProjectTypeService {
 
     @Inject
     private ProjectTypeDao projectTypeDao;
-
-    @Inject
-    private ProjectDao projectDao;
 
     @Override
     public ProjectType save(ProjectType projectType) {
@@ -60,7 +54,6 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
         if (projectType == null) {
             throw new ObjectNotFoundException();
         }
-        projectDao.deleteProjectType(id);
         this.remove(projectType);
     }
 

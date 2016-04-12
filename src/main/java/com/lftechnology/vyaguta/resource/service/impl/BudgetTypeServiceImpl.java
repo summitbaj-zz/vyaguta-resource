@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -18,12 +17,11 @@ import com.lftechnology.vyaguta.resource.service.BudgetTypeService;
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Transactional
 public class BudgetTypeServiceImpl implements BudgetTypeService {
 
     @Inject
     BudgetTypeDao budgetTypeDao;
-    
+
     @Inject
     ContractDao contractDao;
 
@@ -58,7 +56,6 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
         if (budgetType == null) {
             throw new ObjectNotFoundException();
         }
-        contractDao.deleteBudgetType(id);
         this.remove(budgetType);
     }
 

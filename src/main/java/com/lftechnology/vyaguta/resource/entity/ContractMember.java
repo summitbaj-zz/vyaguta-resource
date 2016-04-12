@@ -31,15 +31,13 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_members")
-@NamedQueries({
-        @NamedQuery(name = ContractMember.FIND_BY_CONTRACT, query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract"),
-        @NamedQuery(name = ContractMember.FIND_BY_PROJECT_ROLE, query = "SELECT cm FROM ContractMember cm WHERE cm.role = :role") })
+@NamedQueries({ @NamedQuery(name = ContractMember.FIND_BY_CONTRACT,
+        query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
 public class ContractMember extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4463672032184656029L;
     private static final String PREFIX = "vyaguta.resource.entity.ContractMember.";
     public static final String FIND_BY_CONTRACT = ContractMember.PREFIX + "findByContract";
-    public static final String FIND_BY_PROJECT_ROLE = ContractMember.PREFIX + "findByProjectRole";
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id", referencedColumnName = "id")

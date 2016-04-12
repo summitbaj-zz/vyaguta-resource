@@ -12,9 +12,4 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  */
 public interface ProjectDao extends CrudDao<Project, UUID> {
 
-    void deleteClient(UUID id);
-
-    void deleteProjectType(UUID id);
-
-    void deleteProjectStatus(UUID id);
 }

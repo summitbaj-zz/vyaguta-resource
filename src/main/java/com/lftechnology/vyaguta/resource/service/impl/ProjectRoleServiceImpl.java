@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -18,7 +17,6 @@ import com.lftechnology.vyaguta.resource.service.ProjectRoleService;
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Transactional
 public class ProjectRoleServiceImpl implements ProjectRoleService {
 
     @Inject
@@ -59,7 +57,6 @@ public class ProjectRoleServiceImpl implements ProjectRoleService {
         if (projectRole == null) {
             throw new ObjectNotFoundException();
         }
-        this.contractMemberDao.deleteRole(id);
         this.remove(projectRole);
     }
 

@@ -16,6 +16,4 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
 
     List<ContractMember> findByContract(Contract contract);
 
-    void deleteRole(UUID id);
-
 }
