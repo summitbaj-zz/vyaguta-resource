@@ -32,7 +32,8 @@ public interface ContractMemberHistoryDao {
             getEm().flush();
             getEm().refresh(contractMemberHistory);
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
+            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
         }
         return contractMemberHistory;
     }
@@ -47,15 +48,15 @@ public interface ContractMemberHistoryDao {
     }
 
     public default List<ContractMemberHistory> findHistory(Project project) {
-        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class).setParameter("project", project)
-                .getResultList();
+        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class)
+                .setParameter("project", project).getResultList();
     };
 
     public default ContractMemberHistory findMostRecent(ContractMember contractMember) {
-        String jpql = "SELECT ch FROM ContractMemberHistory ch WHERE ch.contractMember=:contractMember ORDER BY ch.batch.createdBy DESC";
+        String jpql = "SELECT ch FROM ContractMemberHistory ch WHERE ch.contractMember=:contractMember ORDER BY ch.batch.createdAt DESC";
         try {
-            return getEm().createQuery(jpql, ContractMemberHistory.class).setParameter("contractMember", contractMember).setMaxResults(1)
-                    .getSingleResult();
+            return getEm().createQuery(jpql, ContractMemberHistory.class).setParameter("contractMember", contractMember)
+                    .setMaxResults(1).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
