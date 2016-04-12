@@ -140,15 +140,15 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         fetchAndMergeAccountManagers(projectHistories);
 
         if (projectHistories.size() > 0) {
-            ProjectHistory record = projectHistories.get(0);
+            ProjectHistory record = projectHistories.get(projectHistories.size() - 1);
             Map<String, Object> historyMap = this.buildProjectHistory(record);
             history.add(historyMap);
         }
 
-        for (int i = 0; i < projectHistories.size() - 1; i++) {
-            ProjectHistory recordFirst = projectHistories.get(i);
-            ProjectHistory recordSecond = projectHistories.get(i + 1);
-            Map<String, Object> diff = this.compareProjectHistory(recordFirst, recordSecond);
+        for (int i = projectHistories.size() - 1; i > 0; i--) {
+            ProjectHistory record1 = projectHistories.get(i);
+            ProjectHistory record2 = projectHistories.get(i - 1);
+            Map<String, Object> diff = this.compareProjectHistory(record1, record2);
             if (diff != null) {
                 history.add(diff);
             }
@@ -162,15 +162,15 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         List<Map<String, Object>> history = new ArrayList<>();
 
         if (contractHistories.size() > 0) {
-            ContractHistory record = contractHistories.get(0);
+            ContractHistory record = contractHistories.get(contractHistories.size() - 1);
             Map<String, Object> historyMap = this.buildContractHistory(record);
             history.add(historyMap);
         }
 
-        for (int i = 0; i < contractHistories.size() - 1; i++) {
-            ContractHistory recordFirst = contractHistories.get(i);
-            ContractHistory recordSecond = contractHistories.get(i + 1);
-            Map<String, Object> diff = this.compareContractHistory(recordFirst, recordSecond);
+        for (int i = contractHistories.size() - 1; i > 0; i--) {
+            ContractHistory record1 = contractHistories.get(i);
+            ContractHistory record2 = contractHistories.get(i - 1);
+            Map<String, Object> diff = this.compareContractHistory(record1, record2);
             if (diff != null) {
                 history.add(diff);
             }
@@ -186,15 +186,15 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         fetchAndMergeContractMembers(contractMemberHistories);
 
         if (contractMemberHistories.size() > 0) {
-            ContractMemberHistory record = contractMemberHistories.get(0);
+            ContractMemberHistory record = contractMemberHistories.get(contractMemberHistories.size() - 1);
             Map<String, Object> historyMap = this.buildContractMemberHistory(record);
             history.add(historyMap);
         }
 
-        for (int i = 0; i < contractMemberHistories.size() - 1; i++) {
-            ContractMemberHistory recordFirst = contractMemberHistories.get(i);
-            ContractMemberHistory recordSecond = contractMemberHistories.get(i + 1);
-            Map<String, Object> diff = this.compareContractMemberHistory(recordFirst, recordSecond);
+        for (int i = contractMemberHistories.size() - 1; i > 0; i--) {
+            ContractMemberHistory record1 = contractMemberHistories.get(i);
+            ContractMemberHistory record2 = contractMemberHistories.get(i - 1);
+            Map<String, Object> diff = this.compareContractMemberHistory(record1, record2);
             if (diff != null) {
                 history.add(diff);
             }
@@ -237,7 +237,13 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         LocalDateTime d1 = (LocalDateTime) m1.get("createdAt");
         LocalDateTime d2 = (LocalDateTime) m2.get("createdAt");
 
-        return d2.compareTo(d1);
+        int comparision = d2.compareTo(d1);
+        if (comparision == 0) {
+            String changed1 = m1.get("changedEntity").toString();
+
+            comparision = changed1.equals("Project") ? -1 : changed1.equals("Contract") ? -1 : 1;
+        }
+        return comparision;
     }
 
     private Map<String, Object> compareProjectHistory(ProjectHistory record1, ProjectHistory record2) {
