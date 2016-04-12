@@ -105,10 +105,6 @@
             });
         },
 
-        handleAutoCompleteChange: function (employee) {
-            var employeeId = employee && employee.value;
-            this.props.actions.handleSelectOptionChange('projects', 'accountManager', employeeId);
-        },
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
@@ -257,6 +253,31 @@
             this.props.actions.updateSelectedItem(resourceConstant.PROJECTS, key, value);
         },
 
+        handleAutoCompleteChange: function (employee) {
+            var employeeId = employee && employee.value;
+            var employeeFullName = employee && employee.label;
+
+            this.props.actions.handleAutoCompleteChange('projects', 'accountManager', employeeId, employeeFullName);
+        },
+
+        getAutoCompleteValue: function () {
+            var value = this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id;
+
+            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.firstName) {
+                var firstName = this.props.selectedItem.projects.accountManager.firstName;
+                var lastName = this.props.selectedItem.projects.accountManager.lastName;
+
+                return {
+                    value: value,
+                    label: firstName + ' ' + lastName,
+                }
+
+            } else {
+                return null;
+            }
+
+        },
+
         render: function () {
             return (
                 <div>
@@ -341,11 +362,11 @@
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label>Account Manager</label>
                                                     <Select.Async name="employee"
-                                                                  value={this.props.selectedItem.projects.accountManager &&
-                                                        this.props.selectedItem.projects.accountManager.id}
+                                                                  value={this.getAutoCompleteValue()}
                                                                   loadOptions={this.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
                                                                   disabled={this.props.apiState.isRequesting}
+                                                                  minimumInput="1"
                                                     />
                                                 </div>
                                             </div>
