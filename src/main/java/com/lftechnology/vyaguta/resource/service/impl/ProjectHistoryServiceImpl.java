@@ -241,7 +241,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         if (comparision == 0) {
             String changed1 = m1.get("changedEntity").toString();
 
-            comparision = changed1.equals("Project") ? -1 : changed1.equals("Contract") ? -1 : 1;
+            comparision = changed1.equals("Project") ? -1
+                    : changed1.equals("Contract") ? -1 : changed1.equals("ContractMember") ? -1 : 1;
         }
         return comparision;
     }
