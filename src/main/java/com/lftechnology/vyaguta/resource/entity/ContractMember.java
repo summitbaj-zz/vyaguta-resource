@@ -15,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -22,6 +24,7 @@ import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateAttributeConverter;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
+import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -31,9 +34,10 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_members")
+@Where(clause = "deleted='false'")
 @NamedQueries({ @NamedQuery(name = ContractMember.FIND_BY_CONTRACT,
         query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract") })
-public class ContractMember extends BaseEntity implements Serializable {
+public class ContractMember extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = -4463672032184656029L;
     private static final String PREFIX = "vyaguta.resource.entity.ContractMember.";
@@ -68,6 +72,9 @@ public class ContractMember extends BaseEntity implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     public Contract getContract() {
         return contract;
@@ -123,6 +130,14 @@ public class ContractMember extends BaseEntity implements Serializable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
