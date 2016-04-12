@@ -33,6 +33,9 @@ public class Employee implements Serializable {
     private String firstName;
 
     @Transient
+    private String middleName;
+
+    @Transient
     private String lastName;
 
     @Transient
@@ -66,6 +69,14 @@ public class Employee implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
