@@ -6,23 +6,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
-import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectStatusDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
 
-@Transactional
 public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Inject
     private ProjectStatusDao projectStatusDao;
-
-    @Inject
-    private ProjectDao projectDao;
 
     @Override
     public ProjectStatus save(ProjectStatus projectStatus) {
@@ -57,7 +51,6 @@ public class ProjectStatusServiceImpl implements ProjectStatusService {
         if (projectStatus == null) {
             throw new ObjectNotFoundException();
         }
-        projectDao.deleteProjectStatus(id);
         this.remove(projectStatus);
     }
 

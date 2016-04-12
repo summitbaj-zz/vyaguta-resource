@@ -36,7 +36,7 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 public class ContractMember extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4463672032184656029L;
-    private static final String PREFIX = "vyaguta.resource.entity.";
+    private static final String PREFIX = "vyaguta.resource.entity.ContractMember.";
     public static final String FIND_BY_CONTRACT = ContractMember.PREFIX + "findByContract";
 
     @ManyToOne(fetch = FetchType.EAGER)
