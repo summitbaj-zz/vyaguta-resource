@@ -29,7 +29,8 @@ public interface ProjectHistoryDao {
             getEm().flush();
             getEm().refresh(projectHistory);
         } catch (PersistenceException persistenceException) {
-            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(), persistenceException.getCause());
+            throw new DataAccessException(BaseDao.constructErrorMessage(persistenceException).toString(),
+                    persistenceException.getCause());
         }
         return projectHistory;
     }
@@ -46,14 +47,15 @@ public interface ProjectHistoryDao {
     public EntityManager getEm();
 
     public default List<ProjectHistory> findHistory(Project project) {
-        return getEm().createNamedQuery(ProjectHistory.FIND_BY_PROJECT, ProjectHistory.class).setParameter("project", project)
-                .getResultList();
+        return getEm().createNamedQuery(ProjectHistory.FIND_BY_PROJECT, ProjectHistory.class)
+                .setParameter("project", project).getResultList();
     };
 
     public default ProjectHistory findMostRecent(Project project) {
-        String jpql = "SELECT ph FROM ProjectHistory ph WHERE ph.project=:project ORDER BY ph.batch.createdBy DESC";
+        String jpql = "SELECT ph FROM ProjectHistory ph WHERE ph.project=:project ORDER BY ph.batch.createdAt DESC";
         try {
-            return getEm().createQuery(jpql, ProjectHistory.class).setParameter("project", project).setMaxResults(1).getSingleResult();
+            return getEm().createQuery(jpql, ProjectHistory.class).setParameter("project", project).setMaxResults(1)
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
