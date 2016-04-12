@@ -64,7 +64,7 @@
         },
 
         saveContractMember: function () {
-            if(this.props.selectedContractMember.employee &&
+            if (this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
                 var employee = this.props.selectedContractMember.employee
             } else {
@@ -76,7 +76,7 @@
                 allocations: this.props.selectedContractMember.allocations
             };
 
-            if(employee != null) {
+            if (employee != null) {
                 if (this.props.memberIndex) {
                     this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
                     Toastr.success("Contract Member has been edited");
@@ -85,7 +85,7 @@
                     Toastr.success("Contract Member has been added");
                 }
                 $('#addContractMember').modal('hide');
-            }else {
+            } else {
                 Toastr.error("Please select Team Member", messageConstant.TOASTR_INVALID_HEADER);
             }
 
@@ -113,6 +113,24 @@
             this.props.actions.handleContractMemberSelectOptionChange('employee', employeeId, employeeFullName);
         },
 
+        getAutoCompleteValue: function () {
+            var value = this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.id;
+
+            if (this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.firstName) {
+                var firstName = this.props.selectedContractMember.employee.firstName;
+                var lastName = this.props.selectedContractMember.employee.lastName;
+
+                return {
+                    value: value,
+                    label: firstName + ' ' + lastName,
+                }
+
+            } else {
+                return null;
+            }
+
+        },
+
         render: function () {
             return (
                 <div className="modal fade" id="addContractMember" tabIndex="-1" role="dialog">
@@ -129,10 +147,10 @@
                                         <label className="control-label col-md-4">Team Member</label>
                                         <div className="col-md-8">
                                             <Select.Async name="employee"
-                                                          value={this.props.selectedContractMember.employee
-                                                           && this.props.selectedContractMember.employee.id}
+                                                          value={this.getAutoCompleteValue()}
                                                           loadOptions={this.loadEmployees}
-                                                          onChange={this.handleAutoCompleteChange}/>
+                                                          onChange={this.handleAutoCompleteChange}
+                                                          minimumInput="1"/>
                                         </div>
                                     </div>
 

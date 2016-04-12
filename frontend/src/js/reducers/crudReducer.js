@@ -85,6 +85,30 @@
                 newState.pagination.count = action.count;
                 return newState;
 
+            case actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE:
+                var newState = _.cloneDeep(state);
+                var employeeName = action.label && action.label.split(' ');
+
+                if (!employeeName) {
+                    newState.selectedItem[action.entity][action.key] = {
+                        id: action.id,
+                    };
+                } else if (employeeName.length == 2) {
+                    newState.selectedItem[action.entity][action.key] = {
+                        id: action.id,
+                        firstName: employeeName[0],
+                        lastName: employeeName[1]
+                    };
+                } else {
+                    newState.selectedItem[action.entity][action.key] = {
+                        id: action.id,
+                        firstName: employeeName[0],
+                        lastName: employeeName[2]
+                    };
+                }
+
+                return newState;
+
             default:
                 return state;
         }

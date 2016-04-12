@@ -329,6 +329,16 @@
             return {
                 type: actionTypeConstant.PAGINATION_INDEX
             }
+        },
+
+        handleAutoCompleteChange: function (entity, key, id, label) {
+            return {
+                type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
+                entity: entity,
+                key: key,
+                id: id,
+                label: label
+            }
         }
     };
 
