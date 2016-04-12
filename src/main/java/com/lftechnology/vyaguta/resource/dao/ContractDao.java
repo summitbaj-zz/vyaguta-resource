@@ -11,5 +11,6 @@ import com.lftechnology.vyaguta.resource.entity.Contract;
  *
  */
 public interface ContractDao extends CrudDao<Contract, UUID> {
-
+    
+    void deleteBudgetType(UUID id);
 }

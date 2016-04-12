@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,9 +33,12 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
  */
 @Entity
 @Table(name = "contracts")
+@NamedQueries({ @NamedQuery(name = Contract.FIND_BY_BUDGET_TYPE, query = "SELECT c FROM Contract c WHERE c.budgetType = :budgetType") })
 public class Contract extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 647756185379538980L;
+    private static final String PREFIX = "vyaguta.resource.entity.Contract.";
+    public static final String FIND_BY_BUDGET_TYPE = Contract.PREFIX + "findByBudgetType";
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
