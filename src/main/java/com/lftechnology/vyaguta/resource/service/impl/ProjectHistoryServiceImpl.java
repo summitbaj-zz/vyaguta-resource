@@ -259,7 +259,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
-            map.put("changed", true);
+            map.put("changed", record2.getEvent() == 1 ? false : true);
             map.put("changedEntity", "Project");
             map.put("createdBy", record2.getBatch().getCreatedBy());
             map.put("createdAt", record2.getBatch().getCreatedAt());
@@ -281,7 +281,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
-            map.put("changed", true);
+            map.put("changed", record2.getEvent() == 1 ? false : true);
             map.put("changedEntity", "Contract");
             map.put("createdBy", record2.getBatch().getCreatedBy());
             map.put("createdAt", record2.getBatch().getCreatedAt());
@@ -304,7 +304,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
             map.put("batch", record2.getBatch().getId());
             map.put("reason", record2.getBatch().getReason());
-            map.put("changed", true);
+            map.put("changed", record2.getEvent() == 1 ? false : true);
             map.put("changedEntity", "ContractMember");
             map.put("createdBy", record2.getBatch().getCreatedBy());
             map.put("createdAt", record2.getBatch().getCreatedAt());
