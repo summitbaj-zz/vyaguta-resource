@@ -32,12 +32,14 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 @Entity
 @Table(name = "contract_histories")
 @NamedQueries({
-        @NamedQuery(name = ContractHistory.FIND_BY_PROJECT, query = "SELECT ch FROM ContractHistory ch WHERE ch.project = :project ORDER BY ch.batch.createdAt DESC") })
+        @NamedQuery(name = ContractHistory.FIND_BY_PROJECT, query = "SELECT ch FROM ContractHistory ch WHERE ch.project = :project ORDER BY ch.batch.createdAt DESC"),
+        @NamedQuery(name = ContractHistory.FIND_BY_CONTRACT, query = "SELECT ch FROM ContractHistory ch WHERE ch.contract = :contract ORDER BY ch.batch.createdAt DESC")})
 public class ContractHistory implements Serializable {
 
     private static final long serialVersionUID = -4315662140074205279L;
     private static final String PREFIX = "vyaguta.resource.entity.ContractHistory.";
     public static final String FIND_BY_PROJECT = ContractHistory.PREFIX + "findByProject";
+    public static final String FIND_BY_CONTRACT = ContractHistory.PREFIX + "findByContract";
 
     @Id
     @Type(type = "pg-uuid")
