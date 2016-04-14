@@ -56,7 +56,7 @@
                 var invalidKeys = ['changed', 'changedEntity', 'createdBy', 'createdAt', 'employee', 'reason', 'batch', 'contractMember'];
 
                 for (var key in history) {
-                    if (!(invalidKeys.indexOf(key) > -1) && (history[key] || (!history[key] && this.state.action == 'edited'))) {
+                    if (!(invalidKeys.indexOf(key) > -1) && (history[key] != null || (!history[key] && this.state.action == 'edited'))) {
                         actionData[key] = history[key];
                     }
                 }
