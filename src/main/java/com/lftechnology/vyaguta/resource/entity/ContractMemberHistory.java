@@ -34,13 +34,17 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  */
 @Entity
 @Table(name = "contract_member_histories")
-@NamedQueries({ @NamedQuery(name = ContractMemberHistory.FIND_BY_PROJECT,
-        query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contract.project = :project ORDER BY cmh.batch.createdAt DESC") })
+@NamedQueries({
+        @NamedQuery(name = ContractMemberHistory.FIND_BY_PROJECT,
+                query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contract.project = :project ORDER BY cmh.batch.createdAt DESC"),
+        @NamedQuery(name = ContractMemberHistory.FIND_BY_CONTRACT_MEMBER,
+                query = "SELECT cmh FROM ContractMemberHistory cmh WHERE cmh.contractMember = :contractMember ORDER BY cmh.batch.createdAt DESC") })
 public class ContractMemberHistory implements Serializable {
 
     private static final long serialVersionUID = 8270620804537730752L;
     private static final String PREFIX = "vyaguta.resource.entity.ContractMemberHistory.";
     public static final String FIND_BY_PROJECT = ContractMemberHistory.PREFIX + "findByProject";
+    public static final String FIND_BY_CONTRACT_MEMBER = ContractMemberHistory.PREFIX + "findByContractMember";
 
     @Id
     @Type(type = "pg-uuid")
@@ -61,7 +65,7 @@ public class ContractMemberHistory implements Serializable {
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id")))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
     @ManyToOne
