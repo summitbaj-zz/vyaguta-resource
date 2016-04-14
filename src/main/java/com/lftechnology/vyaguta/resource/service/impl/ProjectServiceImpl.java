@@ -151,10 +151,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds =
-                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
-                        .collect(Collectors.toList());
-        if (employeeIds.size() == 0)
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null)
+                .map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
+        if (employeeIds.isEmpty())
             return;
 
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
@@ -196,9 +195,11 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
-        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
+        List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct()
+                .collect(Collectors.toList());
 
         for (final Tag tempTag : uniqueTagList) {
             Tag result = findTagByTitle(tempTag.getTitle());

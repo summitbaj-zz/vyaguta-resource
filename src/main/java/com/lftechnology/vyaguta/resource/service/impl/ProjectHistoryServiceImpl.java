@@ -129,6 +129,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 }
             }
         } catch (PropertyReadException e) {
+            log.warn(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -139,7 +140,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
         fetchAndMergeAccountManagers(projectHistories);
 
-        if (projectHistories.size() > 0) {
+        if (!projectHistories.isEmpty()) {
             ProjectHistory record = projectHistories.get(projectHistories.size() - 1);
             Map<String, Object> historyMap = this.buildProjectHistory(record);
             history.add(historyMap);
@@ -161,7 +162,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         List<ContractHistory> contractHistories = contractHistoryDao.findHistory(project);
         List<Map<String, Object>> history = new ArrayList<>();
 
-        if (contractHistories.size() > 0) {
+        if (!contractHistories.isEmpty()) {
             ContractHistory record = contractHistories.get(contractHistories.size() - 1);
             Map<String, Object> historyMap = this.buildContractHistory(record);
             history.add(historyMap);
@@ -185,7 +186,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
         fetchAndMergeContractMembers(contractMemberHistories);
 
-        if (contractMemberHistories.size() > 0) {
+        if (!contractMemberHistories.isEmpty()) {
             ContractMemberHistory record = contractMemberHistories.get(contractMemberHistories.size() - 1);
             Map<String, Object> historyMap = this.buildContractMemberHistory(record);
             history.add(historyMap);
@@ -241,8 +242,8 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         if (comparision == 0) {
             String changed1 = m1.get("changedEntity").toString();
 
-            comparision = changed1.equals("Project") ? -1
-                    : changed1.equals("Contract") ? -1 : changed1.equals("ContractMember") ? -1 : 1;
+            comparision = "Project".equals(changed1) ? -1
+                    : "Contract".equals(changed1) ? -1 : "ContractMember".equals(changed1) ? -1 : 1;
         }
         return comparision;
     }
@@ -372,7 +373,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private void fetchAndMergeAccountManagers(List<ProjectHistory> data) {
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null)
                 .map(emp -> emp.getAccountManager().getId()).distinct().collect(Collectors.toList());
-        if (employeeIds.size() == 0)
+        if (employeeIds.isEmpty())
             return;
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
@@ -388,8 +389,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private void fetchAndMergeUsers(List<Map<String, Object>> data) {
         List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct()
                 .collect(Collectors.toList());
-        System.out.println(userIds);
-        if (userIds.size() == 0)
+        if (userIds.isEmpty())
             return;
         List<User> users = userService.fetchUsers(userIds);
 
@@ -409,7 +409,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 employeeIds.add(cmh.getEmployee().getId());
             }
         }
-        if (employeeIds.size() == 0)
+        if (employeeIds.isEmpty())
             return;
 
         List<Employee> employees = employeeService.fetchEmployees(employeeIds);
