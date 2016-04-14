@@ -51,6 +51,11 @@ public interface ContractMemberHistoryDao {
         return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_PROJECT, ContractMemberHistory.class)
                 .setParameter("project", project).getResultList();
     };
+    
+    public default List<ContractMemberHistory> findHistory(ContractMember contractMember) {
+        return getEm().createNamedQuery(ContractMemberHistory.FIND_BY_CONTRACT_MEMBER, ContractMemberHistory.class)
+                .setParameter("contractMember", contractMember).getResultList();
+    };
 
     public default ContractMemberHistory findMostRecent(ContractMember contractMember) {
         String jpql = "SELECT ch FROM ContractMemberHistory ch WHERE ch.contractMember=:contractMember ORDER BY ch.batch.createdAt DESC";
