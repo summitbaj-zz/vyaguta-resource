@@ -57,12 +57,12 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     @Inject
     private UserService userService;
 
-    private static final String[] projectHistoryFields =
-            new String[] { "title", "description", "accountManager.id", "client.id", "projectStatus.id", "projectType.id" };
-    private static final String[] contractHistoryFields =
-            new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate", "resource" };
-    private static final String[] contractMemberHistoryFields =
-            new String[] { "employee.id", "projectRole.id", "allocation", "billed", "joinDate", "endDate" };
+    private static final String[] projectHistoryFields = new String[] { "title", "description", "accountManager.id", "client.id",
+            "projectStatus.id", "projectType.id" };
+    private static final String[] contractHistoryFields = new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate",
+            "resource" };
+    private static final String[] contractMemberHistoryFields = new String[] { "employee.id", "projectRole.id", "allocation", "billed",
+            "joinDate", "endDate" };
 
     @Override
     public void logHistory(Project project) {
@@ -128,6 +128,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 }
             }
         } catch (PropertyReadException e) {
+            log.warn(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -138,7 +139,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
         fetchAndMergeAccountManagers(projectHistories);
 
-        if (projectHistories.size() > 0) {
+        if (!projectHistories.isEmpty()) {
             ProjectHistory record = projectHistories.get(projectHistories.size() - 1);
             Map<String, Object> historyMap = this.buildProjectHistory(record);
             history.add(historyMap);
@@ -247,8 +248,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         int comparision = d2.compareTo(d1);
         if (comparision == 0) {
             String changed1 = m1.get("changedEntity").toString();
-
-            comparision = changed1.equals("Project") ? -1 : changed1.equals("Contract") ? -1 : changed1.equals("ContractMember") ? -1 : 1;
+            comparision = "Project".equals(changed1) ? -1 : "Contract".equals(changed1) ? -1 : "ContractMember".equals(changed1) ? -1 : 1;
         }
         return comparision;
     }
@@ -377,7 +377,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     private void fetchAndMergeAccountManagers(List<ProjectHistory> data) {
         List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
                 .distinct().collect(Collectors.toList());
-        if (employeeIds.size() == 0)
+        if (employeeIds.isEmpty())
             return;
         List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
 
@@ -392,8 +392,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     private void fetchAndMergeUsers(List<Map<String, Object>> data) {
         List<UUID> userIds = data.stream().map(p -> ((User) p.get("createdBy")).getId()).distinct().collect(Collectors.toList());
-        System.out.println(userIds);
-        if (userIds.size() == 0)
+        if (userIds.isEmpty())
             return;
         List<User> users = userService.fetchUsers(userIds);
 
@@ -413,7 +412,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 employeeIds.add(cmh.getEmployee().getId());
             }
         }
-        if (employeeIds.size() == 0)
+        if (employeeIds.isEmpty())
             return;
 
         List<Employee> employees = employeeService.fetchEmployees(employeeIds);
