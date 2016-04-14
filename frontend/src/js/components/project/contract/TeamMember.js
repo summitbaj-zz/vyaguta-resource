@@ -59,7 +59,7 @@
                                 {teamMember.employee.firstName + ' ' + teamMember.employee.lastName}
                                 </span>
                             <span>
-                            {(this.isBilled()) ? 'Billed' : 'Unbilled'}
+                            {this.isBilled()}
                             </span>
                             <span className="status">
                                 {(this.isActive()) ? 'Active' : 'Inactive'}
