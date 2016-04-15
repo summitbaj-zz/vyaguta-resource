@@ -57,12 +57,12 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
     @Inject
     private UserService userService;
 
-    private static final String[] projectHistoryFields =
-            new String[] { "title", "description", "accountManager.id", "client.id", "projectStatus.id", "projectType.id" };
-    private static final String[] contractHistoryFields =
-            new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate", "resource" };
-    private static final String[] contractMemberHistoryFields =
-            new String[] { "employee.id", "projectRole.id", "allocation", "billed", "joinDate", "endDate" };
+    private static final String[] projectHistoryFields = new String[] { "title", "description", "accountManager.id", "client.id",
+            "projectStatus.id", "projectType.id" };
+    private static final String[] contractHistoryFields = new String[] { "budgetType.id", "startDate", "endDate", "actualEndDate",
+            "resource" };
+    private static final String[] contractMemberHistoryFields = new String[] { "employee.id", "projectRole.id", "allocation", "billed",
+            "joinDate", "endDate" };
 
     @Override
     public void logHistory(Project project) {
@@ -363,6 +363,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         map.put("endDate", record.getEndDate());
         map.put("projectRole", record.getProjectRole());
         map.put("allocation", record.getAllocation());
+        map.put("billed", record.isBilled());
         map.put("batch", record.getBatch().getId());
         map.put("reason", record.getBatch().getReason());
         map.put("changed", false);
