@@ -10,9 +10,9 @@
             listChanges: function (data, key) {
                 var displayData;
                 if (data[key] == null) {
-                    return <p
+                    return (<p
                         className="changed-field"
-                        key={key}>{'The field ' + this.changeKeyToDisplayableForm(key).toLowerCase() + ' was removed.' }</p>
+                        key={key}>{'The field ' + this.changeKeyToDisplayableForm(key).toLowerCase() + ' was removed.' }</p>);
 
                 } else if (data == 'billed') {
                     displayData = data.billed ? 'Yes' : 'No';
