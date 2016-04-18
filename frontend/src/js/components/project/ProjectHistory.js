@@ -18,18 +18,21 @@
     //libraries
     var _ = require('lodash');
 
+    //util
+    var historyUtil = require('../../util/historyUtil');
+
     var History = React.createClass({
         componentDidMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
         },
 
-        componentWillUnmount: function(){
+        componentWillUnmount: function () {
             this.props.actions.clearHistory();
         },
 
         renderHistoryItems: function (key) {
             return (
-                <HistoryItem history={this.props.histories[key]} key={key}/>
+                <HistoryItem history={historyUtil.convertHistoryJSON(this.props.histories[key])} key={key}/>
             );
         },
 
