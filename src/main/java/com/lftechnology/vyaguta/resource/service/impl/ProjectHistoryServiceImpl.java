@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -128,7 +129,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
                 }
             }
         } catch (PropertyReadException e) {
-            log.warn(e.getMessage());
+            log.error("{}", e);
             throw new RuntimeException(e);
         }
     }
@@ -163,7 +164,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         for (Contract c : project.getContracts()) {
             List<ContractHistory> contractHistories = contractHistoryDao.findHistory(c);
 
-            if (contractHistories.size() > 0) {
+            if (!contractHistories.isEmpty()) {
                 ContractHistory record = contractHistories.get(contractHistories.size() - 1);
                 Map<String, Object> historyMap = this.buildContractHistory(record);
                 history.add(historyMap);
@@ -191,7 +192,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
                 fetchAndMergeContractMembers(contractMemberHistories);
 
-                if (contractMemberHistories.size() > 0) {
+                if (!contractMemberHistories.isEmpty()) {
                     ContractMemberHistory record = contractMemberHistories.get(contractMemberHistories.size() - 1);
                     Map<String, Object> historyMap = this.buildContractMemberHistory(record);
                     history.add(historyMap);
@@ -228,14 +229,14 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     private void convertDateAndDateTimeToString(List<Map<String, Object>> data) {
         for (Map<String, Object> map : data) {
-            for (String key : map.keySet()) {
-                Object value = map.get(key);
+            for (Entry<String, Object> entry : map.entrySet()) {
+                Object value = entry.getValue();
                 if (value != null && value instanceof LocalDate) {
                     LocalDate date = (LocalDate) value;
-                    map.put(key, DateUtil.formatDate(date));
+                    map.put(entry.getKey(), DateUtil.formatDate(date));
                 } else if (value != null && value instanceof LocalDateTime) {
                     LocalDateTime dateTime = (LocalDateTime) value;
-                    map.put(key, DateUtil.formatDateTime(dateTime));
+                    map.put(entry.getKey(), DateUtil.formatDateTime(dateTime));
                 }
             }
         }
