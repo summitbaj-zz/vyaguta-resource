@@ -81,30 +81,6 @@
      */
 
     var crudActions = {
-        fetchAllFromCore: function (entity) {
-            return function (dispatch) {
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchAllFromCore(entity).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.list(entity, response.body));
-                }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchAllFromCore(entity));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
-                    }
-                }));
-            }
-        },
-
         fetchAll: function (entity) {
             return function (dispatch) {
                 dispatch(apiActions.apiRequest(entity));

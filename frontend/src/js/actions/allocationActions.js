@@ -21,15 +21,6 @@
             }
         },
 
-        handleAllocationChange: function(index, key, value) {
-            return {
-                type: actionTypeConstant.HANDLE_ALLOCATION_CHANGE,
-                index: index,
-                key: key,
-                value: value
-            }
-        },
-
         listAllocations: function(allocations) {
             return {
                 type: actionTypeConstant.LIST_ALLOCATIONS,
