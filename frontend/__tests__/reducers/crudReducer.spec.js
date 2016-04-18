@@ -175,5 +175,51 @@ describe('crudReducer', () => {
             })
         ).toEqual(expectedState);
     });
+
+    it('should handle HANDLE_AUTOCOMPLETE_CHANGE', () => {
+        var expectedState = _.cloneDeep(tempState);
+        var label = "Pratish Bahadur Shrestha";
+        var employeeName = label.split(' ');
+        var id = 1;
+        var key = 'employee'
+
+        expectedState.selectedItem[entity][key] = {
+            id: id,
+            firstName: employeeName[0],
+            middleName: employeeName[1],
+            lastName: employeeName[2]
+        }
+
+        expect(crudReducer(tempState,
+            {
+                type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
+                entity: entity,
+                key: key,
+                id: id,
+                label: label
+            })
+        ).toEqual(expectedState);
+
+        var label = "Pratish Shrestha";
+        var employeeName = label.split(' ');
+
+        expectedState.selectedItem[entity][key] = {
+            id: id,
+            firstName: employeeName[0],
+            lastName: employeeName[1]
+        };
+
+        expect(crudReducer(tempState,
+            {
+                type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
+                entity: entity,
+                key: key,
+                id: id,
+                label: label
+            })
+        ).toEqual(expectedState);
+
+
+    })
 });
 
