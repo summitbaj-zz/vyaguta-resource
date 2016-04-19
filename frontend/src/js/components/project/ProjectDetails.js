@@ -87,7 +87,7 @@
         renderHistoryItems: function (key) {
             var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories[key]);
                  return (
-                <HistoryItem history={convertedHistory} key={key}/>
+                <HistoryItem history={convertedHistory} key={key} index={key}/>
             )
         },
 
@@ -181,7 +181,7 @@
                                             {containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
                                                 <Link
-                                                    to={urlConstant.PROJECTS.INDEX + '/' + project.id + urlConstant.PROJECTS.HISTORY}
+                                                    to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id + urlConstant.PROJECTS.HISTORY}
                                                     title="Add Project"
                                                     className="show-all-btn">View All</Link>
                                             </div>}

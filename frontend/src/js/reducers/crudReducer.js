@@ -43,6 +43,12 @@
                 newState[action.entity] = _.cloneDeep(action.data.data);
                 return newState;
 
+
+            case actionTypeConstant.SELECT_ITEM:
+                var newState = _.cloneDeep(state);
+                newState.selectedItem[action.entity] = action.data;
+                return newState;
+
             case actionTypeConstant.DELETE:
                 var newState = _.cloneDeep(state);
                 var data = newState[action.entity];
