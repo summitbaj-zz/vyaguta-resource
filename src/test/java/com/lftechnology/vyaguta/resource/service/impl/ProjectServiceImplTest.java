@@ -1,9 +1,11 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,15 +28,22 @@ import org.mockito.MockitoAnnotations;
 
 import com.lftechnology.vyaguta.commons.exception.DataAccessException;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
+import com.lftechnology.vyaguta.resource.entity.Client;
+import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
 import com.lftechnology.vyaguta.resource.entity.Tag;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.service.EmployeeService;
+import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 
 public class ProjectServiceImplTest {
 
@@ -41,6 +52,12 @@ public class ProjectServiceImplTest {
 
     @Mock
     private TagDao tagDao;
+
+    @Mock
+    private ProjectHistoryService projectHistoryService;
+
+    @Mock
+    private EmployeeService employeeService;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -101,23 +118,36 @@ public class ProjectServiceImplTest {
         // arrange
         Project project = this.buildProject();
         Mockito.when(projectDao.update(project)).thenReturn(project);
+        Mockito.doNothing().when(projectHistoryService).logHistory(project);
 
         // act
         Project resultProject = this.projectServiceImpl.update(project);
 
         // assert
         Mockito.verify(projectDao).update(project);
+        Mockito.verify(projectHistoryService).logHistory(project);
         assertThat(resultProject, is(project));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void testMergeWhenProjectIdIsNotValidExpectObjectNotFoundExceptio() {
+    public void testMergeWhenProjectIdIsNotValidAndWildflyExpectObjectNotFoundException() {
 
         // arrange
-        Mockito.when(projectDao.findById(id)).thenThrow(ObjectNotFoundException.class);
+        Mockito.when(projectServiceImpl.findById(id)).thenReturn(null);
 
         exception.expect(ObjectNotFoundException.class);
+
+        // act
+        this.projectServiceImpl.merge(id, project);
+    }
+
+    @Test
+    public void testMergeWhenReasonIsNullExpectParameterFormatException() {
+
+        // arrange
+        project.setReason(null);
+
+        exception.expect(ParameterFormatException.class);
 
         // act
         this.projectServiceImpl.merge(id, project);
@@ -170,7 +200,7 @@ public class ProjectServiceImplTest {
     }
 
     @Test
-    public void testfindById() {
+    public void testFindById() {
 
         // arrange
         Mockito.when(projectDao.findById(id)).thenReturn(project);
@@ -179,6 +209,48 @@ public class ProjectServiceImplTest {
         this.projectServiceImpl.findById(id);
 
         // assert
+        Mockito.verify(projectDao).findById(id);
+    }
+
+    @SuppressWarnings("serial")
+    @Test
+    public void testFindByIdAndAccountManagerDetails() {
+
+        // arrange
+        Project project = this.buildProject();
+        project.setAccountManager(buildEmployee("88399a07-ff53-4d65-8e91-793aaa582f2c"));
+
+        Employee e1 = this.buildEmployee("88399a07-ff53-4d65-8e91-793aaa582f2c");
+        e1.setFirstName("Ram");
+        e1.setLastName("Sharma");
+        e1.setDob(LocalDate.of(1992, 02, 02));
+        Employee e2 = this.buildEmployee("88399a07-ff53-4d65-8e91-793aaa582111");
+        e2.setFirstName("Hari");
+        e2.setLastName("Shrestha");
+        e2.setDob(LocalDate.of(1994, 03, 05));
+
+        List<Employee> employees = new ArrayList<Employee>() {
+            {
+                add(e1);
+                add(e2);
+            }
+        };
+
+        List<UUID> employeeIds = new ArrayList<UUID>() {
+            {
+                add(UUID.fromString("88399a07-ff53-4d65-8e91-793aaa582f2c"));
+            }
+        };
+
+        Mockito.when(employeeService.fetchEmployees(employeeIds)).thenReturn(employees);
+        Mockito.when(projectDao.findById(id)).thenReturn(project);
+
+        // act
+        Project resultProject = this.projectServiceImpl.findById(id);
+
+        // assert
+        assertThat(resultProject.getAccountManager(), is(e1));
+        assertThat(resultProject.getAccountManager(), is(not(e2)));
         Mockito.verify(projectDao).findById(id);
     }
 
@@ -263,6 +335,9 @@ public class ProjectServiceImplTest {
         project.setCreatedBy(new User(UUID.randomUUID()));
         project.setProjectType(buildProjectType());
         project.setProjectStatus(buildProjectStatus());
+        project.setReason("This is reason");
+        project.setContracts(this.buildContract());
+        project.setClient(this.buildClients());
         return project;
     }
 
@@ -278,6 +353,29 @@ public class ProjectServiceImplTest {
         projectStatus.setId(UUID.randomUUID());
         projectStatus.setTitle("project status");
         return projectStatus;
+    }
+
+    private Client buildClients() {
+        Client client = new Client();
+        client.setName("Ram Sharma");
+        client.setEmail("ram@lftechnology.com");
+        return client;
+    }
+
+    private List<Contract> buildContract() {
+        List<Contract> contracts = new ArrayList<>();
+        Contract contract = new Contract();
+        contract.setId(UUID.randomUUID());
+        contract.setStartDate(LocalDate.now());
+        contract.setEndDate(LocalDate.of(2020, 02, 02));
+        contracts.add(contract);
+        return contracts;
+    }
+
+    private Employee buildEmployee(String id) {
+        Employee employee = new Employee();
+        employee.setId(UUID.fromString(id));
+        return employee;
     }
 
 }

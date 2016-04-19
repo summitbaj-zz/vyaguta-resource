@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project merge(UUID id, Project obj) {
-        if (!this.hasReason(obj)) {
+        if (Strings.isNullOrEmpty(obj.getReason())) {
             throw new ParameterFormatException("Reason field expected");
         }
 
@@ -167,7 +167,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public void setEmployeeDetails(Project project) {
+    private void setEmployeeDetails(Project project) {
         List<UUID> employeeId = new ArrayList<>();
         for (Contract contract : project.getContracts()) {
             for (ContractMember cm : contract.getContractMembers()) {
@@ -238,13 +238,6 @@ public class ProjectServiceImpl implements ProjectService {
             }
             contract.setProject(project);
         }
-    }
-
-    private boolean hasReason(Project project) {
-        if (!Strings.isNullOrEmpty(project.getReason())) {
-            return true;
-        }
-        return false;
     }
 
 }

@@ -364,6 +364,7 @@ public class ProjectHistoryServiceImpl implements ProjectHistoryService {
         map.put("endDate", record.getEndDate());
         map.put("projectRole", record.getProjectRole());
         map.put("allocation", record.getAllocation());
+        map.put("billed", record.isBilled());
         map.put("batch", record.getBatch().getId());
         map.put("reason", record.getBatch().getReason());
         map.put("changed", false);
