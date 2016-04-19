@@ -4,7 +4,7 @@
   "description": "resource utilization",
   "main": "app.js",
   "scripts": {
-    "test": "mocha './__tests__/**/*.spec.js' --compilers js:babel-register"
+    "test": "mocha --require './test/setup.js' --recursive './test/**/*.spec.js' --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "connect-history-api-fallback": "^1.1.0",
+    "enzyme": "^2.2.0",
     "expect": "^1.16.0",
     "expect-jsx": "^2.4.0",
     "flux": "^2.1.1",
@@ -44,6 +45,7 @@
     "jest-cli": "^0.8.2",
     "lodash": "^4.6.1",
     "mocha": "^2.4.5",
+    "mocha-jsdom": "^1.1.0",
     "nock": "^8.0.0",
     "node-notifier": "^4.5.0",
     "promise": "^7.1.1",

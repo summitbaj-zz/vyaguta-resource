@@ -123,7 +123,7 @@
                         });
                     } else if (error.status == 404) {
                         browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
+                    } else {``
                         Toastr.error(error.response.body.error || error.response.body[0].error);
                     }
                 }));

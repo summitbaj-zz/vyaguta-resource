@@ -110,7 +110,8 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Budget Types" routes={this.props.routes} title="Budget Types"/>
+                    <EntityHeader header="Budget Types" routes={this.props.routes} title="Budget Types"
+                                  apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Budget Type Details</h2>
@@ -150,7 +151,8 @@
     var mapStateToProps = function (state) {
         return {
             budgetTypes: state.crudReducer.budgetTypes,
-            pagination: state.crudReducer.pagination
+            pagination: state.crudReducer.pagination,
+            apiState: state.apiReducer
         }
     };
 
