@@ -9,10 +9,14 @@
     var browserHistory = ReactRouter.browserHistory;
     var IndexRoute = ReactRouter.IndexRoute;
     var Redirect = ReactRouter.Redirect;
+    var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
+    var store = require('./store/store');
+    var history = syncHistoryWithStore(browserHistory, store);
+
 
     if (localStorage.access_token) {
         var routes = (
-            <Router history={browserHistory}>
+            <Router history={history}>
 
                 <Route path="/" name="Dashboard" component={require('./components/App')}>
                     <IndexRoute component={require('./components/dashboard/Dashboard')}/>
@@ -21,7 +25,7 @@
                            component={require('./components/budget-type/BudgetTypeMain')}>
                         <IndexRoute component={require('./components/budget-type/BudgetTypeList')}/>
                         <Route path="new" name="Add" component={require('./components/budget-type/BudgetTypeForm')}/>
-                        <Route path="edit/:id" name="Edit"
+                        <Route path=":id" name="Edit"
                                component={require('./components/budget-type/BudgetTypeForm')}/>
                     </Route>
 
@@ -30,7 +34,7 @@
                         <IndexRoute component={require('./components/project-status/ProjectStatusList')}/>
                         <Route path="new" name="Add"
                                component={require('./components/project-status/ProjectStatusForm')}/>
-                        <Route path="edit/:id" name="Edit"
+                        <Route path=":id" name="Edit"
                                component={require('./components/project-status/ProjectStatusForm')}/>
                     </Route>
 
@@ -52,7 +56,7 @@
                         <IndexRoute component={require('./components/project-type/ProjectTypeList')}/>
                         <Route path="new" name="Add"
                                component={require('./components/project-type/ProjectTypeForm')}/>
-                        <Route path="edit/:id" name="Edit"
+                        <Route path=":id" name="Edit"
                                component={require('./components/project-type/ProjectTypeForm')}/>
                     </Route>
 
@@ -61,7 +65,7 @@
                         <IndexRoute component={require('./components/project-role/ProjectRoleList')}/>
                         <Route path="new" name="Add"
                                component={require('./components/project-role/ProjectRoleForm')}/>
-                        <Route path="edit/:id" name="Edit"
+                        <Route path=":id" name="Edit"
                                component={require('./components/project-role/ProjectRoleForm')}/>
                     </Route>
 
@@ -70,7 +74,7 @@
                         <IndexRoute component={require('./components/client/ClientList')}/>
                         <Route path="new" name="Add"
                                component={require('./components/client/ClientForm')}/>
-                        <Route path="edit/:id" name="Edit"
+                        <Route path=":id" name="Edit"
                                component={require('./components/client/ClientForm')}/>
                     </Route>
                 </Route>

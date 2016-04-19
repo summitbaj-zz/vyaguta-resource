@@ -7,6 +7,9 @@
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
     var compose = redux.compose;
+    var reactRouterRedux = require('react-router-redux');
+    var routerReducer = reactRouterRedux.routerReducer;
+    var routerMiddleware = reactRouterRedux.routerMiddleware;
 
     //middlewares
     var thunk = require('redux-thunk');
@@ -23,7 +26,8 @@
         crudReducer: crudReducer,
         apiReducer: apiReducer,
         contractReducer: contractReducer,
-        historyReducer: historyReducer
+        historyReducer: historyReducer,
+        routing: routerReducer
         //add for each reducers...
     });
 

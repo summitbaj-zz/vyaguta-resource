@@ -11,22 +11,18 @@
         BUDGET_TYPES: {
             INDEX: '/budgettypes',
             NEW: '/budgettypes/new',
-            EDIT: '/budgettypes/edit'
         },
         PROJECT_STATUS: {
             INDEX: '/projectstatus',
             NEW: '/projectstatus/new',
-            EDIT: '/projectstatus/edit/'
         },
         PROJECT_TYPES: {
             INDEX: '/projecttypes',
             NEW: '/projecttypes/new',
-            EDIT: '/projecttypes/edit/'
         },
         PROJECT_ROLES: {
             INDEX: '/projectroles',
             NEW: '/projectroles/new',
-            EDIT: '/projectroles/edit/'
         },
         PROJECTS: {
             INDEX: '/projects',
@@ -37,7 +33,6 @@
         CLIENTS: {
             INDEX: '/clients',
             NEW: '/clients/new',
-            EDIT: '/clients/edit/'
         },
 
         RESOURCE_SERVER: '/api/resource',
