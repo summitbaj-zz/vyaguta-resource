@@ -7,6 +7,7 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
+    var Resources = require('./Resources');
     var FreeResources = require('./FreeResources');
     var BookedResources = require('./BookedResources');
     var EndingProjects = require('./EndingProjects');

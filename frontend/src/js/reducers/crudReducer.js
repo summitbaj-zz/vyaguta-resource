@@ -70,7 +70,11 @@
             case actionTypeConstant.CLEAR_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = {};
+                return newState;
 
+            case actionTypeConstant.CLEAR_LIST:
+                var newState = _.cloneDeep(state);
+                newState[action.entity] = {};
                 return newState;
 
             case actionTypeConstant.PAGINATION_INDEX:
