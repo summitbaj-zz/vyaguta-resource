@@ -16,29 +16,29 @@ import {WrappedComponent} from '../../../src/js/components/budget-type/BudgetTyp
 import BudgetTypeRow from '../../../src/js/components/budget-type/BudgetTypeRow';
 import store from '../../storeMock';
 
-describe('BudgetTypeList Component', () => {
-    function setup() {
-        var props = {
-            budgetTypes: [{id: 1, title: 'budgettype1'}, {id: 2, title: 'budgettype2'}],
-            pagination: {},
-            actions: {
-                fetchByQuery: expect.createSpy(),
-                clearPagination: expect.createSpy(),
-                apiClearState: expect.createSpy(),
-                deleteItem: expect.createSpy()
-            }
-        }
-        var BudgetTypeList = WrappedComponent;
-        var component = mount(<Provider store={store}><BudgetTypeList {...props}/></Provider>);
-
-        return {
-            component: component,
-            budgetTypes: props.budgetTypes,
-            actions: props.actions,
-            budgetTypeRow: component.find(BudgetTypeRow)
+function setup() {
+    var props = {
+        budgetTypes: [{id: 1, title: 'budgettype1'}, {id: 2, title: 'budgettype2'}],
+        pagination: {},
+        actions: {
+            fetchByQuery: expect.createSpy(),
+            clearPagination: expect.createSpy(),
+            apiClearState: expect.createSpy(),
+            deleteItem: expect.createSpy()
         }
     }
+    var BudgetTypeList = WrappedComponent;
+    var component = mount(<Provider store={store}><BudgetTypeList {...props}/></Provider>);
 
+    return {
+        component: component,
+        budgetTypes: props.budgetTypes,
+        actions: props.actions,
+        budgetTypeRow: component.find(BudgetTypeRow)
+    }
+}
+
+describe('BudgetTypeList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();

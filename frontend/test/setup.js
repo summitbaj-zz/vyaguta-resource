@@ -30,3 +30,4 @@ global.window.$ = global.jQuery;
 
 //for jQuery plugins
 require('jquery-confirm');
+require('../src/custom-ui/bootstrap-colorselector.js');

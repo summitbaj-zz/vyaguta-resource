@@ -17,40 +17,40 @@ import {WrappedComponent} from '../../../src/js/components/budget-type/BudgetTyp
 import BudgetTypeRow from '../../../src/js/components/budget-type/BudgetTypeRow';
 import store from '../../storeMock';
 
-describe('BudgetTypeForm component', () => {
-    function setup(params) {
-        var props = {
-            selectedItem: store.getState().crudReducer.selectedItem,
-            apiState: {isRequesting: false, noOfRequests: 0},
-            params: params,
-            actions: {
-                fetchById: expect.createSpy(),
-                clearSelectedItem: expect.createSpy(),
-                apiClearState: expect.createSpy(),
-                updateSelectedItem: expect.createSpy(),
-                addItem: expect.createSpy(),
-                updateItem: expect.createSpy()
-            }
-        }
-
-        var BudgetTypeForm = WrappedComponent;
-        var component = mount(<Provider store={store}><BudgetTypeForm {...props}/></Provider>);
-
-        return {
-            component: component,
-            actions: props.actions,
-            props: props
+function setup(params) {
+    var props = {
+        selectedItem: store.getState().crudReducer.selectedItem,
+        apiState: {isRequesting: false, noOfRequests: 0},
+        params: params,
+        actions: {
+            fetchById: expect.createSpy(),
+            clearSelectedItem: expect.createSpy(),
+            apiClearState: expect.createSpy(),
+            updateSelectedItem: expect.createSpy(),
+            addItem: expect.createSpy(),
+            updateItem: expect.createSpy()
         }
     }
 
+    var BudgetTypeForm = WrappedComponent;
+    var component = mount(<Provider store={store}><BudgetTypeForm {...props}/></Provider>);
+
+    return {
+        component: component,
+        actions: props.actions,
+        props: props
+    }
+}
+
+describe('BudgetTypeForm component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchById if id is present in the params', () => {
-            var {component, actions} = setup({id: 123});
+            var {actions} = setup({id: 123});
             expect(actions.fetchById).toHaveBeenCalled();
         });
 
         it('doesnot dispatch fetchById if id is not present in the params', () => {
-            var {component, actions} = setup({});
+            var {actions} = setup({});
             expect(actions.fetchById).toNotHaveBeenCalled();
         });
     });
