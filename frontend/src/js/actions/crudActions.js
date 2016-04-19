@@ -40,21 +40,7 @@
             }
         },
 
-        listByEndDate: function (entity, data) {
-            return {
-                type: actionTypeConstant.LIST_BY_END_DATE,
-                data: data
-            }
-        },
-
-        listByStatus: function(data){
-            return {
-                type: actionTypeConstant.LIST_PROJECT_BY_STATUS,
-                data: data
-            }
-        },
-
-        delete: function (entity, id) {
+            delete: function (entity, id) {
             return {
                 type: actionTypeConstant.DELETE,
                 entity: entity,

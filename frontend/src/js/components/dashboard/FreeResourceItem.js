@@ -8,7 +8,7 @@
         render: function () {
             var resource = this.props.resource;
             return (
-                <div className="col-xs-12 col-sm-6 col-lg-3" >
+                <div className="col-xs-12 col-sm-6 col-lg-3">
                     <a className="widget widget-hover-effect1">
                         <div className="widget-simple widget-custom">
                             <div className="cards">

@@ -46,9 +46,8 @@
         },
 
         renderEndingProject: function (endingProject) {
-            console.log(endingProject)
             return (
-               <EndingProjectRow key={endingProject.id} endingProject={endingProject} />
+                <EndingProjectRow key={endingProject.id} endingProject={endingProject}/>
             );
         },
 
@@ -60,10 +59,10 @@
             return resources;
         },
 
-        render: function(){
+        render: function () {
             var endingProjects = (this.props.endingProjects.length > 0) ? this.getEndingProjectsData(this.props.endingProjects) : null;
 
-            return(
+            return (
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="block">

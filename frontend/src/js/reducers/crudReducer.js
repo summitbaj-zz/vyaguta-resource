@@ -30,7 +30,6 @@
             projectStatus: {}
         },
         pagination: {},
-        endingProjects: [],
     };
 
 
