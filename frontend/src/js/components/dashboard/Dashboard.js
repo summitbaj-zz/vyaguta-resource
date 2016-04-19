@@ -12,7 +12,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
 
     //actions
-    var crudActions = require('../../actions/crudActions');
+    var dashboardActions = require('../../actions/dashboardActions');
     var apiActions = require('../../actions/apiActions');
 
     //constants
@@ -468,14 +468,14 @@
     });
     var mapStateToProps = function (state) {
         return {
-            projects: state.crudReducer.projects,
-            endingProjects: state.crudReducer.endingProjects
+            projects: state.dashboardReducer.inProgressProjects,
+            endingProjects: state.dashboardReducer.endingProjects
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, crudActions, apiActions), dispatch)
+            actions: bindActionCreators(_.assign({}, dashboardActions, apiActions), dispatch)
         }
     };
 

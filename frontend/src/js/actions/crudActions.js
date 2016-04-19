@@ -40,9 +40,16 @@
             }
         },
 
-        listEndDate: function (entity, data) {
+        listByEndDate: function (entity, data) {
             return {
                 type: actionTypeConstant.LIST_BY_END_DATE,
+                data: data
+            }
+        },
+
+        listByStatus: function(data){
+            return {
+                type: actionTypeConstant.LIST_PROJECT_BY_STATUS,
                 data: data
             }
         },
@@ -232,44 +239,6 @@
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
                         actionUtil.responseError(dispatch, error, entity, crudActions.fetchByQuery(entity, data, sortBy));
-                    }
-                }));
-            }
-        },
-
-        fetchByField: function (entity, field, data) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.list(entity, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchByField(entity, field, data));
-                    }
-                }));
-            }
-        },
-
-        fetchByEndDate: function (entity, data) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchByEndDate(entity, data).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.listEndDate(entity, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchByEndDate(entity, data));
                     }
                 }));
             }
