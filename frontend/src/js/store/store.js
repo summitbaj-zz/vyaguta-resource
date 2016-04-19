@@ -20,6 +20,7 @@
     var apiReducer = require('../reducers/apiReducer');
     var contractReducer = require('../reducers/contractReducer');
     var historyReducer = require('../reducers/historyReducer');
+    var dashboardReducer = require('../reducers/dashboardReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
@@ -27,6 +28,7 @@
         apiReducer: apiReducer,
         contractReducer: contractReducer,
         historyReducer: historyReducer,
+        dashboardReducer: dashboardReducer,
         routing: routerReducer
         //add for each reducers...
     });

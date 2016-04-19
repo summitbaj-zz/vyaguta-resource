@@ -35,12 +35,29 @@
                     })
             },
 
+            toggleShowHide: function (e) {
+                e.target.innerHTML = (e.target.innerHTML == 'Show') ? 'Hide' : 'Show';
+            },
+
+            showReason: function (reason, index) {
+                return (
+                    <div id={"ReadMorePanel" + index}>
+                        <span className="weight-500">Reason</span>:
+                        <a data-toggle="collapse" data-target={"#ReadMoreInfo" + index}
+                           onClick={this.toggleShowHide} className="cursor-pointer">Show</a>
+                        <div id={"ReadMoreInfo" + index} className="panel-collapse collapse">
+                            {reason}
+                        </div>
+                    </div>
+                )
+            },
+
             render: function () {
                 var history = this.props.history;
                 var actionClassName = (history.action == 'added') ? 'fa fa-plus' : 'fa fa-pencil';
                 var createdBy = history.createdBy && ' by ' + history.createdBy;
                 return (
-                    <li data-toggle="tooltip" title={history.reason}>
+                    <li data-toggle="tooltip">
                         <div className="timeline-icon"><i
                             className={actionClassName}></i>
                         </div>
@@ -55,6 +72,10 @@
                                 {createdBy}.
                             </p>
                             {Object.keys(history.fields).map(this.listChanges.bind(null, history.fields))}
+                            {history.reason &&
+                            <div>
+                                {this.showReason(history.reason, this.props.index)}</div>
+                            }
                         </div>
                     </li>
                 );

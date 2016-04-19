@@ -32,7 +32,7 @@
 
         renderHistoryItems: function (key) {
             return (
-                <HistoryItem history={historyUtil.convertHistoryJSON(this.props.histories[key])} key={key}/>
+                <HistoryItem history={historyUtil.convertHistoryJSON(this.props.histories[key])} key={key} index={key}/>
             );
         },
 
