@@ -21,7 +21,7 @@
                     <td>{this.props.budgetType.title}</td>
                     <td className="text-center">
                         <div className="btn-group"><Link
-                            to={urlConstant.BUDGET_TYPES.EDIT + '/' + this.props.budgetType.id}
+                            to={urlConstant.BUDGET_TYPES.INDEX + '/' + this.props.budgetType.id}
                             data-toggle="tooltip"
                             title="Edit"
                             className="btn btn-sm btn-default"><i

@@ -18,7 +18,7 @@
                     <td>{this.props.client.phoneNo}</td>
                     <td>{this.props.client.skype}</td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={urlConstant.CLIENTS.EDIT + id} data-toggle="tooltip"
+                        <div className="btn-group"><Link to={urlConstant.CLIENTS.INDEX + '/' + id} data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>

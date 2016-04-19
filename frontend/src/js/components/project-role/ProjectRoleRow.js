@@ -15,7 +15,7 @@
                     <td>{this.props.index}</td>
                     <td>{this.props.projectRole.title}</td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={urlConstant.PROJECT_ROLES.EDIT + id} data-toggle="tooltip"
+                        <div className="btn-group"><Link to={urlConstant.PROJECT_ROLES.INDEX + '/' + id} data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>
