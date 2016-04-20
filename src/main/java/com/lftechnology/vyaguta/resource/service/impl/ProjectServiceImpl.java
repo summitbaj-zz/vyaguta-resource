@@ -1,9 +1,11 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private EmployeeService employeeService;
-    
+
     @Inject
     private ContractMemberDao contactMemberDao;
 
@@ -157,9 +159,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds =
-                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
-                        .collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -202,7 +203,8 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -246,25 +248,34 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
     public Map<String, Object> findAllResource(MultivaluedMap<String, String> queryParameters) {
+        Map<String, Object> resources = new HashMap<>();
+
         LocalDate start = LocalDate.now();
         LocalDate end = LocalDate.now();
+
         if (queryParameters.containsKey("date")) {
-        String[] date = queryParameters.getFirst("date").replaceFirst("btn", "").split("and");
+            String[] date = queryParameters.getFirst("date").replaceFirst("btn", "").split("and");
             start = LocalDate.parse(date[0], Constant.DATE_FORMAT_DB);
-        end = LocalDate.parse(date[1], Constant.DATE_FORMAT_DB);
+            end = LocalDate.parse(date[1], Constant.DATE_FORMAT_DB);
         }
         LocalDate[] date = { start, end };
-        List<Employee> employees = employeeService.fetchActiveEmployees();
-        List<Object[]> booked = contactMemberDao.findBookedResource(date);
-        
-        Integer activeEmployeeCount = employees.size();
-        return new HashMap<String, Object>() {
-            {
-                put("employeeCount", activeEmployeeCount);
-                put("billed", booked);
-            }
-        };
+        putOnMap(resources, contactMemberDao.findBookedResource(date));
+
+        Integer totalEmployee = employeeService.fetchActiveEmployees().size();
+        resources.put("totalResources", totalEmployee);
+        resources.put("freeResources", totalEmployee - contactMemberDao.getBookedResourceCount(date));
+        return resources;
+    }
+
+    private void putOnMap(Map<String, Object> resources, List<Object[]> bookedResources) {
+        Iterator<Object[]> itr = bookedResources.iterator();
+        while (itr.hasNext()) {
+            Object[] obj = itr.next();
+            resources.put("billed", Double.valueOf((Double) (obj[0])));
+            resources.put("unbilled", Double.valueOf((Double) (obj[1])));
+        }
     }
 
 }
