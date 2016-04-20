@@ -53,6 +53,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
+            this.props.actions.clearList(resourceConstant.PROJECT_STATUS);
             this.props.actions.apiClearState();
         },
 

@@ -3,8 +3,11 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
+
+import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.http.HttpHelper;
@@ -15,6 +18,10 @@ import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.service.UserService;
 
 public class UserServiceImpl implements UserService {
+
+    @Inject
+    private Logger log;
+
     private static final String USER_URL = Configuration.instance().getAuthUrl() + "users";
 
     @Override
@@ -28,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
             return data.getData();
         } catch (WebApplicationException e) {
+            log.warn(e.getMessage());
             throw e;
         }
     }

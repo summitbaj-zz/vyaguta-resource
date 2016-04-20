@@ -13,6 +13,7 @@
 
     //API utility
     var apiUtil = require('../util/apiUtil');
+    var actionUtil = require('../util/actionUtil');
 
     //actions
     var apiActions = require('./apiActions');
@@ -32,23 +33,19 @@
 
     var historyActions = {
         fetchAllHistories: function (entity, id) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
+
                 return (apiUtil.fetchAllHistories(entity, id).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.list(entity, response.body));
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.list(entity, response.body));
+                    }
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(historyActions.fetchAllHistories(entity, id));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, historyActions.fetchAllHistories(entity, id));
                     }
                 }));
             }
@@ -57,7 +54,7 @@
             return {
                 type: actionTypeConstant.CLEAR_HISTORY
             }
-        },
+        }
     }
     module.exports = historyActions;
 

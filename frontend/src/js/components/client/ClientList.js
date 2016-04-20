@@ -54,6 +54,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
+            this.props.actions.clearList(resourceConstant.CLIENTS);
             this.props.actions.apiClearState();
         },
 

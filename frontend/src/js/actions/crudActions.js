@@ -19,6 +19,7 @@
 
     //API utility
     var apiUtil = require('../util/apiUtil');
+    var actionUtil = require('../util/actionUtil');
 
     //actions
     var apiActions = require('./apiActions');
@@ -39,14 +40,7 @@
             }
         },
 
-        listEndDate: function (entity, data) {
-            return {
-                type: actionTypeConstant.LIST_BY_END_DATE,
-                data: data
-            }
-        },
-
-        delete: function (entity, id) {
+            delete: function (entity, id) {
             return {
                 type: actionTypeConstant.DELETE,
                 entity: entity,
@@ -81,124 +75,118 @@
      */
 
     var crudActions = {
+        fetchAllFromCore: function (entity) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
+                dispatch(apiActions.apiRequest(entity));
+
+                return (apiUtil.fetchAllFromCore(entity).then(function (response) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.list(entity, response.body));
+                    }
+                }, function (error) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchAllFromCore(entity));
+                    }
+                }));
+            }
+        },
+
         fetchAll: function (entity) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.fetchAll(entity).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.list(entity, response.body));
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.list(entity, response.body));
+                    }
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchAll(entity));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchAll(entity));
                     }
                 }));
             }
         },
 
         addItem: function (entity, data) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.create(entity, data).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    Toastr.success(messageConstant.SUCCESSFULLY_ADDED);
-                    browserHistory.goBack();
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        Toastr.success(messageConstant.SUCCESSFULLY_ADDED);
+                        browserHistory.goBack();
+                    }
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.addItem(entity, data));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {``
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.addItem(entity, data));
                     }
                 }));
             }
         },
 
         updateItem: function (entity, data, id) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.edit(entity, data, id).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    Toastr.success(messageConstant.SUCCESSFULLY_UPDATED);
-                    browserHistory.goBack();
-                }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.updateItem(entity, data, id));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        Toastr.success(messageConstant.SUCCESSFULLY_UPDATED);
+                        browserHistory.goBack();
                     }
-                }))
+                }, function (error) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.updateItem(entity, data, id));
+                    }
+                }));
             }
         },
 
         fetchById: function (entity, id) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.fetchById(entity, id).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.selectItem(entity, response.body));
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.selectItem(entity, response.body));
+                    }
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchById(entity, id));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchById(entity, id));
                     }
                 }))
             }
         },
 
         deleteItem: function (entity, id, pagination, sortBy) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
                 return (apiUtil.delete(entity, id).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
-                    dispatch(crudActions.fetchByQuery(entity, pagination, sortBy));
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
+                        dispatch(crudActions.fetchByQuery(entity, pagination, sortBy));
+                    }
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.deleteItem(entity, id));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.deleteItem(entity, id, pagination, sortBy));
                     }
                 }))
             }
@@ -223,72 +211,20 @@
         },
 
         fetchByQuery: function (entity, data, sortBy) {
-            return function (dispatch) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
+
                 return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-
-                    dispatch(actions.pageIndex(data, response.body.count));
-                    dispatch(actions.list(entity, response.body));
-                }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchByQuery(entity, data));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.pageIndex(data, response.body.count));
+                        dispatch(actions.list(entity, response.body));
                     }
-                }));
-            }
-        },
-
-        fetchByField: function (entity, field, data) {
-            return function (dispatch) {
-                dispatch(apiActions.apiRequest(entity));
-                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.list(entity, response.body));
                 }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchByField(entity, field, data));
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
-                    }
-                }));
-            }
-        },
-
-        fetchByEndDate: function (entity, data) {
-            return function (dispatch) {
-                dispatch(apiActions.apiRequest(entity));
-                return (apiUtil.fetchByEndDate(entity, data).then(function (response) {
-                    dispatch(apiActions.apiResponse(entity));
-                    dispatch(actions.listEndDate(entity, response.body));
-                }, function (error) {
-                    dispatch(apiActions.apiResponse(entity));
-                    if (error.status == 401) {
-                        dispatch(apiActions.apiRequest(entity));
-                        apiUtil.refreshSession().then(function (response) {
-                            dispatch(apiActions.apiResponse(entity));
-                            dispatch(crudActions.fetchByEndDate(entity, data))
-                            ;
-                        });
-                    } else if (error.status == 404) {
-                        browserHistory.push(urlConstant.PAGE_NOT_FOUND);
-                    } else {
-                        Toastr.error(error.response.body.error || error.response.body[0].error);
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchByQuery(entity, data, sortBy));
                     }
                 }));
             }
@@ -304,6 +240,13 @@
         clearPagination: function () {
             return {
                 type: actionTypeConstant.PAGINATION_INDEX
+            }
+        },
+
+        clearList: function (entity) {
+            return {
+                type: actionTypeConstant.CLEAR_LIST,
+                entity: entity
             }
         },
 

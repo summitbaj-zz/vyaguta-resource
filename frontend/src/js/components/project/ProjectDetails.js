@@ -28,6 +28,9 @@
     //libraries
     var _ = require('lodash');
 
+    //util
+    var historyUtil = require('../../util/historyUtil');
+
     var ProjectDetails = React.createClass({
         getInitialState: function () {
             return {
@@ -39,13 +42,6 @@
         componentDidMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
             this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
-        },
-
-        componentWillReceiveProps: function (nextProps) {
-            if (nextProps.histories && nextProps.histories.length > 5) {
-                nextProps.histories.splice(5, nextProps.histories.length);
-                this.setState({containsMoreHistories: true});
-            }
         },
 
         componentWillUnmount: function () {
@@ -89,8 +85,9 @@
         },
 
         renderHistoryItems: function (key) {
-            return (
-                <HistoryItem history={this.props.histories[key]} key={key}/>
+            var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories[key]);
+                 return (
+                <HistoryItem history={convertedHistory} key={key} index={key}/>
             )
         },
 
@@ -100,7 +97,9 @@
                 background: project.projectStatus && project.projectStatus.color
             };
             var contractIds = project.contracts && Object.keys(project.contracts);
-            var historyIds = Object.keys(this.props.histories);
+            var history = this.props.histories.length ? this.props.histories.slice(0, 5) : [];
+            var containsMoreHistories = (this.props.histories.length > 5) ? true : false;
+            var historyIds = Object.keys(history);
 
             return (
                 <div>
@@ -179,11 +178,12 @@
                                                 </ul>
 
                                             </div>
-                                            {this.state.containsMoreHistories &&
+                                            {containsMoreHistories &&
                                             <div className="block-title show-all-wrp">
-                                                <Link to={urlConstant.PROJECTS.INDEX + '/' + project.id + urlConstant.PROJECTS.HISTORY}
-                                                      title="Add Project"
-                                                      className="show-all-btn">View All</Link>
+                                                <Link
+                                                    to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id + urlConstant.PROJECTS.HISTORY}
+                                                    title="Add Project"
+                                                    className="show-all-btn">View All</Link>
                                             </div>}
                                         </div>
                                     </div>

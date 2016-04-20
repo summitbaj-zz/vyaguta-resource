@@ -21,7 +21,7 @@
                 projectStatus: {},
                 accountManager: {},
                 client: {},
-                contracts:{}
+                contracts: {}
             },
             projectRoles: {},
             budgetTypes: {},
@@ -29,8 +29,7 @@
             clients: {},
             projectStatus: {}
         },
-        pagination:{},
-        endingProjects:[]
+        pagination: {},
     };
 
 
@@ -43,15 +42,10 @@
                 newState[action.entity] = _.cloneDeep(action.data.data);
                 return newState;
 
-            case actionTypeConstant.LIST_BY_END_DATE:
-                var newState = _.cloneDeep(state);
-                newState.endingProjects = _.cloneDeep(action.data);
-                return newState;
 
             case actionTypeConstant.SELECT_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = action.data;
-
                 return newState;
 
             case actionTypeConstant.DELETE:
@@ -76,7 +70,11 @@
             case actionTypeConstant.CLEAR_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = {};
+                return newState;
 
+            case actionTypeConstant.CLEAR_LIST:
+                var newState = _.cloneDeep(state);
+                newState[action.entity] = {};
                 return newState;
 
             case actionTypeConstant.PAGINATION_INDEX:

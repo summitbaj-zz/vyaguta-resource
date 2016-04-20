@@ -7,99 +7,20 @@
     var moment = require('moment');
 
     var HistoryItem = React.createClass({
-            getInitialState: function () {
-                return {
-                    action: '',
-                    actionData: [],
-                    changedEntity: '',
-                    createdAt: ''
-                }
-            },
-
-            componentDidMount: function () {
-                this.setAction();
-                this.setChangedEntity();
-                this.setActionData();
-                this.setState({createdAt: this.getTime()});
-            },
-
-            setAction: function () {
-                var action;
-                if (!this.props.history.changed) {
-                    action = 'added';
-                } else {
-                    action = 'edited';
-                }
-                this.state.action = action;
-                this.setState({action: action});
-            },
-
-            setChangedEntity: function () {
-                var changedEntity;
-                switch (this.props.history.changedEntity) {
-                    case 'Project':
-                        changedEntity = 'This project';
-                        break;
-                    case 'Contract':
-                        changedEntity = 'Contract';             //Until decided what to do.
-                        break;
-                    case 'ContractMember':
-                        changedEntity = this.getAppendedName(this.props.history.employee) || 'Contract Member';
-                        break;
-                }
-                this.setState({changedEntity: changedEntity});
-            },
-
-            setActionData: function () {
-                var history = this.props.history || 0;
-                var actionData = {};
-                var invalidKeys = ['changed', 'changedEntity', 'createdBy', 'createdAt', 'employee', 'reason', 'batch', 'contractMember'];
-
-                for (var key in history) {
-                    if (!(invalidKeys.indexOf(key) > -1) && (history[key] != null || (!history[key] && this.state.action == 'edited'))) {
-                        actionData[key] = history[key];
-                    }
-                }
-                this.setState({actionData: actionData});
-            },
-
-            getAppendedName: function (employee) {
-                var name = employee.firstName;
-                if (employee.middleName && employee.middleName != 'NULL') {
-                    name = name.concat(' ', employee.middleName);
-                }
-                name = name.concat(' ', employee.lastName);
-                return name;
-            },
-
-            getDataForDisplay: function (data) {
-                switch (data) {
-                    case 'accountManager':
-                        return this.getAppendedName(this.state.actionData[data]);
-                    case 'client':
-                        return this.state.actionData[data].name;
-                    default:
-                        return this.state.actionData[data].title;
-                }
-            },
-
-            listChanges: function (data) {
+            listChanges: function (data, key) {
                 var displayData;
-                if (data == 'allocation') {
-                    displayData = this.state.actionData[data];
-                } else if (data == 'billed') {
-                    displayData = this.state.actionData[data] ? 'Yes' : 'No';
-                } else if (!this.state.actionData[data]) {
-                    return <p
+                if (data[key] == null) {
+                    return (<p
                         className="changed-field"
-                        key={data}>{'The field ' + this.changeKeyToDisplayableForm(data).toLowerCase() + ' was removed.' }</p>
-                } else if (typeof(this.state.actionData[data]) === 'object') {
-                    displayData = this.getDataForDisplay(data);
+                        key={key}>{'The field ' + this.changeKeyToDisplayableForm(key).toLowerCase() + ' was removed.' }</p>);
+
+                } else if (data == 'billed') {
+                    displayData = data.billed ? 'Yes' : 'No';
                 } else {
-                    displayData = this.state.actionData[data];
+                    displayData = data[key];
                 }
                 return (<p className="changed-field"
-                           key={data}><span className="weight-500">{this.changeKeyToDisplayableForm(data)}</span>
+                           key={key}><span className="weight-500">{this.changeKeyToDisplayableForm(key)}</span>
                     : {displayData}</p>);
             },
 
@@ -114,56 +35,47 @@
                     })
             },
 
-            getTime: function () {
-                var date = new Date(moment(this.props.history.createdAt).format());
-                var now = new Date();
-                var seconds = Math.floor(now - date) / 1000;
-                var interval = Math.floor(seconds / 302400);
+            toggleShowHide: function (e) {
+                e.target.innerHTML = (e.target.innerHTML == 'Show') ? 'Hide' : 'Show';
+            },
 
-                if (interval >= 1) {
-                    var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-                    return convertedDate;
-                }
-                interval = Math.floor(seconds / 86400);
-                if (interval >= 1) {
-                    return interval + ' days ago';
-                }
-                interval = Math.floor(seconds / 3600);
-                if (interval >= 1) {
-                    return interval + ' hours ago';
-                }
-                interval = Math.floor(seconds / 60);
-                if (interval >= 1) {
-                    return interval + ' minutes ago';
-                }
-                interval = seconds;
-                if (interval >= 0) {
-                    return Math.floor(seconds) + ' seconds ago';
-                }
-                var convertedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-                return convertedDate;
+            showReason: function (reason, index) {
+                return (
+                    <div id={"ReadMorePanel" + index}>
+                        <span className="weight-500">Reason</span>:
+                        <a data-toggle="collapse" data-target={"#ReadMoreInfo" + index}
+                           onClick={this.toggleShowHide} className="cursor-pointer">Show</a>
+                        <div id={"ReadMoreInfo" + index} className="panel-collapse collapse">
+                            {reason}
+                        </div>
+                    </div>
+                )
             },
 
             render: function () {
-                var actionClassName = (this.state.action == 'added') ? 'fa fa-plus' : 'fa fa-pencil';
-                var changeKeys = Object.keys(this.state.actionData);
-                var createdBy = this.props.history.createdBy.name && ' by ' + this.props.history.createdBy.name;
+                var history = this.props.history;
+                var actionClassName = (history.action == 'added') ? 'fa fa-plus' : 'fa fa-pencil';
+                var createdBy = history.createdBy && ' by ' + history.createdBy;
                 return (
-                    <li data-toggle="tooltip" title={this.props.history.reason}>
+                    <li data-toggle="tooltip">
                         <div className="timeline-icon"><i
                             className={actionClassName}></i>
                         </div>
                         <div className="timeline-time">
-                            {this.state.createdAt}
+                            {history.createdAt}
                         </div>
                         <div className="timeline-content">
                             <p className="push-bit">
-                                <strong>{this.changeKeyToDisplayableForm(this.props.history.changedEntity)}</strong>
-                                : {this.state.changedEntity} was
-                                {' ' + this.state.action}
+                                <strong>{this.changeKeyToDisplayableForm(history.changedEntity)}</strong>
+                                : {history.changedData} was
+                                {' ' + history.action}
                                 {createdBy}.
                             </p>
-                            {changeKeys.map(this.listChanges)}
+                            {Object.keys(history.fields).map(this.listChanges.bind(null, history.fields))}
+                            {history.reason &&
+                            <div>
+                                {this.showReason(history.reason, this.props.index)}</div>
+                            }
                         </div>
                     </li>
                 );

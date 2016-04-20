@@ -7,6 +7,9 @@
     var applyMiddleware = redux.applyMiddleware;
     var combineReducers = redux.combineReducers;
     var compose = redux.compose;
+    var reactRouterRedux = require('react-router-redux');
+    var routerReducer = reactRouterRedux.routerReducer;
+    var routerMiddleware = reactRouterRedux.routerMiddleware;
 
     //middlewares
     var thunk = require('redux-thunk');
@@ -17,13 +20,16 @@
     var apiReducer = require('../reducers/apiReducer');
     var contractReducer = require('../reducers/contractReducer');
     var historyReducer = require('../reducers/historyReducer');
+    var dashboardReducer = require('../reducers/dashboardReducer');
 
     //Combine Reducers
     var reducers = combineReducers({
         crudReducer: crudReducer,
         apiReducer: apiReducer,
         contractReducer: contractReducer,
-        historyReducer: historyReducer
+        historyReducer: historyReducer,
+        dashboardReducer: dashboardReducer,
+        routing: routerReducer
         //add for each reducers...
     });
 
