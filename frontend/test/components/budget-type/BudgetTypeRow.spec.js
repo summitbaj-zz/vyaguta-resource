@@ -12,7 +12,6 @@ import {shallow} from 'enzyme';
 //components
 import BudgetTypeRow from '../../../src/js/components/budget-type/BudgetTypeRow';
 
-
 function setup() {
     var props = {
         index: 1,

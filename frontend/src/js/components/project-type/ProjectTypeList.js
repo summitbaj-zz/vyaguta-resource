@@ -105,7 +105,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Types" routes={this.props.routes} title="Project Types"/>
+                    <EntityHeader header="Project Types" routes={this.props.routes} title="Project Types" apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Type Details</h2>
@@ -144,7 +144,8 @@
     var mapStateToProps = function (state) {
         return {
             projectTypes: state.crudReducer.projectTypes,
-            pagination: state.crudReducer.pagination
+            pagination: state.crudReducer.pagination,
+            apiState: state.apiReducer
         }
     };
 
