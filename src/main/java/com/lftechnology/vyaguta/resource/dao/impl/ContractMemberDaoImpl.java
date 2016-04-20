@@ -45,15 +45,20 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
         return new HashMap<>();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Object[]> findBookedResource(LocalDate[] date) {
-        Query query =
-                em.createQuery("SELECT sum(CASE WHEN billed = 't' THEN (allocation * 0.01) ELSE 0 END) AS Billed, sum(CASE WHEN billed = 'f' THEN (allocation * 0.01) ELSE 0 END) AS Unbilled FROM ContractMember WHERE joinDate <= :joinDate AND endDate >= :endDate");
+        Query query = em.createQuery(
+                "SELECT SUM(CASE WHEN billed = 't' THEN (allocation * 0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN billed = 'f' THEN (allocation * 0.01) ELSE 0 END) AS Unbilled FROM ContractMember WHERE joinDate <= :joinDate AND endDate >= :endDate");
         query.setParameter("joinDate", date[0]);
         query.setParameter("endDate", date[1]);
-
         return query.getResultList();
+    }
 
+    @Override
+    public Long getBookedResourceCount(LocalDate[] date) {
+        return em.createNamedQuery(ContractMember.COUNT_DISTINCT_MEMBERS, Long.class).setParameter("joinDate", date[0])
+                .setParameter("endDate", date[1]).getSingleResult();
     }
 
 }
