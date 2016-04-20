@@ -59,6 +59,7 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
+            this.props.actions.clearList(resourceConstant.BUDGET_TYPES);
             this.props.actions.apiClearState();
         },
 

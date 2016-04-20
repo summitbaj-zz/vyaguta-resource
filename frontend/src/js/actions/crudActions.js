@@ -243,6 +243,13 @@
             }
         },
 
+        clearList: function (entity) {
+            return {
+                type: actionTypeConstant.CLEAR_LIST,
+                entity: entity
+            }
+        },
+
         handleAutoCompleteChange: function (entity, key, id, label) {
             return {
                 type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
