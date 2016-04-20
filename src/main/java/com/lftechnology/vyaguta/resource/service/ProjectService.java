@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.service.CrudService;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.entity.Project;
 
 /**
@@ -12,5 +13,6 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  *
  */
 public interface ProjectService extends CrudService<Project, UUID> {
-    Map<String, Object> findAllResource();
+
+    Map<String, Object> findAllResource(MultivaluedMap<String, String> queryParameter);
 }

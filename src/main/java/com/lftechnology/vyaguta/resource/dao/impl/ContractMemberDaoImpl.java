@@ -1,11 +1,14 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
@@ -40,6 +43,17 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
     @Override
     public Map<String, EntityFilter<ContractMember>> getFilters() {
         return new HashMap<>();
+    }
+
+    @Override
+    public List<Object[]> findBookedResource(LocalDate[] date) {
+        Query query =
+                em.createQuery("SELECT sum(CASE WHEN billed = 't' THEN (allocation * 0.01) ELSE 0 END) AS Billed, sum(CASE WHEN billed = 'f' THEN (allocation * 0.01) ELSE 0 END) AS Unbilled FROM ContractMember WHERE joinDate <= :joinDate AND endDate >= :endDate");
+        query.setParameter("joinDate", date[0]);
+        query.setParameter("endDate", date[1]);
+
+        return query.getResultList();
+
     }
 
 }

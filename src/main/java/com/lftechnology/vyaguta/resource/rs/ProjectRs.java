@@ -109,7 +109,7 @@ public class ProjectRs {
     @RolesAllowed({ "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response resource(@Context UriInfo uriInfo) {
-        Map<String, Object> resources = projectService.findAllResource();
+        Map<String, Object> resources = projectService.findAllResource(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
         return Response.status(Response.Status.OK).entity(resources).build();
     }
 }

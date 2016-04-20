@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,10 +13,12 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.google.common.base.Strings;
+import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
@@ -44,6 +47,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private EmployeeService employeeService;
+    
+    @Inject
+    private ContractMemberDao contactMemberDao;
 
     @Inject
     private ProjectHistoryService projectHistoryService;
@@ -240,12 +246,23 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public Map<String, Object> findAllResource() {
+    public Map<String, Object> findAllResource(MultivaluedMap<String, String> queryParameters) {
+        LocalDate start = LocalDate.now();
+        LocalDate end = LocalDate.now();
+        if (queryParameters.containsKey("date")) {
+        String[] date = queryParameters.getFirst("date").replaceFirst("btn", "").split("and");
+            start = LocalDate.parse(date[0], Constant.DATE_FORMAT_DB);
+        end = LocalDate.parse(date[1], Constant.DATE_FORMAT_DB);
+        }
+        LocalDate[] date = { start, end };
         List<Employee> employees = employeeService.fetchActiveEmployees();
+        List<Object[]> booked = contactMemberDao.findBookedResource(date);
+        
         Integer activeEmployeeCount = employees.size();
         return new HashMap<String, Object>() {
             {
                 put("employeeCount", activeEmployeeCount);
+                put("billed", booked);
             }
         };
     }
