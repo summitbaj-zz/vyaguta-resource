@@ -1,6 +1,5 @@
 package com.lftechnology.vyaguta.resource.rs;
 
-import java.awt.image.renderable.ParameterBlock;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Local;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,6 +23,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -47,6 +47,9 @@ public class ProjectRs {
 
     @Inject
     private ProjectHistoryService projectHistoryService;
+
+    @Inject
+    private Logger log;
 
     @Path("/")
     @GET
@@ -121,6 +124,7 @@ public class ProjectRs {
             try {
                 date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
             } catch (DateTimeParseException e) {
+                log.error("{}", e);
                 throw new ParameterFormatException("Invalid date format");
             }
         }

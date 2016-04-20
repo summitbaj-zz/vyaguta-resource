@@ -9,8 +9,6 @@ import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 
-import org.apache.log4j.chainsaw.Main;
-
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
