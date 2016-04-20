@@ -36,8 +36,7 @@ var initialState = {
         clients: {},
         projectStatus: {}
     },
-    pagination: {},
-    endingProjects: []
+    pagination: {}
 };
 var tempState;
 
@@ -62,18 +61,6 @@ describe('crudReducer', () => {
                 type: actionTypeConstant.LIST,
                 entity: 'budgetTypes',
                 data: testData
-            })
-        ).toEqual(expectedState);
-    });
-
-    it('should handle LIST_BY_END_DATE', () => {
-        var expectedState = _.cloneDeep(tempState);
-        expectedState.endingProjects = testData.data;
-
-        expect(crudReducer(undefined,
-            {
-                type: actionTypeConstant.LIST_BY_END_DATE,
-                data: testData.data
             })
         ).toEqual(expectedState);
     });

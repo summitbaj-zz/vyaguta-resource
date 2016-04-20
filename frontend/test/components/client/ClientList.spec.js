@@ -24,7 +24,8 @@ function setup() {
             fetchByQuery: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
-            deleteItem: expect.createSpy()
+            deleteItem: expect.createSpy(),
+            clearList: expect.createSpy()
         }
     }
     var ClientList = WrappedComponent;
@@ -57,6 +58,12 @@ describe('ClientList Component', () => {
             var {component, actions} = setup();
             component.unmount();
             expect(actions.apiClearState).toHaveBeenCalled();
+        });
+
+        it('dispatches clearList action when component unmounts', () => {
+            var {component, actions} = setup();
+            component.unmount();
+            expect(actions.clearList).toHaveBeenCalled();
         });
     });
 

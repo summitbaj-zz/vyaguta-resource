@@ -11,16 +11,21 @@ import expect from 'expect';
 import {shallow, mount} from 'enzyme';
 import {Provider} from 'react-redux';
 import jsdom from 'jsdom';
-import _ from 'lodash';
 
 //components
-import {WrappedComponent} from '../../../src/js/components/project-role/ProjectRoleForm';
-import ProjectRoleRow from '../../../src/js/components/project-role/ProjectRoleRow';
+import {WrappedComponent} from '../../../src/js/components/project/ProjectForm';
+import ProjectRow from '../../../src/js/components/project/ProjectRow';
 import store from '../../storeMock';
 
 function setup(params) {
     var props = {
         selectedItem: store.getState().crudReducer.selectedItem,
+        budgetTypes:  store.getState().crudReducer.budgetTypes,
+        projectTypes:  store.getState().crudReducer.projectTypes,
+        projectStatus:  store.getState().crudReducer.projectStatus,
+        projectRoles:  store.getState().crudReducer.projectRoles,
+        clients:  store.getState().crudReducer.clients,
+        contracts:  store.getState().contractReducer.contracts,
         apiState: {isRequesting: false, noOfRequests: 0},
         params: params,
         actions: {
@@ -33,8 +38,8 @@ function setup(params) {
         }
     }
 
-    var ProjectRoleForm = WrappedComponent;
-    var component = mount(<Provider store={store}><ProjectRoleForm {...props}/></Provider>);
+    var ProjectForm = WrappedComponent;
+    var component = mount(<Provider store={store}><ProjectForm {...props}/></Provider>);
 
     return {
         component: component,
@@ -43,7 +48,7 @@ function setup(params) {
     }
 }
 
-describe('ProjectRoleForm component', () => {
+describe('ProjectForm component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchById if id is present in the params', () => {
             var {actions} = setup({id: 123});
@@ -79,7 +84,7 @@ describe('ProjectRoleForm component', () => {
         });
     });
 
-    describe('saveProjectRole', () => {
+    describe('saveProject', () => {
         it('does not dispatch any action if form is not valid', () => {
             var {component, actions} = setup({});
             var form = component.find('form');
@@ -91,7 +96,7 @@ describe('ProjectRoleForm component', () => {
         it('dispatches addItem if form is valid and id is not present', () => {
             var {component, actions, props} = setup({});
             var form = component.find('form');
-            props.selectedItem.projectRoles.title = 'Some ProjectRole';
+            props.selectedItem.projects.title = 'Some Project';
             component.update();
             form.simulate('submit');
             expect(actions.addItem).toHaveBeenCalled();
@@ -100,7 +105,7 @@ describe('ProjectRoleForm component', () => {
         it('dispatches updateItem if form is valid and id is present', () => {
             var {component, actions, props} = setup({id: 123});
             var form = component.find('form');
-            props.selectedItem.projectRoles.title = 'Some ProjectRole';
+            props.selectedItem.projects.title = 'Some Project';
             component.update();
             form.simulate('submit');
             expect(actions.updateItem).toHaveBeenCalled();
