@@ -37,7 +37,7 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 @Where(clause = "deleted='false'")
 @NamedQueries({
         @NamedQuery(name = ContractMember.FIND_BY_CONTRACT, query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract"),
-        @NamedQuery(name = ContractMember.COUNT_DISTINCT_MEMBERS, query = "SELECT COUNT (DISTINCT cm.employee.id) FROM ContractMember cm WHERE cm.joinDate <= :joinDate AND cm.endDate >= :endDate") })
+        @NamedQuery(name = ContractMember.COUNT_DISTINCT_MEMBERS, query = "SELECT COUNT (DISTINCT cm.employee.id) FROM ContractMember cm WHERE :date BETWEEN cm.joinDate AND cm.endDate") })
 public class ContractMember extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = -4463672032184656029L;
