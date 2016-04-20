@@ -103,4 +103,13 @@ public class ProjectRs {
             throw new ObjectNotFoundException();
         }
     }
+
+    @Path("/resources")
+    @GET
+    @RolesAllowed({ "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response resource(@Context UriInfo uriInfo) {
+        Map<String, Object> resources = projectService.findAllResource();
+        return Response.status(Response.Status.OK).entity(resources).build();
+    }
 }
