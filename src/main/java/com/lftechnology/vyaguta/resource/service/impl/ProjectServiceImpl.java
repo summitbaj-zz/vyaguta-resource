@@ -151,8 +151,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
-                .distinct().collect(Collectors.toList());
+        List<UUID> employeeIds =
+                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
+                        .collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -195,8 +196,7 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -238,6 +238,16 @@ public class ProjectServiceImpl implements ProjectService {
             }
             contract.setProject(project);
         }
+    }
+
+    public Map<String, Object> findAllResource() {
+        List<Employee> employees = employeeService.fetchActiveEmployees();
+        Integer activeEmployeeCount = employees.size();
+        return new HashMap<String, Object>() {
+            {
+                put("employeeCount", activeEmployeeCount);
+            }
+        };
     }
 
 }
