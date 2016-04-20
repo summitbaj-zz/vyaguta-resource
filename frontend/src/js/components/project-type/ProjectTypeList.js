@@ -80,7 +80,8 @@
         renderProjectType: function (key) {
             var startIndex = this.props.pagination.page + parseInt(key);
             return (
-                <ProjectType key={key} index={startIndex || 1 + parseInt(key)} projectType={this.props.projectTypes[key]}
+                <ProjectType key={key} index={startIndex || 1 + parseInt(key)}
+                             projectType={this.props.projectTypes[key]}
                              deleteProjectType={this.deleteProjectType}/>
             );
         },
@@ -93,19 +94,15 @@
                 _limit: this.props.offset
             };
 
-            if (isAscending) {
-                sortBy = field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
-            } else {
-                sortBy = '-' + field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
-            }
+            sortBy = (isAscending) ? field : '-' + field;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Types" routes={this.props.routes} title="Project Types" apiState={this.props.apiState}/>
+                    <EntityHeader header="Project Types" routes={this.props.routes} title="Project Types"
+                                  apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Type Details</h2>

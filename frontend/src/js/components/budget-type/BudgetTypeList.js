@@ -98,13 +98,8 @@
                 _limit: this.props.offset
             };
 
-            if (isAscending) {
-                sortBy = field;
-                this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, pagination, sortBy);
-            } else {
-                sortBy = '-' + field;
-                this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, pagination, sortBy);
-            }
+            sortBy = (isAscending) ? field : '-' + field;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         render: function () {
