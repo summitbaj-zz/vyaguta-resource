@@ -19,4 +19,6 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
 
     List<Object[]> findBookedResource(LocalDate[] date);
 
+    Long getBookedResourceCount(LocalDate[] date);
+
 }
