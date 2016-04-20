@@ -1,11 +1,9 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,7 +13,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.google.common.base.Strings;
-import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -249,33 +246,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> findAllResource(MultivaluedMap<String, String> queryParameters) {
-        Map<String, Object> resources = new HashMap<>();
-
-        LocalDate start = LocalDate.now();
-        LocalDate end = LocalDate.now();
-
-        if (queryParameters.containsKey("date")) {
-            String[] date = queryParameters.getFirst("date").replaceFirst("btn", "").split("and");
-            start = LocalDate.parse(date[0], Constant.DATE_FORMAT_DB);
-            end = LocalDate.parse(date[1], Constant.DATE_FORMAT_DB);
-        }
-        LocalDate[] date = { start, end };
-        putOnMap(resources, contactMemberDao.findBookedResource(date));
-
+    public Map<String, Object> findResourceUtilization(LocalDate date) {
+        Map<String, Object> resources = contactMemberDao.findBilledAndUnbilledResource(date);
         Integer totalEmployee = employeeService.fetchActiveEmployees().size();
+        Long bookedResource = contactMemberDao.findBookedResourceCount(date);
+
         resources.put("totalResources", totalEmployee);
-        resources.put("freeResources", totalEmployee - contactMemberDao.getBookedResourceCount(date));
+        resources.put("bookedResources", bookedResource);
+        resources.put("freeResources", totalEmployee - bookedResource);
         return resources;
     }
-
-    private void putOnMap(Map<String, Object> resources, List<Object[]> bookedResources) {
-        Iterator<Object[]> itr = bookedResources.iterator();
-        while (itr.hasNext()) {
-            Object[] obj = itr.next();
-            resources.put("billed", Double.valueOf((Double) (obj[0])));
-            resources.put("unbilled", Double.valueOf((Double) (obj[1])));
-        }
-    }
-
 }
