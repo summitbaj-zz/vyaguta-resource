@@ -312,10 +312,9 @@ header.navbar-inverse.navbar-fixed-bottom {
     color: #fff;
 }
 
+/*changes made*/
 .sidebar-nav a:hover, .sidebar-nav a.open, .sidebar-nav li.active > a {
-    color: #ffffff;
     text-decoration: none;
-    background: rgba(108, 192, 104, 1);
 }
 
 .sidebar-nav a.active {

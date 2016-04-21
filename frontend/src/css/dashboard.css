@@ -1,15 +1,19 @@
 /*carousel*/
 
 .carousel-control.left, .carousel-control.right {
-    background-image: none
+    background-image: none;
+}
+
+.carousel-control .glyphicon{
+    color: #6CC068;
 }
 
 .carousel-indicators li {
-    border: 1px solid grey;
+    border: 1px solid #6CC068;
 }
 
 .carousel-indicators .active {
-    background-color: grey;
+    background-color: #6CC068;
 }
 
 .carousel-inner {

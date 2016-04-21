@@ -29,9 +29,9 @@
                 if (message.indexOf(messageConstant.FOREIGN_KEY_VIOLATION_MESSAGE) > -1) {
                     message = messageConstant.UNSUCCESSFUL_DELETE_MESSAGE;
                 }
-                Toastr.error(message);
+                Toastr.error(message, messageConstant.TOASTR_INVALID_HEADER);
             } else {
-                Toastr.error(error.response.body.error || error.response.body[0].error);
+                Toastr.error(error.response.body.error || error.response.body[0].error, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
