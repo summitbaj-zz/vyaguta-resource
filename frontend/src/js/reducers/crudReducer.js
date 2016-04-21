@@ -21,7 +21,7 @@
                 projectStatus: {},
                 accountManager: {},
                 client: {},
-                contracts: {}
+                contracts: []
             },
             projectRoles: {},
             budgetTypes: {},
