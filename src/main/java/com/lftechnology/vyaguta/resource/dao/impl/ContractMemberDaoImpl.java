@@ -54,8 +54,8 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
         query.setParameter("date", date);
         List<Object[]> result = query.getResultList();
         for (Object[] obj : result) {
-            map.put("billed", obj[0] == null ? 0 : obj[0]);
-            map.put("unbilled", obj[1] == null ? 0 : obj[1]);
+            map.put("billed", obj[0] == null ? 0.0 : obj[0]);
+            map.put("unbilled", obj[1] == null ? 0.0 : obj[1]);
         }
 
         return map;

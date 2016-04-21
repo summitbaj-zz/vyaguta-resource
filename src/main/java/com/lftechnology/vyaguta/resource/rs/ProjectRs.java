@@ -114,7 +114,7 @@ public class ProjectRs {
         }
     }
 
-    @Path("/resourceutilization")
+    @Path("/resource/utilization")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
@@ -128,7 +128,24 @@ public class ProjectRs {
                 throw new ParameterFormatException("Invalid date format");
             }
         }
-        Map<String, Object> resources = projectService.findResourceUtilization(date);
-        return Response.status(Response.Status.OK).entity(resources).build();
+        return Response.status(Response.Status.OK).entity(projectService.findResourceUtilization(date)).build();
     }
+
+    @Path("/resource/booked")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response bookedResource(@QueryParam("date") String dateStr) {
+        LocalDate date = LocalDate.now();
+        if (dateStr != null) {
+            try {
+                date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
+            } catch (DateTimeParseException e) {
+                log.error("{}", e);
+                throw new ParameterFormatException("Invalid date format");
+            }
+        }
+        return Response.status(Response.Status.OK).entity(projectService.findBookedResource(date)).build();
+    }
+
 }
