@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -238,6 +239,11 @@ public class ProjectServiceImpl implements ProjectService {
             }
             contract.setProject(project);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> findBookedResource(LocalDate date) {
+        return projectDao.findBookedResource(date);
     }
 
 }
