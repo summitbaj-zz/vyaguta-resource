@@ -1,7 +1,13 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.persistence.Query;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
@@ -39,6 +45,32 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
     @Override
     public Map<String, EntitySorter<Project>> getSortOperations() {
         return projectSort.getSortOperations();
+    }
+
+    @SuppressWarnings({ "serial", "unchecked" })
+    @Override
+    public List<Map<String, Object>> findBookedResource(LocalDate date) {
+        List<Map<String, Object>> output = new ArrayList<>();
+
+        Query query = em
+                .createQuery(
+                        "SELECT pt.title , COUNT(DISTINCT p.id), SUM(CASE WHEN cm.billed = 't' AND :date BETWEEN cm.joinDate AND cm.endDate THEN (cm.allocation*0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN cm.billed = 'f' AND :date BETWEEN cm.joinDate AND cm.endDate THEN (cm.allocation*0.01) ELSE 0 END) AS Unbilled FROM ContractMember cm JOIN cm.contract c JOIN c.project p JOIN p.projectType pt WHERE :date BETWEEN c.startDate AND c.endDate GROUP BY pt.id")
+                .setParameter("date", date);
+
+        List<Object[]> result = query.getResultList();
+
+        for (Object[] obj : result) {
+            Map<String, Object> map = new HashMap<String, Object>() {
+                {
+                    put("projectType", obj[0]);
+                    put("numberOfProjects", obj[1]);
+                    put("billed", obj[2]);
+                    put("unbilled", obj[3]);
+                }
+            };
+            output.add(map);
+        }
+        return output;
     }
 
 }
