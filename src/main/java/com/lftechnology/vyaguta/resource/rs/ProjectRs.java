@@ -1,5 +1,7 @@
 package com.lftechnology.vyaguta.resource.rs;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,12 +18,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
+import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
@@ -102,5 +107,21 @@ public class ProjectRs {
         } else {
             throw new ObjectNotFoundException();
         }
+    }
+
+    @Path("/bookedresource")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response bookedresource(@QueryParam("date") String dateStr) {
+        LocalDate date = LocalDate.now();
+        if (dateStr != null) {
+            try {
+                date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
+            } catch (DateTimeParseException e) {
+                throw new ParameterFormatException("Invalid date format");
+            }
+        }
+        return Response.status(Response.Status.OK).entity(projectService.findBookedResource(date)).build();
     }
 }
