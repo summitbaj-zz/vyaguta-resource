@@ -19,7 +19,9 @@
         ACCOUNT_MANAGERS: 'accountManagers',
         EMPLOYEES: 'employees',
         START_INDEX: '1',
-        OFFSET: '10'
+        OFFSET: '10',
+        dashboard: 'dashboard',
+        resourceUtilization: 'resourceUtilization'
 
     };
 

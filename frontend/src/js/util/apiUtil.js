@@ -100,6 +100,14 @@
                 .set('Accept', 'application/json')
         },
 
+        fetchResourceCount: function(resourceName){
+            console.log(url + 'projects/' + resourceName.toLowerCase());
+            return request
+                .get(url + 'projects/' + resourceName.toLowerCase())
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+        },
+
         create: function (resourceName, data) {
             return request
                 .post(url + resourceName.toLowerCase())

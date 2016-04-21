@@ -17,6 +17,7 @@
     var alertBox = require('../../../../util/alertBox');
     var apiUtil = require('../../../../util/apiUtil');
     var formValidator = require('../../../../util/formValidator');
+    var formUtil = require('../../../../util/formUtil');
 
     //constants
     var messageConstant = require('../../../../constants/messageConstant');
@@ -33,7 +34,8 @@
             $('#addContractMember').modal('show');
             $('#addContractMember').on('hidden.bs.modal', function (event) {
                 that.props.toggleModalState(event);
-            })
+            });
+            formUtil.disableKey(13, 'projectForm');
         },
 
         renderEmployees: function (key) {

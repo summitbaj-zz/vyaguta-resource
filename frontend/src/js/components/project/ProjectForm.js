@@ -36,7 +36,6 @@
     //util
     var apiUtil = require('../../util/apiUtil');
     var convertContractHash = require('../../util/convertContractHash');
-    var formUtil = require('../../util/formUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -63,7 +62,6 @@
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
 
-            formUtil.disableForm('projectForm');
         },
 
         componentWillReceiveProps: function (props) {
@@ -156,7 +154,7 @@
         renderClient: function (key) {
             return (
                 <SelectOption key={key} index={key} id={this.props.clients[key].id}
-                              option={this.props.clients[key].email}/>
+                              option={this.props.clients[key].name}/>
             )
         },
 
@@ -264,12 +262,12 @@
             var value = this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id;
             var accountManager = this.props.selectedItem.projects.accountManager;
 
-            if (accountManager && accountManager.id){
+            if (accountManager && accountManager.id) {
                 var firstName = accountManager.firstName;
                 var lastName = accountManager.lastName;
                 var middleName = '';
 
-                if(accountManager.middleName && accountManager.middleName != 'NULL') {
+                if (accountManager.middleName && accountManager.middleName != 'NULL') {
                     middleName = accountManager.middleName + ' ';
                 }
 

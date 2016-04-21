@@ -32,11 +32,13 @@
                 var endingContracts = convertContractHash.toFrontEndHash(endingProjects[i].contracts);
                 for (var j = 0; j < endingContracts.length; j++) {
                     if (that.isEnding(endingContracts[j].endDate)) {
-                        var endingProjectObject = {};
-                        endingProjectObject['id'] = id;
-                        endingProjectObject['endDate'] = endingContracts[j].endDate;
-                        endingProjectObject['project'] = endingProjects[i].title;
-                        endingProjectObject['resources'] = endingContracts[j].contractMembers.length;
+                        var endingProjectObject = {
+                            id: id,
+                            projectId: endingProjects[i].id,
+                            endDate: endingContracts[j].endDate,
+                            project: endingProjects[i].title,
+                            resources: endingContracts[j].contractMembers.length
+                        };
                         id++;
                         endingProjectsArray.push(endingProjectObject);
                     }

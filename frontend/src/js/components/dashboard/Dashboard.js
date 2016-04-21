@@ -193,10 +193,11 @@
         },
 
         componentDidMount: function () {
-            this.props.actions.fetchByField(resourceConstant.PROJECTS, 'projectStatus', 'In Progress');
+            this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-            this.props.actions.fetchByEndDate('dashboard', request);
+            this.props.actions.fetchByEndDate(resourceConstant.dashboard, request);
+            this.props.actions.fetchResourceCount(resourceConstant.resourceUtilization);
         },
 
         addDayInDate: function (value) {
@@ -207,11 +208,11 @@
         },
 
         render: function () {
-
+            console.log();
             return (
                 <div id="page-content" className="page-content">
                     <EntityHeader header="Resource Utilization"/>
-                    <Resources />
+                    <Resources resources={this.props.resourceUtilization}/>
                     <BookedResources />
                     <InProgressProjects projects={this.props.projects}/>
                     <FreeResources resources={this.state.freeResources}/>
@@ -223,7 +224,8 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,
-            endingProjects: state.dashboardReducer.endingProjects
+            endingProjects: state.dashboardReducer.endingProjects,
+            resourceUtilization: state.dashboardReducer.resourceUtilization
         }
     };
 

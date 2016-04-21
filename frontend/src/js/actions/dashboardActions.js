@@ -24,6 +24,14 @@
                 type: actionTypeConstant.LIST_PROJECT_BY_STATUS,
                 data: data
             }
+        },
+
+        showResources: function (entity, data) {
+            return {
+                type: actionTypeConstant.SHOW_RESOURCES,
+                entity: entity,
+                data: data
+            }
         }
     };
     var dashboardActions = {
@@ -64,6 +72,26 @@
                 }));
             }
         },
+
+        fetchResourceCount: function (entity) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
+                dispatch(apiActions.apiRequest(entity));
+
+                return (apiUtil.fetchResourceCount(entity).then(function (response) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.showResources(entity, response.body));
+                    }
+                }, function (error) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchResourceCount(entity));
+                    }
+                }));
+            }
+        },
+
     };
     module.exports = dashboardActions;
 

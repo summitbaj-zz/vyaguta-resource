@@ -9,7 +9,8 @@
 
     var initialState = {
         endingProjects: [],
-        inProgressProjects: []
+        inProgressProjects: [],
+        resourceUtilization: {}
     };
 
 
@@ -25,6 +26,12 @@
             case actionTypeConstant.LIST_PROJECT_BY_STATUS:
                 var newState = _.cloneDeep(state);
                 newState.inProgressProjects = action.data.data;
+
+                return newState;
+
+            case actionTypeConstant.SHOW_RESOURCES:
+                var newState = _.cloneDeep(state);
+                newState[action.entity] = action.data;
 
                 return newState;
 
