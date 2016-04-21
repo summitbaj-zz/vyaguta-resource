@@ -13,7 +13,6 @@
     var store = require('./store/store');
     var history = syncHistoryWithStore(browserHistory, store);
 
-
     if (localStorage.access_token) {
         var routes = (
             <Router history={history}>
