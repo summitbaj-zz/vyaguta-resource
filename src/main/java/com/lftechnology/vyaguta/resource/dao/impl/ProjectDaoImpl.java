@@ -54,8 +54,9 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
 
         Query query = em
                 .createQuery(
-                        "SELECT pt.title , COUNT(DISTINCT p.id), SUM(CASE WHEN cm.billed = 't' THEN (cm.allocation*0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN cm.billed = 'f' THEN (cm.allocation*0.01) ELSE 0 END) AS Unbilled FROM ContractMember cm JOIN cm.contract c JOIN c.project p JOIN p.projectType pt WHERE :date BETWEEN cm.joinDate AND cm.endDate GROUP BY pt.id")
+                        "SELECT pt.title , COUNT(DISTINCT p.id), SUM(CASE WHEN cm.billed = 't' AND :date BETWEEN cm.joinDate AND cm.endDate THEN (cm.allocation*0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN cm.billed = 'f' AND :date BETWEEN cm.joinDate AND cm.endDate THEN (cm.allocation*0.01) ELSE 0 END) AS Unbilled FROM ContractMember cm JOIN cm.contract c JOIN c.project p JOIN p.projectType pt WHERE :date BETWEEN c.startDate AND c.endDate GROUP BY pt.id")
                 .setParameter("date", date);
+
         List<Object[]> result = query.getResultList();
 
         for (Object[] obj : result) {

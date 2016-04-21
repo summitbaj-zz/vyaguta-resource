@@ -45,4 +45,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
+    public List<Employee> fetchActiveEmployees() {
+        try {
+            String token = SecurityRequestContext.getAccessToken();
+            ResponseData<Employee> data = HttpHelper.get(EMPLOYEE_URL, token, new GenericType<ResponseData<Employee>>() {
+            });
+
+            return data.getData();
+        } catch (WebApplicationException e) {
+            log.info("exception {}", e.getMessage());
+            throw e;
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
@@ -45,6 +46,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private EmployeeService employeeService;
+
+    @Inject
+    private ContractMemberDao contactMemberDao;
 
     @Inject
     private ProjectHistoryService projectHistoryService;
@@ -246,4 +250,27 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDao.findBookedResource(date);
     }
 
+    @Override
+    public Map<String, Object> findResourceUtilization(LocalDate date) {
+        Map<String, Object> resources = contactMemberDao.findBilledAndUnbilledResource(date);
+        Double unbilled = (Double) resources.get("unbilled");
+        Double billed = (Double) resources.get("billed");
+        Double bookedResourcesCount = billed + unbilled;
+
+        Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployees().size());
+        Double freeResourceCount = totalEmployee - bookedResourcesCount;
+
+        Map<String, Object> resultOutput = new HashMap<String, Object>();
+        resultOutput.put("totalResources", totalEmployee);
+        resultOutput.put("bookedResources", new HashMap<String, Double>() {
+            {
+                put("bookedResourceCount", bookedResourcesCount);
+                put("billed", billed);
+                put("unbilled", unbilled);
+            }
+        });
+        resultOutput.put("freeResources", freeResourceCount);
+        return resultOutput;
+
+    }
 }

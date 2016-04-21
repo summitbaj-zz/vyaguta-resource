@@ -8,6 +8,13 @@
     var TeamMember = require('./TeamMember');
     var ContractView = React.createClass({
 
+        componentDidMount: function () {
+            if (this.props.length - 1 == this.props.index) {
+                var contractAccordion = this.refs['collapseContract' + this.props.index];
+                contractAccordion.click();
+            }
+        },
+
         renderTeamMember: function (teamMember) {
             return (
                 <TeamMember key={teamMember.employee.id} contractMember={teamMember}
@@ -19,23 +26,24 @@
             var contract = this.props.contract;
             return (
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id={'heading' + contract.id}>
+                    <div className="panel-heading" role="tab" id={'heading' + this.props.index}>
                         <h4 className="panel-title">
                             <a role="button"
                                data-toggle="collapse"
                                data-parent="#accordion"
-                               href={'#collapse' + contract.id}
+                               href={'#collapse' + this.props.index}
+                               ref={"collapseContract" + this.props.index}
                                aria-expanded="true"
-                               aria-controls={'collapse' + contract.id}
+                               aria-controls={'collapse' + this.props.index}
                             >
                                 Contract{(contract.startDate && contract.endDate) &&
                             <span> From <strong>{contract.startDate}</strong> to <strong>{contract.endDate}</strong></span>}
                             </a>
                         </h4>
                     </div>
-                    <div id={'collapse' + contract.id} className="panel-collapse collapse"
+                    <div id={'collapse' + this.props.index} className="panel-collapse collapse"
                          role="tabpanel"
-                         aria-labelledby={'heading' + contract.id}>
+                         aria-labelledby={'heading' + this.props.index}>
                         <div className="panel-body">
                             <div className="block-wrapper">
                                 <div className="row">

@@ -80,14 +80,14 @@
         renderContract: function (key) {
             var contracts = this.props.selectedItem.projects.contracts;
             return (
-                <ContractView key={key} contract={contracts[key]} setMemberToBeInModal={this.setMemberToBeInModal}/>
+                <ContractView key={key} index={key} length={contracts.length} contract={contracts[key]}
+                              setMemberToBeInModal={this.setMemberToBeInModal}/>
             );
         },
 
-        renderHistoryItems: function (key) {
-            var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories[key]);
-                 return (
-                <HistoryItem history={convertedHistory} key={key} index={key}/>
+        renderHistoryItems: function (history) {
+            return (
+                <HistoryItem history={history} key={history.id}/>
             )
         },
 
@@ -97,10 +97,9 @@
                 background: project.projectStatus && project.projectStatus.color
             };
             var contractIds = project.contracts && Object.keys(project.contracts);
-            var history = this.props.histories.length ? this.props.histories.slice(0, 5) : [];
-            var containsMoreHistories = (this.props.histories.length > 5) ? true : false;
-            var historyIds = Object.keys(history);
-
+            var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories);
+            var history = convertedHistory.length ? convertedHistory.reverse().slice(0, 5) : [];
+            var containsMoreHistories = (convertedHistory.length > 5) ? true : false;
             return (
                 <div>
                     <EntityHeader header="Project Details" routes={this.props.routes}
@@ -174,7 +173,7 @@
                                             </div>
                                             <div className="timeline block-content-full">
                                                 <ul className="timeline-list timeline-hover">
-                                                    {historyIds.map(this.renderHistoryItems)}
+                                                    {history.map(this.renderHistoryItems)}
                                                 </ul>
 
                                             </div>

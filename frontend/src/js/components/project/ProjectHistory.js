@@ -30,14 +30,14 @@
             this.props.actions.clearHistory();
         },
 
-        renderHistoryItems: function (key) {
+        renderHistoryItems: function (history) {
             return (
-                <HistoryItem history={historyUtil.convertHistoryJSON(this.props.histories[key])} key={key} index={key}/>
-            );
+                <HistoryItem history={history} key={history.id}/>
+            )
         },
 
         render: function () {
-            var historyIds = Object.keys(this.props.histories);
+            var convertedHistory = historyUtil.convertHistoryJSON(this.props.history);
             return (
                 <div>
                     <EntityHeader header="History" routes={this.props.routes} title="History"/>
@@ -50,7 +50,7 @@
                                     </div>
                                     <div className="timeline block-content-full">
                                         <ul className="timeline-list timeline-hover">
-                                            {historyIds.map(this.renderHistoryItems)}
+                                            {convertedHistory.reverse().map(this.renderHistoryItems)}
                                         </ul>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
     });
     var mapStateToProps = function (state) {
         return {
-            histories: state.historyReducer.project
+            history: state.historyReducer.project
         }
     };
 

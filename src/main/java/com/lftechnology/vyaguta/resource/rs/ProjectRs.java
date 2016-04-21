@@ -24,6 +24,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+
 import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
@@ -45,6 +47,9 @@ public class ProjectRs {
 
     @Inject
     private ProjectHistoryService projectHistoryService;
+
+    @Inject
+    private Logger log;
 
     @Path("/")
     @GET
@@ -109,19 +114,38 @@ public class ProjectRs {
         }
     }
 
-    @Path("/bookedresource")
+    @Path("/resource/utilization")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response bookedresource(@QueryParam("date") String dateStr) {
+    public Response resourceUtilization(@QueryParam("date") String dateStr) {
         LocalDate date = LocalDate.now();
         if (dateStr != null) {
             try {
                 date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
             } catch (DateTimeParseException e) {
+                log.error("{}", e);
+                throw new ParameterFormatException("Invalid date format");
+            }
+        }
+        return Response.status(Response.Status.OK).entity(projectService.findResourceUtilization(date)).build();
+    }
+
+    @Path("/resource/booked")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response bookedResource(@QueryParam("date") String dateStr) {
+        LocalDate date = LocalDate.now();
+        if (dateStr != null) {
+            try {
+                date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
+            } catch (DateTimeParseException e) {
+                log.error("{}", e);
                 throw new ParameterFormatException("Invalid date format");
             }
         }
         return Response.status(Response.Status.OK).entity(projectService.findBookedResource(date)).build();
     }
+
 }

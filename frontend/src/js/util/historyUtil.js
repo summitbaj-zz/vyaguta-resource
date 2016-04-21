@@ -38,7 +38,7 @@
             var changedEntity;
             switch (history.changedEntity) {
                 case 'Project':
-                    changedEntity = 'This project';
+                    changedEntity = 'Project';
                     break;
                 case 'Contract':
                     changedEntity = 'Contract';             //Until decided what to do.
@@ -59,13 +59,9 @@
             return name;
         }
 
-        this.convertHistoryJSON = function (history) {
+        this.getChangedFields = function (history) {
             var convertedHistory = {
-                batch: history.batch,
-                reason: history.reason,
-                createdBy: history.createdBy.name,
                 action: history.changed ? 'edited' : 'added',
-                createdAt: that.getTime(history.createdAt),
                 changedEntity: history.changedEntity,
                 changedData: that.setChangedEntity(history),
                 fields: {}
@@ -78,6 +74,37 @@
                 }
             }
             return convertedHistory;
+        }
+
+        this.convertHistoryJSON = function (history) {
+            var historyArray = [];
+            for (var i = history.length - 1; i >= 0; i--) {
+                if (i == history.length - 1) {
+                    var historyItem = this.createHistoryItem(history[i]);
+                    historyItem.id = i;
+                    historyItem.changes = [];
+                    historyItem.changes.push(this.getChangedFields(history[i]));
+                } else if (history[i].batch == history[i + 1].batch) {
+                    historyItem.changes.push(this.getChangedFields(history[i]));
+                } else {
+                    historyArray.push(historyItem);
+                    historyItem = this.createHistoryItem(history[i]);
+                    historyItem.id = i;
+                    historyItem.changes = [];
+                    historyItem.changes.push(this.getChangedFields(history[i]));
+                }
+            }
+            historyItem && historyArray.push(historyItem);
+            return historyArray;
+        }
+
+        this.createHistoryItem = function (history) {
+            return {
+                reason: history.reason,
+                createdBy: history.createdBy.name,
+                createdAt: that.getTime(history.createdAt),
+                action: history.changed ? 'edited' : 'added'
+            };
         }
 
         this.getDisplayableData = function (key, value) {
