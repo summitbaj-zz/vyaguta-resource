@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
@@ -44,6 +46,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private EmployeeService employeeService;
+
+    @Inject
+    private ContractMemberDao contactMemberDao;
 
     @Inject
     private ProjectHistoryService projectHistoryService;
@@ -240,4 +245,15 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public Map<String, Object> findResourceUtilization(LocalDate date) {
+        Map<String, Object> resources = contactMemberDao.findBilledAndUnbilledResource(date);
+        Integer totalEmployee = employeeService.fetchActiveEmployees().size();
+        Long bookedResource = contactMemberDao.findBookedResourceCount(date);
+
+        resources.put("totalResources", totalEmployee);
+        resources.put("bookedResources", bookedResource);
+        resources.put("freeResources", totalEmployee - bookedResource);
+        return resources;
+    }
 }
