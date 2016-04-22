@@ -59,7 +59,9 @@ public class Employee implements Serializable {
     private Designation designation;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Designation {
+    public static class Designation implements Serializable {
+        private static final long serialVersionUID = 6226308127671318832L;
+
         String title;
 
         public String getTitle() {
