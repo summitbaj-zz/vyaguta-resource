@@ -66,4 +66,19 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
         return em.createNamedQuery(ContractMember.COUNT_DISTINCT_MEMBERS, Long.class).setParameter("date", date).getSingleResult();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<UUID, Double> findAvailableResource(LocalDate date) {
+        Map<UUID, Double> map = new HashMap<>();
+
+        List<Object[]> result = em
+                .createQuery(
+                        "SELECT employee.id, SUM(allocation * 0.01) FROM ContractMember WHERE :date BETWEEN joinDate AND endDate GROUP BY employee.id")
+                .setParameter("date", date).getResultList();
+        for (Object[] obj : result) {
+            map.put((UUID) obj[0], (Double) obj[1]);
+        }
+        return map;
+    }
+
 }
