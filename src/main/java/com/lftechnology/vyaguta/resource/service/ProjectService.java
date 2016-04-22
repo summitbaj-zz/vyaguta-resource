@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.service.CrudService;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
 
 /**
  * 
@@ -18,4 +19,6 @@ public interface ProjectService extends CrudService<Project, UUID> {
     List<Map<String, Object>> findBookedResource(LocalDate date);
 
     Map<String, Object> findResourceUtilization(LocalDate date);
+
+    List<AvailableResource> findAvailableResource(LocalDate date);
 }
