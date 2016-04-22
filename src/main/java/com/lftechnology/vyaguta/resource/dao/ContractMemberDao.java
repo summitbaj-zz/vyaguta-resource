@@ -28,4 +28,6 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
 
     Long findBookedResourceCount(LocalDate date);
 
+    Map<UUID, Double> findAvailableResource(LocalDate date);
+
 }
