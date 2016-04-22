@@ -148,4 +148,21 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findBookedResource(date)).build();
     }
 
+    @Path("/resource/available")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response availableResource(@QueryParam("date") String dateStr) {
+        LocalDate date = LocalDate.now();
+        if (dateStr != null) {
+            try {
+                date = LocalDate.parse(dateStr, Constant.DATE_FORMAT_DB);
+            } catch (DateTimeParseException e) {
+                log.error("{}", e);
+                throw new ParameterFormatException("Invalid date format");
+            }
+        }
+        return Response.status(Response.Status.OK).entity(projectService.findAvailableResource(date)).build();
+    }
+
 }
