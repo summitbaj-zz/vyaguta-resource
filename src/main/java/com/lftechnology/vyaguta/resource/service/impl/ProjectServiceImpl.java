@@ -253,17 +253,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> findResourceUtilization(LocalDate date) {
-        Map<String, Object> resources = contactMemberDao.findBilledAndUnbilledResource(date);
-        Double unbilled = (Double) resources.get("unbilled");
-        Double billed = (Double) resources.get("billed");
+        Map<String, Object> resource = contactMemberDao.findBilledAndUnbilledResource(date);
+        Double unbilled = (Double) resource.get("unbilled");
+        Double billed = (Double) resource.get("billed");
         Double bookedResourcesCount = billed + unbilled;
 
         Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployees().size());
         Double freeResourceCount = totalEmployee - bookedResourcesCount;
 
         Map<String, Object> resultOutput = new HashMap<>();
-        resultOutput.put("totalResources", totalEmployee);
-        resultOutput.put("bookedResources", new HashMap<String, Double>() {
+        resultOutput.put("totalResource", totalEmployee);
+        resultOutput.put("bookedResource", new HashMap<String, Double>() {
             {
                 put("bookedResourceCount", bookedResourcesCount);
                 put("billed", billed);
