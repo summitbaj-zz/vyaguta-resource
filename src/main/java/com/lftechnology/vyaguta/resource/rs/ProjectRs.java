@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.Constant;
@@ -163,6 +165,14 @@ public class ProjectRs {
             }
         }
         return Response.status(Response.Status.OK).entity(projectService.findAvailableResource(date)).build();
+    }
+
+    @Path("/flagged")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response flaggedProjects(@DefaultValue("In Progress") @QueryParam("projectStatus") String projectStatus) {
+        return Response.status(Response.Status.OK).entity(projectService.findFlaggedProjects(projectStatus)).build();
     }
 
 }
