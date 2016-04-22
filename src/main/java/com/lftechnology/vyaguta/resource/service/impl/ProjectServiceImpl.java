@@ -24,6 +24,7 @@ import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.Tag;
+import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
@@ -252,17 +253,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> findResourceUtilization(LocalDate date) {
-        Map<String, Object> resources = contactMemberDao.findBilledAndUnbilledResource(date);
-        Double unbilled = (Double) resources.get("unbilled");
-        Double billed = (Double) resources.get("billed");
+        Map<String, Object> resource = contactMemberDao.findBilledAndUnbilledResource(date);
+        Double unbilled = (Double) resource.get("unbilled");
+        Double billed = (Double) resource.get("billed");
         Double bookedResourcesCount = billed + unbilled;
 
         Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployees().size());
         Double freeResourceCount = totalEmployee - bookedResourcesCount;
 
-        Map<String, Object> resultOutput = new HashMap<String, Object>();
-        resultOutput.put("totalResources", totalEmployee);
-        resultOutput.put("bookedResources", new HashMap<String, Double>() {
+        Map<String, Object> resultOutput = new HashMap<>();
+        resultOutput.put("totalResource", totalEmployee);
+        resultOutput.put("bookedResource", new HashMap<String, Double>() {
             {
                 put("bookedResourceCount", bookedResourcesCount);
                 put("billed", billed);
@@ -271,6 +272,29 @@ public class ProjectServiceImpl implements ProjectService {
         });
         resultOutput.put("freeResources", freeResourceCount);
         return resultOutput;
-
     }
+
+    @Override
+    public List<AvailableResource> findAvailableResource(LocalDate date) {
+
+        List<Employee> employeeList = employeeService.fetchActiveEmployees();
+        Map<UUID, Double> allocatedMembers = contactMemberDao.findAvailableResource(date);
+
+        List<AvailableResource> availableResource = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            AvailableResource ar = new AvailableResource();
+            ar.setId(employee.getId());
+            ar.setFirstName(employee.getFirstName());
+            ar.setMiddleName(employee.getMiddleName());
+            ar.setLastName(employee.getLastName());
+            ar.setDesignation(employee.getDesignation().getTitle());
+            if (allocatedMembers.containsKey(employee.getId())) {
+                ar.setAllocation(allocatedMembers.get(employee.getId()));
+            }
+            availableResource.add(ar);
+        }
+        return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAllocation(), e1.getAllocation()))
+                .collect(Collectors.toList());
+    }
+
 }
