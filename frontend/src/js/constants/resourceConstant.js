@@ -21,7 +21,9 @@
         START_INDEX: '1',
         OFFSET: '10',
         dashboard: 'dashboard',
-        resourceUtilization: 'resourceUtilization'
+        resource: 'resource',
+        utilization: 'utilization',
+        booked: 'booked'
 
     };
 

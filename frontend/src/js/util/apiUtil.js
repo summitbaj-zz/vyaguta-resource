@@ -100,10 +100,10 @@
                 .set('Accept', 'application/json')
         },
 
-        fetchResourceCount: function(resourceName){
-            console.log(url + 'projects/' + resourceName.toLowerCase());
+        fetchResourceCount: function(resourceName, type){
+            console.log(url + 'projects/' + resourceName.toLowerCase() + '/' + type.toLowerCase());
             return request
-                .get(url + 'projects/' + resourceName.toLowerCase())
+                .get(url + 'projects/' + resourceName.toLowerCase() + '/' + type.toLowerCase())
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },

@@ -7,9 +7,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var Resources = require('./Resources');
-    var FreeResources = require('./FreeResources');
-    var BookedResources = require('./BookedResources');
+    var Resource = require('./Resource');
+    var FreeResource = require('./FreeResource');
+    var BookedResource = require('./BookedResource');
     var EndingProjects = require('./EndingProjects');
     var InProgressProjects = require('./InProgressProjects');
     var EntityHeader = require('../common/header/EntityHeader');
@@ -24,7 +24,7 @@
     var Dashboard = React.createClass({
         getInitialState: function () {
             return {
-                freeResources: [
+                freeResource: [
                     {
                         id: 1,
                         name: 'Kailash Raj Bijayanada',
@@ -197,7 +197,8 @@
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
             this.props.actions.fetchByEndDate(resourceConstant.dashboard, request);
-            this.props.actions.fetchResourceCount(resourceConstant.resourceUtilization);
+            this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.utilization);
+            this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.booked);
         },
 
         addDayInDate: function (value) {
@@ -208,14 +209,14 @@
         },
 
         render: function () {
-            console.log();
-            return (
+                    console.log(this.props.resource);
+                     return (
                 <div id="page-content" className="page-content">
                     <EntityHeader header="Resource Utilization"/>
-                    <Resources resources={this.props.resourceUtilization}/>
-                    <BookedResources />
+                    <Resource resource={this.props.resource.utilization}/>
+                    <BookedResource resource={this.props.resource.booked}/>
                     <InProgressProjects projects={this.props.projects}/>
-                    <FreeResources resources={this.state.freeResources}/>
+                    <FreeResource resource={this.state.freeResource}/>
                     <EndingProjects endingProjects={this.props.endingProjects}/>
                 </div>
             );
@@ -225,7 +226,7 @@
         return {
             projects: state.dashboardReducer.inProgressProjects,
             endingProjects: state.dashboardReducer.endingProjects,
-            resourceUtilization: state.dashboardReducer.resourceUtilization
+            resource: state.dashboardReducer.resource
         }
     };
 

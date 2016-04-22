@@ -10,7 +10,10 @@
     var initialState = {
         endingProjects: [],
         inProgressProjects: [],
-        resourceUtilization: {}
+        resource: {
+            utilization:{},
+            booked:[]
+        }
     };
 
 
@@ -31,8 +34,7 @@
 
             case actionTypeConstant.SHOW_RESOURCES:
                 var newState = _.cloneDeep(state);
-                newState[action.entity] = action.data;
-
+                               newState[action.entity][action.resourceType] = action.data;
                 return newState;
 
             default:

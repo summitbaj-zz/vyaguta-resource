@@ -26,10 +26,11 @@
             }
         },
 
-        showResources: function (entity, data) {
+        showResources: function (entity, resourceType, data) {
             return {
                 type: actionTypeConstant.SHOW_RESOURCES,
                 entity: entity,
+                resourceType: resourceType,
                 data: data
             }
         }
@@ -73,20 +74,20 @@
             }
         },
 
-        fetchResourceCount: function (entity) {
+        fetchResourceCount: function (entity, type) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
-                return (apiUtil.fetchResourceCount(entity).then(function (response) {
+                return (apiUtil.fetchResourceCount(entity, type).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.showResources(entity, response.body));
+                        dispatch(actions.showResources(entity, type, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchResourceCount(entity));
+                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchResourceCount(entity, type));
                     }
                 }));
             }
