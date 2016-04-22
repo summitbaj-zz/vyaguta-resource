@@ -25,7 +25,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.Constant;
