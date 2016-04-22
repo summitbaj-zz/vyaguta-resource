@@ -55,6 +55,31 @@ public class Employee implements Serializable {
     @Transient
     private String gender;
 
+    @Transient
+    private Designation designation;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Designation {
+        String title;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+    }
+
+    public Designation getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
     public UUID getId() {
         return id;
     }
