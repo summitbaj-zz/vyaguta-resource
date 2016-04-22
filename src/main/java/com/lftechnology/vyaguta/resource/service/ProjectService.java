@@ -21,4 +21,7 @@ public interface ProjectService extends CrudService<Project, UUID> {
     Map<String, Object> findResourceUtilization(LocalDate date);
 
     List<AvailableResource> findAvailableResource(LocalDate date);
+
+    List<Map<String, Object>> findFlaggedProjects(String projectStatus);
+
 }

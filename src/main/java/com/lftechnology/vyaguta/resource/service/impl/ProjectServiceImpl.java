@@ -297,4 +297,9 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Map<String, Object>> findFlaggedProjects(String projectStatus) {
+        return projectDao.findFlaggedProjects(projectStatus);
+    }
+
 }
