@@ -73,4 +73,26 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
         return output;
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Map<String, Object>> findFlaggedProjects(String projectStatus) {
+        List<Map<String, Object>> output = new ArrayList<>();
+
+        Query query = em
+                .createQuery(
+                        "SELECT p.title, ps.title, MAX(c.endDate) FROM Contract c JOIN c.project p JOIN p.projectStatus ps  WHERE ps.title = :status AND c.endDate < :date GROUP BY p.id, ps.title")
+                .setParameter("status", projectStatus).setParameter("date", LocalDate.now());
+        List<Object[]> result = query.getResultList();
+        for (Object[] obj : result) {
+            output.add(new HashMap<String, Object>() {
+                {
+                    put("project", obj[0]);
+                    put("projectStatus", obj[1]);
+                    put("endDate", obj[2].toString());
+                }
+            });
+        }
+        return output;
+    }
+
 }

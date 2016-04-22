@@ -16,4 +16,6 @@ import com.lftechnology.vyaguta.resource.entity.Project;
 public interface ProjectDao extends CrudDao<Project, UUID> {
 
     List<Map<String, Object>> findBookedResource(LocalDate date);
+
+    List<Map<String, Object>> findFlaggedProjects(String projectStatus);
 }
