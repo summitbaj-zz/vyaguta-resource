@@ -166,12 +166,12 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findAvailableResource(date)).build();
     }
 
-    @Path("/flagged")
+    @Path("/overdeu")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response flaggedProjects(@DefaultValue("In Progress") @QueryParam("projectStatus") String projectStatus) {
-        return Response.status(Response.Status.OK).entity(projectService.findFlaggedProjects(projectStatus)).build();
+        return Response.status(Response.Status.OK).entity(projectService.findOverdueProjects(projectStatus)).build();
     }
 
 }
