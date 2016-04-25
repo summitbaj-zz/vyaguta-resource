@@ -12,7 +12,8 @@
         inProgressProjects: [],
         resource: {
             utilization:{},
-            booked:[]
+            booked:[],
+            available: []
         }
     };
 

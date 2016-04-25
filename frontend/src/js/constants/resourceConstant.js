@@ -23,7 +23,8 @@
         dashboard: 'dashboard',
         resource: 'resource',
         utilization: 'utilization',
-        booked: 'booked'
+        booked: 'booked',
+        available: 'available'
 
     };
 

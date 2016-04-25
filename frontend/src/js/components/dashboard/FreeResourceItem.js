@@ -5,6 +5,15 @@
     var React = require('react');
 
     var FreeResourceItem = React.createClass({
+        getEmployeeName: function (employee) {
+            var name = '-';
+            name = employee.firstName;
+            if (employee.middleName && employee.middleName != 'NULL') {
+                name = name.concat(' ', employee.middleName);
+            }
+            name = name.concat(' ', employee.lastName);
+            return name;
+        },
         render: function () {
             var resource = this.props.resource;
             return (
@@ -12,9 +21,9 @@
                     <a className="widget widget-hover-effect1">
                         <div className="widget-simple widget-custom">
                             <div className="cards">
-                                <h3 className="widget-content text-center animation-pullDown">{resource.name}</h3>
-                                <span className="cards-counts">{resource.allocation}</span>
-                                <span className="cards-text">{resource.post}</span>
+                                <h3 className="widget-content text-center animation-pullDown">{this.getEmployeeName(resource)}</h3>
+                                <span className="cards-counts">{(1 - resource.allocation) * 100 + '%'}</span>
+                                <span className="cards-text">{resource.designation}</span>
                             </div>
                         </div>
                     </a>
