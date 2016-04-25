@@ -74,13 +74,8 @@
                 _limit: this.props.offset
             };
 
-            if (isAscending) {
-                sortBy = field;
-                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, sortBy);
-            } else {
-                sortBy = '-' + field;
-                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, pagination, sortBy);
-            }
+            sortBy = (isAscending) ? field : '-' + field;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         deleteClient: function (id) {
@@ -106,7 +101,7 @@
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Clients" routes={this.props.routes} title="Clients"/>
+                    <EntityHeader header="Clients" routes={this.props.routes} title="Clients" apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Client Details</h2>
@@ -160,8 +155,8 @@
     var mapStateToProps = function (state) {
         return {
             clients: state.crudReducer.clients,
-            pagination: state.crudReducer.pagination
-
+            pagination: state.crudReducer.pagination,
+            apiState: state.apiReducer
         }
     };
 
