@@ -187,4 +187,14 @@ public class ContractMember extends BaseEntity implements Serializable, SoftDele
         return true;
     }
 
+    public Boolean isDateRangeValid() {
+        if (this.endDate == null || this.joinDate == null) {
+            return true;
+        }
+        if (this.endDate.isBefore(this.joinDate)) {
+            return false;
+        }
+        return true;
+    }
+
 }
