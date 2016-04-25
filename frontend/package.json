@@ -4,7 +4,10 @@
   "description": "resource utilization",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require './test/setup.js' --recursive './test/**/*.spec.js' --compilers js:babel-register"
+    "test": "mocha --require './test/setup.js' --recursive './test/**/*.spec.js' --compilers js:babel-register",
+    "build": "NODE_ENV=production gulp build",
+    "build:test": "npm test && npm run build"
+
   },
   "repository": {
     "type": "git",
