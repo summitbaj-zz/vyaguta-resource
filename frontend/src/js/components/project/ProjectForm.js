@@ -41,6 +41,8 @@
     var crudActions = require('../../actions/crudActions');
     var apiActions = require('../../actions/apiActions');
     var contractActions = require('../../actions/contractActions');
+    var contractMemberActions = require('../../actions/contractMemberActions');
+    var allocationActions = require('../../actions/allocationActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -287,7 +289,8 @@
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project':'Add Project'}
                                   routes={this.props.routes}
-                                  title={this.props.selectedItem.projects.title || 'Project'}/>
+                                  title={this.props.selectedItem.projects.title || 'Project'}
+                                  apiState={this.props.apiState}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block">
@@ -405,7 +408,15 @@
                                             <span className="help-block"></span>
                                         </div>
 
-                                        <ContractContainer params={this.props.params}/>
+                                        <ContractContainer params={this.props.params}
+                                                           employees={this.props.employees}
+                                                           budgetTypes={this.props.budgetTypes}
+                                                           projectRoles={this.props.projectRoles}
+                                                           selectedItem={this.props.selectedItem}
+                                                           apiState={this.props.apiState}
+                                                           contracts={this.props.contracts}
+                                                           allocations={this.props.allocations}
+                                                           selectedContractMember={this.props.selectedContractMember}/>
 
                                         <div className="form-group form-actions clearfix">
                                             <div className="pull-right">
@@ -442,13 +453,21 @@
             clients: state.crudReducer.clients,
             selectedItem: state.crudReducer.selectedItem,
             apiState: state.apiReducer,
-            contracts: state.contractReducer.contracts
+            contracts: state.contractReducer.contracts,
+            employees: state.crudReducer.employees,
+            allocations: state.contractReducer.allocations,
+            selectedContractMember: state.contractReducer.selectedContractMember
         }
     };
 
     var mapDispatchToProps = function (dispatch) {
         return {
-            actions: bindActionCreators(_.assign({}, crudActions, apiActions, contractActions), dispatch)
+            actions: bindActionCreators(_.assign({},
+                crudActions,
+                apiActions,
+                contractActions,
+                contractMemberActions,
+                allocationActions), dispatch)
         }
     };
 

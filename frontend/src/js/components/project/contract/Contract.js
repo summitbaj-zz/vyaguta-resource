@@ -189,7 +189,8 @@
                                 selectedContractMember={this.props.selectedContractMember}
                                 actions={this.props.actions}
                                 projectRoles={this.props.projectRoles}
-                                employees={this.props.employees}/>
+                                employees={this.props.employees}
+                                />
                         </div>
                     </div>
                 </div>

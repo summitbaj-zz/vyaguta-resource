@@ -29,7 +29,6 @@
     var sortBy = '';
 
     var ProjectStatusList = React.createClass({
-
         getDefaultProps: function () {
             return {
                 offset: parseInt(resourceConstant.OFFSET)
@@ -95,20 +94,16 @@
                 _limit: this.props.offset
             };
 
-            if (isAscending) {
-                sortBy = field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, sortBy);
-            } else {
-                sortBy = '-' + field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_STATUS, pagination, sortBy);
-            }
+            sortBy = (isAscending) ? field : '-' + field;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         render: function () {
             return (
                 <div>
                     <EntityHeader header="Project Status"
-                                  routes={this.props.routes} title="Project Status"/>
+                                  routes={this.props.routes} title="Project Status"
+                                  apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Status Details</h2>
@@ -149,7 +144,8 @@
     var mapStateToProps = function (state) {
         return {
             projectStatus: state.crudReducer.projectStatus,
-            pagination: state.crudReducer.pagination
+            pagination: state.crudReducer.pagination,
+            apiState: state.apiReducer
         }
     };
 

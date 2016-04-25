@@ -76,19 +76,14 @@
                 _limit: this.props.offset
             };
 
-            if (isAscending) {
-                sortBy = field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
-            } else {
-                sortBy = '-' + field;
-                this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
-            }
+            sortBy = (isAscending) ? field : '-' + field;
+            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Projects" routes={this.props.routes} title="Projects"/>
+                    <EntityHeader header="Projects" routes={this.props.routes} title="Projects" apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
                             <h2>Project Details</h2>
@@ -138,7 +133,8 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.crudReducer.projects,
-            pagination: state.crudReducer.pagination
+            pagination: state.crudReducer.pagination,
+            apiState: state.apiReducer
         }
     };
 
