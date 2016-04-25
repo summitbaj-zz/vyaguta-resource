@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -163,6 +164,14 @@ public class ProjectRs {
             }
         }
         return Response.status(Response.Status.OK).entity(projectService.findAvailableResource(date)).build();
+    }
+
+    @Path("/overdeu")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response flaggedProjects(@DefaultValue("In Progress") @QueryParam("projectStatus") String projectStatus) {
+        return Response.status(Response.Status.OK).entity(projectService.findOverdueProjects(projectStatus)).build();
     }
 
 }

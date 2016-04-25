@@ -56,6 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project save(Project project) {
+        this.validateDates(project);
         this.fixTags(project);
         this.fixContract(project);
         projectDao.save(project);
@@ -81,6 +82,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ObjectNotFoundException();
         }
 
+        this.validateDates(obj);
         this.fixTags(obj);
         this.fixContracts(project, obj);
 
@@ -246,6 +248,31 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    private void validateDates(Project project) {
+        for (Contract c : project.getContracts()) {
+            if (!c.isDateRangeValid()) {
+                throw new ParameterFormatException("Contract start date must be before end date");
+            }
+            for (ContractMember cm : c.getContractMembers()) {
+                if (!cm.isDateRangeValid()) {
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s join date must be before end date");
+                }
+
+                if (this.validateDateRange(cm.getJoinDate(), c.getStartDate()) || this.validateDateRange(c.getEndDate(), cm.getEndDate())) {
+                    throw new ParameterFormatException(
+                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
+                }
+            }
+        }
+    }
+
+    private Boolean validateDateRange(LocalDate start, LocalDate end) {
+        if (start != null && end != null) {
+            return start.isBefore(end);
+        }
+        return false;
+    }
+
     @Override
     public List<Map<String, Object>> findBookedResource(LocalDate date) {
         return projectDao.findBookedResource(date);
@@ -270,7 +297,7 @@ public class ProjectServiceImpl implements ProjectService {
                 put("unbilled", unbilled);
             }
         });
-        resultOutput.put("freeResources", freeResourceCount);
+        resultOutput.put("freeResource", freeResourceCount);
         return resultOutput;
     }
 
@@ -295,6 +322,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAllocation(), e1.getAllocation()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
+        LocalDate today = LocalDate.now();
+        List<Map<String, Object>> overdueProjects = projectDao.findOverdueProjects(projectStatus);
+        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate"))).map(e1 -> {
+            e1.put("endDate", e1.get("endDate").toString());
+            return e1;
+        }).collect(Collectors.toList());
     }
 
 }

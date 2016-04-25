@@ -34,7 +34,7 @@ import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
  */
 @Entity
 @Table(name = "contracts")
-@Where(clause="deleted='false'")
+@Where(clause = "deleted='false'")
 public class Contract extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = 647756185379538980L;
@@ -131,10 +131,12 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
         this.resource = resource;
     }
 
+    @Override
     public boolean isDeleted() {
         return deleted;
     }
 
+    @Override
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
@@ -180,6 +182,16 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
                 return false;
             }
         } else if (!startDate.equals(other.startDate)) {
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean isDateRangeValid() {
+        if (this.endDate == null || this.startDate == null) {
+            return true;
+        }
+        if (this.endDate.isBefore(this.startDate)) {
             return false;
         }
         return true;
