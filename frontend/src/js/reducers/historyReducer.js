@@ -22,7 +22,7 @@
 
             case actionTypeConstant.CLEAR_HISTORY:
                 var newState = _.cloneDeep(state);
-                newState.project = {};
+                newState.project = [];
 
                 return newState;
 

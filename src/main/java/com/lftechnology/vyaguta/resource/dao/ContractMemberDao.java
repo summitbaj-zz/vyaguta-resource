@@ -21,11 +21,15 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
     /**
      * 
      * @param date
-     * @return map with keys: "billed", "unbilled", "totalResources",
-     *         "freeResources" and "bookedResources"
+     * @return map with keys: "billed" and "unbilled"
      */
     Map<String, Object> findBilledAndUnbilledResource(LocalDate date);
 
+    /**
+     * @param LocalDate
+     *            date
+     * @return Long
+     */
     Long findBookedResourceCount(LocalDate date);
 
     Map<UUID, Double> findAvailableResource(LocalDate date);

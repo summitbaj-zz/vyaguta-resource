@@ -22,6 +22,9 @@
     var contractMemberActions = require('../../../actions/contractMemberActions');
     var allocationActions = require('../../../actions/allocationActions');
 
+    //libraries
+    var _ = require('lodash');
+
     var ContractContainer = React.createClass({
         addContract: function (event) {
             event.preventDefault();
@@ -69,28 +72,5 @@
         }
     });
 
-    var mapStateToProps = function (state) {
-        return {
-            employees: state.crudReducer.employees,
-            budgetTypes: state.crudReducer.budgetTypes,
-            projectRoles: state.crudReducer.projectRoles,
-            selectedItem: state.crudReducer.selectedItem,
-            apiState: state.apiReducer,
-            contracts: state.contractReducer.contracts,
-            allocations: state.contractReducer.allocations,
-            selectedContractMember: state.contractReducer.selectedContractMember
-        }
-    };
-
-    var mapDispatchToProps = function (dispatch) {
-        return {
-            actions: bindActionCreators(_.assign({},
-                crudActions,
-                apiActions,
-                contractActions,
-                contractMemberActions,
-                allocationActions), dispatch)
-        }
-    };
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ContractContainer);
+    module.exports = ContractContainer;
 })();

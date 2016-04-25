@@ -73,7 +73,7 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
 
         List<Object[]> result = em
                 .createQuery(
-                        "SELECT employee.id, SUM(allocation * 0.01) FROM ContractMember WHERE :date BETWEEN joinDate AND endDate GROUP BY employee.id")
+                        "SELECT employee.id, 1 - SUM(allocation * 0.01) FROM ContractMember WHERE :date BETWEEN joinDate AND endDate GROUP BY employee.id HAVING SUM(allocation * 0.01) < 1")
                 .setParameter("date", date).getResultList();
         for (Object[] obj : result) {
             map.put((UUID) obj[0], (Double) obj[1]);

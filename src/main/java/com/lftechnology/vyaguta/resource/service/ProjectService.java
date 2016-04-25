@@ -16,12 +16,34 @@ import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
  */
 public interface ProjectService extends CrudService<Project, UUID> {
 
+    /**
+     * @param LocalDate
+     *            date
+     * @return List of Map containing keys "projectType", "numberOfProjects",
+     *         "billed", "unbilled"
+     */
     List<Map<String, Object>> findBookedResource(LocalDate date);
 
+    /**
+     * @param date
+     * @return List of Map containing keys "totalResource",
+     *         "bookedResource","freeResources"
+     */
     Map<String, Object> findResourceUtilization(LocalDate date);
 
+    /**
+     * @param date
+     * @return List {@link AvailableResource}
+     */
     List<AvailableResource> findAvailableResource(LocalDate date);
 
-    List<Map<String, Object>> findFlaggedProjects(String projectStatus);
+    /**
+     * Returns list of overdue projects
+     * 
+     * @param String
+     *            projectStatus
+     * @return List of Map containing keys "project", "projectStatus", "endDate"
+     */
+    List<Map<String, Object>> findOverdueProjects(String projectStatus);
 
 }
