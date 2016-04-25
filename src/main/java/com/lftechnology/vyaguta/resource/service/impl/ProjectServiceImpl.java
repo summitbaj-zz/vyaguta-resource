@@ -56,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project save(Project project) {
-        this.validateDateRange(project);
+        this.validateDates(project);
         this.fixTags(project);
         this.fixContract(project);
         projectDao.save(project);
@@ -82,7 +82,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ObjectNotFoundException();
         }
 
-        this.validateDateRange(obj);
+        this.validateDates(obj);
         this.fixTags(obj);
         this.fixContracts(project, obj);
 
@@ -248,20 +248,32 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    private void validateDateRange(Project project) {
+    private void validateDates(Project project) {
         for (Contract c : project.getContracts()) {
-            if (!c.getStartDate().isBefore(c.getEndDate())) {
+            if (!c.isDateRangeValid()) {
                 throw new ParameterFormatException("Contract start date must be before end date");
             }
             for (ContractMember cm : c.getContractMembers()) {
-                if (!cm.getJoinDate().isBefore(cm.getEndDate())) {
+                if (!cm.isDateRangeValid()) {
                     throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s join date must be before end date");
                 }
-                if (cm.getJoinDate().isBefore(c.getStartDate()) || cm.getEndDate().isAfter(c.getEndDate())) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "  must be allocated within contract period");
+
+                if (this.validateDateRange(cm.getJoinDate(), c.getStartDate())) {
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s join date is before start date of contract");
+                }
+
+                if (this.validateDateRange(c.getEndDate(), cm.getEndDate())) {
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s end date is after end date of contract");
                 }
             }
         }
+    }
+
+    private Boolean validateDateRange(LocalDate start, LocalDate end) {
+        if (start != null && end != null) {
+            return start.isBefore(end);
+        }
+        return false;
     }
 
     @Override
