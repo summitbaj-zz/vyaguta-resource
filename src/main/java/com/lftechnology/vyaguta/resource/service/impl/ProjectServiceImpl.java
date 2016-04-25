@@ -297,4 +297,14 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
+        LocalDate today = LocalDate.now();
+        List<Map<String, Object>> overdueProjects = projectDao.findOverdueProjects(projectStatus);
+        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate"))).map(e1 -> {
+            e1.put("endDate", e1.get("endDate").toString());
+            return e1;
+        }).collect(Collectors.toList());
+    }
+
 }

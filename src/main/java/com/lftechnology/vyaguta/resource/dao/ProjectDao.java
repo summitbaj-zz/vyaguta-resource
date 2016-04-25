@@ -15,5 +15,20 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  */
 public interface ProjectDao extends CrudDao<Project, UUID> {
 
+    /**
+     * @param LocalDate
+     *            date
+     * @return List of Map containing keys "projectType", "numberOfProjects",
+     *         "billed", "unbilled"
+     */
     List<Map<String, Object>> findBookedResource(LocalDate date);
+
+    /**
+     * Returns list of overdue projects
+     * 
+     * @param String
+     *            projectStatus
+     * @return List of Map containing keys "project", "projectStatus", "endDate"
+     */
+    List<Map<String, Object>> findOverdueProjects(String projectStatus);
 }
