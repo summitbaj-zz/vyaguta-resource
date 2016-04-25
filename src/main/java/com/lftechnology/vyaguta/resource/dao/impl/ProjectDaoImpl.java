@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.persistence.Query;
 
+import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
@@ -75,20 +76,20 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Map<String, Object>> findFlaggedProjects(String projectStatus) {
+    public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
         List<Map<String, Object>> output = new ArrayList<>();
 
         Query query = em
                 .createQuery(
-                        "SELECT p.title, ps.title, MAX(c.endDate) FROM Contract c JOIN c.project p JOIN p.projectStatus ps  WHERE ps.title = :status AND c.endDate < :date GROUP BY p.id, ps.title")
-                .setParameter("status", projectStatus).setParameter("date", LocalDate.now());
+                        "SELECT p.title, ps.title, MAX(c.endDate) FROM Contract c JOIN c.project p JOIN p.projectStatus ps  WHERE ps.title = :status GROUP BY p.id, ps.title")
+                .setParameter("status", projectStatus);
         List<Object[]> result = query.getResultList();
         for (Object[] obj : result) {
             output.add(new HashMap<String, Object>() {
                 {
                     put("project", obj[0]);
                     put("projectStatus", obj[1]);
-                    put("endDate", obj[2].toString());
+                    put("endDate", LocalDate.parse(obj[2].toString(), Constant.DATE_FORMAT_DB));
                 }
             });
         }
