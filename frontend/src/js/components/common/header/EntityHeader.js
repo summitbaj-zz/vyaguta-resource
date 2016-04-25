@@ -41,13 +41,7 @@
         }
     });
 
-    var mapStateToProps = function (state) {
-        return {
-            apiState: state.apiReducer
-        }
-    };
-
-    module.exports = connect(mapStateToProps)(EntityHeader);
+    module.exports = EntityHeader;
 
 })();
 

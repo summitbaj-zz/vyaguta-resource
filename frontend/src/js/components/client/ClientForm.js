@@ -65,7 +65,7 @@
             }
         },
 
-        fieldChange: function (event) {
+        handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
 
@@ -77,7 +77,8 @@
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Client':'Add Client'}
                                   routes={this.props.routes}
-                                  title={this.props.selectedItem.clients.name || 'Client'}/>
+                                  title={this.props.selectedItem.clients.name || 'Client'}
+                                  apiState={this.props.apiState}/>
                     <div className="block">
                         <div className="block-title-border">Client Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveClient}>
@@ -86,7 +87,7 @@
                                     <label>Name *</label>
                                     <input type="text" ref="name" name="name"
                                            value={this.props.selectedItem.clients.name}
-                                           onChange={this.fieldChange}
+                                           onChange={this.handleChange}
                                            onBlur={formValidator.validateField}
                                            onFocus={formValidator.removeFeedback.bind(null, 'name')}
                                            placeholder="Client Name"
@@ -102,7 +103,7 @@
                                             <div>
                                                 <input type="text" ref="email" name="email"
                                                        value={this.props.selectedItem.clients.email}
-                                                       onChange={this.fieldChange}
+                                                       onChange={this.handleChange}
                                                        onBlur={formValidator.validateField}
                                                        onFocus={formValidator.removeFeedback.bind(null, 'email')}
                                                        placeholder="Email Address"
@@ -117,7 +118,7 @@
                                             <div>
                                                 <input type="text" ref="phone" name="phoneNo"
                                                        value={this.props.selectedItem.clients.phoneNo}
-                                                       onChange={this.fieldChange}
+                                                       onChange={this.handleChange}
                                                        placeholder="Phone Number"
                                                        className="form-control"
                                                        id="phoneNo"
@@ -130,7 +131,7 @@
                                             <div>
                                                 <input type="text" ref="skype" name="skype"
                                                        value={this.props.selectedItem.clients.skype}
-                                                       onChange={this.fieldChange}
+                                                       onChange={this.handleChange}
                                                        placeholder="Skype Id"
                                                        className="form-control"
                                                        id="skype"
@@ -144,7 +145,7 @@
                                     <label>Address</label>
                                     <input type="text" ref="address" name="address"
                                            value={this.props.selectedItem.clients.address}
-                                           onChange={this.fieldChange}
+                                           onChange={this.handleChange}
                                            placeholder="Address"
                                            className="form-control"
                                            id="address"
@@ -156,7 +157,7 @@
                                     <textarea name="description" ref="description"
                                               value={this.props.selectedItem.clients.description}
                                               placeholder="Short description about the client."
-                                              onChange={this.fieldChange}
+                                              onChange={this.handleChange}
                                               className="form-control" rows="4" id="description"
                                     ></textarea>
                                     <span className="help-block" ref="availableMessage"></span>

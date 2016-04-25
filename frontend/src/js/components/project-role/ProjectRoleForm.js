@@ -67,7 +67,8 @@
                 <div>
                     <EntityHeader header={(this.props.params.id)?'Edit Project Role':'Add Project Role'}
                                   routes={this.props.routes}
-                                  title={this.props.selectedItem.projectRoles.title || 'Project Role'}/>
+                                  title={this.props.selectedItem.projectRoles.title || 'Project Role'}
+                                  apiState={this.props.apiState}/>
                     <div className="block">
                         <div className="block-title-border">Project Role Details</div>
                         <form className="form-bordered" method="post" onSubmit={this.saveProjectRole}>
