@@ -21,7 +21,7 @@ public class AvailableResource {
 
     private String lastName;
 
-    private Double allocation = 0.0;
+    private Double availableAllocation = 1.0;
 
     private String designation;
 
@@ -57,12 +57,12 @@ public class AvailableResource {
         this.lastName = lastName;
     }
 
-    public Double getAllocation() {
-        return allocation;
+    public Double getAvailableAllocation() {
+        return availableAllocation;
     }
 
-    public void setAllocation(Double allocation) {
-        this.allocation = allocation;
+    public void setAvailableAllocation(Double allocation) {
+        this.availableAllocation = allocation;
     }
 
     public String getDesignation() {
