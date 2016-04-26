@@ -16,7 +16,6 @@
         },
         render: function () {
             var resource = this.props.resource;
-            console.log(resource.availableAllocation);
             return (
                 <div className="col-xs-12 col-sm-6 col-lg-3">
                     <a className="widget widget-hover-effect1">
