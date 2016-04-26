@@ -42,7 +42,8 @@ public interface ProjectService extends CrudService<Project, UUID> {
      * 
      * @param String
      *            projectStatus
-     * @return List of Map containing keys "project", "projectStatus", "endDate"
+     * @return List of Map containing keys "projectId","projectTitle",
+     *         "projectStatus","projectStatusColor", "endDate"
      */
     List<Map<String, Object>> findOverdueProjects(String projectStatus);
 
