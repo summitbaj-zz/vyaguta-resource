@@ -258,7 +258,7 @@ public class ProjectServiceImpl implements ProjectService {
                     throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s join date must be before end date");
                 }
 
-                if (this.validateDateRange(cm.getJoinDate(), c.getStartDate()) || this.validateDateRange(c.getEndDate(), cm.getEndDate())) {
+                if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
                     throw new ParameterFormatException(
                             cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
                 }
@@ -268,7 +268,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Boolean validateDateRange(LocalDate start, LocalDate end) {
         if (start != null && end != null) {
-            return start.isBefore(end);
+            return end.isBefore(start);
         }
         return false;
     }
