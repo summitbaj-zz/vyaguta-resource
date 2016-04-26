@@ -19,7 +19,13 @@
         ACCOUNT_MANAGERS: 'accountManagers',
         EMPLOYEES: 'employees',
         START_INDEX: '1',
-        OFFSET: '10'
+        OFFSET: '10',
+        DASHBOARD: 'dashboard',
+        RESOURCE: 'resource',
+        UTILIZATION: 'utilization',
+        BOOKED: 'booked',
+        AVAILABLE: 'available',
+        OVERDUE: 'overdue'
 
     };
 

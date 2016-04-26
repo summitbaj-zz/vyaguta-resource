@@ -7,11 +7,12 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var Resources = require('./Resources');
-    var FreeResources = require('./FreeResources');
-    var BookedResources = require('./BookedResources');
-    var EndingProjects = require('./EndingProjects');
-    var InProgressProjects = require('./InProgressProjects');
+    var Resource = require('./resource/Resource');
+    var FreeResource = require('./free-resource/FreeResource');
+    var BookedResource = require('./booked-resource/BookedResource');
+    var EndingProjects = require('./ending-projects/EndingProjects');
+    var OverdueProjects = require('./overdue-projects/OverdueProjects');
+    var InProgressProjects = require('./ongoing-projects/InProgressProjects');
     var EntityHeader = require('../common/header/EntityHeader');
 
     //actions
@@ -22,181 +23,19 @@
     var resourceConstant = require('../../constants/resourceConstant');
 
     var Dashboard = React.createClass({
-        getInitialState: function () {
-            return {
-                freeResources: [
-                    {
-                        id: 1,
-                        name: 'Kailash Raj Bijayanada',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 2,
-                        name: 'Mohammed Naved Ansari',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 3,
-                        name: 'Pritush Bahadur Shrestha',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 4,
-                        name: 'Anish Krishna Manandhar',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 5,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 6,
-                        name: 'Bishal Shrestha',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 7,
-                        name: 'Ram',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 8,
-                        name: 'An Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 9,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 10,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 11,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 12,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 13,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 14,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 15,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 16,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 17,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 18,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 19,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 20,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 21,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 22,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 23,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 24,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 25,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 26,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    },
-                    {
-                        id: 27,
-                        name: 'Anjali Shakya',
-                        allocation: '50%',
-                        post: 'S. UI/UX Designer'
-                    }
-                ],
-                endingProjects: []
-            }
-        },
-
         componentDidMount: function () {
-            this.props.actions.fetchByField(resourceConstant.PROJECTS, 'projectStatus', 'In Progress');
+            this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-            this.props.actions.fetchByEndDate('dashboard', request);
+            this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
+            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.BOOKED);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.AVAILABLE);
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.apiClearState();
         },
 
         addDayInDate: function (value) {
@@ -210,12 +49,15 @@
 
             return (
                 <div id="page-content" className="page-content">
-                    <EntityHeader header="Resource Utilization"/>
-                    <Resources />
-                    <BookedResources />
+                    <EntityHeader header="Resource Utilization" apiState={this.props.apiState}/>
+                    <Resource resource={this.props.resource.utilization}/>
+                    <BookedResource resource={this.props.resource.booked}/>
                     <InProgressProjects projects={this.props.projects}/>
-                    <FreeResources resources={this.state.freeResources}/>
-                    <EndingProjects endingProjects={this.props.endingProjects}/>
+                    <FreeResource resource={this.props.resource.available}/>
+                    <div className="row">
+                        <EndingProjects endingProjects={this.props.endingProjects}/>
+                        <OverdueProjects overdueProjects={this.props.overdueProjects}/>
+                    </div>
                 </div>
             );
         }
@@ -223,7 +65,10 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,
-            endingProjects: state.dashboardReducer.endingProjects
+            endingProjects: state.dashboardReducer.projectEnding,
+            overdueProjects: state.dashboardReducer.overdue,
+            resource: state.dashboardReducer.resource,
+            apiState: state.apiReducer
         }
     };
 
@@ -235,5 +80,4 @@
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-})
-();
+})();

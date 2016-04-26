@@ -55,7 +55,7 @@ ul {
 }
 
 .widget .res-counter {
-    font-size: 22px;
+    font-size: 20px;
     text-align: center;
     display: block;
 }
@@ -133,7 +133,7 @@ ul {
     float: right;
 }
 
-.list-wrapper ul li:last-child {
+.list-wrapper ul .total {
     border-radius: 0 0 3px 3px;
     font-weight: 500;
 }
@@ -679,7 +679,7 @@ footer a, footer a:hover {
 }
 
 .stat-block .stat-details .breakdown {
-    padding: 0 15px;
+    padding: 0 12px;
     font-weight: 300;
 }
 

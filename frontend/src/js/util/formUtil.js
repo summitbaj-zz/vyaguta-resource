@@ -8,10 +8,10 @@
 ;(function() {
 
     var formUtil = {
-        disableForm: function(elementId) {
+        disableKey: function(key, elementId) {
             $('#'+ elementId).on('keyup keypress', function(e) {
                 var keyCode = e.keyCode || e.which;
-                if (keyCode === 13) {
+                if (keyCode === key) {
                     e.preventDefault();
                     return false;
                 }

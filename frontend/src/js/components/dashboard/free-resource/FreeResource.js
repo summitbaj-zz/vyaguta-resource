@@ -7,9 +7,9 @@
     //component
     var FreeResourceItem = require('./FreeResourceItem');
 
-    var FreeResources = React.createClass({
-        showFreeResources: function () {
-            var totalData = this.props.resources && this.props.resources.length;
+    var FreeResource = React.createClass({
+        showFreeResource: function () {
+            var totalData = this.props.resource && this.props.resource.length;
             var carousalArray = [];
 
             for (var i = 0; i < Math.ceil(totalData / 16); i++) {
@@ -22,24 +22,24 @@
             var className = (i == 0) ? 'item active' : 'item';
             var resourceArray = [];
             for (var j = 0; j < 16; j++) {
-                resourceArray.push(this.renderResources(i * 16 + j));
+                resourceArray.push(this.renderResource(i * 16 + j));
             }
             return (
                 <div className={className} key={'resource' + i}>{resourceArray}</div>
             );
         },
 
-        renderResources: function (index) {
-            if (index < this.props.resources.length) {
+        renderResource: function (index) {
+            if (index < this.props.resource.length) {
                 return (
-                    <FreeResourceItem key={index} resource={this.props.resources[index]}/>
+                    <FreeResourceItem key={index} resource={this.props.resource[index]}/>
                 );
             }
         },
 
         renderCarouselIndicator: function () {
             var indicators = [];
-            var totalData = this.props.resources && this.props.resources.length;
+            var totalData = this.props.resource && this.props.resource.length;
             var className;
             for (var i = 0; i < Math.ceil(totalData / 16); i++) {
                 (i == 0) ? className = 'active' : className = '';
@@ -50,19 +50,19 @@
         },
 
         render: function () {
-            if (this.props.resources && this.props.resources.length > 0) {
+            if (this.props.resource && this.props.resource.length > 0) {
                 return (
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="widget">
                                 <div className="widget-extra widget-custom">
-                                    <div className="widget-title">Available Resources</div>
+                                    <div className="widget-title">Available Resource</div>
                                 </div>
                                 <div className="widget-extra-full">
                                     <div className="row">
                                         <div id="myCarousel" className="carousel slide" data-ride="carousel"
                                              data-interval="false">
-                                            {this.showFreeResources()}
+                                            {this.showFreeResource()}
                                             {this.renderCarouselIndicator()}
                                             <a className="left carousel-control" href="#myCarousel" role="button"
                                                data-slide="prev">
@@ -85,10 +85,19 @@
                 );
             } else {
                 return (
-                    <div className="not-found-message">No resources are available at the moment.</div>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="widget">
+                                <div className="widget-extra widget-custom">
+                                    <div className="widget-title">Available Resource</div>
+                                </div>
+                                <div className="not-found-message">No resource is available at the moment.</div>
+                            </div>
+                        </div>
+                    </div>
                 );
             }
         }
     });
-    module.exports = FreeResources;
+    module.exports = FreeResource;
 })();

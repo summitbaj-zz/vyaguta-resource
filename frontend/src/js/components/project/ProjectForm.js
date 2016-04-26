@@ -36,7 +36,6 @@
     //util
     var apiUtil = require('../../util/apiUtil');
     var convertContractHash = require('../../util/convertContractHash');
-    var formUtil = require('../../util/formUtil');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -65,7 +64,6 @@
             this.props.actions.fetchAll(resourceConstant.CLIENTS);
             this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
 
-            formUtil.disableForm('projectForm');
         },
 
         componentWillReceiveProps: function (props) {
@@ -158,7 +156,7 @@
         renderClient: function (key) {
             return (
                 <SelectOption key={key} index={key} id={this.props.clients[key].id}
-                              option={this.props.clients[key].email}/>
+                              option={this.props.clients[key].name}/>
             )
         },
 
@@ -418,6 +416,7 @@
                                                            apiState={this.props.apiState}
                                                            contracts={this.props.contracts}
                                                            allocations={this.props.allocations}
+                                                           actions={this.props.actions}
                                                            selectedContractMember={this.props.selectedContractMember}/>
 
                                         <div className="form-group form-actions clearfix">

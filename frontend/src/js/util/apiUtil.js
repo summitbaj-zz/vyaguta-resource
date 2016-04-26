@@ -26,6 +26,13 @@
                 .set('Accept', 'application/json');
         },
 
+        fetchByType: function (resourceName, type) {
+            return request
+                .get(url + resourceName.toLowerCase() + "/" + type)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json');
+        },
+
         fetchByQuery: function (resourceName, data, callback) {
             request
                 .get(url + resourceName.toLowerCase() + '?q=' + data)
@@ -93,9 +100,16 @@
                 .set('Accept', 'application/json')
         },
 
-        fetchByEndDate: function (resourceName, data){
+        fetchByEndDate: function (resourceName, projectType, data) {
             return request
-                .get(url + resourceName.toLowerCase() + '/projectending?contract.endDate=' + data)
+                .get(url + resourceName.toLowerCase() + '/' + projectType.toLowerCase() + '?contract.endDate=' + data)
+                .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
+                .set('Accept', 'application/json')
+        },
+
+        fetchResourceCount: function (resourceName, type) {
+            return request
+                .get(url + 'projects/' + resourceName.toLowerCase() + '/' + type.toLowerCase())
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
         },

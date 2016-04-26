@@ -5,7 +5,7 @@
     var React = require('react');
 
     //utils
-    var convertContractHash = require('../../util/convertContractHash');
+    var convertContractHash = require('../../../util/convertContractHash');
 
     //components
     var EndingProjectRow = require('./EndingProjectRow');
@@ -32,11 +32,13 @@
                 var endingContracts = convertContractHash.toFrontEndHash(endingProjects[i].contracts);
                 for (var j = 0; j < endingContracts.length; j++) {
                     if (that.isEnding(endingContracts[j].endDate)) {
-                        var endingProjectObject = {};
-                        endingProjectObject['id'] = id;
-                        endingProjectObject['endDate'] = endingContracts[j].endDate;
-                        endingProjectObject['project'] = endingProjects[i].title;
-                        endingProjectObject['resources'] = endingContracts[j].contractMembers.length;
+                        var endingProjectObject = {
+                            id: id,
+                            projectId: endingProjects[i].id,
+                            endDate: endingContracts[j].endDate,
+                            project: endingProjects[i].title,
+                            resources: endingContracts[j].contractMembers.length
+                        };
                         id++;
                         endingProjectsArray.push(endingProjectObject);
                     }
@@ -63,7 +65,6 @@
             var endingProjects = (this.props.endingProjects.length > 0) ? this.getEndingProjectsData(this.props.endingProjects) : null;
 
             return (
-                <div className="row">
                     <div className="col-lg-6">
                         <div className="block">
                             <div className="block-title-border clearfix"><span
@@ -76,14 +77,14 @@
                                         <span>End Date</span><span>Resources</span>
                                     </li>
                                     {endingProjects && endingProjects.map(this.renderEndingProject)}
-                                    <li className="list-group-item">
+                                    <li className="list-group-item total">
                                         <span>Total</span><span>{endingProjects && this.getEndingProjectsResourceTotal(endingProjects) || 0}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
+
             );
         }
     });

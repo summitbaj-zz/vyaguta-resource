@@ -8,8 +8,14 @@
     var _ = require('lodash');
 
     var initialState = {
-        endingProjects: [],
-        inProgressProjects: []
+        projectEnding: [],
+        overdue: [],
+        inProgressProjects: [],
+        resource: {
+            utilization:{},
+            booked:[],
+            available: []
+        }
     };
 
 
@@ -17,15 +23,20 @@
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.LIST_BY_END_DATE:
+            case actionTypeConstant.LIST_BY_DATE:
                 var newState = _.cloneDeep(state);
-                newState.endingProjects = _.cloneDeep(action.data);
+                newState[action.projectType] = _.cloneDeep(action.data);
                 return newState;
 
             case actionTypeConstant.LIST_PROJECT_BY_STATUS:
                 var newState = _.cloneDeep(state);
                 newState.inProgressProjects = action.data.data;
 
+                return newState;
+
+            case actionTypeConstant.SHOW_RESOURCES:
+                var newState = _.cloneDeep(state);
+                               newState[action.entity][action.resourceType] = action.data;
                 return newState;
 
             default:
