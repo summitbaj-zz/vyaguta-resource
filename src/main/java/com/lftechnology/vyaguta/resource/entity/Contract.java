@@ -14,10 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -187,6 +189,8 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
         return true;
     }
 
+    @Transient
+    @JsonIgnore
     public Boolean isDateRangeValid() {
         if (this.endDate == null || this.startDate == null) {
             return true;
