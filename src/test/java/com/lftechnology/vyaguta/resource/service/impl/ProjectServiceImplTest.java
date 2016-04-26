@@ -325,7 +325,7 @@ public class ProjectServiceImplTest {
     }
 
     @Test
-    public void testFindAvailableResource() {
+    public void testFindAvailableResourceAndAssertEmployeeAllocationTotalAsMax100() {
 
         // arrange
         List<Employee> employeeList = new ArrayList<>();
@@ -359,7 +359,10 @@ public class ProjectServiceImplTest {
         assertFalse(availableResources.contains(ar));
 
         ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"));
-        assertTrue(availableResources.get(3).getAvailableAllocation() == 0.25);
+        assertTrue(availableResources.get(3).getAvailableAllocation().equals(0.25));
+
+        ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeeb"));
+        assertFalse(availableResources.contains(ar));
     }
 
     private Tag buildTag(UUID id, String title) {
