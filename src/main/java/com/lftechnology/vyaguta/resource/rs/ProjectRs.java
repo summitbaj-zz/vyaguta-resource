@@ -166,7 +166,7 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findAvailableResource(date)).build();
     }
 
-    @Path("/overdeu")
+    @Path("/overdue")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
