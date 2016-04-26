@@ -81,8 +81,8 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
 
         Query query = em
                 .createQuery(
-                        "SELECT p.id, p.title, ps.title, ps.color, MAX(c.endDate) FROM Contract c JOIN c.project p JOIN p.projectStatus ps  WHERE ps.title = :status GROUP BY p.id, ps.title,ps.color")
-                .setParameter("status", projectStatus);
+                        "SELECT p.id, p.title, ps.title, ps.color, MAX(c.endDate) FROM Contract c JOIN c.project p JOIN p.projectStatus ps  WHERE lower(ps.title) = :status GROUP BY p.id, ps.title,ps.color")
+                .setParameter("status", projectStatus.toLowerCase());
         List<Object[]> result = query.getResultList();
         for (Object[] obj : result) {
             output.add(new HashMap<String, Object>() {
