@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --require './test/setup.js' --recursive './test/**/*.spec.js' --compilers js:babel-register",
-    "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require './test/setup.js' --recursive './test/**/*.spec.js'",
+    "test:coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require './test/setup.js' --recursive './test/**/*.spec.js'",
     "build": "NODE_ENV=production gulp build",
     "build:test": "npm test && npm run build"
   },

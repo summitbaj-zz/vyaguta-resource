@@ -8,8 +8,6 @@
     var BookedResourceItem = require('./BookedResourceItem');
 
     var BookedResource = React.createClass({
-
-
         renderResourceByProjectType: function (total, key) {
             return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
         },
@@ -21,6 +19,7 @@
             }
             return total;
         },
+
         render: function () {
             var totalResource = this.calculateTotalResource();
             return (
