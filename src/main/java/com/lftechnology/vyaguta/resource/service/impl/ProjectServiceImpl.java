@@ -333,10 +333,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
         LocalDate today = LocalDate.now();
         List<Map<String, Object>> overdueProjects = projectDao.findOverdueProjects(projectStatus);
-        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate"))).map(e1 -> {
-            e1.put("endDate", e1.get("endDate").toString());
-            return e1;
-        }).collect(Collectors.toList());
+        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate")))
+                .sorted((e1, e2) -> e2.get("endDate").toString().compareTo(e1.get("endDate").toString())).map(e1 -> {
+                    e1.put("endDate", e1.get("endDate").toString());
+                    return e1;
+                }).collect(Collectors.toList());
     }
 
 }
