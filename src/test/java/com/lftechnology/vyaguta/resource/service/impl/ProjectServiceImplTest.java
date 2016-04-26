@@ -2,6 +2,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -13,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,16 +31,18 @@ import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.entity.Contract;
-import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.entity.ProjectType;
 import com.lftechnology.vyaguta.resource.entity.Tag;
+import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.pojo.Employee.Designation;
 import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 
@@ -58,6 +59,9 @@ public class ProjectServiceImplTest {
 
     @Mock
     private EmployeeService employeeService;
+
+    @Mock
+    private ContractMemberDao contactMemberDao;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -320,6 +324,47 @@ public class ProjectServiceImplTest {
         Mockito.verify(projectDao).findByFilter(queryParameters);
     }
 
+    @Test
+    public void testFindAvailableResourceAndAssertEmployeeAllocationTotalAsMax100() {
+
+        // arrange
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeea"));
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeeb"));
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeec"));
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeed"));
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"));
+        employeeList.add(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeef"));
+
+        Map<UUID, Double> allocatedMembers = new HashMap<>();
+        allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeea"), 0.75);
+        allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeeb"), 1.0);
+        allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeed"), 1.25);
+        allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"), 0.5);
+        allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeef"), 0.0);
+
+        Mockito.when(employeeService.fetchActiveEmployees()).thenReturn(employeeList);
+        Mockito.when(contactMemberDao.findAvailableResource(LocalDate.now())).thenReturn(allocatedMembers);
+
+        // act
+        List<AvailableResource> availableResources = this.projectServiceImpl.findAvailableResource(LocalDate.now());
+
+        // assert
+        AvailableResource ar = new AvailableResource();
+
+        ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeea"));
+        assertTrue(availableResources.contains(ar));
+
+        ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeed"));
+        assertFalse(availableResources.contains(ar));
+
+        ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"));
+        assertTrue(availableResources.get(3).getAvailableAllocation().equals(0.25));
+
+        ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeeb"));
+        assertFalse(availableResources.contains(ar));
+    }
+
     private Tag buildTag(UUID id, String title) {
         Tag tag = new Tag();
         tag.setId(id);
@@ -375,6 +420,9 @@ public class ProjectServiceImplTest {
     private Employee buildEmployee(String id) {
         Employee employee = new Employee();
         employee.setId(UUID.fromString(id));
+        Designation designation = new Designation();
+        designation.setTitle("Developer");
+        employee.setDesignation(designation);
         return employee;
     }
 

@@ -310,17 +310,22 @@ public class ProjectServiceImpl implements ProjectService {
         List<AvailableResource> availableResource = new ArrayList<>();
         for (Employee employee : employeeList) {
             AvailableResource ar = new AvailableResource();
+
+            if (allocatedMembers.containsKey(employee.getId())) {
+                if (allocatedMembers.get(employee.getId()) >= 1) {
+                    continue;
+                } else {
+                    ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
+                }
+            }
             ar.setId(employee.getId());
             ar.setFirstName(employee.getFirstName());
             ar.setMiddleName(employee.getMiddleName());
             ar.setLastName(employee.getLastName());
             ar.setDesignation(employee.getDesignation().getTitle());
-            if (allocatedMembers.containsKey(employee.getId())) {
-                ar.setAllocation(allocatedMembers.get(employee.getId()));
-            }
             availableResource.add(ar);
         }
-        return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAllocation(), e1.getAllocation()))
+        return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAvailableAllocation(), e1.getAvailableAllocation()))
                 .collect(Collectors.toList());
     }
 

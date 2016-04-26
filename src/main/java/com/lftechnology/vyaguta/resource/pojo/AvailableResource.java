@@ -21,7 +21,7 @@ public class AvailableResource {
 
     private String lastName;
 
-    private Double allocation = 0.0;
+    private Double availableAllocation = 1.0;
 
     private String designation;
 
@@ -57,12 +57,12 @@ public class AvailableResource {
         this.lastName = lastName;
     }
 
-    public Double getAllocation() {
-        return allocation;
+    public Double getAvailableAllocation() {
+        return availableAllocation;
     }
 
-    public void setAllocation(Double allocation) {
-        this.allocation = allocation;
+    public void setAvailableAllocation(Double allocation) {
+        this.availableAllocation = allocation;
     }
 
     public String getDesignation() {
@@ -71,6 +71,36 @@ public class AvailableResource {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof AvailableResource)) {
+            return false;
+        }
+        AvailableResource other = (AvailableResource) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }
