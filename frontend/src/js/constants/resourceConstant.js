@@ -20,12 +20,12 @@
         EMPLOYEES: 'employees',
         START_INDEX: '1',
         OFFSET: '10',
-        dashboard: 'dashboard',
-        resource: 'resource',
-        utilization: 'utilization',
-        booked: 'booked',
-        available: 'available',
-        overdue: 'overdeu'
+        DASHBOARD: 'dashboard',
+        RESOURCE: 'resource',
+        UTILIZATION: 'utilization',
+        BOOKED: 'booked',
+        AVAILABLE: 'available',
+        OVERDUE: 'overdue'
 
     };
 

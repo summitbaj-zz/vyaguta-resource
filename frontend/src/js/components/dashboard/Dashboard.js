@@ -7,12 +7,12 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var Resource = require('./Resource');
-    var FreeResource = require('./FreeResource');
-    var BookedResource = require('./BookedResource');
-    var EndingProjects = require('./EndingProjects');
-    var OverdueProjects = require('./OverdueProjects');
-    var InProgressProjects = require('./InProgressProjects');
+    var Resource = require('./resource/Resource');
+    var FreeResource = require('./free-resource/FreeResource');
+    var BookedResource = require('./booked-resource/BookedResource');
+    var EndingProjects = require('./ending-projects/EndingProjects');
+    var OverdueProjects = require('./overdue-projects/OverdueProjects');
+    var InProgressProjects = require('./ongoing-projects/InProgressProjects');
     var EntityHeader = require('../common/header/EntityHeader');
 
     //actions
@@ -27,11 +27,11 @@
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-            this.props.actions.fetchByEndDate(resourceConstant.dashboard, 'projectEnding', request);
-            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.overdue);
-            this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.utilization);
-            this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.booked);
-            this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.available);
+            this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
+            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.BOOKED);
+            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.AVAILABLE);
         },
 
         componentWillUnmount: function () {
@@ -66,7 +66,7 @@
         return {
             projects: state.dashboardReducer.inProgressProjects,
             endingProjects: state.dashboardReducer.projectEnding,
-            overdueProjects: state.dashboardReducer.overdeu,
+            overdueProjects: state.dashboardReducer.overdue,
             resource: state.dashboardReducer.resource,
             apiState: state.apiReducer
         }
@@ -80,5 +80,4 @@
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-})
-();
+})();

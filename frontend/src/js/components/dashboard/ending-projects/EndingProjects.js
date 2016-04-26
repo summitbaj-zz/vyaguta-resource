@@ -5,7 +5,7 @@
     var React = require('react');
 
     //utils
-    var convertContractHash = require('../../util/convertContractHash');
+    var convertContractHash = require('../../../util/convertContractHash');
 
     //components
     var EndingProjectRow = require('./EndingProjectRow');

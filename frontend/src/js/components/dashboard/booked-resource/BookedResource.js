@@ -11,7 +11,7 @@
 
 
         renderResourceByProjectType: function (total, key) {
-            return (<BookedResourceItem resource={this.props.resource[key]} total={total}/>);
+            return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
         },
 
         calculateTotalResource: function () {

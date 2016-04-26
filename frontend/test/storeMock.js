@@ -4,8 +4,8 @@
  * on 4/19/16.
  */
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+var configureStore = require('redux-mock-store');
+var thunk = require('redux-thunk');
 
 var middlewares = [thunk];
 var mockStore = configureStore(middlewares);

@@ -9,7 +9,7 @@
 
     var initialState = {
         projectEnding: [],
-        overdeu: [],
+        overdue: [],
         inProgressProjects: [],
         resource: {
             utilization:{},

@@ -1609,6 +1609,7 @@ ul.pagination li {
 
 .list-group-project {
     width: 50%;
+    word-wrap: break-word;
 }
 
 .weight-500 {

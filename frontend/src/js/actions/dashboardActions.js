@@ -79,9 +79,8 @@
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
-                console.log('asdf')
+
                 return (apiUtil.fetchByEndDate(entity, projectType, data).then(function (response) {
-                    console.log(response)
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
                         dispatch(actions.listByDate(projectType, response.body));

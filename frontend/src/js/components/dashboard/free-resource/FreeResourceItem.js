@@ -16,13 +16,14 @@
         },
         render: function () {
             var resource = this.props.resource;
+            console.log(resource.availableAllocation);
             return (
                 <div className="col-xs-12 col-sm-6 col-lg-3">
                     <a className="widget widget-hover-effect1">
                         <div className="widget-simple widget-custom">
                             <div className="cards">
                                 <h3 className="widget-content text-center animation-pullDown">{this.getEmployeeName(resource)}</h3>
-                                <span className="cards-counts">{(1 - resource.allocation) * 100 + '%'}</span>
+                                <span className="cards-counts">{(resource.availableAllocation) * 100 + '%'}</span>
                                 <span className="cards-text">{resource.designation}</span>
                             </div>
                         </div>
