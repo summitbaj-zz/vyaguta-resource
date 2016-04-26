@@ -12,9 +12,10 @@
     var actionUtil = require('../util/actionUtil');
 
     var actions = {
-        listByEndDate: function (entity, data) {
+        listByDate: function (projectType, data) {
             return {
-                type: actionTypeConstant.LIST_BY_END_DATE,
+                type: actionTypeConstant.LIST_BY_DATE,
+                projectType: projectType,
                 data: data
             }
         },
@@ -55,20 +56,40 @@
             }
         },
 
-        fetchByEndDate: function (entity, data) {
+        fetchOverdueProjects: function (entity, type) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
-                return (apiUtil.fetchByEndDate(entity, data).then(function (response) {
+                return (apiUtil.fetchByType(entity, type).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.listByEndDate(entity, response.body));
+                        dispatch(actions.listByDate(type, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchByEndDate(entity, data));
+                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchOverdueProjects(entity, type));
+                    }
+                }));
+            }
+        },
+
+        fetchByEndDate: function (entity, projectType, data) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
+                dispatch(apiActions.apiRequest(entity));
+                console.log('asdf')
+                return (apiUtil.fetchByEndDate(entity, projectType, data).then(function (response) {
+                    console.log(response)
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(actions.listByDate(projectType, response.body));
+                    }
+                }, function (error) {
+                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse(entity));
+                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchByEndDate(entity, projectType, data));
                     }
                 }));
             }

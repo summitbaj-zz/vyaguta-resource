@@ -21,8 +21,8 @@
                     </a></div>
                     <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                         <div className="widget-simple">
-                            {resource.freeResources && <div className="widget-icon animation-fadeIn pull-left label-red"><span
-                                className="res-counter">{resource.freeResources}</span>
+                            {resource.freeResource && <div className="widget-icon animation-fadeIn pull-left label-red"><span
+                                className="res-counter">{resource.freeResource}</span>
                             </div>}
                             <h3 className="widget-content text-right animation-pullDown"> Free Resource </h3>
                         </div>

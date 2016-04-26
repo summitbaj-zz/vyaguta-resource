@@ -8,32 +8,32 @@
     var convertContractHash = require('../../util/convertContractHash');
 
     //components
-    var FlaggedProjectRow = require('./FlaggedProjectRow');
+    var OverdueProjectRow = require('./OverdueProjectRow');
 
-    var FlaggedProjects = React.createClass({
-        renderFlaggedProject: function (flaggedProject) {
+    var OverdueProjects = React.createClass({
+        renderOverdueProject: function (key) {
             return (
-                <FlaggedProjectRow key={flaggedProject.id} flaggedProject={flaggedProject}/>
+                <OverdueProjectRow key={key} overdueProject={this.props.overdueProjects[key]}/>
             );
         },
 
         render: function () {
-            var flaggedProjects = (this.props.flaggedProjects.length > 0) ? this.getFlaggedProjectsData(this.props.flaggedProjects) : null;
-
+            var overdueProjects = this.props.overdueProjects;
+            console.log(overdueProjects);
             return (
 
                     <div className="col-lg-6">
                         <div className="block">
                             <div className="block-title-border clearfix"><span
-                                className="pull-left">Projects Flagged </span>
+                                className="pull-left">Projects Overdue </span>
                             </div>
                             <div className="list-wrapper">
                                 <ul className="list-group">
                                     <li className="list-group-item"><span
                                         className="list-group-project">Projects</span>
-                                        <span>End Date</span><span>Resources</span>
+                                        <span>Project Status</span><span>End Date</span>
                                     </li>
-                                    {flaggedProjects && flaggedProjects.map(this.renderFlaggedProject)}
+                                    {overdueProjects && Object.keys(overdueProjects).map(this.renderOverdueProject)}
                                 </ul>
                             </div>
 
@@ -42,5 +42,5 @@
             );
         }
     });
-    module.exports = FlaggedProjects;
+    module.exports = OverdueProjects;
 })();

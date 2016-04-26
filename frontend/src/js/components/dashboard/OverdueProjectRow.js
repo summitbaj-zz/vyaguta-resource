@@ -10,14 +10,15 @@
 
     var FlaggedProjectRow = React.createClass({
         render: function () {
-            var flaggedProject = this.props.flaggedProject;
+            var overdueProject = this.props.overdueProject;
+            console.log(this.props);
             return (
                 <li className="list-group-item">
                        <span className="list-group-project"><Link
-                           to={urlConstant.PROJECTS.INDEX + '/' + flaggedProject.projectId +  urlConstant.PROJECTS.VIEW}>{flaggedProject.project}</Link>
+                           to={urlConstant.PROJECTS.INDEX + '/'  +  urlConstant.PROJECTS.VIEW}>{overdueProject.project}</Link>
                     </span>
-                    <span>{flaggedProject.endDate}</span>
-                    <span>{flaggedProject.resources}</span>
+                    <span>{overdueProject.projectStatus}</span>
+                    <span>{overdueProject.endDate}</span>
                 </li>
             );
         }

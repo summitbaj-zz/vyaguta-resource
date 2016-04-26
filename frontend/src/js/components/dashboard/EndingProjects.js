@@ -65,7 +65,6 @@
             var endingProjects = (this.props.endingProjects.length > 0) ? this.getEndingProjectsData(this.props.endingProjects) : null;
 
             return (
-
                     <div className="col-lg-6">
                         <div className="block">
                             <div className="block-title-border clearfix"><span
@@ -78,7 +77,7 @@
                                         <span>End Date</span><span>Resources</span>
                                     </li>
                                     {endingProjects && endingProjects.map(this.renderEndingProject)}
-                                    <li className="list-group-item">
+                                    <li className="list-group-item total">
                                         <span>Total</span><span>{endingProjects && this.getEndingProjectsResourceTotal(endingProjects) || 0}</span>
                                     </li>
                                 </ul>

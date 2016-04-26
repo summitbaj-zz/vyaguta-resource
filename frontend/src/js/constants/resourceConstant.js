@@ -24,7 +24,8 @@
         resource: 'resource',
         utilization: 'utilization',
         booked: 'booked',
-        available: 'available'
+        available: 'available',
+        overdue: 'overdeu'
 
     };
 

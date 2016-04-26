@@ -1,6 +1,9 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
+    var browserHistory = require('react-router').browserHistory;
+
     //API utility
     var apiUtil = require('../util/apiUtil');
 

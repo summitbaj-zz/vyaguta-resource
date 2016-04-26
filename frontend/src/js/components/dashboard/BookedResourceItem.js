@@ -24,7 +24,6 @@
         render: function(){
             var resource = this.props.resource;
             var total = this.props.total;
-            console.log('asdf', resource);
 
             var totalResource = resource.billed + resource.unbilled || null;
             var classNameForIcon = this.getClassName(resource);

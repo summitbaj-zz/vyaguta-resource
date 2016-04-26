@@ -416,6 +416,7 @@
                                                            apiState={this.props.apiState}
                                                            contracts={this.props.contracts}
                                                            allocations={this.props.allocations}
+                                                           actions={this.props.actions}
                                                            selectedContractMember={this.props.selectedContractMember}/>
 
                                         <div className="form-group form-actions clearfix">

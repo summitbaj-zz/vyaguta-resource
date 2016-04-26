@@ -11,7 +11,7 @@
     var FreeResource = require('./FreeResource');
     var BookedResource = require('./BookedResource');
     var EndingProjects = require('./EndingProjects');
-    var FlaggedProjects = require('./FlaggedProjects');
+    var OverdueProjects = require('./OverdueProjects');
     var InProgressProjects = require('./InProgressProjects');
     var EntityHeader = require('../common/header/EntityHeader');
 
@@ -27,10 +27,15 @@
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-            this.props.actions.fetchByEndDate(resourceConstant.dashboard, request);
+            this.props.actions.fetchByEndDate(resourceConstant.dashboard, 'projectEnding', request);
+            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.overdue);
             this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.utilization);
             this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.booked);
             this.props.actions.fetchResourceCount(resourceConstant.resource, resourceConstant.available);
+        },
+
+        componentWillUnmount: function () {
+            this.props.actions.apiClearState();
         },
 
         addDayInDate: function (value) {
@@ -41,26 +46,29 @@
         },
 
         render: function () {
-            console.log(this.props.resource);
+
             return (
                 <div id="page-content" className="page-content">
-                    <EntityHeader header="Resource Utilization"/>
+                    <EntityHeader header="Resource Utilization" apiState={this.props.apiState}/>
                     <Resource resource={this.props.resource.utilization}/>
                     <BookedResource resource={this.props.resource.booked}/>
                     <InProgressProjects projects={this.props.projects}/>
                     <FreeResource resource={this.props.resource.available}/>
                     <div className="row">
-                    <EndingProjects endingProjects={this.props.endingProjects}/>
-                    <FlaggedProjects flaggedProjects={this.props.flaggedProjects || []}/>
-                </div></div>
+                        <EndingProjects endingProjects={this.props.endingProjects}/>
+                        <OverdueProjects overdueProjects={this.props.overdueProjects}/>
+                    </div>
+                </div>
             );
         }
     });
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,
-            endingProjects: state.dashboardReducer.endingProjects,
-            resource: state.dashboardReducer.resource
+            endingProjects: state.dashboardReducer.projectEnding,
+            overdueProjects: state.dashboardReducer.overdeu,
+            resource: state.dashboardReducer.resource,
+            apiState: state.apiReducer
         }
     };
 
