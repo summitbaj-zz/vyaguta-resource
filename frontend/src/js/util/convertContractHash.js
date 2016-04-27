@@ -37,7 +37,6 @@
                 }
                 contracts[i].contractMembers = newContractMembers;
             }
-            console.log(contracts);
             return contracts;
         },
 
