@@ -45,11 +45,11 @@
         },
 
         handleChangeJoinDate: function (date) {
-            this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date.format('YYYY-MM-DD'));
+            this.props.actions.handleAllocationInputChange(this.props.index, 'joinDate', date && date.format('YYYY-MM-DD'));
         },
 
         handleChangeEndDate: function (date) {
-            this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date.format('YYYY-MM-DD'));
+            this.props.actions.handleAllocationInputChange(this.props.index, 'endDate', date && date.format('YYYY-MM-DD'));
         },
 
         handleCheckBox: function (event) {
@@ -113,7 +113,7 @@
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-md-4">Estimated
-                                    Duration</label>
+                                    Duration *</label>
                                 <div className="col-md-8">
                                     <div className="input-group input-daterange">
                                         <DatePicker

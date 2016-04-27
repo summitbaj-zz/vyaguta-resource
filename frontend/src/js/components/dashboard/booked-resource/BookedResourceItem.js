@@ -43,10 +43,10 @@
                                 <span className="stat-label">Billed</span>
                                 <div className="row breakdown">
                                     <span className="side-text clear">Percentage:
-                                        <span className="color-lg-blue">{this.calculatePercentage(resource.billed, totalResource)}</span>
+                                        <span className="color-lg-blue pull-right">{this.calculatePercentage(resource.billed, totalResource)}</span>
                                     </span>
-                                    <span className="side-text clear">No.of:
-                                        <span className="color-lg-blue">{resource.billed}</span>
+                                    <span className="side-text clear">Total:
+                                        <span className="color-lg-blue pull-right">{resource.billed}</span>
                                     </span>
                                 </div>
                             </div>
@@ -55,10 +55,10 @@
                                 <div className="row breakdown">
                                     <span className="side-text clear">Percentage:
                                         <span
-                                            className="color-lg-blue">{this.calculatePercentage(resource.unbilled, totalResource)}</span>
+                                            className="color-lg-blue pull-right">{this.calculatePercentage(resource.unbilled, totalResource)}</span>
                                     </span>
-                                    <span className="side-text clear">No.of:
-                                        <span className="color-lg-blue">{resource.unbilled}</span>
+                                    <span className="side-text clear">Total:
+                                        <span className="color-lg-blue pull-right">{resource.unbilled}</span>
                                     </span>
                                 </div>
                             </div>
