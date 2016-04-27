@@ -5,6 +5,7 @@
     var React = require('react');
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
+    var _ = require('lodash');
 
     //components
     var Resource = require('./resource/Resource');
@@ -27,6 +28,7 @@
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
+
             this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
             this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
             this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);

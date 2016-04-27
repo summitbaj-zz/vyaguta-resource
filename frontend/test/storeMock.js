@@ -7,6 +7,10 @@
 var configureStore = require('redux-mock-store');
 var thunk = require('redux-thunk');
 
+var reactRouterRedux = require('react-router-redux');
+var routerReducer = reactRouterRedux.routerReducer;
+var routerMiddleware = reactRouterRedux.routerMiddleware;
+
 var middlewares = [thunk];
 var mockStore = configureStore(middlewares);
 
@@ -24,7 +28,7 @@ var crudReducer = {
             projectStatus: {},
             accountManager: {},
             client: {},
-            contracts: {}
+            contracts: []
         },
         projectRoles: {},
         budgetTypes: {},
@@ -47,9 +51,34 @@ var contractReducer = {
     selectedContractMember: {}
 };
 
+var dashboardReducer = {
+    projectEnding: [],
+    overdue: [],
+    inProgressProjects: [],
+    resource: {
+        utilization: {},
+        booked: [],
+        available: []
+    }
+};
+
+var apiReducer = {
+    isRequesting: false,
+    numberOfRequests: 0
+}
+
+var routing = {
+    locationBeforeTransitions: {
+        pathname: '/'
+    }
+}
+
 var state = {
     crudReducer: crudReducer,
-    contractReducer: contractReducer
+    contractReducer: contractReducer,
+    dashboardReducer: dashboardReducer,
+    apiReducer: apiReducer,
+    routing: routing
 };
 
 var store = mockStore(state);
