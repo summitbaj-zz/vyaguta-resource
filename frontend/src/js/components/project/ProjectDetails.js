@@ -169,7 +169,7 @@
                                             </div>
                                         </div>
 
-                                        <TimelineChart width="960" data={this.props.selectedItem.projects.contracts}/>
+                                        <TimelineChart width="980" data={this.props.selectedItem.projects.contracts}/>
 
                                         <div className="col-sm-12">
                                             <div className="block full">

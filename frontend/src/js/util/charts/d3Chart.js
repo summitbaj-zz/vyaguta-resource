@@ -50,7 +50,7 @@
             lanes = data.lanes;
             items = data.items;
             width = props.width - margin.left - margin.right;
-            height = (lanes.length * 90) - margin.top - margin.bottom;
+            height = (lanes.length * 50) + 100;
             miniHeight = lanes.length * 12 + 50;
             mainHeight = height - miniHeight - 50;
 
@@ -76,7 +76,7 @@
                 .style("visibility", "hidden")
                 .attr('class', 'chart-tooltip');
 
-            addBorder(svg, 'black', '5');
+            addBorder(svg, '#D3ECD2', '5');
 
             initializeScalingProperties();
 
@@ -204,13 +204,16 @@
                 })
                 .attr('dy', '0.5ex')
                 .attr('text-anchor', 'end')
-                .attr('class', 'laneText');
+                .attr('class', 'laneText')
+                .style('fill', '#394263');
 
             //draw date axis
             main.append('g')
                 .attr('transform', 'translate(0,' + mainHeight + ')')
                 .attr('class', 'main axis date')
-                .call(x1DateAxis);
+                .call(x1DateAxis)
+                .style('fill', '#394263');
+            ;
 
             //draw month axis
             main.append('g')
@@ -219,7 +222,8 @@
                 .call(x1MonthAxis)
                 .selectAll('text')
                 .attr('dx', 501)
-                .attr('dy', 12);
+                .attr('dy', 12)
+                .style('fill', '#394263');
 
             // draw a line representing today's date
             main.append('line')
@@ -268,13 +272,15 @@
                 })
                 .attr('dy', '0.5ex')
                 .attr('text-anchor', 'end')
-                .attr('class', 'laneText');
+                .attr('class', 'laneText')
+                .style('fill', '#394263');
 
             //draw date axis
             mini.append('g')
                 .attr('transform', 'translate(0,' + miniHeight + ')')
                 .attr('class', 'axis date')
-                .call(xDateAxis);
+                .call(xDateAxis)
+                .style('fill', '#394263');
 
             //draw month axis
             mini.append('g')
@@ -283,7 +289,8 @@
                 .call(xMonthAxis)
                 .selectAll('text')
                 .attr('dx', 22)
-                .attr('dy', 12);
+                .attr('dy', 12)
+                .style('fill', '#394263');
 
             // draw a line representing today's date
             mini.append('line')
@@ -391,6 +398,9 @@
 
                     return x1(parseDate(d.start));
                 })
+                .attr('y', function (d) {
+                    return mainY(d.lane) + .1 * mainY(2.5);
+                })
                 .attr('width', function (d) {
                         if (x1(parseDate(d.end)) >= width && x1(parseDate(d.start)) < 0) {
                             return width;
@@ -402,7 +412,10 @@
 
                         return x1(parseDate(d.end)) - x1(parseDate(d.start));
                     }
-                );
+                )
+                .attr('class', function (d) {
+                    return 'mainItem' + d.contract;
+                });
 
             rects.enter().append('rect')
                 .attr('x', function (d) {
@@ -430,10 +443,11 @@
                     return .5 * mainY(1);
                 })
                 .attr('class', function (d) {
-                    return 'mainItem' + d.lane;
+                    return 'mainItem' + d.contract;
                 })
                 .on('mouseover', function (d) {
-                    return tooltip.style("visibility", "visible").text("Join Date: " + d.start)
+                    console.log(d);
+                            return tooltip.style("visibility", "visible").html("Role: " + (d.role && d.role.title) + "<br/>" + "Join Date: " + d.start + "<br/>" + "End Date: " + d.end)
                 })
                 .on("mousemove", function () {
                     return tooltip.style("top", (event.layerY) + "px").style("left", (event.layerX + 10) + "px");

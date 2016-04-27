@@ -84,6 +84,7 @@
                     for (var k = 0; k < contractMember.allocations.length; k++) {
                         var allocation = contractMember.allocations[k];
                         allocation.lane = j;
+                        allocation.contract = i;
                         allocation.id = allocation.allocation;
                         allocation.start = allocation.joinDate;
                         allocation.end = allocation.endDate;
