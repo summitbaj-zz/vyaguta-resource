@@ -35,8 +35,8 @@
                             </div>}
                             <h3 className="widget-content text-right animation-pullDown"> Booked Resource
                                 <small className="side-text"><span
-                                    className="text-light">Billed: {resource.bookedResource && resource.bookedResource.billed + '(' + this.getPercentage(resource.bookedResource.billed) + '%)'}</span> <span
-                                    className="text-light">Unbilled: {resource.bookedResource && resource.bookedResource.unbilled + '(' + this.getPercentage(resource.bookedResource.unbilled) + '%)'}</span>
+                                    className="text-light">{resource.bookedResource && 'Billed: ' + resource.bookedResource.billed + '(' + this.getPercentage(resource.bookedResource.billed) + '%)'}</span> <span
+                                    className="text-light">{resource.bookedResource && 'Unbilled: ' + resource.bookedResource.unbilled + '(' + this.getPercentage(resource.bookedResource.unbilled) + '%)'}</span>
                                 </small>
                             </h3>
                         </div>
