@@ -65,6 +65,27 @@
             });
         },
 
+        isAllocationValid: function () {
+            var allocations = this.props.selectedContractMember.allocations || [];
+            for (var i = 0; i < allocations.length; i++) {
+                if (!allocations[i].joinDate || !allocations[i].endDate) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        isFormValid: function (data) {
+            if (!data.employee) {
+                Toastr.error(messageConstant.SELECT_TEAM_MEMBER, messageConstant.TOASTR_INVALID_HEADER);
+                return false;
+            } else if (!this.isAllocationValid()) {
+                Toastr.error(messageConstant.FILL_DATES_FOR_ALLOCATIONS, messageConstant.TOASTR_INVALID_HEADER);
+                return false;
+            }
+            return true;
+        },
+
         saveContractMember: function () {
             if (this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
@@ -78,17 +99,14 @@
                 allocations: this.props.selectedContractMember.allocations
             };
 
-            if (employee != null) {
+            if (this.isFormValid(data)) {
                 if (this.props.memberIndex) {
                     this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
                 } else {
                     this.props.actions.addContractMember(this.props.contractIndex, data);
                 }
                 $('#addContractMember').modal('hide');
-            } else {
-                Toastr.error("Please select Team Member", messageConstant.TOASTR_INVALID_HEADER);
             }
-
         },
 
         componentWillUnmount: function () {
@@ -116,12 +134,12 @@
             var value = this.props.selectedContractMember.employee && this.props.selectedContractMember.employee.id;
             var employee = this.props.selectedContractMember.employee;
 
-            if (employee && employee.id){
+            if (employee && employee.id) {
                 var firstName = employee.firstName;
                 var lastName = employee.lastName;
                 var middleName = '';
 
-                if(employee.middleName && employee.middleName != 'NULL') {
+                if (employee.middleName && employee.middleName != 'NULL') {
                     middleName = employee.middleName + ' ';
                 }
 
@@ -148,7 +166,7 @@
                             <div className="modal-body">
                                 <div className="form-horizontal">
                                     <div className="form-group">
-                                        <label className="control-label col-md-4">Team Member</label>
+                                        <label className="control-label col-md-4">Team Member *</label>
                                         <div className="col-md-8">
                                             <Select.Async name="employee"
                                                           value={this.getAutoCompleteValue()}

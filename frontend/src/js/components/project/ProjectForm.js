@@ -160,6 +160,15 @@
             )
         },
 
+        isContractValid: function (contracts) {
+            for (var i = 0; i < contracts.length; i++) {
+                if (!contracts[i].startDate || !contracts[i].endDate) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
@@ -169,14 +178,16 @@
                 'title': this.refs.title.value
             };
 
-            if (formValidator.isValid(requiredField)) {
+            if (!formValidator.isValid(requiredField)) {
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+            } else if (!this.isContractValid(project.contracts)) {
+                Toastr.error(messageConstant.FILL_DATES_FOR_CONTRACTS, messageConstant.TOASTR_INVALID_HEADER);
+            } else {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
-            } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -204,6 +215,7 @@
         updateProject: function (reason) {
             var project = this.getFormData();
             project['reason'] = reason;
+
             var requiredFieldForUpdate = {
                 'reason': reason
             };
