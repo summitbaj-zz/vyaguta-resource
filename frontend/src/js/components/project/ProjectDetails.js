@@ -14,7 +14,7 @@
     //components
     var EntityHeader = require('../common/header/EntityHeader');
 
-    var SwimLaneChart = require('../../util/charts/SwimLaneChart');
+    var TimelineChart = require('./TimelineChart');
     var TeamMemberView = require('./contract/TeamMemberView');
     var ContractView = require('./contract/ContractView');
     var HistoryItem = require('./HistoryItem');
@@ -103,7 +103,8 @@
             return (
                 <div>
                     <EntityHeader header="Project Details" routes={this.props.routes}
-                                  title={project ? project.title : 'Project'}/>
+                                  title={project ? project.title : 'Project'}
+                                  apiState={this.props.apiState}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">
@@ -167,23 +168,28 @@
                                                 {contractIds && contractIds.map(this.renderContract)}
                                             </div>
                                         </div>
-                                        <div className="block full timeline-wrp">
-                                            <div className="block-title">
-                                                <h2>History</h2>
-                                            </div>
-                                            <div className="timeline block-content-full">
-                                                <ul className="timeline-list timeline-hover">
-                                                    {history.map(this.renderHistoryItems)}
-                                                </ul>
 
+                                        <TimelineChart width="960" data={this.props.selectedItem.projects.contracts}/>
+
+                                        <div className="col-sm-12">
+                                            <div className="block full">
+                                                <div className="block-title">
+                                                    <h2>History</h2>
+                                                </div>
+                                                <div className="timeline block-content-full">
+                                                    <ul className="timeline-list timeline-hover">
+                                                        {history.map(this.renderHistoryItems)}
+                                                    </ul>
+
+                                                </div>
+                                                {containsMoreHistories &&
+                                                <div className="block-title show-all-wrp">
+                                                    <Link
+                                                        to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id + urlConstant.PROJECTS.HISTORY}
+                                                        title="Add Project"
+                                                        className="show-all-btn">View All</Link>
+                                                </div>}
                                             </div>
-                                            {containsMoreHistories &&
-                                            <div className="block-title show-all-wrp">
-                                                <Link
-                                                    to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id + urlConstant.PROJECTS.HISTORY}
-                                                    title="Add Project"
-                                                    className="show-all-btn">View All</Link>
-                                            </div>}
                                         </div>
                                     </div>
                                 </div>
@@ -200,7 +206,8 @@
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem,
-            histories: state.historyReducer.project
+            histories: state.historyReducer.project,
+            apiState: state.apiReducer
         }
     };
 

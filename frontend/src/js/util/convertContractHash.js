@@ -37,6 +37,7 @@
                 }
                 contracts[i].contractMembers = newContractMembers;
             }
+            console.log(contracts);
             return contracts;
         },
 
@@ -56,6 +57,54 @@
                 contracts[i].contractMembers = newContractMembers;
             }
             return contracts;
+        },
+
+        toTimelineHash: function (contracts) {
+            var contracts = _.cloneDeep(contracts);
+            //projectMembers
+            var lanes = [];
+            //allocations
+            var items = [];
+
+            var containsObject = function (list, obj) {
+                for (var i = 0; i < list.length; i++) {
+                    if (_.isEqual(list[i], obj)) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            for (var i = 0; i < contracts.length; i++) {
+                for (var j = 0; j < contracts[i].contractMembers.length; j++) {
+                    var contractMember = contracts[i].contractMembers[j];
+                    if (!containsObject(lanes, contractMember.employee)) {
+                        lanes.push(contractMember.employee);
+                    }
+                    for (var k = 0; k < contractMember.allocations.length; k++) {
+                        var allocation = contractMember.allocations[k];
+                        allocation.lane = j;
+                        allocation.id = allocation.allocation;
+                        allocation.start = allocation.joinDate;
+                        allocation.end = allocation.endDate;
+                        delete allocation.joinDate;
+                        delete allocation.endDate;
+                        items.push(contractMember.allocations[k]);
+                    }
+                }
+            }
+
+            for (var i = 0; i < lanes.length; i++) {
+                lanes[i].id = i;
+                lanes[i].label = lanes[i].firstName
+            }
+
+            var newHash = {
+                lanes: lanes,
+                items: items
+            }
+
+            return newHash;
         }
     }
 
