@@ -446,8 +446,7 @@
                     return 'mainItem' + d.contract;
                 })
                 .on('mouseover', function (d) {
-                    console.log(d);
-                            return tooltip.style("visibility", "visible").html("Role: " + (d.role && d.role.title) + "<br/>" + "Join Date: " + d.start + "<br/>" + "End Date: " + d.end)
+                    return tooltip.style("visibility", "visible").html("Role: " + (d.role && d.role.title) + "<br/>" + "Join Date: " + d.start + "<br/>" + "End Date: " + d.end)
                 })
                 .on("mousemove", function () {
                     return tooltip.style("top", (event.layerY) + "px").style("left", (event.layerX + 10) + "px");
