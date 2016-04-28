@@ -35,7 +35,7 @@
             $('#addContractMember').on('hidden.bs.modal', function (event) {
                 that.props.toggleModalState(event);
             });
-            formUtil.disableKey(13, 'projectForm');
+            formUtil.disableKey(13, 'addContractMember');
         },
 
         renderEmployees: function (key) {
