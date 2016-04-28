@@ -127,7 +127,7 @@
 
             brush = d3.svg.brush()
                 .x(x)
-                .extent([d3.time.monday(now), d3.time.sunday.ceil(now)])
+                .extent([d3.time.monday(now), d3.time.month.offset(d3.time.monday(now), 1)])
                 .on("brush", display);
         };
 
@@ -346,6 +346,7 @@
         }
 
         var display = function () {
+
             var rects, labels
                 , minExtent = d3.time.day(brush.extent()[0])
                 , maxExtent = d3.time.day(brush.extent()[1])
@@ -355,21 +356,23 @@
 
             mini.select('.brush').call(brush.extent([minExtent, maxExtent]));
 
-            x1.domain([minExtent, maxExtent]);
 
-            if ((maxExtent - minExtent) > 1468800000) {
+            if ((maxExtent - minExtent) > 2592000000) {
+                maxExtent = d3.time.month.offset(minExtent, 1);
+                mini.select('.brush').call(brush.extent([minExtent, maxExtent]));
+            } else if ((maxExtent - minExtent) > 1468800000) {
                 x1DateAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
             }
             else if ((maxExtent - minExtent) > 172800000) {
                 x1DateAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
-            }
-            else {
+            } else {
                 x1DateAxis.ticks(d3.time.hours, 4).tickFormat(d3.time.format('%I %p'))
                 x1MonthAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%b %e'))
             }
 
+            x1.domain([minExtent, maxExtent]);
 
             //x1Offset.range([0, x1(d3.time.day.ceil(now) - x1(d3.time.day.floor(now)))]);
 
