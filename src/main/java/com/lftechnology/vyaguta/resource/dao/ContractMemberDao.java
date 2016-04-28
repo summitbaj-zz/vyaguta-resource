@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.lftechnology.vyaguta.commons.dao.CrudDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
@@ -33,5 +34,7 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
     Long findBookedResourceCount(LocalDate date);
 
     Map<UUID, Double> findAvailableResource(LocalDate date);
+    
+    List<Double> findTotalAllocation(Employee employee, LocalDate joinDate, LocalDate endDate);
 
 }
