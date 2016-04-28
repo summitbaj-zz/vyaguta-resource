@@ -77,7 +77,7 @@
             };
 
             sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
         },
 
         render: function () {
