@@ -84,7 +84,8 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
 
     @Override
     public List<Double> findTotalAllocation(Employee employee, LocalDate joinDate, LocalDate endDate) {
-        return em.createNamedQuery(ContractMember.FIND_TOTAL_ALLOCATIONS, Double.class).setParameter("employee", employee.getId()).setParameter("jdate", joinDate).setParameter("edate", endDate).getResultList();
+        return em.createNamedQuery(ContractMember.FIND_TOTAL_ALLOCATIONS, Double.class).setParameter("employee", employee.getId())
+                .setParameter("jDate", joinDate).setParameter("eDate", endDate).getResultList();
     }
 
 }
