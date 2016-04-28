@@ -1,6 +1,8 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,6 +31,12 @@ public class ContractDaoImpl extends BaseDao<Contract, UUID> implements Contract
     @Override
     public Map<String, EntityFilter<Contract>> getFilters() {
         return new HashMap<>();
+    }
+
+    @Override
+    public List<Contract> findEndingContracts(LocalDate date) {
+        return em.createQuery("SELECT c from Contract c  WHERE c.endDate = :date", Contract.class).setParameter("date", date)
+                .getResultList();
     }
 
 }
