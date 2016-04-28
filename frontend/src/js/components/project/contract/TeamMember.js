@@ -10,37 +10,34 @@
     var TeamMember = React.createClass({
         isActive: function () {
             var allocations = this.props.contractMember.allocations;
-            var todaysDate = moment();
+            var todaysDate = moment().startOf('day');
 
             for (var i = 0; i < allocations.length; i++) {
-                var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
-                var endDate = moment(allocations[i].endDate).add(1, 'd');
+                var joinDate = moment(allocations[i].joinDate);
+                var endDate = moment(allocations[i].endDate);
 
-                if (todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                if (todaysDate >= joinDate && todaysDate <= endDate) {
                     return true;
                 }
             }
-
             return false;
         },
 
         isBilled: function () {
             if (this.isActive()) {
                 var allocations = this.props.contractMember.allocations;
-                var todaysDate = moment();
+                var todaysDate = moment().startOf('day');
 
                 for (var i = 0; i < allocations.length; i++) {
-                    var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
-                    var endDate = moment(allocations[i].endDate).add(1, 'd');
+                    var joinDate = moment(allocations[i].joinDate);
+                    var endDate = moment(allocations[i].endDate);
 
-                    if (allocations[i].billed && todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                    if (allocations[i].billed && todaysDate >= joinDate && todaysDate <= endDate) {
                         return 'Billed';
                     }
                 }
-
                 return 'Unbilled';
             }
-
             return '';
         },
 
