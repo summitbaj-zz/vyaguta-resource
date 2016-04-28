@@ -14,9 +14,10 @@ public class Configuration {
     private static Configuration instance;
     private String configFile = "config.properties";
     private Properties properties;
-    
+
     private String authUrl;
     private String vyagutaCoreUrl;
+    private String projectPageViewPage;
 
     private Configuration() {
         try {
@@ -27,6 +28,7 @@ public class Configuration {
 
             setAuthUrl(properties.getProperty("AUTH_URL"));
             setVyagutaCoreUrl(properties.getProperty("VYAGUTA_CORE_URL"));
+            setProjectPageViewPage(properties.getProperty("PROJECT_VIEW_PAGE"));
 
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
@@ -54,5 +56,13 @@ public class Configuration {
 
     public void setVyagutaCoreUrl(String vyagutaCoreUrl) {
         this.vyagutaCoreUrl = vyagutaCoreUrl;
+    }
+
+    public String getProjectPageViewPage() {
+        return projectPageViewPage;
+    }
+
+    public void setProjectPageViewPage(String projectPageViewPage) {
+        this.projectPageViewPage = projectPageViewPage;
     }
 }
