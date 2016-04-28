@@ -60,8 +60,11 @@
 
         toTimelineHash: function (contracts) {
             var contracts = _.cloneDeep(contracts);
+            
             //projectMembers
             var lanes = [];
+            var tempLanes = [];
+            
             //allocations
             var items = [];
 
@@ -72,8 +75,16 @@
                     }
                 }
                 return false;
-            };
-
+            }
+            
+            var laneIndex = function (list, obj) {
+                for (var i = 0; i < list.length; i++) {
+                    if (_.isEqual(list[i], obj)) {
+                        return i;
+                    }
+                } 
+            }
+            
             for (var i = 0; i < contracts.length; i++) {
                 for (var j = 0; j < contracts[i].contractMembers.length; j++) {
                     var contractMember = contracts[i].contractMembers[j];
@@ -82,7 +93,7 @@
                     }
                     for (var k = 0; k < contractMember.allocations.length; k++) {
                         var allocation = contractMember.allocations[k];
-                        allocation.lane = j;
+                        allocation.lane = laneIndex(lanes, contractMember.employee);
                         allocation.contract = i;
                         allocation.id = allocation.allocation;
                         allocation.start = allocation.joinDate;
