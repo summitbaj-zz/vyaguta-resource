@@ -12,7 +12,13 @@
 
     var EndingProjects = React.createClass({
 
-
+        abc: function(){
+            console.log('bishal')
+            this.bcd();
+        },
+        bcd:function(){
+            console.log('I am called');
+        },
         isEnding: function (date) {
             var date1 = new Date();
             var date2 = new Date(date);
