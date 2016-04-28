@@ -276,11 +276,10 @@ public class ProjectServiceImpl implements ProjectService {
             for (ContractMember cm : contract.getContractMembers()) {
                 List<Double> results = contactMemberDao.findTotalAllocation(cm.getEmployee(), cm.getJoinDate(), cm.getEndDate());
                 if (!results.isEmpty()) {
-                 
                     total = results.get(0);
                 }
                 if (((Double)(total + cm.getAllocation())) > 100.0) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s allocation must be less than 100");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s total allocation must be less than 100");
                 }
             }
 
