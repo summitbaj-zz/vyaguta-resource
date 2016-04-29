@@ -1,5 +1,6 @@
 ;(function () {
-    var actionTypeConstant = {
+    var actionTypeConstants = {
+        //crud Actions
         LIST: 'LIST',
         DELETE: 'DELETE',
         ERROR: 'ERROR',
@@ -60,5 +61,5 @@
         API_CLEAR_STATE: 'API_CLEAR_STATE'
     };
 
-    module.exports = actionTypeConstant;
+    module.exports = actionTypeConstants;
 })();

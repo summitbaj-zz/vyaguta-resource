@@ -8,7 +8,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     /**
      * Contract CRUD actions inside of Create Project

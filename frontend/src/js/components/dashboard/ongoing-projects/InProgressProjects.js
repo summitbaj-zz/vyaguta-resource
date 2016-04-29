@@ -9,7 +9,7 @@
     var InProgressProjectRow = require('./InProgressProjectRow');
 
     //constants
-    var urlConstant = require('../../../constants/urlConstant');
+    var urlConstant = require('../../../constants/urlConstants');
 
     var InProgressProjects = React.createClass({
         renderProject: function (key) {

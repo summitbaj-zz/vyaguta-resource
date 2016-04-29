@@ -11,11 +11,11 @@
     var React = require('react');
 
     //components
-    var d3Chart = require('../../util/charts/d3Chart');
-    var ApiUtil = require('../../util/apiUtil');
+    var d3Chart = require('../../../util/charts/d3Chart');
+    var ApiUtil = require('../../../util/apiUtil');
     var ReactDOM = require('react-dom');
     //util
-    var convertContractHash = require('../../util/convertContractHash');
+    var convertContractHash = require('../../../util/convertContractHash');
 
     var isDrawn  = false;
 

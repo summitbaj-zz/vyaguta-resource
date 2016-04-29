@@ -2,7 +2,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     //actions
     var apiActions = require('./apiActions');

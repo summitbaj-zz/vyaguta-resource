@@ -6,20 +6,20 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var EntityHeader = require('../common/header/EntityHeader');
+    var EntityHeader = require('../../common/header/EntityHeader');
     var HistoryItem = require('./HistoryItem');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
 
     //actions
-    var historyActions = require('../../actions/historyActions');
+    var historyActions = require('../../../actions/historyActions');
 
     //libraries
     var _ = require('lodash');
 
     //util
-    var historyUtil = require('../../util/historyUtil');
+    var historyUtil = require('../../../util/historyUtil');
 
     var History = React.createClass({
         componentDidMount: function () {

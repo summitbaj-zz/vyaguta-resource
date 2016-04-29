@@ -6,7 +6,7 @@
 
 ;(function () {
 
-    var urlConstant = {
+    var urlConstants = {
         BASE_PATH: '',
         BUDGET_TYPES: {
             INDEX: '/budgettypes',
@@ -42,5 +42,5 @@
         PAGE_NOT_FOUND: '404PageNotFound'
     };
 
-    module.exports = urlConstant;
+    module.exports = urlConstants;
 })();
