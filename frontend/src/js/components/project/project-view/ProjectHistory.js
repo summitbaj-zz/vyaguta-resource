@@ -40,7 +40,7 @@
             var convertedHistory = historyUtil.convertHistoryJSON(this.props.history);
             return (
                 <div>
-                    <EntityHeader header="History" routes={this.props.routes} title="History"/>
+                    <EntityHeader header="History" routes={this.props.routes} title="History" apiState={this.props.apiState}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">
@@ -63,7 +63,8 @@
     });
     var mapStateToProps = function (state) {
         return {
-            history: state.historyReducer.project
+            history: state.historyReducer.project,
+            apiState: state.apiReducer
         }
     };
 
