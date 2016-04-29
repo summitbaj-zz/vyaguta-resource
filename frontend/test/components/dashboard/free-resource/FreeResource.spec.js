@@ -17,7 +17,7 @@ function setup() {
             firstName: 'Bishal', lastName: 'Shrestha',
             availableAllocation: 0.25,
             designation: 'Engineer'
-        }]
+        }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
     }
 
     var component = mount(<FreeResource {...props}/>);
@@ -40,7 +40,8 @@ describe('FreeResource component', () => {
             var {component} = setup();
             expect.spyOn(component.instance(), 'renderCarousal').andReturn(<div>{'nothing'}</div>);
             var carousalArray = component.instance().showFreeResource();
-            var expected = <div className="carousel-inner" role="listbox">{[<div>{'nothing'}</div>]}</div>
+            var expected = <div className="carousel-inner" role="listbox">{[<div>{'nothing'}</div>,
+                <div>{'nothing'}</div>]}</div>
             expect(carousalArray).toEqual(expected);
         });
     });
@@ -57,15 +58,17 @@ describe('FreeResource component', () => {
             var {component} = setup();
             expect.spyOn(component.instance(), 'renderResource').andReturn(<div></div>);
             var output = component.instance().renderCarousal(0);
-            var expected = <div className={'item active'} key={'resource0'}>{[<div></div>, <div></div>]}</div>
+            var expected = <div className={'item active'} key={'resource0'}>{[<div></div>, <div></div>, <div></div>,
+                <div></div>, <div></div>, <div></div>, <div></div>, <div></div>, <div></div>, <div></div>, <div></div>,
+                <div></div>, <div></div>, <div></div>, <div></div>, <div></div>]}</div>
             expect(output).toEqual(expected);
         });
 
-        it('returns div with className item only if i is not zero', () => {
+        it('returns div with className "item" only if i is not zero', () => {
             var {component} = setup();
             expect.spyOn(component.instance(), 'renderResource').andReturn(<div></div>);
             var output = component.instance().renderCarousal(1);
-            var expected = <div className={'item'} key={'resource1'}>{[]}</div>
+            var expected = <div className={'item'} key={'resource1'}>{[<div></div>]}</div>
             expect(output).toEqual(expected);
         });
     });
@@ -82,6 +85,22 @@ describe('FreeResource component', () => {
             var {component, props} = setup();
             var total = component.find(FreeResourceItem).length;
             expect(total).toEqual(props.resource.length);
+        });
+    });
+
+    describe('renderCarouselIndicator', () => {
+        it('returns correct number of indicators', () => {
+            var {component, props} = setup();
+            var output = component.instance().renderCarouselIndicator();
+            var expected = (
+                <ol className="carousel-indicators">
+                    {[<li data-target="#myCarousel" data-slide-to={0}
+                          className="active" key="indicator0"></li>,
+                        <li data-target="#myCarousel" data-slide-to={1}
+                            className="" key="indicator1"></li>
+                    ]}
+                </ol>);
+            expect(output).toEqual(expected);
         });
     });
 });
