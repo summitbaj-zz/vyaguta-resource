@@ -17,25 +17,24 @@
     //util
     var convertContractHash = require('../../../util/convertContractHash');
 
-    var isDrawn  = false;
+    var isDrawn = false;
 
     var TimelineChart = React.createClass({
-        drawChart: function (width, data) {
+        drawChart: function (data) {
             if (data && data.length && !isDrawn) {
                 var element = $('#timelineChart')[0];
-                var width = width;
                 var data = convertContractHash.toTimelineHash(data);
-                d3Chart.create(element, {'width': width}, data);
+                d3Chart.create(element, data);
                 isDrawn = true;
             }
         },
-        
-        componentWillUnmount: function() {
+
+        componentWillUnmount: function () {
             isDrawn = false;
         },
 
         render: function () {
-            this.drawChart(this.props.width, this.props.data);
+            this.drawChart(this.props.data);
             return (
                 <div className="col-sm-12">
                     <div className="block full">

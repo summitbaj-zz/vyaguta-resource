@@ -49,6 +49,7 @@
             this.props.actions.apiClearState();
             this.props.actions.clearHistory();
             this.props.actions.clearContracts();
+            this.props.actions.clearContractsForView();
         },
 
         getAccountManagerName: function () {
@@ -81,7 +82,7 @@
             var contracts = this.props.contracts;
             return (
                 <Contract key={key} index={key} length={contracts.length} contract={contracts[key]}
-                              setMemberToBeInModal={this.setMemberToBeInModal}/>
+                          setMemberToBeInModal={this.setMemberToBeInModal}/>
             );
         },
 
@@ -140,7 +141,7 @@
                                                 <p>{project.description || '-'}</p>
                                             </div>
                                         </div>
-                                        <div className="common-view clearfix">
+                                        <div className="common-view  clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label"> Client's Name</span>
                                                 <p>{project.client && project.client.name || '-'}</p>
@@ -150,7 +151,7 @@
                                                 <p>{project.client && project.client.email || '-'}</p>
                                             </div>
                                         </div>
-                                        <div className="common-view clearfix">
+                                        <div className="common-view  clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label">Account Manager</span>
                                                 <p>{this.getAccountManagerName()}</p>
@@ -169,7 +170,7 @@
                                             </div>
                                         </div>
 
-                                        <TimelineChart width="980" data={this.props.contracts}/>
+                                        <TimelineChart data={this.props.contracts}/>
 
                                         <div className="col-sm-12">
                                             <div className="block full">

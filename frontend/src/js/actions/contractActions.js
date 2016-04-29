@@ -52,6 +52,13 @@
             }
         },
 
+        clearContractsForView: function () {
+            return {
+                type: actionTypeConstant.CLEAR_CONTRACTS_FOR_VIEW
+            }
+
+        }
+
 
     }
 
