@@ -8,7 +8,7 @@
 import expect from 'expect';
 
 //constants
-import actionTypeConstant from '../../src/js/constants/actionTypeConstant';
+import actionTypeConstant from '../../src/js/constants/actionTypeConstants';
 
 //components
 import apiReducer from '../../src/js/reducers/apiReducer';

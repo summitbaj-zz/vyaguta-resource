@@ -5,7 +5,7 @@
     var browserHistory = require('react-router').browserHistory;
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -19,7 +19,7 @@
     var apiActions = require('./apiActions');
 
     //constants
-    var urlConstant = require('../constants/urlConstant');
+    var urlConstant = require('../constants/urlConstants');
 
     var actions = {
         list: function (entity, data) {

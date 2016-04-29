@@ -5,8 +5,8 @@
     var React = require('react');
 
     //components
-    var TeamMember = require('./TeamMember');
-    var ContractView = React.createClass({
+    var TeamMember = require('./contract-member/ContractMember');
+    var Contract = React.createClass({
 
         componentDidMount: function () {
             if (this.props.length - 1 == this.props.index) {
@@ -93,5 +93,5 @@
             );
         }
     });
-    module.exports = ContractView;
+    module.exports = Contract;
 })();

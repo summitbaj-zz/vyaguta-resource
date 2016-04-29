@@ -5,7 +5,7 @@
     var Link = require('react-router').Link;
 
     //components
-    var urlConstant = require('../../constants/urlConstant');
+    var urlConstant = require('../../constants/urlConstants');
 
     var ProjectStatusRow = React.createClass({
         render: function () {

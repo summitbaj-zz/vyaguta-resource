@@ -6,12 +6,30 @@ import _ from 'lodash';
 
 //components
 import EndingProjects from '../../../../src/js/components/dashboard/ending-projects/EndingProjects';
-import EndingProjectsRow from '../../../../src/js/components/dashboard/ending-projects/EndingProjectRow';
+import EndingProjectRow from '../../../../src/js/components/dashboard/ending-projects/EndingProjectRow';
+import dashboardUtil from '../../../../src/js/util/dashboardUtil';
 
-var spy = expect.spyOn(EndingProjects.prototype, 'getEndingProjectsData');
+var fakeEndingProjects = [
+    {
+        id: 1,
+        project: 'fake',
+        endDate: 'today',
+        resources: '2'
+    },
+
+    {
+        id: 2,
+        project: 'fake',
+        endDate: 'today',
+        resources: '2'
+    }
+];
+dashboardUtil.getEndingProjectsData = expect.createSpy().andReturn(fakeEndingProjects);
+dashboardUtil.getEndingProjectsResourceTotal = expect.createSpy();
+
 function setup() {
     var props = {
-        endingProjects: [{contracts: [], foo: 'bar', numberOfProjects: 2}, {contracts: [], foo: 'bar2', numberOfProjects: 2}]
+        endingProjects: [{foo: 'bar', id: 1}, {foo: 'bar2', id: 2}]
     }
 
     var component = mount(<EndingProjects {...props}/>);
@@ -22,29 +40,32 @@ function setup() {
 }
 
 describe('EndingProjects component', () => {
-    describe('isEnding', () => {
-        it('returns true if date is below 15 days from now', () => {
-            var {component, props} = setup();
-            var date = new Date();
-            date.setDate(date.getDate() + 6);
-            var isEnding = component.instance().isEnding(date);
-            expect(isEnding).toBeTruthy();
+    describe('EndingProjects component', () => {
+        describe('render', () => {
+            it('calls getEndingProjectsData of dashboardUtil', () => {
+                var {props} = setup();
+                expect(dashboardUtil.getEndingProjectsData).toHaveBeenCalledWith(props.endingProjects);
+            });
+
+            it('calls getEndingProjectsResourceTotal of dashboardUtil', () => {
+                var {props} = setup();
+                expect(dashboardUtil.getEndingProjectsResourceTotal).toHaveBeenCalledWith(fakeEndingProjects);
+            });
         });
 
-        it('returns false if date is above 15 days from now', () => {
-            var {component, props} = setup();
-            var date = new Date();
-            date.setDate(date.getDate() + 18);
-            var isEnding = component.instance().isEnding(date);
-            expect(isEnding).toBeFalsy();
-        });
+        describe('renderEndingProject', () => {
+            it('returns correct component', () => {
+                var {component, props, spy} = setup();
+                var actual = component.instance().renderEndingProject(props.endingProjects[0]);
+                var expected = <EndingProjectRow key="1" endingProject={props.endingProjects[0]}/>;
+                expect(actual).toEqual(expected);
+            });
 
-        it('returns false if date is past today', () => {
-            var {component, props} = setup();
-            var date = new Date();
-            date.setDate(date.getDate() - 1);
-            var isEnding = component.instance().isEnding(date);
-            expect(isEnding).toBeFalsy();
+            it('renders all ending projects', () => {
+                var {component, props} = setup();
+                var total = component.find(EndingProjectRow).length;
+                expect(total).toEqual(props.endingProjects.length);
+            });
         });
     });
-   });
+});

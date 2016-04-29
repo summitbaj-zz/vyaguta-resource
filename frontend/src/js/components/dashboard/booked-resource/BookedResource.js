@@ -7,21 +7,16 @@
     //component
     var BookedResourceItem = require('./BookedResourceItem');
 
+    //util
+    var dashboardUtil = require('../../../util/dashboardUtil');
+
     var BookedResource = React.createClass({
         renderResourceByProjectType: function (total, key) {
             return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
         },
 
-        calculateTotalResource: function () {
-            var total = 0;
-            for (var i = 0; i < this.props.resource.length; i++) {
-                total += this.props.resource[i].numberOfProjects;
-            }
-            return total;
-        },
-
         render: function () {
-            var totalResource = this.calculateTotalResource();
+            var totalResource = dashboardUtil.calculateTotalResource(this.props.resource);
             return (
                 <div className="row">
                     <div className="col-lg-12">

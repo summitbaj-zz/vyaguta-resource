@@ -5,7 +5,6 @@
     var React = require('react');
     var connect = require('react-redux').connect;
     var bindActionCreators = require('redux').bindActionCreators;
-    var _ = require('lodash');
 
     //components
     var Resource = require('./resource/Resource');
@@ -21,14 +20,19 @@
     var apiActions = require('../../actions/apiActions');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
+    var resourceConstant = require('../../constants/resourceConstants');
+
+    //utils
+    var dashboardUtil = require('../../util/dashboardUtil');
+
+    //plugins
+    var _ = require('lodash');
 
     var Dashboard = React.createClass({
         componentDidMount: function () {
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
-            var request = 'btn' + this.addDayInDate(0) + 'and' + this.addDayInDate(15);
-
+            var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);
             this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
             this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
             this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);
@@ -40,15 +44,7 @@
             this.props.actions.apiClearState();
         },
 
-        addDayInDate: function (value) {
-            var today = new Date();
-            var newDate = new Date();
-            newDate.setDate(today.getDate() + value);
-            return newDate.getFullYear() + '-' + ('0' + (newDate.getMonth() + 1)).slice(-2) + '-' + ('0' + newDate.getDate()).slice(-2);
-        },
-
         render: function () {
-
             return (
                 <div id="page-content" className="page-content">
                     <EntityHeader header="Resource Utilization" apiState={this.props.apiState}/>
@@ -64,6 +60,7 @@
             );
         }
     });
+
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,

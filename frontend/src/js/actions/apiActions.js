@@ -8,7 +8,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     /**
      * These are the actions dispatched whenever the API is used

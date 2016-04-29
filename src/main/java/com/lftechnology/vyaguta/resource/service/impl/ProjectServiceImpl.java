@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -57,6 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         this.validateDates(project);
+        this.validateAllocations(project);
         this.fixTags(project);
         this.fixContract(project);
         projectDao.save(project);
@@ -83,6 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         this.validateDates(obj);
+        this.validateAllocations(obj);
         this.fixTags(obj);
         this.fixContracts(project, obj);
 
@@ -159,8 +163,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
-                .distinct().collect(Collectors.toList());
+        List<UUID> employeeIds =
+                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
+                        .collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -203,8 +208,7 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -259,11 +263,28 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
-                    throw new ParameterFormatException(
-                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
+                            + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
+    }
+
+    private void validateAllocations(Project project) {
+        Double total = 0.00;
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                List<Double> results = contactMemberDao.findTotalAllocation(cm.getEmployee(), cm.getJoinDate(), cm.getEndDate());
+                if (!results.isEmpty()) {
+                    total = results.get(0);
+                }
+                if (((Double)(total + cm.getAllocation())) > 100.0) {
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s total allocation must be less than 100");
+                }
+            }
+
+        }
+
     }
 
     private Boolean validateDateRange(LocalDate start, LocalDate end) {
@@ -333,10 +354,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
         LocalDate today = LocalDate.now();
         List<Map<String, Object>> overdueProjects = projectDao.findOverdueProjects(projectStatus);
-        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate"))).map(e1 -> {
-            e1.put("endDate", e1.get("endDate").toString());
-            return e1;
-        }).collect(Collectors.toList());
+        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate")))
+                .sorted((e1, e2) -> e2.get("endDate").toString().compareTo(e1.get("endDate").toString())).map(e1 -> {
+                    e1.put("endDate", e1.get("endDate").toString());
+                    return e1;
+                }).collect(Collectors.toList());
     }
 
 }

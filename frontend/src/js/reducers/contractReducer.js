@@ -7,7 +7,7 @@
 ;(function () {
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     //util
     var convertContractHash = require('../util/convertContractHash');
@@ -23,6 +23,7 @@
             resource: null,
             contractMembers: []
         }],
+        contractsForView: [],
         allocations: [],
         selectedContractMember: {}
     };
@@ -47,6 +48,7 @@
                 var newState = _.cloneDeep(state);
                 if (action.entity == 'projects') {
                     newState.contracts = convertContractHash.toFrontEndHash(action.data.contracts);
+                    newState.contractsForView = convertContractHash.toFrontEndHash(action.data.contracts);
                 }
                 return newState;
 

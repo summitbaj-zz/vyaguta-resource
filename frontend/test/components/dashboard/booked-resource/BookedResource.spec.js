@@ -7,7 +7,9 @@ import _ from 'lodash';
 //components
 import BookedResourceComponent from '../../../../src/js/components/dashboard/booked-resource/BookedResource';
 import BookedResourceItem from '../../../../src/js/components/dashboard/booked-resource/BookedResourceItem';
+import dashboardUtil from '../../../../src/js/util/dashboardUtil';
 
+dashboardUtil.calculateTotalResource = expect.createSpy();
 function setup() {
     var props = {
         resource: [{foo: 'bar', numberOfProjects: 2}, {foo: 'bar2', numberOfProjects: 2}]
@@ -21,9 +23,16 @@ function setup() {
 }
 
 describe('BookedResource component', () => {
+    describe('render', () => {
+        it('calls calculateTotalResource of dashboardUtil', () => {
+            var {props} = setup();
+            expect(dashboardUtil.calculateTotalResource).toHaveBeenCalledWith(props.resource);
+        });
+    });
+
     describe('renderResourceByProjectType', () => {
         it('returns correct component', () => {
-            var {component, props} = setup();
+            var {component, props, spy} = setup();
             var actual = component.instance().renderResourceByProjectType(2, 0);
             var expected = <BookedResourceItem resource={props.resource[0]} key='0' total='2'/>;
             expect(actual).toEqual(expected);
@@ -33,14 +42,6 @@ describe('BookedResource component', () => {
             var {component, props} = setup();
             var total = component.find(BookedResourceItem).length;
             expect(total).toEqual(props.resource.length);
-        });
-    });
-
-    describe('calculateTotalResource', () => {
-        it('returns correct total number of projects', () => {
-            var {component} = setup();
-            var totalResources = component.instance().calculateTotalResource();
-            expect(totalResources).toEqual(4);
         });
     });
 });

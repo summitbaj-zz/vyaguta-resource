@@ -8,9 +8,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
-    var messageConstant = require('../../constants/messageConstant');
+    var resourceConstant = require('../../constants/resourceConstants');
+    var urlConstant = require('../../constants/urlConstants');
+    var messageConstant = require('../../constants/messageConstants');
 
     //components
     var Project = require('./ProjectRow');
@@ -77,7 +77,7 @@
             };
 
             sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
+            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
         },
 
         render: function () {

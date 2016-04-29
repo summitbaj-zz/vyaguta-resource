@@ -105,11 +105,5 @@ describe('Dashboard component', () => {
         });
     });
 
-    describe('addDayInDate', () => {
-        it('returns correctly added date', () => {
-            var {component, addDayInDate} = setup();
-            var instance = component.instance();
-            expect(instance.addDayInDate(1)).toEqual(addDayInDate(1));
-        });
-    });
+
 });
