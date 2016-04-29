@@ -279,7 +279,7 @@ public class ProjectServiceImpl implements ProjectService {
                     total = results.get(0);
                 }
                 if (((Double)(total + cm.getAllocation())) > 100.0) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s total allocation cannot more than 100");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s total allocation cannot be more than 100%");
                 }
             }
 
