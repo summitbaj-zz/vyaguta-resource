@@ -215,7 +215,7 @@
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
-                return (apiUtil.fetchBySearchQuery(entity, data, sortBy).then(function (response) {
+                return (apiUtil.fetchBySortingQuery(entity, data, sortBy).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
                         dispatch(actions.pageIndex(data, response.body.count));
