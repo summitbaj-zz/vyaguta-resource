@@ -21,12 +21,21 @@
 
     var TimelineChart = React.createClass({
         drawChart: function (data) {
-            if (data && data.length && !isDrawn) {
+            if (data && data.length && !isDrawn && this.isContractMemberPresent(data)) {
                 var element = $('#timelineChart')[0];
                 var data = convertContractHash.toTimelineHash(data);
                 d3Chart.create(element, data);
                 isDrawn = true;
             }
+        },
+
+        isContractMemberPresent: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].contractMembers.length) {
+                    return true;
+                }
+            }
+            return false;
         },
 
         componentWillUnmount: function () {

@@ -100,6 +100,7 @@
             var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories);
             var history = convertedHistory.length ? convertedHistory.reverse().slice(0, 5) : [];
             var containsMoreHistories = (convertedHistory.length > 5) ? true : false;
+
             return (
                 <div>
                     <EntityHeader header="Project Details" routes={this.props.routes}
@@ -150,7 +151,7 @@
                                                 <p>{project.client && project.client.email || '-'}</p>
                                             </div>
                                         </div>
-                                        <div className="common-view  clearfix">
+                                        <div className="common-view clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label">Account Manager</span>
                                                 <p>{this.getAccountManagerName()}</p>
@@ -162,16 +163,14 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="block-wrapper contract-wrp">
+                                        <div className="col-sm-12">
                                             <div className="panel-group custom-accordion" id="accordion" role="tablist"
                                                  aria-multiselectable="true">
                                                 {Object.keys(this.props.contracts).map(this.renderContract)}
                                             </div>
                                         </div>
 
-                                        {this.props.contracts.contractMembers &&
                                         <TimelineChart data={this.props.contracts}/>
-                                        }
 
                                         <div className="col-sm-12">
                                             <div className="block full">
