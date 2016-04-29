@@ -35,7 +35,7 @@ function setup() {
     var component = mount(<EndingProjects {...props}/>);
     return {
         component: component,
-        props: props,
+        props: props
     }
 }
 
@@ -55,7 +55,7 @@ describe('EndingProjects component', () => {
 
         describe('renderEndingProject', () => {
             it('returns correct component', () => {
-                var {component, props, spy} = setup();
+                var {component, props} = setup();
                 var actual = component.instance().renderEndingProject(props.endingProjects[0]);
                 var expected = <EndingProjectRow key="1" endingProject={props.endingProjects[0]}/>;
                 expect(actual).toEqual(expected);
