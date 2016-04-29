@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
@@ -22,6 +23,7 @@ import com.lftechnology.vyaguta.resource.service.EmployeeService;
  * @author Kailash Bijayananda <kailashraj@lftechnology.com>
  *
  */
+@Stateless
 public class EmployeeServiceImpl implements EmployeeService {
 
     private static final String EMPLOYEE_URL = Configuration.instance().getVyagutaCoreUrl() + "employees";
@@ -49,7 +51,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> fetchActiveEmployees() {
         try {
             String token = SecurityRequestContext.getAccessToken();
-            ResponseData<Employee> data = HttpHelper.get(EMPLOYEE_URL, token, new GenericType<ResponseData<Employee>>() {
+            String url = EMPLOYEE_URL + "?division=Project";
+            ResponseData<Employee> data = HttpHelper.get(url, token, new GenericType<ResponseData<Employee>>() {
             });
 
             return data.getData();

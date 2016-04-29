@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -18,6 +19,7 @@ import com.lftechnology.vyaguta.resource.service.TagService;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
+@Stateless
 public class TagServiceImpl implements TagService {
 
     @Inject

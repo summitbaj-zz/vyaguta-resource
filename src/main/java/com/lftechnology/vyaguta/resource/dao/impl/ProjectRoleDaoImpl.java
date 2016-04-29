@@ -3,8 +3,6 @@ package com.lftechnology.vyaguta.resource.dao.impl;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.ejb.Stateless;
-
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
@@ -16,7 +14,6 @@ import com.lftechnology.vyaguta.resource.sort.ProjectRoleSort;
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Stateless
 public class ProjectRoleDaoImpl extends BaseDao<ProjectRole, UUID> implements ProjectRoleDao {
 
     private ProjectRoleFilter projectRoleFilter = new ProjectRoleFilter();
