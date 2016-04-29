@@ -8,7 +8,7 @@
     var IndexLink = ReactRouter.IndexLink;
 
     //constants
-    var urlConstant = require('../../../constants/urlConstant');
+    var urlConstant = require('../../../constants/urlConstants');
 
     var Sidebar = React.createClass({
         render: function () {

@@ -9,7 +9,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     /**
      * CotractMember CRUD actions inside of Create Project

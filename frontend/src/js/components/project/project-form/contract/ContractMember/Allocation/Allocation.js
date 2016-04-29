@@ -19,10 +19,10 @@
     var moment = require('moment');
 
     //util
-    var alertBox = require('../../../../../util/alertBox');
+    var alertBox = require('../../../../../../util/alertBox');
 
     //constants
-    var messageConstant = require('../../../../../constants/messageConstant');
+    var messageConstant = require('../../../../../../constants/messageConstants');
 
     var Allocation = React.createClass({
         componentDidMount: function () {

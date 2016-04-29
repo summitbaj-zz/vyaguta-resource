@@ -9,7 +9,7 @@ import expect from 'expect';
 import _ from 'lodash';
 
 //constants
-import actionTypeConstant from '../../src/js/constants/actionTypeConstant';
+import actionTypeConstant from '../../src/js/constants/actionTypeConstants';
 
 //components
 import crudReducer from '../../src/js/reducers/crudReducer';

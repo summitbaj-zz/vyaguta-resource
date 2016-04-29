@@ -20,7 +20,7 @@
     var apiActions = require('../../actions/apiActions');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
+    var resourceConstant = require('../../constants/resourceConstants');
 
     //utils
     var dashboardUtil = require('../../util/dashboardUtil');

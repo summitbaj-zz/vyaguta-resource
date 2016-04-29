@@ -1,6 +1,6 @@
 ;(function () {
     'use strict';
-    var messageConstant = require('../constants/messageConstant');
+    var messageConstant = require('../constants/messageConstants');
 
     var apiUtil = require('./apiUtil');
     var Promise = require('promise');

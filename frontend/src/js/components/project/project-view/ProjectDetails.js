@@ -8,28 +8,28 @@
     var Link = require('react-router').Link;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
+    var urlConstant = require('../../../constants/urlConstants');
 
     //components
-    var EntityHeader = require('../common/header/EntityHeader');
+    var EntityHeader = require('../../common/header/EntityHeader');
 
     var TimelineChart = require('./TimelineChart');
-    var TeamMemberView = require('./contract/TeamMemberView');
-    var ContractView = require('./contract/ContractView');
+    var TeamMemberView = require('./contract/contract-member/ContractMemberView');
+    var Contract = require('./contract/Contract');
     var HistoryItem = require('./HistoryItem');
 
     //actions
-    var crudActions = require('../../actions/crudActions');
-    var apiActions = require('../../actions/apiActions');
-    var historyActions = require('../../actions/historyActions');
-    var contractActions = require('../../actions/contractActions');
+    var crudActions = require('../../../actions/crudActions');
+    var apiActions = require('../../../actions/apiActions');
+    var historyActions = require('../../../actions/historyActions');
+    var contractActions = require('../../../actions/contractActions');
 
     //libraries
     var _ = require('lodash');
 
     //util
-    var historyUtil = require('../../util/historyUtil');
+    var historyUtil = require('../../../util/historyUtil');
 
     var ProjectDetails = React.createClass({
         getInitialState: function () {
@@ -78,9 +78,9 @@
         },
 
         renderContract: function (key) {
-            var contracts = this.props.selectedItem.projects.contracts;
+            var contracts = this.props.contracts;
             return (
-                <ContractView key={key} index={key} length={contracts.length} contract={contracts[key]}
+                <Contract key={key} index={key} length={contracts.length} contract={contracts[key]}
                               setMemberToBeInModal={this.setMemberToBeInModal}/>
             );
         },
@@ -96,7 +96,7 @@
             var style = {
                 background: project.projectStatus && project.projectStatus.color
             };
-            var contractIds = project.contracts && Object.keys(project.contracts);
+
             var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories);
             var history = convertedHistory.length ? convertedHistory.reverse().slice(0, 5) : [];
             var containsMoreHistories = (convertedHistory.length > 5) ? true : false;
@@ -165,11 +165,11 @@
                                         <div className="block-wrapper contract-wrp">
                                             <div className="panel-group custom-accordion" id="accordion" role="tablist"
                                                  aria-multiselectable="true">
-                                                {contractIds && contractIds.map(this.renderContract)}
+                                                {Object.keys(this.props.contracts).map(this.renderContract)}
                                             </div>
                                         </div>
 
-                                        <TimelineChart width="980" data={this.props.selectedItem.projects.contracts}/>
+                                        <TimelineChart width="980" data={this.props.contracts}/>
 
                                         <div className="col-sm-12">
                                             <div className="block full">
@@ -206,6 +206,7 @@
     var mapStateToProps = function (state) {
         return {
             selectedItem: state.crudReducer.selectedItem,
+            contracts: state.contractReducer.contractsForView,
             histories: state.historyReducer.project,
             apiState: state.apiReducer
         }

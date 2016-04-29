@@ -37,18 +37,18 @@
                                component={require('./components/project-status/ProjectStatusForm')}/>
                     </Route>
 
-                <Route path="projects" name="Projects"
-                       component={require('./components/project/ProjectMain')}>
-                    <IndexRoute component={require('./components/project/ProjectList')}/>
-                    <Route path="new" name="Add"
-                           component={require('./components/project/ProjectForm')}/>
-                    <Route path=":id" name="Edit"
-                           component={require('./components/project/ProjectForm')}/>
-                    <Route path=":id/view" name="Details"
-                           component={require('./components/project/ProjectDetails')}/>
-                    <Route path=":id/history" name="History"
-                           component={require('./components/project/ProjectHistory')}/>
-                </Route>
+                    <Route path="projects" name="Projects"
+                           component={require('./components/project/ProjectMain')}>
+                        <IndexRoute component={require('./components/project/ProjectList')}/>
+                        <Route path="new" name="Add"
+                               component={require('./components/project/project-form/ProjectForm')}/>
+                        <Route path=":id" name="Edit"
+                               component={require('./components/project/project-form/ProjectForm')}/>
+                        <Route path=":id/view" name="Details"
+                               component={require('./components/project/project-view/ProjectDetails')}/>
+                        <Route path=":id/history" name="History"
+                               component={require('./components/project/project-view/ProjectHistory')}/>
+                    </Route>
 
                     <Route path="projecttypes" name="Project Types"
                            component={require('./components/project-type/ProjectTypeMain')}>
@@ -78,7 +78,6 @@
                     </Route>
                 </Route>
 
-                <Route path="404NotFound" component={require('./components/common/error-pages/PageNotFoundError')}/>
                 <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}/>
             </Router>
         );

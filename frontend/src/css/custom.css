@@ -709,6 +709,14 @@ footer a, footer a:hover {
         width: 94%;
     }
 
+    .carousel-indicators {
+        bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+    .list-group-item .label, .list-group-item .project-status {
+        display: none;
+    }
 }
 
 @media only screen and (min-width: 480px) {
@@ -728,15 +736,20 @@ footer a, footer a:hover {
     }
 
     .carousel-indicators {
-        bottom: -20px;
+        bottom: -10px;
+    }
+
+    .list-group-item .label, .list-group-item .project-status {
+        display: inline;
     }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {
-    .fa-sort{
+    .fa-sort {
         display: block;
     }
+
     .sidebar-partial.footer-fixed #main-container #page-content + footer,
     .sidebar-partial.header-fixed-top header.navbar-fixed-top,
     .sidebar-partial.header-fixed-bottom header.navbar-fixed-bottom {

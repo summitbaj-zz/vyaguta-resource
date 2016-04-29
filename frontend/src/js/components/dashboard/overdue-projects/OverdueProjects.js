@@ -29,7 +29,7 @@
                             <ul className="list-group">
                                 <li className="list-group-item"><span
                                     className="list-group-project">Projects</span>
-                                    <span>Project Status</span><span>End Date</span>
+                                    <span className="project-status">Project Status</span><span>End Date</span>
                                 </li>
                                 {overdueProjects && Object.keys(overdueProjects).map(this.renderOverdueProject)}
                             </ul>
