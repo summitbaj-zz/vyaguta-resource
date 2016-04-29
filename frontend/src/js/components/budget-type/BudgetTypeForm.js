@@ -33,9 +33,16 @@
     var Toastr = require('toastr');
 
     var BudgetTypeForm = React.createClass({
-        componentDidMount: function () {
+        getInitialState: function () {
+            return {
+                autoFocus: true
+            }
+        },
+
+        componentWillMount: function () {
             //fill form with data for editing
             if (this.props.params.id) {
+                this.setState({autoFocus: false});
                 this.props.actions.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id);
             }
         },
@@ -76,7 +83,8 @@
             return (
                 <div>
                     <EntityHeader header={(this.props.params.id) ? 'Edit Budget Type' : 'Add Budget Type'}
-                                  routes={this.props.routes} title={this.props.selectedItem.budgetTypes.title || 'Budget Type'}
+                                  routes={this.props.routes}
+                                  title={this.props.selectedItem.budgetTypes.title || 'Budget Type'}
                                   apiState={this.props.apiState}/>
                     <div className="block">
                         <div
@@ -93,6 +101,7 @@
                                            onBlur={formValidator.validateField}
                                            onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            onChange={this.handleChange}
+                                           autoFocus={this.state.autoFocus}
                                     />
                                     <span className="help-block"></span>
                                 </div>

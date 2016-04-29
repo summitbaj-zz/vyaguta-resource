@@ -25,8 +25,14 @@
     var Toastr = require('toastr');
 
     var ClientForm = React.createClass({
-        componentDidMount: function () {
+        getInitialState: function () {
+            return {
+                autoFocus: true
+            }
+        },
+        componentWillMount: function () {
             if (this.props.params.id) {
+                this.setState({autoFocus: false});
                 this.props.actions.fetchById(resourceConstant.CLIENTS, this.props.params.id);
             }
         },
@@ -93,6 +99,7 @@
                                            placeholder="Client Name"
                                            className="form-control"
                                            id="name"
+                                           autoFocus={this.state.autoFocus}
                                     />
                                     <span className="help-block"></span>
                                 </div>

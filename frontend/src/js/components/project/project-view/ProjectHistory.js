@@ -22,7 +22,7 @@
     var historyUtil = require('../../../util/historyUtil');
 
     var History = React.createClass({
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
         },
 

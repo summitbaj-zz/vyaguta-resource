@@ -54,7 +54,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
             }

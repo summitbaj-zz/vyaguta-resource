@@ -36,7 +36,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECT_ROLES, {
                 _start: this.props.pagination.page || 1,
                 _limit: this.props.offset

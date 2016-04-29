@@ -26,7 +26,7 @@
     var dashboardUtil = require('../../util/dashboardUtil');
 
     var Dashboard = React.createClass({
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
 
             var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);

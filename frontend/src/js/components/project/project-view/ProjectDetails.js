@@ -39,7 +39,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
             this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
         },
