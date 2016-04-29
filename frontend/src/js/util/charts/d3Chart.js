@@ -46,10 +46,10 @@
 
         var parseDate = d3.time.format("%Y-%m-%d").parse;
 
-        this.create = function (element, props, data) {
+        this.create = function (element, data) {
             lanes = data.lanes;
             items = data.items;
-            width = props.width - margin.left - margin.right;
+            width = (screen.width/1.41) - margin.left - margin.right;
             height = (lanes.length * 50) + 100;
             miniHeight = lanes.length * 12 + 50;
             mainHeight = height - miniHeight - 50;
@@ -60,6 +60,16 @@
                 .attr('width', width + margin.right + margin.left)
                 .attr('height', height + margin.top + margin.bottom)
                 .attr('class', 'chart');
+
+            //responsive
+            window.addEventListener("resize", function(e) {
+                width = e.target.outerWidth/1.41 + margin.right + margin.left;
+                x1 = d3.time.scale().range([0, width]);
+
+                svg.attr("width", width);
+
+
+            });
 
             //define clippath
             svg.append('defs')

@@ -56,6 +56,17 @@
             return '';
         },
 
+        getFullName: function () {
+            var middleName;
+            if (this.props.contractMember.employee.middleName && this.props.contractMember.employee.middleName != 'NULL' && this.props.contractMember.employee.middleName != null) {
+                middleName = this.props.contractMember.employee.middleName + ' ';
+            } else {
+                middleName = '';
+            }
+
+            return (this.props.contractMember.employee.firstName + ' ' + middleName + this.props.contractMember.employee.lastName);
+        },
+
         render: function () {
             return (
                 <li>
@@ -64,7 +75,7 @@
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className={(this.isActive()) ? 'user-info user-active' : 'user-info user-inactive'}>
                             <span>
-                                {this.props.contractMember.employee.firstName + ' ' + this.props.contractMember.employee.lastName}
+                                {this.getFullName()}
                                 </span>
                             <span>
                             {this.isBilled()}
