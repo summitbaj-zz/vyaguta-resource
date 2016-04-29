@@ -49,7 +49,6 @@
             this.props.actions.apiClearState();
             this.props.actions.clearHistory();
             this.props.actions.clearContracts();
-            this.props.actions.clearContractsForView();
         },
 
         getAccountManagerName: function () {
@@ -170,7 +169,9 @@
                                             </div>
                                         </div>
 
+                                        {this.props.contracts.contractMembers &&
                                         <TimelineChart data={this.props.contracts}/>
+                                        }
 
                                         <div className="col-sm-12">
                                             <div className="block full">

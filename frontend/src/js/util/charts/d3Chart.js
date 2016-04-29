@@ -137,7 +137,7 @@
 
             brush = d3.svg.brush()
                 .x(x)
-                .extent([d3.time.monday(now), d3.time.month.offset(d3.time.monday(now), 1)])
+                .extent([d3.time.monday(now), d3.time.day.offset(d3.time.monday(now), 15)])
                 .on("brush", display);
         };
 

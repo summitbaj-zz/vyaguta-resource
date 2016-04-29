@@ -132,14 +132,10 @@
                     resource: null,
                     contractMembers: []
                 }];
-
-                return newState;
-
-            case actionTypeConstant.CLEAR_CONTRACTS_FOR_VIEW:
-                var newState = _.cloneDeep(state);
                 newState.contractsForView = [];
+
                 return newState;
-            
+
             case actionTypeConstant.CLEAR_CONTRACT_MEMBER:
                 var newState = _.cloneDeep(state);
                 newState.selectedContractMember = {};
