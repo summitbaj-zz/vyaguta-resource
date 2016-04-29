@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.lftechnology.vyaguta.commons.dao.BaseDao;
@@ -15,6 +15,7 @@ import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
@@ -22,7 +23,6 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  *
  */
-@Stateless
 public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> implements ContractMemberDao {
 
     public ContractMemberDaoImpl() {
@@ -50,8 +50,8 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
     public Map<String, Object> findBilledAndUnbilledResource(LocalDate date) {
         Map<String, Object> map = new HashMap<>();
 
-        Query query = em.createQuery(
-                "SELECT SUM(CASE WHEN billed = 't' THEN (allocation * 0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN billed = 'f' THEN (allocation * 0.01) ELSE 0 END) AS Unbilled FROM ContractMember WHERE :date BETWEEN joinDate AND endDate");
+        Query query =
+                em.createQuery("SELECT SUM(CASE WHEN billed = 't' THEN (allocation * 0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN billed = 'f' THEN (allocation * 0.01) ELSE 0 END) AS Unbilled FROM ContractMember WHERE :date BETWEEN joinDate AND endDate");
         query.setParameter("date", date);
         List<Object[]> result = query.getResultList();
         for (Object[] obj : result) {
@@ -72,10 +72,10 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
     public Map<UUID, Double> findAvailableResource(LocalDate date) {
         Map<UUID, Double> map = new HashMap<>();
 
-        List<Object[]> result = em
-                .createQuery(
+        List<Object[]> result =
+                em.createQuery(
                         "SELECT employee.id,  SUM(allocation * 0.01) FROM ContractMember WHERE :date BETWEEN joinDate AND endDate GROUP BY employee.id")
-                .setParameter("date", date).getResultList();
+                        .setParameter("date", date).getResultList();
         for (Object[] obj : result) {
             map.put((UUID) obj[0], (Double) obj[1]);
         }
@@ -83,9 +83,26 @@ public class ContractMemberDaoImpl extends BaseDao<ContractMember, UUID> impleme
     }
 
     @Override
-    public List<Double> findTotalAllocation(Employee employee, LocalDate joinDate, LocalDate endDate) {
-        return em.createNamedQuery(ContractMember.FIND_TOTAL_ALLOCATIONS, Double.class).setParameter("employee", employee.getId())
-                .setParameter("jDate", joinDate).setParameter("eDate", endDate).getResultList();
+    public Double findProjectAllocation(Employee employee, LocalDate joinDate, LocalDate endDate) {
+        try {
+
+            return em.createNamedQuery(ContractMember.FIND_PROJECT_ALLOCATION_SUM, Double.class).setParameter("employee", employee.getId())
+                    .setParameter("jDate", joinDate).setParameter("eDate", endDate).getSingleResult();
+        } catch (NoResultException e) {
+            return 0d;
+        }
+    }
+
+    @Override
+    public Double findProjectAllocation(Employee employee, Project project, LocalDate joinDate, LocalDate endDate) {
+        try {
+
+            return em.createNamedQuery(ContractMember.FIND_PROJECT_ALLOCATION_SUM_EXCEPT_SELF, Double.class)
+                    .setParameter("employee", employee.getId()).setParameter("project", project).setParameter("jDate", joinDate)
+                    .setParameter("eDate", endDate).getSingleResult();
+        } catch (NoResultException e) {
+            return 0d;
+        }
     }
 
 }

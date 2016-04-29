@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -16,6 +17,7 @@ import com.lftechnology.vyaguta.resource.service.ClientService;
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
+@Stateless
 public class ClientServiceImpl implements ClientService {
 
     @Inject

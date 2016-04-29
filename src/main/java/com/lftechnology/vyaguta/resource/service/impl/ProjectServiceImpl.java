@@ -17,6 +17,7 @@ import javax.persistence.PersistenceException;
 import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
+import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
@@ -84,6 +85,8 @@ public class ProjectServiceImpl implements ProjectService {
         if (project == null) {
             throw new ObjectNotFoundException();
         }
+
+        obj.setId(project.getId());
 
         this.validateDates(obj);
         this.validateAllocations(obj);
@@ -271,20 +274,74 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private void validateAllocations(Project project) {
-        Double total = 0.00;
         for (Contract contract : project.getContracts()) {
             for (ContractMember cm : contract.getContractMembers()) {
-                List<Double> results = contactMemberDao.findTotalAllocation(cm.getEmployee(), cm.getJoinDate(), cm.getEndDate());
-                if (!results.isEmpty()) {
-                    total = results.get(0);
+                Double allocation = 0d;
+                if (project.getId() == null) {
+                    allocation = contactMemberDao.findProjectAllocation(cm.getEmployee(), cm.getJoinDate(), cm.getEndDate());
+                } else {
+                    allocation = contactMemberDao.findProjectAllocation(cm.getEmployee(), project, cm.getJoinDate(), cm.getEndDate());
                 }
-                if (((Double)(total + cm.getAllocation())) > 100.0) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s total allocation cannot be more than 100%");
+                List<ContractMember> contractMembers = filterContractMembers(project, cm);
+
+                Double sum = 0d;
+
+                for (ContractMember tempCm : contractMembers) {
+                    sum += tempCm.getAllocation();
+
+                }
+                if (allocation + sum > 100) {
+                    Employee employee = fetchEmployee(cm.getEmployee().getId());
+                    String employeeName = employee == null ? "Unknown user" : employee.getFirstName();
+                    throw new ParameterFormatException(employeeName + "'s total allocation cannot be more than 100%");
                 }
             }
-
         }
 
+    }
+
+    private Employee fetchEmployee(UUID id) {
+        List<UUID> employeeIds = new ArrayList<UUID>();
+        employeeIds.add(id);
+        List<Employee> employees = employeeService.fetchEmployees(employeeIds);
+        if (employees.size() > 0)
+            return employees.get(0);
+        return null;
+    }
+
+    private boolean overlaps(LocalDate d1, LocalDate d2, LocalDate e1, LocalDate e2) {
+        if ((isEqualOrBefore(d1, e1) && isEqualOrAfter(d2, e1)) || (isEqualOrBefore(d1, e2) && isEqualOrAfter(d2, e2))
+                || (isEqualOrBefore(d1, e1) && isEqualOrAfter(d2, e2))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEqualOrBefore(LocalDate d1, LocalDate d2) {
+        if (d1.isEqual(d2) || d1.isBefore(d2))
+            return true;
+        return false;
+    }
+
+    private boolean isEqualOrAfter(LocalDate d1, LocalDate d2) {
+        if (d1.isEqual(d2) || d1.isAfter(d2))
+            return true;
+        return false;
+    }
+
+    private List<ContractMember> filterContractMembers(Project project, ContractMember cmember) {
+        List<ContractMember> contractMembers = new ArrayList<>();
+
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                if (cm.getEmployee().getId().equals(cmember.getEmployee().getId())) {
+                    if (overlaps(cm.getJoinDate(), cm.getEndDate(), cmember.getJoinDate(), cmember.getEndDate())) {
+                        contractMembers.add(cm);
+                    }
+                }
+            }
+        }
+        return contractMembers;
     }
 
     private Boolean validateDateRange(LocalDate start, LocalDate end) {
