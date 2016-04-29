@@ -25,8 +25,14 @@
     var Toastr = require('toastr');
 
     var ProjectTypeForm = React.createClass({
-        componentDidMount: function () {
+        getInitialState: function(){
+            return{
+                autoFocus: true
+            }
+        },
+        componentWillMount: function () {
             if (this.props.params.id) {
+                this.setState({autoFocus: false});
                 this.props.actions.fetchById(resourceConstant.PROJECT_TYPES, this.props.params.id);
             }
         },
@@ -83,6 +89,7 @@
                                            placeholder="Project Type"
                                            className="form-control"
                                            id="title"
+                                           autoFocus={this.state.autoFocus}
                                     />
                                     <span className="help-block"></span>
                                 </div>

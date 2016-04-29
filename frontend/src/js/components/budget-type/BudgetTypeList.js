@@ -41,7 +41,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
                 _start: this.props.pagination.page || 1,
                 _limit: this.props.offset

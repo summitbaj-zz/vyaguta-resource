@@ -38,7 +38,7 @@
                 offset: parseInt(resourceConstant.OFFSET)
             }
         },
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
                 _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
