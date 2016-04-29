@@ -24,7 +24,7 @@
                 <div className="col-lg-6">
                     <div className="block">
                         <div className="block-title-border clearfix"><span
-                            className="pull-left">Projects Ending </span>
+                            className="pull-left">Projects Ending within 2 weeks</span>
                         </div>
                         <div className="list-wrapper">
                             <ul className="list-group">
