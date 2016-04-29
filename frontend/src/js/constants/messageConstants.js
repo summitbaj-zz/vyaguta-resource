@@ -1,8 +1,8 @@
 ;(function () {
-    var messageConstant = {
-        FORM_INVALID_SUBMISSION_MESSAGE: 'Please fill the required fields with correct data.',
-        REQUIRED_MESSAGE: 'This field is required.',
-        INVALID_EMAIL_MESSAGE: 'Enter email address in the format someone@example.com.',
+    var messageConstants = {
+        FORM_INVALID_SUBMISSION_MESSAGE: 'Please fill the required fields with correct data',
+        REQUIRED_MESSAGE: 'This field is required',
+        INVALID_EMAIL_MESSAGE: 'Enter email address in the format someone@example.com',
 
         TOASTR_INVALID_HEADER: 'Error!',
 
@@ -22,5 +22,5 @@
         FILL_DATES_FOR_CONTRACTS: 'Please fill contract date for all contracts'
 
     };
-    module.exports = messageConstant;
+    module.exports = messageConstants;
 })();

@@ -14,14 +14,14 @@
     var SelectOption = require('../../SelectOption');
 
     //util
-    var alertBox = require('../../../../util/alertBox');
-    var apiUtil = require('../../../../util/apiUtil');
-    var formValidator = require('../../../../util/formValidator');
-    var formUtil = require('../../../../util/formUtil');
+    var alertBox = require('../../../../../util/alertBox');
+    var apiUtil = require('../../../../../util/apiUtil');
+    var formValidator = require('../../../../../util/formValidator');
+    var formUtil = require('../../../../../util/formUtil');
 
     //constants
-    var messageConstant = require('../../../../constants/messageConstant');
-    var resourceConstant = require('../../../../constants/resourceConstant');
+    var messageConstant = require('../../../../../constants/messageConstants');
+    var resourceConstant = require('../../../../../constants/resourceConstants');
 
     //libraries
     var Select = require('react-select');

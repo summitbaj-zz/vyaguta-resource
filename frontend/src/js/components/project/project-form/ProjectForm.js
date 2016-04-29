@@ -14,9 +14,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
-    var messageConstant = require('../../constants/messageConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
+    var urlConstant = require('../../../constants/urlConstants');
+    var messageConstant = require('../../../constants/messageConstants');
 
     //libraries
     var moment = require('moment');
@@ -26,23 +26,23 @@
     var Select = require('react-select');
 
     //components
-    var EntityHeader = require('../common/header/EntityHeader');
+    var EntityHeader = require('../../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
     var ReasonModal = require('./ReasonModal');
-    var formValidator = require('../../util/formValidator');
+    var formValidator = require('../../../util/formValidator');
 
     //util
-    var apiUtil = require('../../util/apiUtil');
-    var convertContractHash = require('../../util/convertContractHash');
+    var apiUtil = require('../../../util/apiUtil');
+    var convertContractHash = require('../../../util/convertContractHash');
 
     //actions
-    var crudActions = require('../../actions/crudActions');
-    var apiActions = require('../../actions/apiActions');
-    var contractActions = require('../../actions/contractActions');
-    var contractMemberActions = require('../../actions/contractMemberActions');
-    var allocationActions = require('../../actions/allocationActions');
+    var crudActions = require('../../../actions/crudActions');
+    var apiActions = require('../../../actions/apiActions');
+    var contractActions = require('../../../actions/contractActions');
+    var contractMemberActions = require('../../../actions/contractMemberActions');
+    var allocationActions = require('../../../actions/allocationActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {

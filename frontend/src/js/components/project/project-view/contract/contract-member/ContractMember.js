@@ -7,7 +7,7 @@
     //libraries
     var moment = require('moment');
 
-    var TeamMember = React.createClass({
+    var ContractMember = React.createClass({
         isActive: function () {
             var allocations = this.props.contractMember.allocations;
             var todaysDate = moment().startOf('day');
@@ -68,5 +68,5 @@
         }
 
     });
-    module.exports = TeamMember;
+    module.exports = ContractMember;
 })();
