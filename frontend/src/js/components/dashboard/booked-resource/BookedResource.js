@@ -4,11 +4,14 @@
     //React Dependencies
     var React = require('react');
 
-    //component
+    //components
     var BookedResourceItem = require('./BookedResourceItem');
 
-    //util
+    //utils
     var dashboardUtil = require('../../../util/dashboardUtil');
+
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
 
     var BookedResource = React.createClass({
         renderResourceByProjectType: function (total, key) {
@@ -16,7 +19,7 @@
         },
 
         displayNoRecordFound: function () {
-            return (<div className="not-found-message">No records found.</div>);
+            return (<div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>);
         },
 
         render: function () {

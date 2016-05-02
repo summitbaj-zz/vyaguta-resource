@@ -19,7 +19,9 @@
 
         SELECT_TEAM_MEMBER: 'Please select Team Member',
         FILL_DATES_FOR_ALLOCATIONS: 'Please fill estimated duration for all allocations',
-        FILL_DATES_FOR_CONTRACTS: 'Please fill contract date for all contracts'
+        FILL_DATES_FOR_CONTRACTS: 'Please fill contract date for all contracts',
+
+        NO_RECORDS_FOUND: 'No records found.'
 
     };
     module.exports = messageConstants;

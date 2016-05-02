@@ -11,7 +11,7 @@
     //constants
     var urlConstant = require('../../../constants/urlConstants');
 
-    //util
+    //utils
     var listUtil = require('../../../util/listUtil');
 
     var InProgressProjects = React.createClass({

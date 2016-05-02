@@ -10,6 +10,9 @@
     //components
     var OverdueProjectRow = require('./OverdueProjectRow');
 
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
+
     var OverdueProjects = React.createClass({
         renderOverdueProject: function (key) {
             return (
@@ -18,7 +21,7 @@
         },
 
         displayNoRecordFound: function () {
-            return (<li className="list-group-item not-found-message">No records found.</li>);
+            return (<li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>);
         },
 
         render: function () {

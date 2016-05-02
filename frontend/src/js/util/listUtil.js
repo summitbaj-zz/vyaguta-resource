@@ -1,7 +1,11 @@
 ;(function () {
     'use strict';
 
+    //react dependencies
     var React = require('react');
+
+    //constants
+    var messageConstants = require('../constants/messageConstants');
 
     function listUtil() {
         this.changeSortDisplay = function (field) {
@@ -26,7 +30,7 @@
 
         this.displayNoRecordFound = function () {
             return (<tr>
-                <td colSpan="100%" className="not-found-message">No records found.</td>
+                <td colSpan="100%" className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</td>
             </tr>);
         }
     }

@@ -10,6 +10,10 @@
     //components
     var EndingProjectRow = require('./EndingProjectRow');
 
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
+
+
     var EndingProjects = React.createClass({
         renderEndingProject: function (endingProject) {
             return (
@@ -18,7 +22,7 @@
         },
 
         displayNoRecordFound: function () {
-            return (<li className="list-group-item not-found-message">No records found.</li>);
+            return (<li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>);
         },
 
         render: function () {
