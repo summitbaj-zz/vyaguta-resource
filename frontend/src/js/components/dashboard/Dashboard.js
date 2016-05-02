@@ -25,7 +25,7 @@
     //utils
     var dashboardUtil = require('../../util/dashboardUtil');
 
-    //plugins
+    //libraries
     var _ = require('lodash');
 
     var Dashboard = React.createClass({
