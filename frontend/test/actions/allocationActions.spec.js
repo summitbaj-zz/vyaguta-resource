@@ -12,6 +12,7 @@ import actionTypeConstant from '../../src/js/constants/actionTypeConstants';
 
 //components
 import allocationActions from '../../src/js/actions/allocationActions';
+import crudActions from '../../src/js/actions/allocationActions';
 
 
 describe('allocationActions', () => {

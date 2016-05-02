@@ -22,6 +22,7 @@ var initialState = {
         resource: null,
         contractMembers: []
     }],
+    contractsForView: [],
     allocations: [],
     selectedContractMember: {}
 };

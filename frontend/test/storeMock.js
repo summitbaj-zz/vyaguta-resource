@@ -24,7 +24,7 @@ var crudReducer = {
             projectStatus: {},
             accountManager: {},
             client: {},
-            contracts: {}
+            contracts: []
         },
         projectRoles: {},
         budgetTypes: {},
@@ -47,9 +47,34 @@ var contractReducer = {
     selectedContractMember: {}
 };
 
+var dashboardReducer = {
+    projectEnding: [],
+    overdue: [],
+    inProgressProjects: [],
+    resource: {
+        utilization: {},
+        booked: [],
+        available: []
+    }
+};
+
+var apiReducer = {
+    isRequesting: false,
+    numberOfRequests: 0
+}
+
+var routing = {
+    locationBeforeTransitions: {
+        pathname: '/'
+    }
+}
+
 var state = {
     crudReducer: crudReducer,
-    contractReducer: contractReducer
+    contractReducer: contractReducer,
+    dashboardReducer: dashboardReducer,
+    apiReducer: apiReducer,
+    routing: routing
 };
 
 var store = mockStore(state);

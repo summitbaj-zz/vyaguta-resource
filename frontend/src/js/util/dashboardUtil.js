@@ -81,11 +81,13 @@
         },
 
         getEmployeeName: function (employee) {
-            var name = employee.firstName;
+            var employee = employee || {};
+            var name = '';
+            name = name + employee.firstName;
             if (employee.middleName && employee.middleName != 'NULL') {
-                name = name.concat(' ', employee.middleName);
+                name = name + ' ' + employee.middleName;
             }
-            name = name.concat(' ', employee.lastName);
+            name = name + ' ' + employee.lastName;
             return name;
         },
 

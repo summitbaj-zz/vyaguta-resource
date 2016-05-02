@@ -25,6 +25,9 @@
     //utils
     var dashboardUtil = require('../../util/dashboardUtil');
 
+    //libraries
+    var _ = require('lodash');
+
     var Dashboard = React.createClass({
         componentWillMount: function () {
             this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
@@ -57,6 +60,7 @@
             );
         }
     });
+
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,

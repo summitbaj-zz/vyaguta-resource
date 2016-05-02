@@ -28,7 +28,7 @@ var initialState = {
             projectStatus: {},
             accountManager: {},
             client: {},
-            contracts: {}
+            contracts: []
         },
         projectRoles: {},
         budgetTypes: {},
