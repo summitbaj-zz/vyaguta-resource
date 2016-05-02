@@ -1,24 +1,19 @@
 package com.lftechnology.vyaguta.resource.service;
 
-import javax.ejb.Timer;
+import com.lftechnology.vyaguta.resource.entity.Contract;
 
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-public interface NotificationService {
-
-    /**
-     * Method used to define schedule
-     */
-    public void init();
+public interface ProjectNotificationService {
 
     /**
      * Method which includes task to be run at scheduled time
      * 
-     * @param {{@link
-     *            Timer}
      */
-    public void routineJob(Timer timer);
+    public void pushNotification();
+
+    public String emailBuilder(Contract contract);
 }
