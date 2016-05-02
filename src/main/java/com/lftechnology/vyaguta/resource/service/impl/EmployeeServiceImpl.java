@@ -48,10 +48,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> fetchActiveEmployees() {
+    public List<Employee> fetchActiveEmployeesUnderProjectResource() {
         try {
             String token = SecurityRequestContext.getAccessToken();
-            String url = EMPLOYEE_URL + "?division=Project";
+            String url = EMPLOYEE_URL + "?division=Project Resource&hrStatus=Probation&hrStatus=Permanent";
             ResponseData<Employee> data = HttpHelper.get(url, token, new GenericType<ResponseData<Employee>>() {
             });
 

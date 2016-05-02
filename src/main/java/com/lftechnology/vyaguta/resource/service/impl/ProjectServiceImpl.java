@@ -363,7 +363,7 @@ public class ProjectServiceImpl implements ProjectService {
         Double billed = (Double) resource.get("billed");
         Double bookedResourcesCount = billed + unbilled;
 
-        Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployees().size());
+        Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployeesUnderProjectResource().size());
         Double freeResourceCount = totalEmployee - bookedResourcesCount;
 
         Map<String, Object> resultOutput = new HashMap<>();
@@ -382,7 +382,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<AvailableResource> findAvailableResource(LocalDate date) {
 
-        List<Employee> employeeList = employeeService.fetchActiveEmployees();
+        List<Employee> employeeList = employeeService.fetchActiveEmployeesUnderProjectResource();
         Map<UUID, Double> allocatedMembers = contactMemberDao.findAvailableResource(date);
 
         List<AvailableResource> availableResource = new ArrayList<>();
