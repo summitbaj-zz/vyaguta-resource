@@ -18,7 +18,7 @@ function setup() {
     var component = mount(<BookedResourceComponent {...props}/>);
     return {
         component: component,
-        props: props,
+        props: props
     }
 }
 
@@ -36,6 +36,12 @@ describe('BookedResource component', () => {
             var actual = component.instance().renderResourceByProjectType(2, 0);
             var expected = <BookedResourceItem resource={props.resource[0]} key='0' total='2'/>;
             expect(actual).toEqual(expected);
+        });
+
+        it('returns no record found item if there are no records', () =>{
+            var component = mount(<BookedResourceComponent resource={[]}/>);
+            var output = component.find('.not-found-message');
+            expect(output.length).toEqual(1);
         });
 
         it('renders all booked resource', () => {

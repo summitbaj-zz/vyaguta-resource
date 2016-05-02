@@ -15,6 +15,10 @@
             return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
         },
 
+        displayNoRecordFound: function () {
+            return (<div className="not-found-message">No records found.</div>);
+        },
+
         render: function () {
             var totalResource = dashboardUtil.calculateTotalResource(this.props.resource);
             return (
@@ -26,7 +30,7 @@
                             </div>
                             <div className="widget-extra-full">
                                 <div className="row">
-                                    {Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource))}
+                                    {this.props.resource.length ? Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource)) : this.displayNoRecordFound()}
                                 </div>
                             </div>
                         </div>

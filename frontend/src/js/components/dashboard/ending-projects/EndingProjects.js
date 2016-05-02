@@ -17,6 +17,10 @@
             );
         },
 
+        displayNoRecordFound: function () {
+            return (<li className="list-group-item not-found-message">No records found.</li>);
+        },
+
         render: function () {
             var endingProjects = dashboardUtil.getEndingProjectsData(this.props.endingProjects);
 
@@ -32,7 +36,7 @@
                                     className="list-group-project">Projects</span>
                                     <span>End Date</span><span>Resources</span>
                                 </li>
-                                {endingProjects.map(this.renderEndingProject)}
+                                {endingProjects.length ? endingProjects.map(this.renderEndingProject) : this.displayNoRecordFound()}
                                 <li className="list-group-item total">
                                     <span>Total</span><span>{dashboardUtil.getEndingProjectsResourceTotal(endingProjects)}</span>
                                 </li>

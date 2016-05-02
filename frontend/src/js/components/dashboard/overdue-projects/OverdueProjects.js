@@ -17,6 +17,10 @@
             );
         },
 
+        displayNoRecordFound: function () {
+            return (<li className="list-group-item not-found-message">No records found.</li>);
+        },
+
         render: function () {
             return (
                 <div className="col-lg-6">
@@ -30,7 +34,7 @@
                                     className="list-group-project">Projects</span>
                                     <span className="project-status">Project Status</span><span>End Date</span>
                                 </li>
-                                {Object.keys(this.props.overdueProjects).map(this.renderOverdueProject)}
+                                {this.props.overdueProjects.length ? Object.keys(this.props.overdueProjects).map(this.renderOverdueProject) : this.displayNoRecordFound()}
                             </ul>
                         </div>
 

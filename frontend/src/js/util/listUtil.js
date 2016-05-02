@@ -1,7 +1,9 @@
 ;(function () {
     'use strict';
 
-    function sortUI() {
+    var React = require('react');
+
+    function listUtil() {
         this.changeSortDisplay = function (field) {
             var sortField = $('#' + field);
             var sortIcon = sortField.children('i');
@@ -21,8 +23,14 @@
                 return false;
             }
         }
+
+        this.displayNoRecordFound = function () {
+            return (<tr>
+                <td colSpan="100%" className="not-found-message">No records found.</td>
+            </tr>);
+        }
     }
 
-    module.exports = new sortUI();
+    module.exports = new listUtil();
 
 })();

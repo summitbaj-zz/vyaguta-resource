@@ -20,7 +20,6 @@
 
     var apiUtil = {
         fetchById: function (resourceName, id) {
-            console.log(url);
             return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
