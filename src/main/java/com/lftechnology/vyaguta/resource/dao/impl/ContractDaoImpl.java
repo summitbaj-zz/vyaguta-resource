@@ -34,7 +34,7 @@ public class ContractDaoImpl extends BaseDao<Contract, UUID> implements Contract
     }
 
     @Override
-    public List<Contract> findEndingContracts(LocalDate date) {
+    public List<Contract> findContractsEndingBefore(LocalDate date) {
         return em.createQuery("SELECT c from Contract c  WHERE c.endDate = :date", Contract.class).setParameter("date", date)
                 .getResultList();
     }

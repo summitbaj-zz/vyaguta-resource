@@ -14,5 +14,5 @@ import com.lftechnology.vyaguta.resource.entity.Contract;
  */
 public interface ContractDao extends CrudDao<Contract, UUID> {
 
-    List<Contract> findEndingContracts(LocalDate date);
+    List<Contract> findContractsEndingBefore(LocalDate date);
 }
