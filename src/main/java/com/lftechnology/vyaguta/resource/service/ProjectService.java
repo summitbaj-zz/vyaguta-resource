@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.service.CrudService;
+import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
 
@@ -46,5 +47,11 @@ public interface ProjectService extends CrudService<Project, UUID> {
      *         "projectStatus","projectStatusColor", "endDate"
      */
     List<Map<String, Object>> findOverdueProjects(String projectStatus);
+
+    /**
+     * @param date
+     * @return List {@link Contract}
+     */
+    List<Contract> findContractsEndingBefore(LocalDate date);
 
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<style>
+</style>
+</head>
+
+<body>
+
+    Dear <span th:text="${contract.getProject().getAccountManager().getFirstName()}"> </span>,
+    <br />
+    <p>The contract of project  <span th:text="${contract.getProject().getTitle()}"> </span> is going to end soon. Please find the details below:</p>
+    <div>
+        <span style='line-height: 1.5; width: 125px; display: inline-block;'>Project
+            Name: </span> <span th:text="${contract.getProject().getTitle()}"></span></div>
+    <div>
+        <span style='line-height: 1.5; width: 125px; display: inline-block;'>Project
+            Start Date: </span> <span th:text="${contract.getStartDate().toString()}"></span>
+    </div>
+    <div>
+        <span style='line-height: 1.5; width: 125px; display: inline-block;'>Project
+            End Date: </span> <span th:text="${contract.getEndDate().toString()}"></span>
+    </div>
+    <p>Releasing Resources:</p>
+
+    <table width='50%'>
+        <thead style='background: #969494; color: #FFFCFC'>
+            <tr>
+                <th>Employee</th>
+                <th>Role</th>
+                <th>Allocation (%)</th>
+            </tr>
+        </thead>
+        <tbody style='background: #F9F9F9'>
+            <tr th:each="cm : ${contract.getContractMembers()}"  th:if="${cm.getEndDate() == contract.getEndDate()}" style='text-align: center;'>
+                <td th:text="|${cm.getEmployee().getFirstName()}  ${cm.getEmployee().getMiddleName()}  ${cm.getEmployee().getLastName()}|">Employee Name</td>
+                <td th:if="${cm.getRole() == null}">Not Defined</td>
+                <td th:if="${cm.getRole() != null}" th:text="${cm.getRole().getTitle()}">Not Defined</td>
+                <td th:text="${cm.getAllocation()}">0</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Please click here to find more details: <a th:href="${linkToProjectPageLink}"> <span th:text="${contract.getProject().getTitle()}"> </span> </a></p>
+    <p>Thank You <br/> Vyaguta Resource </p>
+</body>
+</html>

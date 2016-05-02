@@ -20,6 +20,7 @@ import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
+import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
@@ -56,6 +57,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ProjectHistoryService projectHistoryService;
+
+    @Inject
+    private ContractDao contractDao;
 
     @Override
     public Project save(Project project) {
@@ -416,6 +420,11 @@ public class ProjectServiceImpl implements ProjectService {
                     e1.put("endDate", e1.get("endDate").toString());
                     return e1;
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Contract> findContractsEndingBefore(LocalDate date) {
+        return contractDao.findContractsEndingBefore(date);
     }
 
 }
