@@ -6,23 +6,23 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //components
-    var EntityHeader = require('../common/header/EntityHeader');
+    var EntityHeader = require('../../common/header/EntityHeader');
     var HistoryItem = require('./HistoryItem');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
 
     //actions
-    var historyActions = require('../../actions/historyActions');
+    var historyActions = require('../../../actions/historyActions');
 
     //libraries
     var _ = require('lodash');
 
     //util
-    var historyUtil = require('../../util/historyUtil');
+    var historyUtil = require('../../../util/historyUtil');
 
     var History = React.createClass({
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
         },
 
@@ -40,7 +40,7 @@
             var convertedHistory = historyUtil.convertHistoryJSON(this.props.history);
             return (
                 <div>
-                    <EntityHeader header="History" routes={this.props.routes} title="History"/>
+                    <EntityHeader header="History" routes={this.props.routes} title="History" apiState={this.props.apiState}/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="block clearfix">
@@ -63,7 +63,8 @@
     });
     var mapStateToProps = function (state) {
         return {
-            history: state.historyReducer.project
+            history: state.historyReducer.project,
+            apiState: state.apiReducer
         }
     };
 

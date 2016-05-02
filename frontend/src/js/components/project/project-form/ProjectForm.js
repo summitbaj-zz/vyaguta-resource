@@ -14,9 +14,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
-    var messageConstant = require('../../constants/messageConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
+    var urlConstant = require('../../../constants/urlConstants');
+    var messageConstant = require('../../../constants/messageConstants');
 
     //libraries
     var moment = require('moment');
@@ -26,23 +26,23 @@
     var Select = require('react-select');
 
     //components
-    var EntityHeader = require('../common/header/EntityHeader');
+    var EntityHeader = require('../../common/header/EntityHeader');
     var TechnologyStack = require('./TechnologyStack');
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
     var ReasonModal = require('./ReasonModal');
-    var formValidator = require('../../util/formValidator');
+    var formValidator = require('../../../util/formValidator');
 
     //util
-    var apiUtil = require('../../util/apiUtil');
-    var convertContractHash = require('../../util/convertContractHash');
+    var apiUtil = require('../../../util/apiUtil');
+    var convertContractHash = require('../../../util/convertContractHash');
 
     //actions
-    var crudActions = require('../../actions/crudActions');
-    var apiActions = require('../../actions/apiActions');
-    var contractActions = require('../../actions/contractActions');
-    var contractMemberActions = require('../../actions/contractMemberActions');
-    var allocationActions = require('../../actions/allocationActions');
+    var crudActions = require('../../../actions/crudActions');
+    var apiActions = require('../../../actions/apiActions');
+    var contractActions = require('../../../actions/contractActions');
+    var contractMemberActions = require('../../../actions/contractMemberActions');
+    var allocationActions = require('../../../actions/allocationActions');
 
     var ProjectForm = React.createClass({
         getInitialState: function () {
@@ -54,7 +54,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
             }
@@ -160,6 +160,15 @@
             )
         },
 
+        isContractValid: function (contracts) {
+            for (var i = 0; i < contracts.length; i++) {
+                if (!contracts[i].startDate || !contracts[i].endDate) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
@@ -169,14 +178,16 @@
                 'title': this.refs.title.value
             };
 
-            if (formValidator.isValid(requiredField)) {
+            if (!formValidator.isValid(requiredField)) {
+                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+            } else if (!this.isContractValid(project.contracts)) {
+                Toastr.error(messageConstant.FILL_DATES_FOR_CONTRACTS, messageConstant.TOASTR_INVALID_HEADER);
+            } else {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
                     this.props.actions.addItem(resourceConstant.PROJECTS, project);
                 }
-            } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -204,6 +215,7 @@
         updateProject: function (reason) {
             var project = this.getFormData();
             project['reason'] = reason;
+
             var requiredFieldForUpdate = {
                 'reason': reason
             };

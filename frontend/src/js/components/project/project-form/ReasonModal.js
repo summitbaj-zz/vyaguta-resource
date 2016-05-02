@@ -2,7 +2,7 @@
     'use strict';
 
     var React = require('react');
-    var formValidator = require('../../util/formValidator');
+    var formValidator = require('../../../util/formValidator');
 
     var ReasonModal = React.createClass({
         updateProject: function(){

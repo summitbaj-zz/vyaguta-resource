@@ -14,9 +14,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
-    var messageConstant = require('../../constants/messageConstant');
+    var resourceConstant = require('../../constants/resourceConstants');
+    var urlConstant = require('../../constants/urlConstants');
+    var messageConstant = require('../../constants/messageConstants');
 
     //components
     var BudgetTypeRow = require('./BudgetTypeRow');
@@ -41,7 +41,7 @@
             }
         },
 
-        componentDidMount: function () {
+        componentWillMount: function () {
             this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
                 _start: this.props.pagination.page || 1,
                 _limit: this.props.offset
@@ -100,7 +100,7 @@
             };
 
             sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
+            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, pagination, sortBy);
         },
 
         render: function () {

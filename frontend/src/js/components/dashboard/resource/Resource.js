@@ -4,24 +4,26 @@
     //React Dependencies
     var React = require('react');
 
+    //utils
+    var dashboardUtil = require('../../../util/dashboardUtil');
+
     var Resource = React.createClass({
-        getPercentage: function (number) {
-            return Math.round((number / this.props.resource.bookedResource.bookedResourceCount * 100) * 100) / 100;
-        },
         render: function () {
             var resource = this.props.resource;
             return (
                 <div className="row res-stats">
                     <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                         <div className="widget-simple">
-                            {resource.totalResource && <div className="widget-icon animation-fadeIn label-green pull-left"><span
+                            {resource.totalResource != null &&
+                            <div className="widget-icon animation-fadeIn label-green pull-left"><span
                                 className="res-counter">{resource.totalResource}</span></div>}
                             <h3 className="widget-content text-right animation-pullDown"> Total Resource </h3>
                         </div>
                     </a></div>
                     <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                         <div className="widget-simple">
-                            {resource.freeResource && <div className="widget-icon animation-fadeIn pull-left label-red"><span
+                            {resource.freeResource != null &&
+                            <div className="widget-icon animation-fadeIn pull-left label-red"><span
                                 className="res-counter">{resource.freeResource}</span>
                             </div>}
                             <h3 className="widget-content text-right animation-pullDown"> Free Resource </h3>
@@ -35,8 +37,8 @@
                             </div>}
                             <h3 className="widget-content text-right animation-pullDown"> Booked Resource
                                 <small className="side-text"><span
-                                    className="text-light">Billed: {resource.bookedResource && resource.bookedResource.billed + '(' + this.getPercentage(resource.bookedResource.billed) + '%)'}</span> <span
-                                    className="text-light">Unbilled: {resource.bookedResource && resource.bookedResource.unbilled + '(' + this.getPercentage(resource.bookedResource.unbilled) + '%)'}</span>
+                                    className="text-light">{resource.bookedResource && 'Billed: ' + resource.bookedResource.billed + '(' + dashboardUtil.calculatePercentage(resource.bookedResource.billed, resource.bookedResource.bookedResourceCount) + ')'}</span> <span
+                                    className="text-light">{resource.bookedResource && 'Unbilled: ' + resource.bookedResource.unbilled + '(' + dashboardUtil.calculatePercentage(resource.bookedResource.unbilled, resource.bookedResource.bookedResourceCount) + ')'}</span>
                                 </small>
                             </h3>
                         </div>

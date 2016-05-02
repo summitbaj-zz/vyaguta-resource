@@ -14,5 +14,5 @@ public interface EmployeeService {
 
     public List<Employee> fetchEmployees(List<UUID> employeeIds);
     
-    public List<Employee> fetchActiveEmployees();
+    public List<Employee> fetchActiveEmployeesUnderProjectResource();
 }

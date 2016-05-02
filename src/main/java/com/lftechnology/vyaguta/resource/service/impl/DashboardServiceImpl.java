@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -12,6 +13,7 @@ import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.service.DashBoardService;
 
+@Stateless
 public class DashboardServiceImpl implements DashBoardService {
 
     @Inject

@@ -46,11 +46,11 @@
 
         var parseDate = d3.time.format("%Y-%m-%d").parse;
 
-        this.create = function (element, props, data) {
+        this.create = function (element, data) {
             lanes = data.lanes;
             items = data.items;
-            width = props.width - margin.left - margin.right;
-            height = (lanes.length * 90) - margin.top - margin.bottom;
+            width = (screen.width/1.41) - margin.left - margin.right;
+            height = (lanes.length * 50) + 100;
             miniHeight = lanes.length * 12 + 50;
             mainHeight = height - miniHeight - 50;
 
@@ -60,6 +60,16 @@
                 .attr('width', width + margin.right + margin.left)
                 .attr('height', height + margin.top + margin.bottom)
                 .attr('class', 'chart');
+
+            //responsive
+            window.addEventListener("resize", function(e) {
+                width = e.target.outerWidth/1.41 + margin.right + margin.left;
+                x1 = d3.time.scale().range([0, width]);
+
+                svg.attr("width", width);
+
+
+            });
 
             //define clippath
             svg.append('defs')
@@ -76,7 +86,7 @@
                 .style("visibility", "hidden")
                 .attr('class', 'chart-tooltip');
 
-            addBorder(svg, 'black', '5');
+            addBorder(svg, '#D3ECD2', '5');
 
             initializeScalingProperties();
 
@@ -127,7 +137,7 @@
 
             brush = d3.svg.brush()
                 .x(x)
-                .extent([d3.time.monday(now), d3.time.sunday.ceil(now)])
+                .extent([d3.time.monday(now), d3.time.day.offset(d3.time.monday(now), 15)])
                 .on("brush", display);
         };
 
@@ -204,13 +214,16 @@
                 })
                 .attr('dy', '0.5ex')
                 .attr('text-anchor', 'end')
-                .attr('class', 'laneText');
+                .attr('class', 'laneText')
+                .style('fill', '#394263');
 
             //draw date axis
             main.append('g')
                 .attr('transform', 'translate(0,' + mainHeight + ')')
                 .attr('class', 'main axis date')
-                .call(x1DateAxis);
+                .call(x1DateAxis)
+                .style('fill', '#394263');
+            ;
 
             //draw month axis
             main.append('g')
@@ -219,7 +232,8 @@
                 .call(x1MonthAxis)
                 .selectAll('text')
                 .attr('dx', 501)
-                .attr('dy', 12);
+                .attr('dy', 12)
+                .style('fill', '#394263');
 
             // draw a line representing today's date
             main.append('line')
@@ -268,13 +282,15 @@
                 })
                 .attr('dy', '0.5ex')
                 .attr('text-anchor', 'end')
-                .attr('class', 'laneText');
+                .attr('class', 'laneText')
+                .style('fill', '#394263');
 
             //draw date axis
             mini.append('g')
                 .attr('transform', 'translate(0,' + miniHeight + ')')
                 .attr('class', 'axis date')
-                .call(xDateAxis);
+                .call(xDateAxis)
+                .style('fill', '#394263');
 
             //draw month axis
             mini.append('g')
@@ -283,7 +299,8 @@
                 .call(xMonthAxis)
                 .selectAll('text')
                 .attr('dx', 22)
-                .attr('dy', 12);
+                .attr('dy', 12)
+                .style('fill', '#394263');
 
             // draw a line representing today's date
             mini.append('line')
@@ -339,6 +356,7 @@
         }
 
         var display = function () {
+
             var rects, labels
                 , minExtent = d3.time.day(brush.extent()[0])
                 , maxExtent = d3.time.day(brush.extent()[1])
@@ -348,21 +366,23 @@
 
             mini.select('.brush').call(brush.extent([minExtent, maxExtent]));
 
-            x1.domain([minExtent, maxExtent]);
 
-            if ((maxExtent - minExtent) > 1468800000) {
+            if ((maxExtent - minExtent) > 2592000000) {
+                maxExtent = d3.time.month.offset(minExtent, 1);
+                mini.select('.brush').call(brush.extent([minExtent, maxExtent]));
+            } else if ((maxExtent - minExtent) > 1468800000) {
                 x1DateAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
             }
             else if ((maxExtent - minExtent) > 172800000) {
                 x1DateAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%a %d'))
                 x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Week %W'))
-            }
-            else {
+            } else {
                 x1DateAxis.ticks(d3.time.hours, 4).tickFormat(d3.time.format('%I %p'))
                 x1MonthAxis.ticks(d3.time.days, 1).tickFormat(d3.time.format('%b %e'))
             }
 
+            x1.domain([minExtent, maxExtent]);
 
             //x1Offset.range([0, x1(d3.time.day.ceil(now) - x1(d3.time.day.floor(now)))]);
 
@@ -391,6 +411,9 @@
 
                     return x1(parseDate(d.start));
                 })
+                .attr('y', function (d) {
+                    return mainY(d.lane) + .1 * mainY(2.5);
+                })
                 .attr('width', function (d) {
                         if (x1(parseDate(d.end)) >= width && x1(parseDate(d.start)) < 0) {
                             return width;
@@ -402,7 +425,10 @@
 
                         return x1(parseDate(d.end)) - x1(parseDate(d.start));
                     }
-                );
+                )
+                .attr('class', function (d) {
+                    return 'mainItem' + d.contract;
+                });
 
             rects.enter().append('rect')
                 .attr('x', function (d) {
@@ -430,10 +456,10 @@
                     return .5 * mainY(1);
                 })
                 .attr('class', function (d) {
-                    return 'mainItem' + d.lane;
+                    return 'mainItem' + d.contract;
                 })
                 .on('mouseover', function (d) {
-                    return tooltip.style("visibility", "visible").text("Join Date: " + d.start)
+                    return tooltip.style("visibility", "visible").html("Role: " + (d.role && d.role.title) + "<br/>" + "Join Date: " + d.start + "<br/>" + "End Date: " + d.end)
                 })
                 .on("mousemove", function () {
                     return tooltip.style("top", (event.layerY) + "px").style("left", (event.layerX + 10) + "px");

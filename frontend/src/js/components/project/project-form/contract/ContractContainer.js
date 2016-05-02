@@ -16,11 +16,11 @@
     var Contract = require('./Contract');
 
     //actions
-    var crudActions = require('../../../actions/crudActions');
-    var apiActions = require('../../../actions/apiActions');
-    var contractActions = require('../../../actions/contractActions');
-    var contractMemberActions = require('../../../actions/contractMemberActions');
-    var allocationActions = require('../../../actions/allocationActions');
+    var crudActions = require('../../../../actions/crudActions');
+    var apiActions = require('../../../../actions/apiActions');
+    var contractActions = require('../../../../actions/contractActions');
+    var contractMemberActions = require('../../../../actions/contractMemberActions');
+    var allocationActions = require('../../../../actions/allocationActions');
 
     //libraries
     var _ = require('lodash');

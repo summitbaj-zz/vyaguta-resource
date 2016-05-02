@@ -26,38 +26,45 @@
 
         isActive: function () {
             var allocations = this.props.contractMember.allocations;
-            var todaysDate = moment();
+            var todaysDate = moment().startOf('day');
 
             for (var i = 0; i < allocations.length; i++) {
-                var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
-                var endDate = moment(allocations[i].endDate).add(1, 'd');
+                var joinDate = moment(allocations[i].joinDate);
+                var endDate = moment(allocations[i].endDate);
 
-                if (todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                if (todaysDate >= joinDate && todaysDate <= endDate) {
                     return true;
                 }
             }
-
             return false;
         },
 
         isBilled: function () {
             if (this.isActive()) {
                 var allocations = this.props.contractMember.allocations;
-                var todaysDate = moment();
+                var todaysDate = moment().startOf('day');
 
                 for (var i = 0; i < allocations.length; i++) {
-                    var joinDate = moment(allocations[i].joinDate).subtract(1, 'd');
-                    var endDate = moment(allocations[i].endDate).add(1, 'd');
-
-                    if (allocations[i].billed && todaysDate >= joinDate - 1 && todaysDate <= endDate + 1) {
+                    var joinDate = moment(allocations[i].joinDate);
+                    var endDate = moment(allocations[i].endDate);
+                    if (allocations[i].billed && todaysDate >= joinDate && todaysDate <= endDate) {
                         return 'Billed';
                     }
                 }
-
                 return 'Unbilled';
             }
-
             return '';
+        },
+
+        getFullName: function () {
+            var middleName;
+            if (this.props.contractMember.employee.middleName && this.props.contractMember.employee.middleName != 'NULL' && this.props.contractMember.employee.middleName != null) {
+                middleName = this.props.contractMember.employee.middleName + ' ';
+            } else {
+                middleName = '';
+            }
+
+            return (this.props.contractMember.employee.firstName + ' ' + middleName + this.props.contractMember.employee.lastName);
         },
 
         render: function () {
@@ -68,7 +75,7 @@
                              src="img/placeholders/avatar-2.jpg"/>
                         <div className={(this.isActive()) ? 'user-info user-active' : 'user-info user-inactive'}>
                             <span>
-                                {this.props.contractMember.employee.firstName + ' ' + this.props.contractMember.employee.lastName}
+                                {this.getFullName()}
                                 </span>
                             <span>
                             {this.isBilled()}

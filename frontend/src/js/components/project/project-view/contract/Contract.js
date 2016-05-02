@@ -5,8 +5,8 @@
     var React = require('react');
 
     //components
-    var TeamMember = require('./TeamMember');
-    var ContractView = React.createClass({
+    var TeamMember = require('./contract-member/ContractMember');
+    var Contract = React.createClass({
 
         componentDidMount: function () {
             if (this.props.length - 1 == this.props.index) {
@@ -52,7 +52,7 @@
                                             <span className="view-label"> Contracted Resource</span>
                                             <p>{contract.resource}</p>
                                         </div>
-                                        <div className="common-view clearfix">
+                                        <div className="common-view row clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label"> Start Date </span>
                                                 <p>{contract.startDate || '-'}</p>
@@ -62,7 +62,7 @@
                                                 <p>{contract.endDate || '-'}</p>
                                             </div>
                                         </div>
-                                        <div className="common-view clearfix">
+                                        <div className="common-view row clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label"> Actual End Date </span>
                                                 <p>{contract.actualEndDate || '-'}</p>
@@ -93,5 +93,5 @@
             );
         }
     });
-    module.exports = ContractView;
+    module.exports = Contract;
 })();

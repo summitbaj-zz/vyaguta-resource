@@ -4,12 +4,10 @@
     //React Dependencies
     var React = require('react');
 
-    var BookedResourceItem = React.createClass({
-        calculatePercentage(number, total){
-            var percentage = (number / total) * 100 || 0;
-            return Math.round(percentage * 100) / 100 + '%';
-        },
+    //util
+    var dashboardUtil = require('../../../util/dashboardUtil');
 
+    var BookedResourceItem = React.createClass({
         getClassName: function (resource) {
             switch (resource.projectType) {
                 case 'Services':
@@ -21,7 +19,7 @@
             }
         },
 
-        render: function(){
+        render: function () {
             var resource = this.props.resource;
             var total = this.props.total;
 
@@ -35,7 +33,7 @@
                             <span className="stat-label"><i
                                 className={classNameForIcon}></i>{resource.projectType}</span>
                             <span
-                                className="color-lg-blue">{this.calculatePercentage(resource.numberOfProjects, total)}</span>
+                                className="color-lg-blue">{dashboardUtil.calculatePercentage(resource.numberOfProjects, total)}</span>
                         </div>
                         {totalResource &&
                         <div className="stat-details clearfix">
@@ -43,10 +41,11 @@
                                 <span className="stat-label">Billed</span>
                                 <div className="row breakdown">
                                     <span className="side-text clear">Percentage:
-                                        <span className="color-lg-blue">{this.calculatePercentage(resource.billed, totalResource)}</span>
+                                        <span
+                                            className="color-lg-blue pull-right">{dashboardUtil.calculatePercentage(resource.billed, totalResource)}</span>
                                     </span>
-                                    <span className="side-text clear">No.of:
-                                        <span className="color-lg-blue">{resource.billed}</span>
+                                    <span className="side-text clear">Total:
+                                        <span className="color-lg-blue pull-right">{resource.billed}</span>
                                     </span>
                                 </div>
                             </div>
@@ -55,10 +54,10 @@
                                 <div className="row breakdown">
                                     <span className="side-text clear">Percentage:
                                         <span
-                                            className="color-lg-blue">{this.calculatePercentage(resource.unbilled, totalResource)}</span>
+                                            className="color-lg-blue pull-right">{dashboardUtil.calculatePercentage(resource.unbilled, totalResource)}</span>
                                     </span>
-                                    <span className="side-text clear">No.of:
-                                        <span className="color-lg-blue">{resource.unbilled}</span>
+                                    <span className="side-text clear">Total:
+                                        <span className="color-lg-blue pull-right">{resource.unbilled}</span>
                                     </span>
                                 </div>
                             </div>

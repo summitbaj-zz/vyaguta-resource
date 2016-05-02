@@ -2,7 +2,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -12,8 +12,8 @@
         overdue: [],
         inProgressProjects: [],
         resource: {
-            utilization:{},
-            booked:[],
+            utilization: {},
+            booked: [],
             available: []
         }
     };
@@ -36,7 +36,7 @@
 
             case actionTypeConstant.SHOW_RESOURCES:
                 var newState = _.cloneDeep(state);
-                               newState[action.entity][action.resourceType] = action.data;
+                newState[action.entity][action.resourceType] = action.data;
                 return newState;
 
             default:

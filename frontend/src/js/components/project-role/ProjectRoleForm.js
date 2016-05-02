@@ -8,9 +8,9 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstant');
-    var urlConstant = require('../../constants/urlConstant');
-    var messageConstant = require('../../constants/messageConstant');
+    var resourceConstant = require('../../constants/resourceConstants');
+    var urlConstant = require('../../constants/urlConstants');
+    var messageConstant = require('../../constants/messageConstants');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
@@ -25,8 +25,15 @@
     var Toastr = require('toastr');
 
     var ProjectRoleForm = React.createClass({
-        componentDidMount: function () {
+        getInitialState: function () {
+            return {
+                autoFocus: true
+            }
+        },
+
+        componentWillMount: function () {
             if (this.props.params.id) {
+                this.setState({autoFocus: false});
                 this.props.actions.fetchById(resourceConstant.PROJECT_ROLES, this.props.params.id);
             }
         },
@@ -83,6 +90,7 @@
                                            onFocus={formValidator.removeFeedback.bind(null, 'title')}
                                            className="form-control"
                                            id="title"
+                                           autoFocus={this.state.autoFocus}
                                     />
                                     <span className="help-block"></span>
                                 </div>

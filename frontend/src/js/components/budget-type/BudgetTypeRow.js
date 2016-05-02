@@ -11,7 +11,7 @@
     var Link = require('react-router').Link;
 
     //constants
-    var urlConstant = require('../../constants/urlConstant');
+    var urlConstant = require('../../constants/urlConstants');
 
     var BudgetTypeRow = React.createClass({
         render: function () {

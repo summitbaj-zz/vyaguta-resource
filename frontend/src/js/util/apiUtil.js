@@ -8,7 +8,7 @@
     'use strict';
 
     //constants
-    var urlConstants = require('../constants/urlConstant');
+    var urlConstants = require('../constants/urlConstants');
 
     var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
     var authUrl = window.location.origin + urlConstants.AUTH_SERVER + '/';
@@ -20,6 +20,7 @@
 
     var apiUtil = {
         fetchById: function (resourceName, id) {
+            console.log(url);
             return request
                 .get(url + resourceName.toLowerCase() + "/" + id)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
@@ -59,7 +60,7 @@
                 .set('Accept', 'application/json')
         },
 
-        fetchByQuery2: function (resourceName, data, sortBy) {
+        fetchBySortingQuery: function (resourceName, data, sortBy) {
             var sort = '';
 
             if (sortBy) {

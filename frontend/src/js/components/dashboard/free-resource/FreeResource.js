@@ -22,6 +22,10 @@
             var className = (i == 0) ? 'item active' : 'item';
             var resourceArray = [];
             for (var j = 0; j < 16; j++) {
+                var index = i * 16 + j;
+                if (index >= this.props.resource.length) {
+                    break;
+                }
                 resourceArray.push(this.renderResource(i * 16 + j));
             }
             return (
@@ -30,11 +34,9 @@
         },
 
         renderResource: function (index) {
-            if (index < this.props.resource.length) {
-                return (
-                    <FreeResourceItem key={index} resource={this.props.resource[index]}/>
-                );
-            }
+            return (
+                <FreeResourceItem key={index} resource={this.props.resource[index]}/>
+            );
         },
 
         renderCarouselIndicator: function () {

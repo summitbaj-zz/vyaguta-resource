@@ -1,5 +1,8 @@
 package com.lftechnology.vyaguta.resource.filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -17,7 +20,7 @@ import com.lftechnology.vyaguta.resource.entity.Project;
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  *
  */
-public class ProjectFilter extends CommonFilter<Project> implements Filterable<Project> {
+public class ProjectFilter extends CommonFilter<Project>implements Filterable<Project> {
 
     public ProjectFilter() {
         filterBy("title");
@@ -33,40 +36,60 @@ public class ProjectFilter extends CommonFilter<Project> implements Filterable<P
         filterMap.put("contract.endDate", new EntityFilter<Project>() {
 
             @Override
-            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
-                Join join = cm.getRoot().join("contracts");
-                Path path = join.get("endDate");
-                return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            public Predicate filter(CriteriaMaker<Project> cm, String field, List<String> values) {
+                List<Predicate> predicates = new ArrayList<>();
+                for (String value : values) {
+                    Join join = cm.getRoot().join("contracts");
+                    Path path = join.get("endDate");
+                    Predicate predicate = ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+                    predicates.add(predicate);
+                }
+                return cm.getCriteriaBuilder().or(predicates.toArray(new Predicate[0]));
             }
         });
 
         filterMap.put("contract.startDate", new EntityFilter<Project>() {
 
             @Override
-            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
-                Join join = cm.getRoot().join("contracts");
-                Path path = join.get("startDate");
-                return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            public Predicate filter(CriteriaMaker<Project> cm, String field, List<String> values) {
+                List<Predicate> predicates = new ArrayList<>();
+                for (String value : values) {
+                    Join join = cm.getRoot().join("contracts");
+                    Path path = join.get("startDate");
+                    Predicate predicate = ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+                    predicates.add(predicate);
+                }
+                return cm.getCriteriaBuilder().or(predicates.toArray(new Predicate[0]));
             }
         });
 
         filterMap.put("contract.actualEndDate", new EntityFilter<Project>() {
 
             @Override
-            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
-                Join join = cm.getRoot().join("contracts");
-                Path path = join.get("actualEndDate");
-                return ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+            public Predicate filter(CriteriaMaker<Project> cm, String field, List<String> values) {
+                List<Predicate> predicates = new ArrayList<>();
+                for (String value : values) {
+                    Join join = cm.getRoot().join("contracts");
+                    Path path = join.get("actualEndDate");
+                    Predicate predicate = ProjectFilter.this.buildDatePredicate(cm.getCriteriaBuilder(), path, value);
+                    predicates.add(predicate);
+                }
+                return cm.getCriteriaBuilder().or(predicates.toArray(new Predicate[0]));
             }
         });
-        
+
         filterMap.put("contract.budgetType", new EntityFilter<Project>() {
 
             @Override
-            public Predicate filter(CriteriaMaker<Project> cm, String field, String value) {
-                Join join = cm.getRoot().join("contracts").join("budgetType");
-                Path path = join.get("title");
-                return cm.getCriteriaBuilder().equal(path, value);
+            public Predicate filter(CriteriaMaker<Project> cm, String field, List<String> values) {
+                List<Predicate> predicates = new ArrayList<>();
+                for (String value : values) {
+                    Join join = cm.getRoot().join("contracts").join("budgetType");
+                    Path path = join.get("title");
+                    Predicate predicate = cm.getCriteriaBuilder().equal(path, value);
+                    predicates.add(predicate);
+                }
+                return cm.getCriteriaBuilder().or(predicates.toArray(new Predicate[0]));
             }
         });
     }

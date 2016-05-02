@@ -16,7 +16,6 @@ import com.lftechnology.vyaguta.resource.sort.BudgetTypeSort;
 /**
  * @author Krishna Timilsina <krishnatimilsina@lftechnology.com>
  */
-@Stateless
 public class BudgetTypeDaoImpl extends BaseDao<BudgetType, UUID> implements BudgetTypeDao {
 
     private BudgetTypeSort budgetTypeSort = new BudgetTypeSort();

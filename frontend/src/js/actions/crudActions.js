@@ -11,7 +11,7 @@
     var browserHistory = require('react-router').browserHistory;
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstant');
+    var actionTypeConstant = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -25,8 +25,8 @@
     var apiActions = require('./apiActions');
 
     //constants
-    var messageConstant = require('../constants/messageConstant');
-    var urlConstant = require('../constants/urlConstant');
+    var messageConstant = require('../constants/messageConstants');
+    var urlConstant = require('../constants/urlConstants');
 
     /**
      * Actions that are dispatched from crudActions
@@ -215,7 +215,7 @@
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
-                return (apiUtil.fetchByQuery2(entity, data, sortBy).then(function (response) {
+                return (apiUtil.fetchBySortingQuery(entity, data, sortBy).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
                         dispatch(actions.pageIndex(data, response.body.count));

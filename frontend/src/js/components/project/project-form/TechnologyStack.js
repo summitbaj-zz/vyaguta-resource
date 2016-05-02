@@ -5,9 +5,9 @@
     var React = require('react');
 
     //components
-    var apiUtil = require('../../util/apiUtil');
-    var Tagging = require('../common/tag/Tagging');
-    var resourceConstant = require('../../constants/resourceConstant');
+    var apiUtil = require('../../../util/apiUtil');
+    var Tagging = require('../../common/tag/Tagging');
+    var resourceConstant = require('../../../constants/resourceConstants');
 
     var TechnologyStack = React.createClass({
         getInitialState: function () {

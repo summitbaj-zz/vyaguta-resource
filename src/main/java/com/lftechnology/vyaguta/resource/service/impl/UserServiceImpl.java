@@ -3,6 +3,7 @@ package com.lftechnology.vyaguta.resource.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
@@ -17,6 +18,7 @@ import com.lftechnology.vyaguta.commons.util.ArrayUtil;
 import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.service.UserService;
 
+@Stateless
 public class UserServiceImpl implements UserService {
 
     @Inject

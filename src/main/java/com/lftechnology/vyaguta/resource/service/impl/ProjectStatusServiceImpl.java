@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -13,6 +14,7 @@ import com.lftechnology.vyaguta.resource.dao.ProjectStatusDao;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
 import com.lftechnology.vyaguta.resource.service.ProjectStatusService;
 
+@Stateless
 public class ProjectStatusServiceImpl implements ProjectStatusService {
 
     @Inject

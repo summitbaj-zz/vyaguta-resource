@@ -19,10 +19,10 @@
     var moment = require('moment');
 
     //util
-    var alertBox = require('../../../util/alertBox');
+    var alertBox = require('../../../../util/alertBox');
 
     //constants
-    var messageConstant = require('../../../constants/messageConstant');
+    var messageConstant = require('../../../../constants/messageConstants');
 
     var Contract = React.createClass({
         getInitialState: function () {
@@ -130,7 +130,7 @@
                                     </div>
 
                                     <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Contract Date</label>
+                                        <label className="control-label">Contract Date *</label>
                                         <div data-date-format="mm/dd/yyyy"
                                              className="input-group input-daterange">
                                             <DatePicker

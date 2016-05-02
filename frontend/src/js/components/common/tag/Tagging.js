@@ -5,7 +5,7 @@
     var React = require('react');
 
     //constants
-    var resourceConstant = require('../../../constants/resourceConstant');
+    var resourceConstant = require('../../../constants/resourceConstants');
 
     //components
     var AutoComplete = require('../autocomplete/Autocomplete');
