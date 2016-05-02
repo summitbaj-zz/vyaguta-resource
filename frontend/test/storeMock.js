@@ -7,10 +7,6 @@
 var configureStore = require('redux-mock-store');
 var thunk = require('redux-thunk');
 
-var reactRouterRedux = require('react-router-redux');
-var routerReducer = reactRouterRedux.routerReducer;
-var routerMiddleware = reactRouterRedux.routerMiddleware;
-
 var middlewares = [thunk];
 var mockStore = configureStore(middlewares);
 
