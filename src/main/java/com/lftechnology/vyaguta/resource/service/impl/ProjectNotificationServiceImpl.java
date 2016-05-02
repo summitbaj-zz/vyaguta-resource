@@ -150,9 +150,6 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
     public String emailBuilder(Contract contract) {
         String projectViewPageLink = Configuration.instance().getProjectPageViewPage() + contract.getProject().getId() + "/view";
 
-        contract.getContractMembers().stream().filter(e1 -> e1.getEmployee().getMiddleName().equals("NULL"))
-                .forEach(e1 -> e1.getEmployee().setMiddleName(""));
-
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         resolver.setTemplateMode("HTML5");
         resolver.setSuffix(".html");
