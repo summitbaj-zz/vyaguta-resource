@@ -8,7 +8,7 @@
     //constants
     var urlConstant = require('../../../constants/urlConstants');
 
-    var FlaggedProjectRow = React.createClass({
+    var OverdueProjectRow = React.createClass({
         render: function () {
             var overdueProject = this.props.overdueProject;
             var style = {
@@ -26,5 +26,5 @@
             );
         }
     });
-    module.exports = FlaggedProjectRow;
+    module.exports = OverdueProjectRow;
 })();

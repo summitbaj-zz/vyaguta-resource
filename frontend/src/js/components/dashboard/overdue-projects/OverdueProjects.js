@@ -18,7 +18,6 @@
         },
 
         render: function () {
-            var overdueProjects = this.props.overdueProjects;
             return (
                 <div className="col-lg-6">
                     <div className="block">
@@ -31,7 +30,7 @@
                                     className="list-group-project">Projects</span>
                                     <span className="project-status">Project Status</span><span>End Date</span>
                                 </li>
-                                {overdueProjects && Object.keys(overdueProjects).map(this.renderOverdueProject)}
+                                {Object.keys(this.props.overdueProjects).map(this.renderOverdueProject)}
                             </ul>
                         </div>
 

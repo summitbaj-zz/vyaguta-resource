@@ -1,14 +1,14 @@
-/*
 import React from 'react';
 import expect from 'expect';
 import {shallow, mount} from 'enzyme';
 
 //components
-import Resource from '../../../../src/js/components/dashboard/resource/Resource';
+import OverdueProjects from '../../../../src/js/components/dashboard/overdue-projects/OverdueProjects';
+import OverdueProjectRow from '../../../../src/js/components/dashboard/overdue-projects/OverdueProjectRow';
 
 function setup() {
     var props = {
-        resource: {totalResource: 5, freeResource: 2, bookedResource: {bookedResourceCount: 3, billed: 2, unbilled: 3}}
+        overdueProjects: [{foo: 'bar', id: 1}, {foo: 'bar2', id: 2}]
     }
 
     var component = mount(<OverdueProjects {...props}/>);
@@ -19,7 +19,7 @@ function setup() {
 }
 
 describe('OverdueProjects component', () => {
-    describe('renderOverdueProject', () => {
+    describe('renderProject', () => {
         it('returns correct component', () => {
             var {component, props} = setup();
             var actual = component.instance().renderOverdueProject(0);
@@ -33,4 +33,4 @@ describe('OverdueProjects component', () => {
             expect(total).toEqual(props.overdueProjects.length);
         });
     });
-});*/
+});

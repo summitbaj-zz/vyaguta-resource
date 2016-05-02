@@ -19,20 +19,18 @@ function setup() {
 }
 
 describe('InProgressProjects component', () => {
-    describe('InProgressProjects component', () => {
-        describe('renderProject', () => {
-            it('returns correct component', () => {
-                var {component, props} = setup();
-                var actual = component.instance().renderProject(0);
-                var expected = <InProgressProjectRow key="0" index={1} project={props.projects[0]}/>;
-                expect(actual).toEqual(expected);
-            });
+    describe('renderProject', () => {
+        it('returns correct component', () => {
+            var {component, props} = setup();
+            var actual = component.instance().renderProject(0);
+            var expected = <InProgressProjectRow key="0" index={1} project={props.projects[0]}/>;
+            expect(actual).toEqual(expected);
+        });
 
-            it('renders all ending projects', () => {
-                var {component, props} = setup();
-                var total = component.find(InProgressProjectRow).length;
-                expect(total).toEqual(props.projects.length);
-            });
+        it('renders all in progress projects', () => {
+            var {component, props} = setup();
+            var total = component.find(InProgressProjectRow).length;
+            expect(total).toEqual(props.projects.length);
         });
     });
 });
