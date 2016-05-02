@@ -10,11 +10,19 @@
     //components
     var EndingProjectRow = require('./EndingProjectRow');
 
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
+
+
     var EndingProjects = React.createClass({
         renderEndingProject: function (endingProject) {
             return (
                 <EndingProjectRow key={endingProject.id} endingProject={endingProject}/>
             );
+        },
+
+        displayNoRecordFound: function () {
+            return (<li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>);
         },
 
         render: function () {
@@ -32,7 +40,7 @@
                                     className="list-group-project">Projects</span>
                                     <span>End Date</span><span>Resources</span>
                                 </li>
-                                {endingProjects.map(this.renderEndingProject)}
+                                {endingProjects.length ? endingProjects.map(this.renderEndingProject) : this.displayNoRecordFound()}
                                 <li className="list-group-item total">
                                     <span>Total</span><span>{dashboardUtil.getEndingProjectsResourceTotal(endingProjects)}</span>
                                 </li>
