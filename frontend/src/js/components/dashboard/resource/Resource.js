@@ -14,7 +14,7 @@
                 <div className="row res-stats">
                     <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                         <div className="widget-simple">
-                            {resource.totalResource &&
+                            {resource.totalResource != null &&
                             <div className="widget-icon animation-fadeIn label-green pull-left"><span
                                 className="res-counter">{resource.totalResource}</span></div>}
                             <h3 className="widget-content text-right animation-pullDown"> Total Resource </h3>
@@ -22,7 +22,7 @@
                     </a></div>
                     <div className="col-sm-6 col-lg-4"><a className="widget widget-hover-effect1">
                         <div className="widget-simple">
-                            {resource.freeResource &&
+                            {resource.freeResource != null &&
                             <div className="widget-icon animation-fadeIn pull-left label-red"><span
                                 className="res-counter">{resource.freeResource}</span>
                             </div>}
