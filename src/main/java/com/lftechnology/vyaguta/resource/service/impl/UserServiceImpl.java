@@ -21,8 +21,8 @@ import com.lftechnology.vyaguta.resource.service.UserService;
 @Stateless
 public class UserServiceImpl implements UserService {
 
-    @Inject
-    private Logger log;
+    // @Inject
+    // private Logger log;
 
     private static final String USER_URL = Configuration.instance().getAuthUrl() + "users";
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
             return data.getData();
         } catch (WebApplicationException e) {
-            log.warn(e.getMessage());
+            // log.warn(e.getMessage());
             throw e;
         }
     }
