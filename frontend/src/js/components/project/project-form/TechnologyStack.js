@@ -31,16 +31,17 @@
             return tag;
         },
 
-        changeTagState: function (data) {
-            this.setState({isRequesting: false});
-            this.setState({suggestions: data});
-        },
-
         updateSuggestions: function (input) {
-            this.setState({isRequesting: true});
-            this.setState({suggestions: []});
+            var that = this;
+            that.setState({isRequesting: true});
 
-            apiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
+            apiUtil.fetchByQuery(resourceConstant.TAGS, input).then(function (response) {
+                    that.setState({isRequesting: false});
+                    that.setState({suggestions: response.body.data});
+                },
+                function (error) {
+                    that.setState({isRequesting: false});
+                });
         },
 
         addTag: function (tag) {

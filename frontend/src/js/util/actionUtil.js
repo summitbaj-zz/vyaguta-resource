@@ -18,7 +18,7 @@
     var Toastr = require('toastr');
 
     var actionUtil = {
-        responseError: function (dispatch, error, entity, callback) {
+        responseError: function (dispatch, error, callback) {
             switch (error.status) {
                 case 400:
                     var message = error.response.body.error || error.response.body[0].error;
@@ -29,9 +29,9 @@
                     break;
 
                 case 401:
-                    dispatch(apiActions.apiRequest(entity));
+                    dispatch(apiActions.apiRequest());
                     apiUtil.refreshSession().then(function (response) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         dispatch(callback);
                     });
                     break;

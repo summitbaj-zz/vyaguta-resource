@@ -18,25 +18,18 @@
         }
     };
 
-
     var dashboardReducer = function (state, action) {
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.LIST_BY_DATE:
+            case actionTypeConstant.LIST_BY_CRITERIA:
                 var newState = _.cloneDeep(state);
-                newState[action.projectType] = _.cloneDeep(action.data);
-                return newState;
-
-            case actionTypeConstant.LIST_PROJECT_BY_STATUS:
-                var newState = _.cloneDeep(state);
-                newState.inProgressProjects = action.data.data;
-
+                newState[action.criteria] = _.cloneDeep(action.data);
                 return newState;
 
             case actionTypeConstant.SHOW_RESOURCES:
                 var newState = _.cloneDeep(state);
-                newState[action.entity][action.resourceType] = action.data;
+                newState.resource[action.resourceType] = action.data;
                 return newState;
 
             default:

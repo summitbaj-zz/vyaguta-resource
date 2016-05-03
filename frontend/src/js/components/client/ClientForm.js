@@ -56,7 +56,10 @@
             };
 
             var requiredFields = {
-                name: this.refs.name.value,
+                name: {
+                    value: this.refs.name.value,
+                    required: true
+                },
                 email: this.refs.email.value
             };
 

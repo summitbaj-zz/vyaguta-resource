@@ -1,4 +1,4 @@
-    ;(function () {
+;(function () {
     'use strict';
 
     //constants
@@ -7,113 +7,70 @@
     //actions
     var apiActions = require('./apiActions');
 
-    //API utility
-    var apiUtil = require('../util/apiUtil');
+    //utils
     var actionUtil = require('../util/actionUtil');
+    var converter = require('../util/converter');
+
+    //services
+    var apiService = require('../services/api-services/resourceApiService');
 
     var actions = {
-        listByDate: function (projectType, data) {
+        listByCriteria: function (criteria, data) {
             return {
-                type: actionTypeConstant.LIST_BY_DATE,
-                projectType: projectType,
+                type: actionTypeConstant.LIST_BY_CRITERIA,
+                criteria: criteria,
                 data: data
             }
         },
 
-        listByStatus: function (data) {
-            return {
-                type: actionTypeConstant.LIST_PROJECT_BY_STATUS,
-                data: data
-            }
-        },
-
-        showResources: function (entity, resourceType, data) {
+        showResources: function (resourceType, data) {
             return {
                 type: actionTypeConstant.SHOW_RESOURCES,
-                entity: entity,
                 resourceType: resourceType,
                 data: data
             }
         }
     };
     var dashboardActions = {
-        fetchByField: function (entity, field, data) {
+        fetch: function (criteria, pathParam, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchByField(entity, field, data).then(function (response) {
+                dispatch(apiActions.apiRequest());
+                //apiService.fetch(entity, converter.serialize({field: data}));
+                return (apiService.fetch(pathParam, data).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.listByStatus(response.body));
+                        dispatch(apiActions.apiResponse());
+                        dispatch(actions.listByCriteria(criteria, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchByField(entity, field, data));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, dashboardActions.fetch(criteria, pathParam, data));
                     }
                 }));
             }
         },
 
-        fetchOverdueProjects: function (entity, type) {
+        fetchResourceCount: function (type, pathParam) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchByType(entity, type).then(function (response) {
+                dispatch(apiActions.apiRequest());
+                //apiService.fetch(entity, converter.serialize({field: data}));
+                return (apiService.fetch(pathParam).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.listByDate(type, response.body));
+                        dispatch(apiActions.apiResponse());
+                        dispatch(actions.showResources(type, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchOverdueProjects(entity, type));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, dashboardActions.fetchResourceCount(type, pathParam));
                     }
                 }));
             }
-        },
-
-        fetchByEndDate: function (entity, projectType, data) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchByEndDate(entity, projectType, data).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.listByDate(projectType, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchByEndDate(entity, projectType, data));
-                    }
-                }));
-            }
-        },
-
-        fetchResourceCount: function (entity, type) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchResourceCount(entity, type).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.showResources(entity, type, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, dashboardActions.fetchResourceCount(entity, type));
-                    }
-                }));
-            }
-        },
-
+        }
     };
+
     module.exports = dashboardActions;
 
 })();

@@ -75,11 +75,11 @@
                 if (this.isValidKey(event)) {
                     this.setState({selected: false});
                 }
-                this.setState({suggestions: []});
             }
         },
 
         arrowKeyPressed: function (key) {
+            console.log(key)
             var suggestions = this.refs.suggestions.childNodes;
             if (key === 38) {
                 if (selectedIndex == 0 || selectedIndex == -1) {
@@ -121,10 +121,11 @@
 
             if (inputValue && that.isValidKey(event)) {
                 clearTimeout(typingTimer);
-
                 typingTimer = setTimeout(function () {
                     that.props.generateSuggestions(inputValue);
                 }, 200);
+            } else if (!inputValue) {
+                this.setState({suggestions: []});
             }
         },
 

@@ -15,9 +15,10 @@
         this.isValid = function (formDatas) {
             var error;
             for (var key in formDatas) {
-                if (formDatas[key] == '') {
+                if (formDatas[key].required) {
                     this.showErrors(key, messageConstant.REQUIRED_MESSAGE);
                     error = true;
+                    break;
                 }
             }
             if (!error && isTitleNameValid && isEmailValid) {

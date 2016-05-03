@@ -19,8 +19,7 @@
         CLEAR_HISTORY: 'CLEAR_HISTORY',
 
         //Dashboard Actions
-        LIST_BY_DATE: 'LIST_BY_DATE',
-        LIST_PROJECT_BY_STATUS: 'LIST_PROJECT_BY_STATUS',
+        LIST_BY_CRITERIA: 'LIST_BY_CRITERIA',
         SHOW_RESOURCES: 'SHOW_RESOURCES',
 
         //Contract Actions
