@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 
@@ -39,6 +40,7 @@ import com.lftechnology.vyaguta.resource.service.UserService;
 public class ProjectHistoryServiceImpl implements ProjectHistoryService {
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Inject

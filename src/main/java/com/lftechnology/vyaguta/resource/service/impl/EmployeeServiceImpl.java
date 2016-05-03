@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -29,6 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final String EMPLOYEE_URL = Configuration.instance().getVyagutaCoreUrl() + "employees";
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Override

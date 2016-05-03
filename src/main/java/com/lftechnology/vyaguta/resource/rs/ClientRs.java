@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -38,6 +39,7 @@ public class ClientRs {
     ClientService clientService;
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Path("/")

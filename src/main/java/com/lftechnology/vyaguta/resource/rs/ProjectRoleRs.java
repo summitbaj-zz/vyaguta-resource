@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -36,6 +37,7 @@ public class ProjectRoleRs {
     ProjectRoleService projectRoleService;
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Path("/")

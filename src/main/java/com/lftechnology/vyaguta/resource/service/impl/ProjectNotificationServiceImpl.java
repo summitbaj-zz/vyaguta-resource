@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -53,6 +54,7 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
     private Session session;
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Override
