@@ -343,7 +343,7 @@ public class ProjectServiceImplTest {
         allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"), 0.5);
         allocatedMembers.put(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeef"), 0.0);
 
-        Mockito.when(employeeService.fetchActiveEmployees()).thenReturn(employeeList);
+        Mockito.when(employeeService.fetchActiveEmployeesUnderProjectResource()).thenReturn(employeeList);
         Mockito.when(contactMemberDao.findAvailableResource(LocalDate.now())).thenReturn(allocatedMembers);
 
         // act

@@ -4,15 +4,22 @@
     //React Dependencies
     var React = require('react');
 
-    //component
+    //components
     var BookedResourceItem = require('./BookedResourceItem');
 
-    //util
+    //utils
     var dashboardUtil = require('../../../util/dashboardUtil');
+
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
 
     var BookedResource = React.createClass({
         renderResourceByProjectType: function (total, key) {
             return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
+        },
+
+        displayNoRecordFound: function () {
+            return (<div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>);
         },
 
         render: function () {
@@ -26,7 +33,7 @@
                             </div>
                             <div className="widget-extra-full">
                                 <div className="row">
-                                    {Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource))}
+                                    {this.props.resource.length ? Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource)) : this.displayNoRecordFound()}
                                 </div>
                             </div>
                         </div>

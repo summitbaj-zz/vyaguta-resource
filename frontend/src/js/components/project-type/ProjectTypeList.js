@@ -17,7 +17,7 @@
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
     var alertBox = require('../../util/alertBox');
-    var sortUI = require('../../util/sortUI');
+    var listUtil = require('../../util/listUtil');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -89,7 +89,7 @@
 
         //sorts data in ascending or descending order according to clicked field
         sort: function (field) {
-            var isAscending = sortUI.changeSortDisplay(field);
+            var isAscending = listUtil.changeSortDisplay(field);
             var pagination = {
                 _start: this.props.pagination.page,
                 _limit: this.props.offset
@@ -127,7 +127,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {Object.keys(this.props.projectTypes).map(this.renderProjectType)}
+                                {this.props.projectTypes.length ? Object.keys(this.props.projectTypes).map(this.renderProjectType) : listUtil.displayNoRecordFound()}
                                 </tbody>
                             </table>
                         </div>

@@ -11,6 +11,9 @@
     //constants
     var urlConstant = require('../../../constants/urlConstants');
 
+    //utils
+    var listUtil = require('../../../util/listUtil');
+
     var InProgressProjects = React.createClass({
         renderProject: function (key) {
             return (
@@ -41,7 +44,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {Object.keys(this.props.projects).map(this.renderProject)}
+                            {this.props.projects.length ? Object.keys(this.props.projects).map(this.renderProject) : listUtil.displayNoRecordFound()}
                             </tbody>
                         </table>
                     </div>

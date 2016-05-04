@@ -32,5 +32,11 @@ describe('OverdueProjects component', () => {
             var total = component.find(OverdueProjectRow).length;
             expect(total).toEqual(props.overdueProjects.length);
         });
+
+        it('returns no record found item if there are no records', () =>{
+            var component = mount(<OverdueProjects overdueProjects={[]}/>);
+            var output = component.find('.not-found-message');
+            expect(output.length).toEqual(1);
+        });
     });
 });
