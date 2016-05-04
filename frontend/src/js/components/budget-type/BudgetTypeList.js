@@ -42,19 +42,10 @@
         },
 
         componentWillMount: function () {
-            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
-                _start: this.props.pagination.page || 1,
-                _limit: this.props.offset
+            this.props.actions.fetch(resourceConstant.BUDGET_TYPES, {
+                start: this.props.pagination.startPage || 1,
+                offset: this.props.offset
             });
-        },
-
-        componentWillReceiveProps: function (nextProps) {
-            if (this.props.pagination.page > 1 && !nextProps.budgetTypes.length) {
-                this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
-                    _start: 1,
-                    _limit: this.props.offset
-                }, sortBy);
-            }
         },
 
         componentWillUnmount: function () {
@@ -65,26 +56,28 @@
 
         refreshList: function (index) {
             var page = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
-                _start: page,
-                _limit: this.props.offset
-            }, sortBy);
+            this.props.actions.fetch(resourceConstant.BUDGET_TYPES, {
+                sort: sortBy,
+                start: page,
+                offset: this.props.offset
+            });
         },
 
         deleteBudgetType: function (id) {
             var that = this;
             var pagination = {
-                _start: this.props.pagination.page || 1,
-                _limit: this.props.offset
+                sort: sortBy,
+                start: this.props.pagination.startPage || 1,
+                offset: this.props.offset
             };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id, pagination, sortBy)
+                that.props.actions.deleteItem(resourceConstant.BUDGET_TYPES, id, pagination, that.props.pagination.count);
             });
         },
 
         renderBudgetType: function (key) {
-            var startIndex = this.props.pagination.page + parseInt(key);
+            var startIndex = this.props.pagination.startPage + parseInt(key);
             return (
                 <BudgetTypeRow key={key} index={startIndex||1+parseInt(key)} budgetType={this.props.budgetTypes[key]}
                                deleteBudgetType={this.deleteBudgetType}/>
@@ -94,15 +87,15 @@
         //sorts data in ascending or descending order according to clicked field
         sort: function (field) {
             var isAscending = sortUI.changeSortDisplay(field);
+            sortBy = (isAscending) ? field : '-' + field;
             var pagination = {
-                _start: this.props.pagination.page,
-                _limit: this.props.offset
+                sort: sortBy,
+                start: this.props.pagination.startPage,
+                offset: this.props.offset
             };
 
-            sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, pagination, sortBy);
+            this.props.actions.fetch(resourceConstant.BUDGET_TYPES, pagination);
         },
-
         render: function () {
             return (
                 <div>
@@ -136,6 +129,7 @@
                             </table>
                         </div>
                         <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    selectedPage={parseInt(this.props.pagination.startPage/10) +1}
                                     refreshList={this.refreshList}/>
 
                     </div>

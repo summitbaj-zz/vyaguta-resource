@@ -79,7 +79,7 @@
 
             case actionTypeConstant.PAGINATION_INDEX:
                 var newState = _.cloneDeep(state);
-                newState.pagination.page = action.index;
+                newState.pagination.startPage = action.index;
                 newState.pagination.count = action.count;
                 return newState;
 

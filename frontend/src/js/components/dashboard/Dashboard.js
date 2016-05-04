@@ -36,8 +36,8 @@
             var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);
             //this.props.actions.fetchByEndDate(converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.DASHBOARD, 'projectEnding'), converter.serialize(contract));
             this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.OVERDUE));
-            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.UTILIZATION));
-            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.BOOKED));
+            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.UTILIZATION));
+            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.BOOKED));
             this.props.actions.fetchResourceCount('booked', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.AVAILABLE));
         },
 

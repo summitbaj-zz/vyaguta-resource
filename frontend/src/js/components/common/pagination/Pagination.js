@@ -19,6 +19,8 @@
         componentDidUpdate: function () {
             if ($(ReactDOM.findDOMNode(this)).find('li').length > 2) {
                 if ($(ReactDOM.findDOMNode(this)).find('li.active').length === 0) {
+
+                    debugger
                     $(ReactDOM.findDOMNode(this))
                         .find('li:eq(' + this.props.selectedPage + ')').addClass('active');
                     this.setRange();

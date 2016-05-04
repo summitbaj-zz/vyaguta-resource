@@ -17,12 +17,15 @@
     var _ = require('lodash');
     var Toastr = require('toastr');
 
-    //API utility
-    var apiUtil = require('../util/apiUtil');
+    //utils
     var actionUtil = require('../util/actionUtil');
+    var converter = require('../util/converter');
 
     //actions
     var apiActions = require('./apiActions');
+
+    //services
+    var resourceApiService = require('../services/api-services/resourceApiService');
 
     //constants
     var messageConstant = require('../constants/messageConstants');
@@ -40,7 +43,7 @@
             }
         },
 
-            delete: function (entity, id) {
+        delete: function (entity, id) {
             return {
                 type: actionTypeConstant.DELETE,
                 entity: entity,
@@ -58,7 +61,7 @@
         pageIndex: function (data, count) {
             return {
                 type: actionTypeConstant.PAGINATION_INDEX,
-                index: data._start,
+                index: data.start,
                 count: count
             }
         }
@@ -75,39 +78,21 @@
      */
 
     var crudActions = {
-        fetchAllFromCore: function (entity) {
+
+        fetch: function (entity, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchAllFromCore(entity).then(function (response) {
+                dispatch(apiActions.apiRequest());
+                return (resourceApiService.fetch(entity, data).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
+                        data && dispatch(actions.pageIndex(data, response.body.count));
                         dispatch(actions.list(entity, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchAllFromCore(entity));
-                    }
-                }));
-            }
-        },
-
-        fetchAll: function (entity) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchAll(entity).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.list(entity, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchAll(entity));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, crudActions.fetch(entity, data));
                     }
                 }));
             }
@@ -116,18 +101,18 @@
         addItem: function (entity, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
+                dispatch(apiActions.apiRequest());
 
-                return (apiUtil.create(entity, data).then(function (response) {
+                return (resourceApiService.create(entity, data).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         Toastr.success(messageConstant.SUCCESSFULLY_ADDED);
                         browserHistory.goBack();
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.addItem(entity, data));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, crudActions.addItem(entity, data));
                     }
                 }));
             }
@@ -138,16 +123,16 @@
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest(entity));
 
-                return (apiUtil.edit(entity, data, id).then(function (response) {
+                return (resourceApiService.edit(entity, data, id).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         Toastr.success(messageConstant.SUCCESSFULLY_UPDATED);
                         browserHistory.goBack();
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.updateItem(entity, data, id));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, crudActions.updateItem(entity, data, id));
                     }
                 }));
             }
@@ -156,37 +141,41 @@
         fetchById: function (entity, id) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
+                dispatch(apiActions.apiRequest());
 
-                return (apiUtil.fetchById(entity, id).then(function (response) {
+                return (resourceApiService.fetch(converter.getPathParam(entity, id)).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         dispatch(actions.selectItem(entity, response.body));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchById(entity, id));
+                        dispatch(apiActions.apiResponse());
+                        actionUtil.responseError(dispatch, error, crudActions.fetchById(entity, id));
                     }
                 }))
             }
         },
 
-        deleteItem: function (entity, id, pagination, sortBy) {
+        deleteItem: function (entity, id, data, count) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
+                dispatch(apiActions.apiRequest());
 
-                return (apiUtil.delete(entity, id).then(function (response) {
+                return (resourceApiService.delete(entity, id).then(function (response) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         Toastr.success(messageConstant.SUCCESSFULLY_DELETED);
-                        dispatch(crudActions.fetchByQuery(entity, pagination, sortBy));
+
+                        if (!(count % 10 != 1 || count == 1))
+                            data.start = data.start - 10;
+                        console.log(data);
+                        dispatch(crudActions.fetch(entity, data));
                     }
                 }, function (error) {
                     if (actionUtil.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.deleteItem(entity, id, pagination, sortBy));
+                        actionUtil.responseError(dispatch, error, entity, crudActions.deleteItem(entity, id, data));
                     }
                 }))
             }
@@ -210,25 +199,6 @@
             }
         },
 
-        fetchByQuery: function (entity, data, sortBy) {
-            return function (dispatch, getState) {
-                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
-
-                return (apiUtil.fetchBySortingQuery(entity, data, sortBy).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        dispatch(actions.pageIndex(data, response.body.count));
-                        dispatch(actions.list(entity, response.body));
-                    }
-                }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
-                        actionUtil.responseError(dispatch, error, entity, crudActions.fetchByQuery(entity, data, sortBy));
-                    }
-                }));
-            }
-        },
 
         clearSelectedItem: function (entity) {
             return {
@@ -259,6 +229,26 @@
                 label: label
             }
         }
+
+        /* fetchByQuery: function (entity, data, sortBy) {
+         return function (dispatch, getState) {
+         var oldRoute = getState().routing.locationBeforeTransitions.pathname;
+         dispatch(apiActions.apiRequest(entity));
+
+         return (apiUtil.fetchBySortingQuery(entity, data, sortBy).then(function (response) {
+         if (actionUtil.isSameRoute(getState, oldRoute)) {
+         dispatch(apiActions.apiResponse(entity));
+         dispatch(actions.pageIndex(data, response.body.count));
+         dispatch(actions.list(entity, response.body));
+         }
+         }, function (error) {
+         if (actionUtil.isSameRoute(getState, oldRoute)) {
+         dispatch(apiActions.apiResponse(entity));
+         actionUtil.responseError(dispatch, error, entity, crudActions.fetchByQuery(entity, data, sortBy));
+         }
+         }));
+         }
+         },*/
     };
 
     module.exports = crudActions;

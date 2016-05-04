@@ -11,9 +11,9 @@
     var url = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
 
     var resourceApiService = {
-        fetch: function (resourceName, data) {
+        fetch: function (pathParam, data) {
             var queryParams = data ? converter.serialize(data) : '';
-            return apiUtil.fetch(url, resourceName.toLowerCase(), queryParams);
+            return apiUtil.fetch(url, pathParam.toLowerCase(), queryParams);
         },
 
         create: function (resourceName, data) {
