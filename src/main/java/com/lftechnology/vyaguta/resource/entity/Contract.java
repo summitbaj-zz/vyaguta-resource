@@ -45,7 +45,7 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
 
     private static final long serialVersionUID = 647756185379538980L;
     private static final String PREFIX = "vyaguta.resource.entity.Contract";
-    public static final String FIND_ENDING_CONTRACTS_BETWEEN_DATES = "findEndingContractsBetweenDates";
+    public static final String FIND_ENDING_CONTRACTS_BETWEEN_DATES = Contract.PREFIX + "findEndingContractsBetweenDates";
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
