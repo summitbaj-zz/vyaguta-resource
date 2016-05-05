@@ -10,10 +10,6 @@
     //constants
     var urlConstants = require('../constants/urlConstants');
 
-    var url2 = window.location.origin + urlConstants.RESOURCE_SERVER + '/';
-    var authUrl = window.location.origin + urlConstants.AUTH_SERVER + '/';
-    var coreUrl2 = window.location.origin + urlConstants.CORE_SERVER + '/';
-
     //libraries
     var Promise = require('promise');
     var request = require('superagent-promise')(require('superagent'), Promise);

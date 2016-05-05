@@ -40,7 +40,7 @@
         },
 
         componentDidMount: function () {
-            this.fetchData(this.props.pagination.page);
+            this.fetchData(this.props.pagination.startPage);
         },
 
         componentWillUnmount: function () {
