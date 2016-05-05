@@ -4,8 +4,8 @@
     //React Dependencies
     var React = require('react');
 
-    //utils
-    var convertContractHash = require('../../../util/convertContractHash');
+    //services
+    var convertContractHash = require('../../../services/convertContractHash');
 
     //components
     var OverdueProjectRow = require('./OverdueProjectRow');
@@ -15,13 +15,11 @@
 
     var OverdueProjects = React.createClass({
         renderOverdueProject: function (key) {
-            return (
-                <OverdueProjectRow key={key} overdueProject={this.props.overdueProjects[key]}/>
-            );
+            return <OverdueProjectRow key={key} overdueProject={this.props.overdueProjects[key]}/>;
         },
 
         displayNoRecordFound: function () {
-            return (<li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>);
+            return <li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>;
         },
 
         render: function () {
@@ -46,5 +44,7 @@
             );
         }
     });
+
     module.exports = OverdueProjects;
+
 })();

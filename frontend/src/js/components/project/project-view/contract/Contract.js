@@ -6,8 +6,8 @@
 
     //components
     var TeamMember = require('./contract-member/ContractMember');
-    var Contract = React.createClass({
 
+    var Contract = React.createClass({
         componentDidMount: function () {
             if (this.props.length - 1 == this.props.index) {
                 var contractAccordion = this.refs['collapseContract' + this.props.index];
@@ -93,5 +93,7 @@
             );
         }
     });
+
     module.exports = Contract;
+
 })();

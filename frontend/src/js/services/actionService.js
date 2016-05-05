@@ -4,44 +4,44 @@
     //React dependencies
     var browserHistory = require('react-router').browserHistory;
 
-    //API utility
-    var apiUtil = require('../util/apiUtil');
+    //services
+    var authApiService = require('./api-services/authApiService');
 
     //actions
     var apiActions = require('../actions/apiActions');
 
     //constants
-    var urlConstant = require('../constants/urlConstants');
-    var messageConstant = require('../constants/messageConstants');
+    var urlConstants = require('../constants/urlConstants');
+    var messageConstants = require('../constants/messageConstants');
 
     //libraries
     var Toastr = require('toastr');
 
-    var actionUtil = {
+    var actionService = {
         responseError: function (dispatch, error, callback) {
             switch (error.status) {
                 case 400:
                     var message = error.response.body.error || error.response.body[0].error;
-                    if (message.indexOf(messageConstant.FOREIGN_KEY_VIOLATION_MESSAGE) > -1) {
-                        message = messageConstant.UNSUCCESSFUL_DELETE_MESSAGE;
+                    if (message.indexOf(messageConstants.FOREIGN_KEY_VIOLATION_MESSAGE) > -1) {
+                        message = messageConstants.UNSUCCESSFUL_DELETE_MESSAGE;
                     }
-                    Toastr.error(message, messageConstant.TOASTR_INVALID_HEADER);
+                    Toastr.error(message, messageConstants.TOASTR_INVALID_HEADER);
                     break;
 
                 case 401:
                     dispatch(apiActions.apiRequest());
-                    apiUtil.refreshSession().then(function (response) {
+                    authApiService.refreshSession().then(function (response) {
                         dispatch(apiActions.apiResponse());
                         dispatch(callback);
                     });
                     break;
 
                 case 404:
-                    browserHistory.push(urlConstant.PAGE_NOT_FOUND);
+                    browserHistory.push(urlConstants.PAGE_NOT_FOUND);
                     break;
 
                 default:
-                    Toastr.error(error.response.body.error || error.response.body[0].error, messageConstant.TOASTR_INVALID_HEADER);
+                    Toastr.error(error.response.body.error || error.response.body[0].error, messageConstants.TOASTR_INVALID_HEADER);
                     break;
             }
         },
@@ -52,6 +52,6 @@
         }
     };
 
-    module.exports = actionUtil;
+    module.exports = actionService;
 
 })();

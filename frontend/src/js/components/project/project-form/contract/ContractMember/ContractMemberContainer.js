@@ -35,7 +35,7 @@
                                 check={true}
                                 actions={this.props.actions}
                                 contractMember={this.props.contractMembers[key]}/>
-            )
+            );
         },
 
         initializeModal: function(event) {
@@ -83,9 +83,10 @@
                                         employees={this.props.employees}/>
                     }
                 </div>
-            )
+            );
         }
     });
 
     module.exports = ContractMemberContainer;
+
 })();

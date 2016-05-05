@@ -5,9 +5,11 @@
     var React = require('react');
 
     //components
-    var apiUtil = require('../../../util/apiUtil');
     var Tagging = require('../../common/tag/Tagging');
-    var resourceConstant = require('../../../constants/resourceConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
+
+    //services
+    var resourceApiService = require('../../../services/api-services/resourceApiService');
 
     var TechnologyStack = React.createClass({
         getInitialState: function () {
@@ -35,7 +37,7 @@
             var that = this;
             that.setState({isRequesting: true});
 
-            apiUtil.fetchByQuery(resourceConstant.TAGS, input).then(function (response) {
+            resourceApiService.fetch(resourceConstants.TAGS, {q: input}).then(function (response) {
                     that.setState({isRequesting: false});
                     that.setState({suggestions: response.body.data});
                 },
@@ -65,5 +67,7 @@
             );
         }
     });
+
     module.exports = TechnologyStack;
+
 })();

@@ -1,13 +1,13 @@
 ;(function () {
     'use strict';
 
-    //utils
+    //services
     var convertContractHash = require('./convertContractHash');
 
     //libraries
     var moment = require('moment');
 
-    var dashboardUtil = {
+    var dashboardService = {
         calculateTotalResource: function (resource) {
             var total = 0;
             for (var i = 0; i < resource.length; i++) {
@@ -99,6 +99,6 @@
         }
     };
 
-    module.exports = dashboardUtil;
+    module.exports = dashboardService;
 
 })();

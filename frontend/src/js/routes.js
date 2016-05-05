@@ -84,6 +84,7 @@
     } else {
         window.location.href = window.location.origin;
     }
+
     module.exports = routes;
 
 })();

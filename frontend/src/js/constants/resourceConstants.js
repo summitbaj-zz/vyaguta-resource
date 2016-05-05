@@ -26,8 +26,8 @@
         BOOKED: 'booked',
         AVAILABLE: 'available',
         OVERDUE: 'overdue'
-
     };
 
     module.exports = resourceConstants;
+
 })();

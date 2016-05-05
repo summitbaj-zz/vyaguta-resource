@@ -5,7 +5,7 @@
     var Link = require('react-router').Link;
 
     //constants
-    var urlConstant = require('../../constants/urlConstants');
+    var urlConstants = require('../../constants/urlConstants');
 
     var ProjectTypeRow = React.createClass({
         render: function () {
@@ -15,7 +15,7 @@
                     <td>{this.props.index}</td>
                     <td>{this.props.projectType.title}</td>
                     <td className="text-center">
-                        <div className="btn-group"><Link to={urlConstant.PROJECT_TYPES.INDEX + '/' + id} data-toggle="tooltip"
+                        <div className="btn-group"><Link to={urlConstants.PROJECT_TYPES.INDEX + '/' + id} data-toggle="tooltip"
                                                          title="Edit"
                                                          className="btn btn-sm btn-default"><i
                             className="fa fa-pencil"></i></Link>

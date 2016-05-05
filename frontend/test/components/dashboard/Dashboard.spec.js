@@ -1,8 +1,6 @@
 import React from 'react';
 import expect from 'expect';
 import {shallow, mount} from 'enzyme';
-import {Provider} from 'react-redux';
-import jsdom from 'jsdom';
 import _ from 'lodash';
 
 //components
@@ -18,9 +16,7 @@ function setup() {
         resource: store.getState().dashboardReducer.resource,
         apiState: store.getState().apiReducer,
         actions: {
-            fetchByField: expect.createSpy(),
-            fetchByEndDate: expect.createSpy(),
-            fetchOverdueProjects: expect.createSpy(),
+            fetch: expect.createSpy(),
             fetchResourceCount: expect.createSpy(),
             apiClearState: expect.createSpy()
         }
@@ -68,33 +64,33 @@ describe('Dashboard component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByField', () => {
             var {actions} = setup();
-            expect(actions.fetchByField).toHaveBeenCalledWith('projects', 'projectStatus', 'In Progress');
+            expect(actions.fetch).toHaveBeenCalledWith('inProgressProjects', 'projects', {projectStatus: 'In Progress'});
         });
 
         it('dispatches fetchByEndDate', () => {
             var {actions, addDayInDate} = setup();
             var request = 'btn' + addDayInDate(0) + 'and' + addDayInDate(15);
-            expect(actions.fetchByEndDate).toHaveBeenCalledWith('dashboard', 'projectEnding', request);
+            //expect(actions.fetchByEndDate).toHaveBeenCalledWith('dashboard', 'projectEnding', request);
         });
 
         it('dispatches fetchOverdueProjects', () => {
             var {actions} = setup();
-            expect(actions.fetchOverdueProjects).toHaveBeenCalledWith('projects', 'overdue');
+            expect(actions.fetch).toHaveBeenCalledWith('overdueProjects', 'projects/overdue');
         });
 
         it('dispatches fetchResourceCount for resource utilization', () => {
             var {actions} = setup();
-            expect(actions.fetchResourceCount).toHaveBeenCalledWith('resource', 'utilization');
+            expect(actions.fetchResourceCount).toHaveBeenCalledWith('utilization', 'projects/resource/utilization');
         });
 
         it('dispatches fetchResourceCount for booked resource', () => {
             var {actions} = setup();
-            expect(actions.fetchResourceCount).toHaveBeenCalledWith('resource', 'booked');
+            expect(actions.fetchResourceCount).toHaveBeenCalledWith('booked', 'projects/resource/booked');
         });
 
         it('dispatches fetchResourceCount for available resource', () => {
             var {actions} = setup();
-            expect(actions.fetchResourceCount).toHaveBeenCalledWith('resource', 'available');
+            expect(actions.fetchResourceCount).toHaveBeenCalledWith('available', 'projects/resource/available');
         });
     });
     describe('componentWillUnMount', () => {
@@ -104,6 +100,4 @@ describe('Dashboard component', () => {
             expect(actions.apiClearState).toHaveBeenCalled();
         });
     });
-
-
 });

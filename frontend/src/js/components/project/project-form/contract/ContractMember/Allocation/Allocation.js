@@ -18,11 +18,11 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
-    //util
-    var alertBox = require('../../../../../../util/alertBox');
+    //utils
+    var alertBox = require('../../../../../../utils/alertBox');
 
     //constants
-    var messageConstant = require('../../../../../../constants/messageConstants');
+    var messageConstants = require('../../../../../../constants/messageConstants');
 
     var Allocation = React.createClass({
         componentDidMount: function () {
@@ -62,7 +62,7 @@
             return (
                 <SelectOption key={key} index={key} id={this.props.projectRoles[key].id}
                               option={this.props.projectRoles[key].title}/>
-            )
+            );
         },
 
         deleteAllocation: function (event) {
@@ -70,7 +70,7 @@
 
             var that = this;
 
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+            alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
                 that.props.actions.deleteAllocation(that.props.index);
             });
         },
@@ -80,18 +80,17 @@
                 <div className="panel panel-default">
                     <div className="panel-heading clearfix" role="tab" id={"heading" + this.props.index}>
                         <h4 className="panel-title"><a role="button" data-toggle="collapse"
-                                                                  ref={"collapse" + this.props.index}
-                                                                  data-parent="#accordion"
-                                                                  href={"#collapse" + this.props.index}
-                                                                  aria-expanded="false"
-                                                                  aria-controls={"collapse" + this.props.index}>
+                                                       ref={"collapse" + this.props.index}
+                                                       data-parent="#accordion"
+                                                       href={"#collapse" + this.props.index}
+                                                       aria-expanded="false"
+                                                       aria-controls={"collapse" + this.props.index}>
                             Allocation {parseInt(this.props.index) + 1}</a>
                             { this.props.totalAllocations > 1 &&
                             <span href="#" onClick={this.deleteAllocation} className="pull-right"><i
                                 className="delete-btn fa fa-close"></i></span>
                             }
                         </h4>
-
                     </div>
                     <div id={"collapse" + this.props.index} className="panel-collapse collapse" role="tabpanel"
                          aria-labelledby={"heading"+ this.props.index}>
@@ -138,11 +137,11 @@
                                 <label className="control-label col-md-4">Allocation</label>
                                 <div className="col-md-8">
                                     <div className="input-group">
-                                        <select  className="form-control"
-                                                 name="allocation" ref="allocation"
-                                                 id="allocation"
-                                                 value={this.props.allocation && this.props.allocation.allocation}
-                                                 onChange={this.handleAllocationInputChange}>
+                                        <select className="form-control"
+                                                name="allocation" ref="allocation"
+                                                id="allocation"
+                                                value={this.props.allocation && this.props.allocation.allocation}
+                                                onChange={this.handleAllocationInputChange}>
                                             <option value="0">0</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>
@@ -171,10 +170,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
     module.exports = Allocation;
-})
-();
+
+})();

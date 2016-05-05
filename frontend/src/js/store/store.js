@@ -9,7 +9,6 @@
     var compose = redux.compose;
     var reactRouterRedux = require('react-router-redux');
     var routerReducer = reactRouterRedux.routerReducer;
-    var routerMiddleware = reactRouterRedux.routerMiddleware;
 
     //middlewares
     var thunk = require('redux-thunk');

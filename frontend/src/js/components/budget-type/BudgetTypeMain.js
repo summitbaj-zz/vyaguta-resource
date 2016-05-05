@@ -10,7 +10,7 @@
     //React dependencies
     var React = require('react');
 
-    var BudgetMain = React.createClass({
+    var BudgetTypeMain = React.createClass({
         render: function () {
             return (
                 <div id="page-content" className="page-content">
@@ -20,5 +20,6 @@
         }
     });
 
-    module.exports = BudgetMain;
+    module.exports = BudgetTypeMain;
+
 })();

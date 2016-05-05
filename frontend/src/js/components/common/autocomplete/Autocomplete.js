@@ -18,9 +18,11 @@
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
-            input.addEventListener('keydown', this.keyPressed);
-            input.addEventListener('keyup', this.generateSuggestions);
-            input.addEventListener('blur', this.focusOut);
+            if(input) {
+                input.addEventListener('keydown', this.keyPressed);
+                input.addEventListener('keyup', this.generateSuggestions);
+                input.addEventListener('blur', this.focusOut);
+            }
         },
 
         focusOut: function () {
@@ -205,5 +207,7 @@
             )
         }
     });
+
     module.exports = AutoComplete;
+
 })();

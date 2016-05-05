@@ -7,23 +7,23 @@
     //components
     var BookedResourceItem = require('./BookedResourceItem');
 
-    //utils
-    var dashboardUtil = require('../../../util/dashboardUtil');
+    //services
+    var dashboardService = require('../../../services/dashboardService');
 
     //constants
     var messageConstants = require('../../../constants/messageConstants');
 
     var BookedResource = React.createClass({
         renderResourceByProjectType: function (total, key) {
-            return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
+            return <BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>;
         },
 
         displayNoRecordFound: function () {
-            return (<div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>);
+            return <div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>;
         },
 
         render: function () {
-            var totalResource = dashboardUtil.calculateTotalResource(this.props.resource);
+            var totalResource = dashboardService.calculateTotalResource(this.props.resource);
             return (
                 <div className="row">
                     <div className="col-lg-12">
@@ -42,5 +42,7 @@
             );
         }
     });
+
     module.exports = BookedResource;
+
 })();

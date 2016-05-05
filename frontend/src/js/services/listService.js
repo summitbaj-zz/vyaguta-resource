@@ -7,7 +7,7 @@
     //constants
     var messageConstants = require('../constants/messageConstants');
 
-    function listUtil() {
+    function listService() {
         this.changeSortDisplay = function (field) {
             var sortField = $('#' + field);
             var sortIcon = sortField.children('i');
@@ -35,6 +35,6 @@
         }
     }
 
-    module.exports = new listUtil();
+    module.exports = new listService();
 
 })();

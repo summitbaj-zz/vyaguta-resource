@@ -8,12 +8,15 @@
     var apiActions = require('./apiActions');
 
     //utils
-    var actionUtil = require('../util/actionUtil');
-    var converter = require('../util/converter');
+    var converter = require('../utils/converter');
 
     //services
+    var actionService = require('../services/actionService');
     var apiService = require('../services/api-services/resourceApiService');
 
+    /**
+     * Actions that are dispatched from dashboardActions
+     */
     var actions = {
         listByCriteria: function (criteria, data) {
             return {
@@ -31,21 +34,31 @@
             }
         }
     };
+
+    /**
+     * These are the actions dashboard uses.
+     *
+     * Everytime an action that requires the API is called, it first Dispatches an "apiRequest" action.
+     *
+     * ApiService returns a promise which dispatches another action "apiResponse".
+     *
+     */
+
     var dashboardActions = {
         fetch: function (criteria, pathParam, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest());
-                //apiService.fetch(entity, converter.serialize({field: data}));
+
                 return (apiService.fetch(pathParam, data).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         dispatch(actions.listByCriteria(criteria, response.body));
                     }
                 }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
-                        actionUtil.responseError(dispatch, error, dashboardActions.fetch(criteria, pathParam, data));
+                        actionService.responseError(dispatch, error, dashboardActions.fetch(criteria, pathParam, data));
                     }
                 }));
             }
@@ -55,16 +68,16 @@
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest());
-                //apiService.fetch(entity, converter.serialize({field: data}));
+
                 return (apiService.fetch(pathParam).then(function (response) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         dispatch(actions.showResources(type, response.body));
                     }
                 }, function (error) {
-                    if (actionUtil.isSameRoute(getState, oldRoute)) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
-                        actionUtil.responseError(dispatch, error, dashboardActions.fetchResourceCount(type, pathParam));
+                        actionService.responseError(dispatch, error, dashboardActions.fetchResourceCount(type, pathParam));
                     }
                 }));
             }

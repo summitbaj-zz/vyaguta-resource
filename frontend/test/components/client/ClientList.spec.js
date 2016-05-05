@@ -21,7 +21,7 @@ function setup() {
         clients: [{id: 1, title: 'client1'}, {id: 2, title: 'client2'}],
         pagination: {},
         actions: {
-            fetchByQuery: expect.createSpy(),
+            fetch: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
             deleteItem: expect.createSpy(),
@@ -43,7 +43,7 @@ describe('ClientList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     });
 
@@ -79,28 +79,28 @@ describe('ClientList Component', () => {
             var {actions, component} = setup();
             var clientName = component.find('#name');
             clientName.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
 
         it('calls sort() function when client email heading is clicked', () => {
             var {actions, component} = setup();
             var clientEmail = component.find('#email');
             clientEmail.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
 
         it('calls sort() function when client phoneNo heading is clicked', () => {
             var {actions, component} = setup();
             var clientPhoneNo = component.find('#phoneNo');
             clientPhoneNo.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
 
         it('calls sort() function when client skype heading is clicked', () => {
             var {actions, component} = setup();
             var clientSkype = component.find('#skype');
             clientSkype.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     })
 

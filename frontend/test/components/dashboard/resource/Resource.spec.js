@@ -4,7 +4,7 @@ import {shallow, mount} from 'enzyme';
 
 //components
 import Resource from '../../../../src/js/components/dashboard/resource/Resource';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import dashboardUtil from '../../../../src/js/services/dashboardService';
 
 dashboardUtil.calculatePercentage = expect.createSpy().andReturn('50%');
 

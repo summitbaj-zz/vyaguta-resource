@@ -24,5 +24,7 @@
         NO_RECORDS_FOUND: 'No records found.'
 
     };
+
     module.exports = messageConstants;
+
 })();

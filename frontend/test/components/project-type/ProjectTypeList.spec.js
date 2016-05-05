@@ -21,7 +21,7 @@ function setup() {
         projectTypes: [{id: 1, title: 'projecttype1'}, {id: 2, title: 'projecttype2'}],
         pagination: {},
         actions: {
-            fetchByQuery: expect.createSpy(),
+            fetch: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
             deleteItem: expect.createSpy(),
@@ -43,7 +43,7 @@ describe('ProjectTypeList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     });
 
@@ -79,7 +79,7 @@ describe('ProjectTypeList Component', () => {
             var {actions, component} = setup();
             var projectTypeHeading = component.find('#title');
             projectTypeHeading.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     })
 

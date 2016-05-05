@@ -8,7 +8,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstants');
+    var actionTypeConstants = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -22,14 +22,14 @@
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.API_REQUEST:
+            case actionTypeConstants.API_REQUEST:
                 var newState = _.cloneDeep(state);
                 newState.isRequesting = true;
                 newState.numberOfRequests++;
 
                 return newState;
 
-            case actionTypeConstant.API_RESPONSE:
+            case actionTypeConstants.API_RESPONSE:
                 var newState = _.cloneDeep(state);
                 newState.numberOfRequests--;
 
@@ -40,7 +40,7 @@
 
                 return newState;
 
-            case actionTypeConstant.API_CLEAR_STATE:
+            case actionTypeConstants.API_CLEAR_STATE:
                 var newState = _.cloneDeep(state);
                 newState.numberOfRequests = 0;
                 newState.isRequesting = false;
@@ -50,7 +50,6 @@
             default:
                 return state;
         }
-
     }
 
     module.exports = apiReducer;

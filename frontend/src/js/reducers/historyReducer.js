@@ -2,7 +2,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstants');
+    var actionTypeConstants = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -15,12 +15,12 @@
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.LIST_HISTORY:
+            case actionTypeConstants.LIST_HISTORY:
                 var newState = _.cloneDeep(state);
                 newState.project = _.cloneDeep(action.data);
                 return newState;
 
-            case actionTypeConstant.CLEAR_HISTORY:
+            case actionTypeConstants.CLEAR_HISTORY:
                 var newState = _.cloneDeep(state);
                 newState.project = [];
 

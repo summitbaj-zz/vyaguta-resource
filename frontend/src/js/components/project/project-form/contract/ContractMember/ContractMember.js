@@ -63,7 +63,6 @@
             } else {
                 middleName = '';
             }
-
             return (this.props.contractMember.employee.firstName + ' ' + middleName + this.props.contractMember.employee.lastName);
         },
 
@@ -86,9 +85,10 @@
                         </div>
                     </a>
                 </li>
-            )
+            );
         }
     });
 
     module.exports = ContractMember;
+
 })();

@@ -5,7 +5,7 @@ import jsdom from 'jsdom';
 
 //components
 import FreeResourceItem from '../../../../src/js/components/dashboard/free-resource/FreeResourceItem';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import dashboardUtil from '../../../../src/js/services/dashboardService';
 
 dashboardUtil.getEmployeeName = expect.createSpy().andReturn('Bishal Shrestha');
 function setup() {

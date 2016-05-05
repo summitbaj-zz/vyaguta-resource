@@ -21,7 +21,7 @@ function setup() {
         projectRoles: [{id: 1, title: 'projectrole1'}, {id: 2, title: 'projectrole2'}],
         pagination: {},
         actions: {
-            fetchByQuery: expect.createSpy(),
+            fetch: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
             deleteItem: expect.createSpy(),
@@ -43,7 +43,7 @@ describe('ProjectRoleList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     });
 
@@ -79,7 +79,7 @@ describe('ProjectRoleList Component', () => {
             var {actions, component} = setup();
             var ProjectRoleHeading = component.find('#title');
             ProjectRoleHeading.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     })
 

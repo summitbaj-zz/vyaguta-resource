@@ -4,6 +4,7 @@
     //React dependencies
     var React = require('react');
 
+    //libraries
     var moment = require('moment');
 
     var HistoryItem = React.createClass({
@@ -73,5 +74,7 @@
             );
         }
     });
+
     module.exports = HistoryItem;
+
 })();

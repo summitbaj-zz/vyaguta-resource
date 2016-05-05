@@ -14,9 +14,10 @@
         render: function () {
             return (
                 <option value={this.props.id}>{this.props.option}</option>
-            )
+            );
         }
     });
 
     module.exports = SelectOption;
+
 })();

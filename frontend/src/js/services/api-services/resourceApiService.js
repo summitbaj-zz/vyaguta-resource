@@ -2,8 +2,8 @@
     'use strict';
 
     //utils
-    var apiUtil = require('../../util/apiUtil');
-    var converter = require('../../util/converter');
+    var apiUtil = require('../../utils/apiUtil');
+    var converter = require('../../utils/converter');
 
     //constants
     var urlConstants = require('../../constants/urlConstants');

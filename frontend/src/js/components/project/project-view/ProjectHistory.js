@@ -10,7 +10,7 @@
     var HistoryItem = require('./HistoryItem');
 
     //constants
-    var resourceConstant = require('../../../constants/resourceConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
 
     //actions
     var historyActions = require('../../../actions/historyActions');
@@ -18,12 +18,12 @@
     //libraries
     var _ = require('lodash');
 
-    //util
-    var historyUtil = require('../../../util/historyUtil');
+    //services
+    var historyService = require('../../../services/historyService');
 
     var History = React.createClass({
         componentWillMount: function () {
-            this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
+            this.props.actions.fetchAllHistories(resourceConstants.PROJECTS, this.props.params.id);
         },
 
         componentWillUnmount: function () {
@@ -37,7 +37,7 @@
         },
 
         render: function () {
-            var convertedHistory = historyUtil.convertHistoryJSON(this.props.history);
+            var convertedHistory = historyService.convertHistoryJSON(this.props.history);
             return (
                 <div>
                     <EntityHeader header="History" routes={this.props.routes} title="History" apiState={this.props.apiState}/>

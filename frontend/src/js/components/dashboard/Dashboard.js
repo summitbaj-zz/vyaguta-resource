@@ -20,25 +20,27 @@
     var apiActions = require('../../actions/apiActions');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+
+    //services
+    var dashboardService = require('../../services/dashboardService');
 
     //utils
-    var dashboardUtil = require('../../util/dashboardUtil');
-    var converter = require('../../util/converter');
+    var converter = require('../../utils/converter');
 
     //libraries
     var _ = require('lodash');
 
     var Dashboard = React.createClass({
         componentWillMount: function () {
-            this.props.actions.fetch('inProgressProjects', resourceConstant.PROJECTS, {projectStatus: 'In Progress'});
+            this.props.actions.fetch('inProgressProjects', resourceConstants.PROJECTS, {projectStatus: 'In Progress'});
 
-            var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);
-            //this.props.actions.fetchByEndDate(converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.DASHBOARD, 'projectEnding'), converter.serialize(contract));
-            this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.OVERDUE));
-            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.UTILIZATION));
-            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.BOOKED));
-            this.props.actions.fetchResourceCount('booked', converter.getPathParam(resourceConstant.PROJECTS, resourceConstant.RESOURCE, resourceConstant.AVAILABLE));
+            var request = 'btn' + dashboardService.addDayInDate(0) + 'and' + dashboardService.addDayInDate(15);
+            //this.props.actions.fetchByEndDate(converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.DASHBOARD, 'projectEnding'), converter.serialize(contract));
+            this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
+            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
+            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));
+            this.props.actions.fetchResourceCount('booked', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.BOOKED));
         },
 
         componentWillUnmount: function () {
