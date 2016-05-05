@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -37,9 +39,13 @@ import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 @Entity
 @Table(name = "contracts")
 @Where(clause = "deleted='false'")
+@NamedQueries({
+        @NamedQuery(name = Contract.FIND_ENDING_CONTRACTS_BETWEEN_DATES, query = "SELECT c FROM Contract c WHERE c.endDate BETWEEN :startPoint AND :endPoint ORDER BY c.endDate DESC") })
 public class Contract extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = 647756185379538980L;
+    private static final String PREFIX = "vyaguta.resource.entity.Contract";
+    public static final String FIND_ENDING_CONTRACTS_BETWEEN_DATES = "findEndingContractsBetweenDates";
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
