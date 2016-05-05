@@ -1,7 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.google.common.base.Strings;
-import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
@@ -427,21 +425,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findContractsEndingBetween(String endDates) {
-        LocalDate startPoint = LocalDate.now();
-        LocalDate endPoint = startPoint.plusDays(15);
+    public List<Project> findContractsEndingIn(int days) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(days);
 
-        if (endDates != null) {
-            String[] dates = endDates.replaceFirst("btn", "").split("and");
-            try {
-                startPoint = LocalDate.parse(dates[0], Constant.DATE_FORMAT_DB);
-                endPoint = LocalDate.parse(dates[1], Constant.DATE_FORMAT_DB);
-            } catch (DateTimeParseException e) {
-                throw new ParameterFormatException("Invalid date format");
-            }
-        }
-
-        List<Contract> contracts = projectDao.contractsEndingBetween(startPoint, endPoint);
+        List<Contract> contracts = projectDao.contractsEndingBetween(startDate, endDate);
         return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
 
     }
