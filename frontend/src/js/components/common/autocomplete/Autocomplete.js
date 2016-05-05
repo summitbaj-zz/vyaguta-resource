@@ -81,7 +81,6 @@
         },
 
         arrowKeyPressed: function (key) {
-            console.log(key)
             var suggestions = this.refs.suggestions.childNodes;
             if (key === 38) {
                 if (selectedIndex == 0 || selectedIndex == -1) {

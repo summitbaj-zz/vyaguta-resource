@@ -242,12 +242,10 @@
                     that.setState({isRequesting: false});
 
                     if (response.body.count) {
-                        console.log('asdf')
                         formValidator.showErrors(elementId, messageConstants.PROJECT_NAME_EXISTS_MESSAGE);
                         that.setState({isProjectNameValid: false});
                     } else {
                         formValidator.showSuccess(elementId);
-                        console.log('bishal')
                         that.setState({isProjectNameValid: true});
                     }
 
