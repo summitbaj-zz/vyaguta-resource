@@ -4,8 +4,8 @@
     //React Dependencies
     var React = require('react');
 
-    //utils
-    var dashboardUtil = require('../../../util/dashboardUtil');
+    //Services
+    var dashboardService = require('../../../services/dashboardService');
 
     //components
     var EndingProjectRow = require('./EndingProjectRow');
@@ -13,21 +13,17 @@
     //constants
     var messageConstants = require('../../../constants/messageConstants');
 
-
     var EndingProjects = React.createClass({
         renderEndingProject: function (endingProject) {
-            return (
-                <EndingProjectRow key={endingProject.id} endingProject={endingProject}/>
-            );
+            return <EndingProjectRow key={endingProject.id} endingProject={endingProject}/>;
         },
 
         displayNoRecordFound: function () {
-            return (<li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>);
+            return <li className="list-group-item not-found-message">{messageConstants.NO_RECORDS_FOUND}</li>;
         },
 
         render: function () {
-            var endingProjects = dashboardUtil.getEndingProjectsData(this.props.endingProjects);
-
+            var endingProjects = dashboardService.getEndingProjectsData(this.props.endingProjects);
             return (
                 <div className="col-lg-6">
                     <div className="block">
@@ -42,7 +38,7 @@
                                 </li>
                                 {endingProjects.length ? endingProjects.map(this.renderEndingProject) : this.displayNoRecordFound()}
                                 <li className="list-group-item total">
-                                    <span>Total</span><span>{dashboardUtil.getEndingProjectsResourceTotal(endingProjects)}</span>
+                                    <span>Total</span><span>{dashboardService.getEndingProjectsResourceTotal(endingProjects)}</span>
                                 </li>
                             </ul>
                         </div>
@@ -52,5 +48,7 @@
             );
         }
     });
+
     module.exports = EndingProjects;
+
 })();

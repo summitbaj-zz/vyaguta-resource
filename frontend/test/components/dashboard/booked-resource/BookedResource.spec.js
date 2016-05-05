@@ -7,7 +7,7 @@ import _ from 'lodash';
 //components
 import BookedResourceComponent from '../../../../src/js/components/dashboard/booked-resource/BookedResource';
 import BookedResourceItem from '../../../../src/js/components/dashboard/booked-resource/BookedResourceItem';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import dashboardUtil from '../../../../src/js/services/dashboardService';
 
 dashboardUtil.calculateTotalResource = expect.createSpy();
 function setup() {

@@ -27,7 +27,7 @@
                         Sorry, but the page you are looking for was either not found or does not exist. <br/>
                     </div>
                 </div>
-            )
+            );
         }
     })
 

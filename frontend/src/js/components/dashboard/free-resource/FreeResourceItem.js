@@ -4,8 +4,8 @@
     //React Dependencies
     var React = require('react');
 
-    //utils
-    var dashboardUtil = require('../../../util/dashboardUtil');
+    //Services
+    var dashboardService = require('../../../services/dashboardService');
 
     var FreeResourceItem = React.createClass({
            render: function () {
@@ -15,7 +15,7 @@
                     <a className="widget widget-hover-effect1">
                         <div className="widget-simple widget-custom">
                             <div className="cards">
-                                <h3 className="widget-content text-center animation-pullDown">{dashboardUtil.getEmployeeName(resource)}</h3>
+                                <h3 className="widget-content text-center animation-pullDown">{dashboardService.getEmployeeName(resource)}</h3>
                                 <span className="cards-counts">{(resource.availableAllocation) * 100 + '%'}</span>
                                 <span className="cards-text">{resource.designation}</span>
                             </div>
@@ -25,5 +25,7 @@
             );
         }
     });
+
     module.exports = FreeResourceItem;
+
 })();

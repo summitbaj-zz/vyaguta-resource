@@ -9,7 +9,7 @@ import expect from 'expect';
 import _ from 'lodash';
 
 //constants
-import actionTypeConstant from '../../src/js/constants/actionTypeConstants';
+import actionTypeConstants from '../../src/js/constants/actionTypeConstants';
 
 //components
 import crudReducer from '../../src/js/reducers/crudReducer';
@@ -58,7 +58,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(undefined,
             {
-                type: actionTypeConstant.LIST,
+                type: actionTypeConstants.LIST,
                 entity: 'budgetTypes',
                 data: testData
             })
@@ -71,7 +71,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(undefined,
             {
-                type: actionTypeConstant.SELECT_ITEM,
+                type: actionTypeConstants.SELECT_ITEM,
                 entity: entity,
                 data: testData.data
             })
@@ -89,7 +89,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.DELETE,
+                type: actionTypeConstants.DELETE,
                 entity: entity,
                 id: id
             })
@@ -108,7 +108,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.UPDATE_SELECTED_ITEM,
+                type: actionTypeConstants.UPDATE_SELECTED_ITEM,
                 entity: entity,
                 key: key,
                 value: value
@@ -128,7 +128,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.HANDLE_SELECT_OPTION_CHANGE,
+                type: actionTypeConstants.HANDLE_SELECT_OPTION_CHANGE,
                 entity: entity,
                 key: key,
                 value: value
@@ -143,7 +143,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.CLEAR_SELECTED_ITEM,
+                type: actionTypeConstants.CLEAR_SELECTED_ITEM,
                 entity: entity
             })
         ).toEqual(expectedState);
@@ -151,12 +151,12 @@ describe('crudReducer', () => {
 
     it('should handle PAGINATION_INDEX', () => {
         var expectedState = _.cloneDeep(tempState);
-        expectedState.pagination.page = 1;
+        expectedState.pagination.startPage = 1;
         expectedState.pagination.count = 2;
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.PAGINATION_INDEX,
+                type: actionTypeConstants.PAGINATION_INDEX,
                 index: 1,
                 count: 2
             })
@@ -179,7 +179,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
+                type: actionTypeConstants.HANDLE_AUTOCOMPLETE_CHANGE,
                 entity: entity,
                 key: key,
                 id: id,
@@ -198,7 +198,7 @@ describe('crudReducer', () => {
 
         expect(crudReducer(tempState,
             {
-                type: actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE,
+                type: actionTypeConstants.HANDLE_AUTOCOMPLETE_CHANGE,
                 entity: entity,
                 key: key,
                 id: id,

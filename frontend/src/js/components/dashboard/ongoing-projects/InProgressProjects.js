@@ -9,10 +9,10 @@
     var InProgressProjectRow = require('./InProgressProjectRow');
 
     //constants
-    var urlConstant = require('../../../constants/urlConstants');
+    var urlConstants = require('../../../constants/urlConstants');
 
-    //utils
-    var listUtil = require('../../../util/listUtil');
+    //services
+    var listService = require('../../../services/listService');
 
     var InProgressProjects = React.createClass({
         renderProject: function (key) {
@@ -26,12 +26,10 @@
                 <div className="block clearfix">
                     <div className="block-title"><h2>Project Details</h2>
                         <div className="block-options pull-right">
-                            <Link to={urlConstant.PROJECTS.INDEX} title="List Project"
+                            <Link to={urlConstants.PROJECTS.INDEX} title="List Project"
                                   className="btn btn-sm btn-ghost btn-success text-uppercase"> View All</Link>
                         </div>
                     </div>
-
-
                     <div className="table-responsive">
                         <table className="table table-vcenter table-hover table-striped">
                             <thead>
@@ -44,7 +42,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.projects.length ? Object.keys(this.props.projects).map(this.renderProject) : listUtil.displayNoRecordFound()}
+                            {this.props.projects.length ? Object.keys(this.props.projects).map(this.renderProject) : listService.displayNoRecordFound()}
                             </tbody>
                         </table>
                     </div>
@@ -52,5 +50,7 @@
             );
         }
     });
+
     module.exports = InProgressProjects;
+
 })();

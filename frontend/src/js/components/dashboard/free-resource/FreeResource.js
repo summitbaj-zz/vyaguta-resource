@@ -4,7 +4,7 @@
     //React Dependencies
     var React = require('react');
 
-    //component
+    //components
     var FreeResourceItem = require('./FreeResourceItem');
 
     var FreeResource = React.createClass({
@@ -101,5 +101,7 @@
             }
         }
     });
+
     module.exports = FreeResource;
+
 })();

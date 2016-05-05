@@ -8,13 +8,15 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/formValidator');
+
+    //utils
+    var formValidator = require('../../utils/formValidator');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -31,7 +33,7 @@
             $('#colorselector').colorselector();
 
             if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECT_STATUS, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.PROJECT_STATUS, this.props.params.id);
             }
             else {
                 var value = $('#colorselector').val();
@@ -54,7 +56,7 @@
 
         componentWillUnmount: function () {
             setColorFlag = 0;
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_STATUS);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECT_STATUS);
             this.props.actions.apiClearState();
         },
 
@@ -73,19 +75,19 @@
 
             if (formValidator.isValid(requiredField)) {
                 if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.PROJECT_STATUS, projectStatus, this.props.params.id);
+                    this.props.actions.updateItem(resourceConstants.PROJECT_STATUS, projectStatus, this.props.params.id);
                 } else {
-                    this.props.actions.addItem(resourceConstant.PROJECT_STATUS, projectStatus);
+                    this.props.actions.addItem(resourceConstants.PROJECT_STATUS, projectStatus);
                 }
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
         handleChange: function (event) {
             var key = event.target.name;
             var value = event.target.value;
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_STATUS, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.PROJECT_STATUS, key, value);
         },
 
         render: function () {
@@ -174,5 +176,6 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusForm)
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusForm);
+
 })();

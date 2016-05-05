@@ -6,7 +6,7 @@
     var Link = require('react-router').Link;
 
     //constants
-    var urlConstant = require('../../../constants/urlConstants');
+    var urlConstants = require('../../../constants/urlConstants');
 
     var OverdueProjectRow = React.createClass({
         render: function () {
@@ -17,7 +17,7 @@
             return (
                 <li className="list-group-item">
                        <span className="list-group-project"><Link
-                           to={urlConstant.PROJECTS.INDEX + '/'  +  overdueProject.projectId + urlConstant.PROJECTS.VIEW}>{overdueProject.projectTitle}</Link>
+                           to={urlConstants.PROJECTS.INDEX + '/'  +  overdueProject.projectId + urlConstants.PROJECTS.VIEW}>{overdueProject.projectTitle}</Link>
                     </span>
                     <span className="label text-uppercase"
                           style={style}>{overdueProject.projectStatus}</span>
@@ -26,5 +26,7 @@
             );
         }
     });
+
     module.exports = OverdueProjectRow;
+
 })();

@@ -21,7 +21,7 @@ function setup() {
         budgetTypes: [{id: 1, title: 'budgettype1'}, {id: 2, title: 'budgettype2'}],
         pagination: {},
         actions: {
-            fetchByQuery: expect.createSpy(),
+            fetch: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
             deleteItem: expect.createSpy(),
@@ -43,7 +43,7 @@ describe('BudgetTypeList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     });
 
@@ -79,7 +79,7 @@ describe('BudgetTypeList Component', () => {
             var {actions, component} = setup();
             var budgetTypeHeading = component.find('#title');
             budgetTypeHeading.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     })
 

@@ -7,7 +7,7 @@ import _ from 'lodash';
 //components
 import EndingProjects from '../../../../src/js/components/dashboard/ending-projects/EndingProjects';
 import EndingProjectRow from '../../../../src/js/components/dashboard/ending-projects/EndingProjectRow';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import dashboardUtil from '../../../../src/js/services/dashboardService';
 
 var fakeEndingProjects = [
     {

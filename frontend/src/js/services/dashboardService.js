@@ -1,13 +1,13 @@
 ;(function () {
     'use strict';
 
-    //utils
+    //services
     var convertContractHash = require('./convertContractHash');
 
     //libraries
     var moment = require('moment');
 
-    var dashboardUtil = {
+    var dashboardService = {
         calculateTotalResource: function (resource) {
             var total = 0;
             for (var i = 0; i < resource.length; i++) {
@@ -89,16 +89,9 @@
             }
             name = name + ' ' + employee.lastName;
             return name;
-        },
-
-        addDayInDate: function (value) {
-            var today = new Date();
-            var newDate = new Date();
-            newDate.setDate(today.getDate() + value);
-            return newDate.getFullYear() + '-' + ('0' + (newDate.getMonth() + 1)).slice(-2) + '-' + ('0' + newDate.getDate()).slice(-2);
         }
     };
 
-    module.exports = dashboardUtil;
+    module.exports = dashboardService;
 
 })();

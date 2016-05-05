@@ -8,16 +8,20 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var Project = require('./ProjectRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
-    var alertBox = require('../../util/alertBox');
-    var listUtil = require('../../util/listUtil');
+
+    //utils
+    var alertBox = require('../../utils/alertBox');
+
+    //services
+    var listService = require('../../services/listService');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -26,58 +30,50 @@
     //libraries
     var _ = require('lodash');
 
-    var DocumentTitle = require('react-document-title');
-
-    //util
-    var ApiUtil = require('../../util/apiUtil');
     var sortBy = '';
 
     var ProjectList = React.createClass({
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET)
+                offset: parseInt(resourceConstants.OFFSET)
             }
         },
         componentWillMount: function () {
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
-                _start: this.props.pagination.page || 1,
-                _limit: this.props.offset
-            });
+            this.fetchData(this.props.pagination.startPage);
         },
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
-            this.props.actions.clearList(resourceConstant.PROJECTS);
+            this.props.actions.clearList(resourceConstants.PROJECTS);
             this.props.actions.apiClearState();
         },
 
-        renderProject: function (key) {
-            var startIndex = this.props.pagination.page + parseInt(key);
-
-            return (
-                <Project key={key} index={startIndex||1+parseInt(key)} project={this.props.projects[key]}
-                         deleteProject={this.deleteProject}/>
-            );
+        fetchData: function (start) {
+            this.props.actions.fetch(resourceConstants.PROJECTS, {
+                sort: sortBy,
+                start: start || 1,
+                offset: this.props.offset
+            });
         },
 
         refreshList: function (index) {
-            var page = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, {
-                _start: page,
-                _limit: this.props.offset
-            }, sortBy);
+            var start = 1 + (index - 1) * this.props.offset;
+            this.fetchData(start);
         },
 
         //sorts data in ascending or descending order according to clicked field
         sort: function (field) {
-            var isAscending = listUtil.changeSortDisplay(field);
-            var pagination = {
-                _start: this.props.pagination.page,
-                _limit: this.props.offset
-            };
-
+            var isAscending = listService.changeSortDisplay(field);
             sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECTS, pagination, sortBy);
+            this.fetchData(this.props.pagination.startPage);
+        },
+
+        renderProject: function (key) {
+            var startIndex = this.props.pagination.startPage + parseInt(key);
+            return (
+                <Project key={key} index={startIndex || 1 + parseInt(key)} project={this.props.projects[key]}
+                         deleteProject={this.deleteProject}/>
+            );
         },
 
         render: function () {
@@ -89,7 +85,7 @@
                         <div className="block-title">
                             <h2>Project Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.PROJECTS.NEW} title="Add Project"
+                                <Link to={urlConstants.PROJECTS.NEW} title="Add Project"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project</Link>
                             </div>
@@ -119,11 +115,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.props.projects.length ? Object.keys(this.props.projects).map(this.renderProject) : listUtil.displayNoRecordFound()}
+                                {this.props.projects.length ? Object.keys(this.props.projects).map(this.renderProject) : listService.displayNoRecordFound()}
                                 </tbody>
                             </table>
                         </div>
                         <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    selectedPage={parseInt(this.props.pagination.startPage / 10) + 1}
                                     refreshList={this.refreshList}/>
                     </div>
                 </div>

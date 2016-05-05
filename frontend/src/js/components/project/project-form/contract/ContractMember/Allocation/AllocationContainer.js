@@ -22,7 +22,7 @@
                             projectRoles={this.props.projectRoles}
                             totalAllocations={this.props.allocations.length}
                             memberIndex={this.props.memberIndex}/>
-            )
+            );
         },
 
         addAllocation: function (event) {
@@ -45,9 +45,10 @@
                         </a>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
     module.exports = AllocationContainer;
+
 })();

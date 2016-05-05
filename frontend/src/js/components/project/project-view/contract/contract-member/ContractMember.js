@@ -77,7 +77,8 @@
                 </li>
             );
         }
-
     });
+
     module.exports = ContractMember;
+
 })();

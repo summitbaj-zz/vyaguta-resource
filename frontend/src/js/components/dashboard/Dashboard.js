@@ -20,24 +20,22 @@
     var apiActions = require('../../actions/apiActions');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
 
     //utils
-    var dashboardUtil = require('../../util/dashboardUtil');
+    var converter = require('../../utils/converter');
 
     //libraries
     var _ = require('lodash');
 
     var Dashboard = React.createClass({
         componentWillMount: function () {
-            this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
-
-            var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);
-            this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
-            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.BOOKED);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.AVAILABLE);
+            this.props.actions.fetch('inProgressProjects', resourceConstants.PROJECTS, {projectStatus: 'In Progress'});
+            this.props.actions.fetch('endingProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
+            this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
+            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
+            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));
+            this.props.actions.fetchResourceCount('booked', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.BOOKED));
         },
 
         componentWillUnmount: function () {

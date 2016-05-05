@@ -2,7 +2,7 @@
     'use strict';
     var moment = require('moment');
 
-    function historyUtil() {
+    function historyService() {
         var that = this;
         this.getTime = function (createdAt) {
             var date = new Date(moment(createdAt).format());
@@ -129,6 +129,6 @@
         }
     }
 
-    module.exports = new historyUtil();
+    module.exports = new historyService();
 
 })();

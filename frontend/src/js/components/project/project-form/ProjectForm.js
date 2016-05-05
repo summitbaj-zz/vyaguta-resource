@@ -14,15 +14,14 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../../constants/resourceConstants');
-    var urlConstant = require('../../../constants/urlConstants');
-    var messageConstant = require('../../../constants/messageConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
+    var urlConstants = require('../../../constants/urlConstants');
+    var messageConstants = require('../../../constants/messageConstants');
 
     //libraries
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
-
     var Select = require('react-select');
 
     //components
@@ -31,11 +30,15 @@
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
     var ReasonModal = require('./ReasonModal');
-    var formValidator = require('../../../util/formValidator');
 
-    //util
-    var apiUtil = require('../../../util/apiUtil');
-    var convertContractHash = require('../../../util/convertContractHash');
+    //utils
+    var formValidator = require('../../../utils/formValidator');
+
+    //services
+    var coreApiService = require('../../../services/api-services/coreApiService');
+    var authApiService = require('../../../services/api-services/authApiService');
+    var resourceApiService = require('../../../services/api-services/resourceApiService');
+    var convertContractHash = require('../../../services/convertContractHash');
 
     //actions
     var crudActions = require('../../../actions/crudActions');
@@ -56,13 +59,13 @@
 
         componentWillMount: function () {
             if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.PROJECTS, this.props.params.id);
             }
-            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
-            this.props.actions.fetchAll(resourceConstant.CLIENTS);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
+            this.props.actions.fetch(resourceConstants.BUDGET_TYPES);
+            this.props.actions.fetch(resourceConstants.PROJECT_STATUS);
+            this.props.actions.fetch(resourceConstants.PROJECT_TYPES);
+            this.props.actions.fetch(resourceConstants.CLIENTS);
+            this.props.actions.fetch(resourceConstants.PROJECT_ROLES);
 
         },
 
@@ -76,7 +79,7 @@
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECTS);
             this.props.actions.clearContracts();
             this.props.actions.apiClearState();
 
@@ -85,7 +88,7 @@
         },
 
         loadEmployees: function (input) {
-            return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
+            return coreApiService.fetch(resourceConstants.EMPLOYEES, {q: input}).then(function (response) {
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
                     if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
@@ -100,11 +103,10 @@
                 return {options: options};
             }, function (error) {
                 if (error.status == 401) {
-                    apiUtil.refreshSession();
+                    authApiService.refreshSession();
                 }
             });
         },
-
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
@@ -179,14 +181,14 @@
             };
 
             if (!formValidator.isValid(requiredField)) {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             } else if (!this.isContractValid(project.contracts)) {
-                Toastr.error(messageConstant.FILL_DATES_FOR_CONTRACTS, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FILL_DATES_FOR_CONTRACTS, messageConstants.TOASTR_INVALID_HEADER);
             } else {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
-                    this.props.actions.addItem(resourceConstant.PROJECTS, project);
+                    this.props.actions.addItem(resourceConstants.PROJECTS, project);
                 }
             }
         },
@@ -222,9 +224,9 @@
 
             if (formValidator.isValid(requiredFieldForUpdate)) {
                 $('#addReason').modal('hide');
-                this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+                this.props.actions.updateItem(resourceConstants.PROJECTS, project, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -232,16 +234,26 @@
             this.setState({isProjectNameValid: false});
             var title = this.refs.title.value;
             var that = this;
+            var elementId = $(event.target).attr('id');
 
             if (title && title != this.state.projectName) {
                 that.setState({isRequesting: true});
-                formValidator.isTitleValid(resourceConstant.PROJECTS, event.target).then(function (response) {
+                resourceApiService.fetch(resourceConstants.PROJECTS, {title: title}).then(function (response) {
                     that.setState({isRequesting: false});
-                    response && that.setState({isProjectNameValid: true});
+
+                    if (response.body.count) {
+                        formValidator.showErrors(elementId, messageConstants.PROJECT_NAME_EXISTS_MESSAGE);
+                        that.setState({isProjectNameValid: false});
+                    } else {
+                        formValidator.showSuccess(elementId);
+                        that.setState({isProjectNameValid: true});
+                    }
+
                 }, function (error) {
                     that.setState({isRequesting: false});
+
                     if (error.status == 401) {
-                        apiUtil.refreshSession().then(function (response) {
+                        authApiService.refreshSession().then(function (response) {
                             that.validateTitle(that.refs.title.dispatchEvent(new Event('blur')));
                         });
                     } else {
@@ -262,7 +274,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECTS, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.PROJECTS, key, value);
         },
 
         handleAutoCompleteChange: function (employee) {
@@ -293,7 +305,6 @@
             } else {
                 return null;
             }
-
         },
 
         render: function () {
@@ -453,7 +464,7 @@
                     <ReasonModal updateProject={this.updateProject}/>
 
                 </div>
-            )
+            );
         }
     });
 
@@ -485,4 +496,5 @@
     };
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectForm);
+
 })();

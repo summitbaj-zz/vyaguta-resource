@@ -8,12 +8,11 @@
     var Link = require('react-router').Link;
 
     //constants
-    var resourceConstant = require('../../../constants/resourceConstants');
-    var urlConstant = require('../../../constants/urlConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
+    var urlConstants = require('../../../constants/urlConstants');
 
     //components
     var EntityHeader = require('../../common/header/EntityHeader');
-
     var TimelineChart = require('./TimelineChart');
     var TeamMemberView = require('./contract/contract-member/ContractMemberView');
     var Contract = require('./contract/Contract');
@@ -28,8 +27,8 @@
     //libraries
     var _ = require('lodash');
 
-    //util
-    var historyUtil = require('../../../util/historyUtil');
+    //services
+    var historyService = require('../../../services/historyService');
 
     var ProjectDetails = React.createClass({
         getInitialState: function () {
@@ -40,12 +39,12 @@
         },
 
         componentWillMount: function () {
-            this.props.actions.fetchAllHistories(resourceConstant.PROJECTS, this.props.params.id);
-            this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+            this.props.actions.fetchAllHistories(resourceConstants.PROJECTS, this.props.params.id);
+            this.props.actions.fetchById(resourceConstants.PROJECTS, this.props.params.id);
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECTS);
             this.props.actions.apiClearState();
             this.props.actions.clearHistory();
             this.props.actions.clearContracts();
@@ -97,7 +96,7 @@
                 background: project.projectStatus && project.projectStatus.color
             };
 
-            var convertedHistory = historyUtil.convertHistoryJSON(this.props.histories);
+            var convertedHistory = historyService.convertHistoryJSON(this.props.histories);
             var history = convertedHistory.length ? convertedHistory.reverse().slice(0, 5) : [];
             var containsMoreHistories = (convertedHistory.length > 5) ? true : false;
 
@@ -125,7 +124,7 @@
                                             </span>
                                             }
                                         </div>
-                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id}
+                                        <Link to={urlConstants.PROJECTS.INDEX + '/' + this.props.params.id}
                                               data-toggle="tooltip"
                                               title="Edit"
                                               className="btn btn-sm btn-default">
@@ -186,7 +185,7 @@
                                                 {containsMoreHistories &&
                                                 <div className="block-title show-all-wrp">
                                                     <Link
-                                                        to={urlConstant.PROJECTS.INDEX + '/' + this.props.params.id + urlConstant.PROJECTS.HISTORY}
+                                                        to={urlConstants.PROJECTS.INDEX + '/' + this.props.params.id + urlConstants.PROJECTS.HISTORY}
                                                         title="Add Project"
                                                         className="show-all-btn">View All</Link>
                                                 </div>}
@@ -198,9 +197,8 @@
                         </div>
                     </div>
                     <TeamMemberView selectedTeamMember={this.state.selectedTeamMember}/>
-
                 </div>
-            )
+            );
         }
     });
 

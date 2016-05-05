@@ -11,10 +11,10 @@
                     <span></span> &copy;
                     <a href="http://www.lftechnology.com/" target="_blank">Leapfrog Technology Inc.</a>
                 </footer>
-            )
+            );
         }
     });
 
-    module.exports = Footer
+    module.exports = Footer;
 
 })();

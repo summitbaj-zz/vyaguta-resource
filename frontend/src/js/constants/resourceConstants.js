@@ -25,9 +25,10 @@
         UTILIZATION: 'utilization',
         BOOKED: 'booked',
         AVAILABLE: 'available',
-        OVERDUE: 'overdue'
-
+        OVERDUE: 'overdue',
+        ENDING: 'ending'
     };
 
     module.exports = resourceConstants;
+
 })();

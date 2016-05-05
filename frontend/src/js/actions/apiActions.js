@@ -16,18 +16,16 @@
 
     var apiActions = {
         //Everytime an API request is made, this action gets called
-        apiRequest: function (entity) {
+        apiRequest: function () {
             return {
                 type: actionTypeConstant.API_REQUEST,
-                entity: entity
             }
         },
 
         //Everytime a response is received, this action gets called
-        apiResponse: function (entity) {
+        apiResponse: function () {
             return {
                 type: actionTypeConstant.API_RESPONSE,
-                entity: entity
             }
         },
 

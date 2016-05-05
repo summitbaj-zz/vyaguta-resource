@@ -19,7 +19,7 @@ var App = React.createClass({
                     <Footer/>
                 </div>
             </div>
-        )
+        );
     }
 });
 

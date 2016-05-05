@@ -506,8 +506,8 @@
             brush.extent([start, end]);
             display();
         };
-
     }
 
     module.exports = new d3Chart();
+
 })();

@@ -8,16 +8,20 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var ProjectType = require('./ProjectTypeRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
-    var alertBox = require('../../util/alertBox');
-    var listUtil = require('../../util/listUtil');
+
+    //utils
+    var alertBox = require('../../utils/alertBox');
+
+    //services
+    var listService = require('../../services/listService');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -29,74 +33,61 @@
     var sortBy = '';
 
     var ProjectTypeList = React.createClass({
-
         getDefaultProps: function () {
             return {
-                offset: parseInt(resourceConstant.OFFSET)
+                offset: parseInt(resourceConstants.OFFSET)
             }
         },
 
         componentDidMount: function () {
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {
-                _start: this.props.pagination.page || 1,
-                _limit: this.props.offset
-            });
-        },
-
-        componentWillReceiveProps: function (nextProps) {
-            if (this.props.pagination.page > 1 && !nextProps.projectTypes.length) {
-                this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {
-                    _start: 1,
-                    _limit: this.props.offset
-                }, sortBy);
-            }
+            this.fetchData(this.props.pagination.startPage);
         },
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
-            this.props.actions.clearList(resourceConstant.PROJECT_TYPES);
+            this.props.actions.clearList(resourceConstants.PROJECT_TYPES);
             this.props.actions.apiClearState();
         },
 
+        fetchData: function (start) {
+            this.props.actions.fetch(resourceConstants.PROJECT_TYPES, {
+                sort: sortBy,
+                start: start || 1,
+                offset: this.props.offset
+            });
+        },
+
         refreshList: function (index) {
-            var page = 1 + (index - 1) * this.props.offset;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, {
-                _start: page,
-                _limit: this.props.offset
-            }, sortBy);
+            var start = 1 + (index - 1) * this.props.offset;
+            this.fetchData(start);
         },
 
         deleteProjectType: function (id) {
             var that = this;
-            var pagination = {
-                _start: this.props.pagination.page || 1,
-                _limit: this.props.offset
-            };
 
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECT_TYPES, id, pagination, sortBy);
+            alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
+                that.props.actions.deleteItem(resourceConstants.PROJECT_TYPES, id, {
+                    sort: sortBy,
+                    start: that.props.pagination.startPage || 1,
+                    offset: that.props.offset
+                }, that.props.pagination.count);
             });
         },
 
+        //sorts data in ascending or descending order according to clicked field
+        sort: function (field) {
+            var isAscending = listService.changeSortDisplay(field);
+            sortBy = (isAscending) ? field : '-' + field;
+            this.fetchData(this.props.pagination.startPage);
+        },
+
         renderProjectType: function (key) {
-            var startIndex = this.props.pagination.page + parseInt(key);
+            var startIndex = this.props.pagination.startPage + parseInt(key);
             return (
                 <ProjectType key={key} index={startIndex || 1 + parseInt(key)}
                              projectType={this.props.projectTypes[key]}
                              deleteProjectType={this.deleteProjectType}/>
             );
-        },
-
-        //sorts data in ascending or descending order according to clicked field
-        sort: function (field) {
-            var isAscending = listUtil.changeSortDisplay(field);
-            var pagination = {
-                _start: this.props.pagination.page,
-                _limit: this.props.offset
-            };
-
-            sortBy = (isAscending) ? field : '-' + field;
-            this.props.actions.fetchByQuery(resourceConstant.PROJECT_TYPES, pagination, sortBy);
         },
 
         render: function () {
@@ -108,7 +99,7 @@
                         <div className="block-title">
                             <h2>Project Type Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstant.PROJECT_TYPES.NEW} title="Add Project Type"
+                                <Link to={urlConstants.PROJECT_TYPES.NEW} title="Add Project Type"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
                                     className="fa fa-plus"></i> Add Project Type</Link>
                             </div>
@@ -127,11 +118,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.props.projectTypes.length ? Object.keys(this.props.projectTypes).map(this.renderProjectType) : listUtil.displayNoRecordFound()}
+                                {this.props.projectTypes.length ? Object.keys(this.props.projectTypes).map(this.renderProjectType) : listService.displayNoRecordFound()}
                                 </tbody>
                             </table>
                         </div>
                         <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
+                                    selectedPage={parseInt(this.props.pagination.startPage / 10) + 1}
                                     refreshList={this.refreshList}/>
                     </div>
                 </div>
@@ -154,4 +146,5 @@
     };
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectTypeList);
+
 })();

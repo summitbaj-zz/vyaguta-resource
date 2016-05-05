@@ -6,7 +6,7 @@
     var Link = require('react-router').Link;
 
     //constants
-    var urlConstant = require('../../../constants/urlConstants');
+    var urlConstants = require('../../../constants/urlConstants');
 
     var EndingProjectRow = React.createClass({
         render: function () {
@@ -14,7 +14,7 @@
             return (
                 <li className="list-group-item">
                        <span className="list-group-project"><Link
-                           to={urlConstant.PROJECTS.INDEX + '/' + endingProject.projectId +  urlConstant.PROJECTS.VIEW}>{endingProject.project}</Link>
+                           to={urlConstants.PROJECTS.INDEX + '/' + endingProject.projectId +  urlConstants.PROJECTS.VIEW}>{endingProject.project}</Link>
                     </span>
                     <span>{endingProject.endDate}</span>
                     <span>{endingProject.resources}</span>
@@ -22,5 +22,7 @@
             );
         }
     });
+
     module.exports = EndingProjectRow;
+
 })();

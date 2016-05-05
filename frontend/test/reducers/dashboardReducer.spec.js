@@ -3,7 +3,7 @@ import expect from 'expect';
 import _ from 'lodash';
 
 //constants
-import actionTypeConstant from '../../src/js/constants/actionTypeConstants';
+import actionTypeConstants from '../../src/js/constants/actionTypeConstants';
 
 //components
 import dashboardReducer from '../../src/js/reducers/dashboardReducer';
@@ -13,8 +13,8 @@ var initialState = {
     overdue: [],
     inProgressProjects: [],
     resource: {
-        utilization:{},
-        booked:[],
+        utilization: {},
+        booked: [],
         available: []
     }
 };
@@ -31,30 +31,17 @@ describe('dashboardReducer', () => {
         expect(dashboardReducer(undefined, {})).toEqual(initialState);
     });
 
-    it('should handle LIST_BY_DATE', () => {
+    it('should handle LIST_BY_CRITERIA', () => {
         var expectedState = _.cloneDeep(tempState);
         expectedState.overdue = testData.data;
 
         expect(dashboardReducer(undefined,
             {
-                type: actionTypeConstant.LIST_BY_DATE,
-                projectType: 'overdue',
+                type: actionTypeConstants.LIST_BY_CRITERIA,
+                criteria: 'overdue',
                 data: testData.data
             })
         ).toEqual(expectedState);
-    });
-
-    it('should handle LIST_PROJECT_BY_STATUS', () => {
-        var expectedState = _.cloneDeep(tempState);
-        expectedState.inProgressProjects = testData.data.data;
-
-        expect(dashboardReducer(undefined,
-            {
-                type: actionTypeConstant.LIST_PROJECT_BY_STATUS,
-                data: testData.data
-            })
-        ).toEqual(expectedState);
-
     });
 
     it('should handle SHOW_RESOURCES', () => {
@@ -63,13 +50,12 @@ describe('dashboardReducer', () => {
 
         expect(dashboardReducer(undefined,
             {
-                type: actionTypeConstant.SHOW_RESOURCES,
+                type: actionTypeConstants.SHOW_RESOURCES,
                 entity: 'resource',
                 resourceType: 'booked',
                 data: testData.data
             })
         ).toEqual(expectedState);
-
     });
 });
 

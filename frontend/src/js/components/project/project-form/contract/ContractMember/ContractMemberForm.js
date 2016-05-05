@@ -13,15 +13,18 @@
     var AllocationContainer = require('./Allocation/AllocationContainer');
     var SelectOption = require('../../SelectOption');
 
-    //util
-    var alertBox = require('../../../../../util/alertBox');
-    var apiUtil = require('../../../../../util/apiUtil');
-    var formValidator = require('../../../../../util/formValidator');
-    var formUtil = require('../../../../../util/formUtil');
+    //utils
+    var alertBox = require('../../../../../utils/alertBox');
+    var formValidator = require('../../../../../utils/formValidator');
+    var formUtil = require('../../../../../utils/formUtil');
+
+    //services
+    var coreApiService = require('../../../../../services/api-services/coreApiService');
+    var authApiService = require('../../../../../services/api-services/authApiService');
 
     //constants
-    var messageConstant = require('../../../../../constants/messageConstants');
-    var resourceConstant = require('../../../../../constants/resourceConstants');
+    var messageConstants = require('../../../../../constants/messageConstants');
+    var resourceConstants = require('../../../../../constants/resourceConstants');
 
     //libraries
     var Select = require('react-select');
@@ -43,11 +46,11 @@
             return (
                 <SelectOption key={key} index={key} id={this.props.employees[key].id}
                               option={employeeName}/>
-            )
+            );
         },
 
         loadEmployees: function (input) {
-            return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
+            return coreApiService.fetch(resourceConstants.EMPLOYEES, input).then(function (response) {
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
                     if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
@@ -60,7 +63,7 @@
                 return {options: options};
             }, function (error) {
                 if (error.status == 401) {
-                    apiUtil.refreshSession();
+                    authApiService.refreshSession();
                 }
             });
         },
@@ -77,10 +80,10 @@
 
         isFormValid: function (data) {
             if (!data.employee) {
-                Toastr.error(messageConstant.SELECT_TEAM_MEMBER, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.SELECT_TEAM_MEMBER, messageConstants.TOASTR_INVALID_HEADER);
                 return false;
             } else if (!this.isAllocationValid()) {
-                Toastr.error(messageConstant.FILL_DATES_FOR_ALLOCATIONS, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FILL_DATES_FOR_ALLOCATIONS, messageConstants.TOASTR_INVALID_HEADER);
                 return false;
             }
             return true;
@@ -117,7 +120,7 @@
         deleteContractMember: function () {
             var that = this;
 
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+            alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
                 that.props.actions.deleteContractMember(that.props.contractIndex, that.props.memberIndex);
                 $('#addContractMember').modal('hide');
             });
@@ -212,9 +215,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
     module.exports = ContractMemberForm;
+
 })();

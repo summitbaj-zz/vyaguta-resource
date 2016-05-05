@@ -4,8 +4,8 @@
     //React Dependencies
     var React = require('react');
 
-    //utils
-    var dashboardUtil = require('../../../util/dashboardUtil');
+    //services
+    var dashboardService = require('../../../services/dashboardService');
 
     var Resource = React.createClass({
         render: function () {
@@ -37,8 +37,8 @@
                             </div>}
                             <h3 className="widget-content text-right animation-pullDown"> Booked Resource
                                 <small className="side-text"><span
-                                    className="text-light">{resource.bookedResource && 'Billed: ' + resource.bookedResource.billed + '(' + dashboardUtil.calculatePercentage(resource.bookedResource.billed, resource.bookedResource.bookedResourceCount) + ')'}</span> <span
-                                    className="text-light">{resource.bookedResource && 'Unbilled: ' + resource.bookedResource.unbilled + '(' + dashboardUtil.calculatePercentage(resource.bookedResource.unbilled, resource.bookedResource.bookedResourceCount) + ')'}</span>
+                                    className="text-light">{resource.bookedResource && 'Billed: ' + resource.bookedResource.billed + '(' + dashboardService.calculatePercentage(resource.bookedResource.billed, resource.bookedResource.bookedResourceCount) + ')'}</span> <span
+                                    className="text-light">{resource.bookedResource && 'Unbilled: ' + resource.bookedResource.unbilled + '(' + dashboardService.calculatePercentage(resource.bookedResource.unbilled, resource.bookedResource.bookedResourceCount) + ')'}</span>
                                 </small>
                             </h3>
                         </div>
@@ -47,5 +47,7 @@
             );
         }
     });
+
     module.exports = Resource;
+
 })();

@@ -105,5 +105,7 @@
             );
         }
     });
+
     module.exports = Tagging;
+
 })();

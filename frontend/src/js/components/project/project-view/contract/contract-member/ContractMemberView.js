@@ -4,7 +4,6 @@
     //React dependencies
     var React = require('react');
 
-
     var ContractMemberView = React.createClass({
         renderAllocation: function (key) {
             var teamMemberAllocation = this.props.selectedTeamMember.allocations[key];
@@ -69,8 +68,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
+
     module.exports = ContractMemberView;
+
 })();
