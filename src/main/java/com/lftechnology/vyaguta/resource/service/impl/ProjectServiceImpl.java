@@ -1,6 +1,7 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,13 +12,11 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
 
 import com.google.common.base.Strings;
+import com.lftechnology.vyaguta.commons.Constant;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
-import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
@@ -170,9 +169,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds =
-                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
-                        .collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -215,7 +213,8 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -270,8 +269,8 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
-                            + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(
+                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
@@ -425,6 +424,26 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Contract> findContractsEndingBefore(LocalDate date) {
         return contractDao.findContractsEndingBefore(date);
+    }
+
+    @Override
+    public List<Project> findContractsEndingBetween(String endDates) {
+        LocalDate startPoint = LocalDate.now();
+        LocalDate endPoint = startPoint.plusDays(15);
+
+        if (endDates != null) {
+            String[] dates = endDates.replaceFirst("btn", "").split("and");
+            try {
+                startPoint = LocalDate.parse(dates[0], Constant.DATE_FORMAT_DB);
+                endPoint = LocalDate.parse(dates[1], Constant.DATE_FORMAT_DB);
+            } catch (DateTimeParseException e) {
+                throw new ParameterFormatException("Invalid date format");
+            }
+        }
+
+        List<Contract> contracts = projectDao.contractsEndingBetween(startPoint, endPoint);
+        return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
+
     }
 
 }

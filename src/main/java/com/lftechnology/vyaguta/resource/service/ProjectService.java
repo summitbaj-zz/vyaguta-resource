@@ -60,6 +60,6 @@ public interface ProjectService extends CrudService<Project, UUID> {
      * 
      * @return List {@link Project}
      */
-    List<Project> list(String endDate);
+    List<Project> findContractsEndingBetween(String endDates);
 
 }

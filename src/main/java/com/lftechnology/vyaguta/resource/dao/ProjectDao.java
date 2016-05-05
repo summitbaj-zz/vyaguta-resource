@@ -39,5 +39,5 @@ public interface ProjectDao extends CrudDao<Project, UUID> {
      * @param LocalDate
      * @return List {@link Contract}
      */
-    List<Contract> contractEndingBetweenDates(LocalDate startPoint, LocalDate endPoint);
+    List<Contract> contractsEndingBetween(LocalDate startPoint, LocalDate endPoint);
 }
