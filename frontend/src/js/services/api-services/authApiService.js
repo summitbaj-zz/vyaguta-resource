@@ -20,7 +20,6 @@
                 .send({'refresh_token': localStorage.getItem('refresh_token')})
                 .set('Accept', 'application/json')
                 .then(function (response) {
-                    console.log('fjdkf')
                     localStorage.access_token = response.body.access_token;
                     localStorage.refresh_token = response.body.refresh_token;
                 }, function (error) {

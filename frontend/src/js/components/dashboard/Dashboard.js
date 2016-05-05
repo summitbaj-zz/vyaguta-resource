@@ -22,9 +22,6 @@
     //constants
     var resourceConstants = require('../../constants/resourceConstants');
 
-    //services
-    var dashboardService = require('../../services/dashboardService');
-
     //utils
     var converter = require('../../utils/converter');
 
@@ -34,9 +31,7 @@
     var Dashboard = React.createClass({
         componentWillMount: function () {
             this.props.actions.fetch('inProgressProjects', resourceConstants.PROJECTS, {projectStatus: 'In Progress'});
-
-            var request = 'btn' + dashboardService.addDayInDate(0) + 'and' + dashboardService.addDayInDate(15);
-            //this.props.actions.fetchByEndDate(converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.DASHBOARD, 'projectEnding'), converter.serialize(contract));
+            this.props.actions.fetch('endingProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
             this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
             this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
             this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));

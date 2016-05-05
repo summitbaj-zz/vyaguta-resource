@@ -70,7 +70,7 @@ describe('Dashboard component', () => {
         it('dispatches fetchByEndDate', () => {
             var {actions, addDayInDate} = setup();
             var request = 'btn' + addDayInDate(0) + 'and' + addDayInDate(15);
-            //expect(actions.fetchByEndDate).toHaveBeenCalledWith('dashboard', 'projectEnding', request);
+            expect(actions.fetch).toHaveBeenCalledWith('endingProjects', 'projects/ending', {days: 15});
         });
 
         it('dispatches fetchOverdueProjects', () => {
