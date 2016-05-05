@@ -12,6 +12,9 @@ public class ClientSort extends CommonSort<Client> {
 
     public ClientSort() {
         sortBy("name");
+        sortBy("email");
+        sortBy("skype");
+        sortBy("phoneNo");
     }
 
 }
