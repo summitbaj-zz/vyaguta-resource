@@ -33,7 +33,7 @@ public interface ProjectService extends CrudService<Project, UUID> {
     Map<String, Object> findResourceUtilization(LocalDate date);
 
     /**
-     * @param date
+     * @param LocalDate
      * @return List {@link AvailableResource}
      */
     List<AvailableResource> findAvailableResource(LocalDate date);
@@ -49,9 +49,17 @@ public interface ProjectService extends CrudService<Project, UUID> {
     List<Map<String, Object>> findOverdueProjects(String projectStatus);
 
     /**
-     * @param date
+     * @param LocalDate
      * @return List {@link Contract}
      */
     List<Contract> findContractsEndingBefore(LocalDate date);
+
+    /**
+     * @param String
+     *            endDate
+     * 
+     * @return List {@link Project}
+     */
+    List<Project> list(String endDate);
 
 }
