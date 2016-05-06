@@ -48,13 +48,6 @@
 
         addTag: function (tag) {
             this.setState({isRequesting: false});
-            var suggestions = this.state.suggestions || [];
-            for (var i = 0; i < suggestions.length; i++) {
-                if (tag == suggestions[i].title) {
-                    this.props.addTag(suggestions[i]);
-                    return;
-                }
-            }
             this.props.addTag({title: tag});
         },
 

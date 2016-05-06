@@ -18,14 +18,14 @@
         //Everytime an API request is made, this action gets called
         apiRequest: function () {
             return {
-                type: actionTypeConstant.API_REQUEST,
+                type: actionTypeConstant.API_REQUEST
             }
         },
 
         //Everytime a response is received, this action gets called
         apiResponse: function () {
             return {
-                type: actionTypeConstant.API_RESPONSE,
+                type: actionTypeConstant.API_RESPONSE
             }
         },
 

@@ -48,29 +48,6 @@
             );
         },
 
-
-
-        isAllocationValid: function () {
-            var allocations = this.props.selectedContractMember.allocations || [];
-            for (var i = 0; i < allocations.length; i++) {
-                if (!allocations[i].joinDate || !allocations[i].endDate) {
-                    return false;
-                }
-            }
-            return true;
-        },
-
-        isFormValid: function (data) {
-            if (!data.employee) {
-                Toastr.error(messageConstants.SELECT_TEAM_MEMBER, messageConstants.TOASTR_INVALID_HEADER);
-                return false;
-            } else if (!this.isAllocationValid()) {
-                Toastr.error(messageConstants.FILL_DATES_FOR_ALLOCATIONS, messageConstants.TOASTR_INVALID_HEADER);
-                return false;
-            }
-            return true;
-        },
-
         saveContractMember: function () {
             if (this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
@@ -84,13 +61,15 @@
                 allocations: this.props.selectedContractMember.allocations
             };
 
-            if (this.isFormValid(data)) {
+            if (data.employee) {
                 if (this.props.memberIndex) {
                     this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
                 } else {
                     this.props.actions.addContractMember(this.props.contractIndex, data);
                 }
                 $('#addContractMember').modal('hide');
+            } else {
+                Toastr.error(messageConstants.SELECT_TEAM_MEMBER, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -114,8 +93,6 @@
 
             this.props.actions.handleContractMemberSelectOptionChange('employee', employeeId, employeeFullName);
         },
-
-
 
         render: function () {
             return (

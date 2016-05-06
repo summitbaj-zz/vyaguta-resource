@@ -143,15 +143,6 @@
             )
         },
 
-        isContractValid: function (contracts) {
-            for (var i = 0; i < contracts.length; i++) {
-                if (!contracts[i].startDate || !contracts[i].endDate) {
-                    return false;
-                }
-            }
-            return true;
-        },
-
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
@@ -161,38 +152,24 @@
                 'title': this.refs.title.value
             };
 
-            if (!formValidator.isValid(requiredField) || !this.state.isUnique) {
-                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
-            } else if (!this.isContractValid(project.contracts)) {
-                Toastr.error(messageConstants.FILL_DATES_FOR_CONTRACTS, messageConstants.TOASTR_INVALID_HEADER);
-            } else {
+            if (formValidator.isValid(requiredField) && this.state.isUnique) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
                     this.props.actions.addItem(resourceConstants.PROJECTS, project);
                 }
+            } else {
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
         getFormData: function () {
-            var contracts = convertContractHash.toBackEndHash(this.props.contracts);
+           var project = _.cloneDeep(this.props.selectedItem.projects);
+            var convertedContracts = convertContractHash.toBackEndHash(this.props.contracts);
+            project.contracts = convertedContracts;
+            project.tags = this.state.technologyStack;
 
-            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
-                var accountManager = {id: this.props.selectedItem.projects.accountManager.id};
-            } else {
-                var accountManager = null;
-            }
-
-            return {
-                'title': this.refs.title.value,
-                'description': this.refs.description.value,
-                'projectType': (this.refs.projectType.value != 0) ? {"id": this.refs.projectType.value} : null,
-                'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
-                'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
-                'tags': this.state.technologyStack,
-                'accountManager': accountManager,
-                'contracts': contracts
-            };
+            return project;
         },
 
         updateProject: function (reason) {
@@ -258,6 +235,10 @@
             this.props.actions.updateSelectedItem(resourceConstants.PROJECTS, key, value);
         },
 
+        handleSelectOptionChange: function(event){
+          this.props.actions.handleSelectOptionChange(resourceConstants.PROJECTS, event.target.name, event.target.value);
+        },
+
         handleAutoCompleteChange: function (employee) {
             var employeeId = employee && employee.value;
             var employeeFullName = employee && employee.label;
@@ -318,7 +299,7 @@
                                                             id="projectType"
                                                             value={this.props.selectedItem.projects.projectType &&
                                                                this.props.selectedItem.projects.projectType.id}
-                                                            onChange={this.handleChange}
+                                                            onChange={this.handleSelectOptionChange}
                                                     >
                                                         <option value="0">Please Select</option>
 
@@ -336,7 +317,7 @@
                                                             id="projectStatus"
                                                             value={this.props.selectedItem.projects.projectStatus &&
                                                                this.props.selectedItem.projects.projectStatus.id}
-                                                            onChange={this.handleChange}>
+                                                            onChange={this.handleSelectOptionChange}>
                                                         <option value="0">Please
                                                             Select
                                                         </option>
@@ -371,7 +352,7 @@
                                                             id="client"
                                                             value={this.props.selectedItem.projects.client &&
                                                                this.props.selectedItem.projects.client.id}
-                                                            onChange={this.handleChange}>
+                                                            onChange={this.handleSelectOptionChange}>
                                                         <option value="0">Please Select</option>
                                                         {Object.keys(this.props.clients).map(this.renderClient)}
                                                     </select>

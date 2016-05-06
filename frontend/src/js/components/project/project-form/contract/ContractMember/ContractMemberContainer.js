@@ -45,7 +45,7 @@
         },
 
         toggleModalState: function () {
-            this.setState({isModalActive: (this.state.isModalActive) ? false : true})
+            this.setState({isModalActive: (this.state.isModalActive) ? false : true});
         },
 
         render: function () {
