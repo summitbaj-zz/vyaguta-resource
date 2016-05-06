@@ -54,7 +54,6 @@
                         {componentIds.map(this.getComponent)}
                         <li>{this.state.paths[this.state.paths.length - 1].name}</li>
                     </ul>
-
                 );
             }
             else {

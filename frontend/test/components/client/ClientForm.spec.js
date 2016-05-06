@@ -10,7 +10,6 @@ import React from 'react';
 import expect from 'expect';
 import {shallow, mount} from 'enzyme';
 import {Provider} from 'react-redux';
-import jsdom from 'jsdom';
 
 //components
 import {WrappedComponent} from '../../../src/js/components/client/ClientForm';
@@ -27,8 +26,7 @@ function setup(params) {
             clearSelectedItem: expect.createSpy(),
             apiClearState: expect.createSpy(),
             updateSelectedItem: expect.createSpy(),
-            addItem: expect.createSpy(),
-            updateItem: expect.createSpy()
+            submitForm: expect.createSpy()
         }
     }
 
@@ -104,8 +102,7 @@ describe('ClientForm component', () => {
             var {component, actions} = setup({});
             var form = component.find('form');
             form.simulate('submit');
-            expect(actions.addItem).toNotHaveBeenCalled();
-            expect(actions.updateItem).toNotHaveBeenCalled();
+            expect(actions.submitForm).toNotHaveBeenCalled();
         });
 
         it('does not dispatch any action if form is not valid (with client name but no email)', () => {
@@ -113,8 +110,7 @@ describe('ClientForm component', () => {
             var form = component.find('form');
             props.selectedItem.clients.name = 'Some Client';
             form.simulate('submit');
-            expect(actions.addItem).toNotHaveBeenCalled();
-            expect(actions.updateItem).toNotHaveBeenCalled();
+            expect(actions.submitForm).toNotHaveBeenCalled();
         });
 
         it('does not dispatch any action if form is not valid (with client email but no name)', () => {
@@ -122,29 +118,17 @@ describe('ClientForm component', () => {
             var form = component.find('form');
             props.selectedItem.clients.email = 'client@client.com';
             form.simulate('submit');
-            expect(actions.addItem).toNotHaveBeenCalled();
-            expect(actions.updateItem).toNotHaveBeenCalled();
+            expect(actions.submitForm).toNotHaveBeenCalled();
         });
 
-        it('dispatches addItem if form is valid and id is not present', () => {
+        it('dispatches submitForm if form is valid', () => {
             var {component, actions, props} = setup({});
             var form = component.find('form');
             props.selectedItem.clients.name = 'Some Client';
             props.selectedItem.clients.email = 'client@client.com';
             component.update();
             form.simulate('submit');
-            expect(actions.addItem).toHaveBeenCalled();
+            expect(actions.submitForm).toHaveBeenCalled();
         });
-
-        it('dispatches updateItem if form is valid and id is present', () => {
-            var {component, actions, props} = setup({id: 123});
-            var form = component.find('form');
-            props.selectedItem.clients.name = 'Some Client';
-            props.selectedItem.clients.email = 'client@client.com';
-            component.update();
-            form.simulate('submit');
-            expect(actions.updateItem).toHaveBeenCalled();
-        });
-
     });
 })

@@ -112,7 +112,7 @@
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-md-4">Estimated
-                                    Duration *</label>
+                                    Duration</label>
                                 <div className="col-md-8">
                                     <div className="input-group input-daterange">
                                         <DatePicker

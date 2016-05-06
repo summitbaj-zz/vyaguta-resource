@@ -24,6 +24,7 @@
 
         render: function () {
             var totalResource = dashboardService.calculateTotalResource(this.props.resource);
+
             return (
                 <div className="row">
                     <div className="col-lg-12">

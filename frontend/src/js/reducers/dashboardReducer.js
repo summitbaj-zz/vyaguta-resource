@@ -8,8 +8,8 @@
     var _ = require('lodash');
 
     var initialState = {
-        projectEnding: [],
-        overdue: [],
+        endingProjects: [],
+        overdueProjects: [],
         inProgressProjects: [],
         resource: {
             utilization: {},
@@ -24,7 +24,11 @@
         switch (action.type) {
             case actionTypeConstant.LIST_BY_CRITERIA:
                 var newState = _.cloneDeep(state);
-                newState[action.criteria] = _.cloneDeep(action.data);
+                if (action.criteria == 'inProgressProjects') {
+                    newState[action.criteria] = action.data.data;
+                } else {
+                    newState[action.criteria] = action.data;
+                }
                 return newState;
 
             case actionTypeConstant.SHOW_RESOURCES:

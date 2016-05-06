@@ -49,26 +49,13 @@
         saveClient: function (event) {
             event.preventDefault();
 
-            var client = {
-                name: this.refs.name.value,
-                email: this.refs.email.value,
-                phoneNo: this.refs.phone.value,
-                skype: this.refs.skype.value,
-                address: this.refs.address.value,
-                description: this.refs.description.value
-            };
-
             var requiredFields = {
                 name: this.refs.name.value,
                 email: this.refs.email.value
             };
 
             if (formValidator.isValid(requiredFields)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstants.CLIENTS, client, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstants.CLIENTS, client);
-                }
+                this.props.actions.submitForm(resourceConstants.CLIENTS, this.props.selectedItem.clients, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }

@@ -1,6 +1,11 @@
 ;(function () {
     'use strict';
+
+    //libraries
     var moment = require('moment');
+
+    //utils
+    var employeeUtil = require('../utils/employeeUtil');
 
     function historyService() {
         var that = this;
@@ -44,19 +49,10 @@
                     changedEntity = 'Contract';             //Until decided what to do.
                     break;
                 case 'ContractMember':
-                    changedEntity = that.getAppendedName(history.employee) || 'Contract Member';
+                    changedEntity = employeeUtil.getEmployeeName(history.employee) || 'Contract Member';
                     break;
             }
             return changedEntity;
-        }
-
-        this.getAppendedName = function (employee) {
-            var name = employee.firstName;
-            if (employee.middleName && employee.middleName != 'NULL') {
-                name = name.concat(' ', employee.middleName);
-            }
-            name = name.concat(' ', employee.lastName);
-            return name;
         }
 
         this.getChangedFields = function (history) {
@@ -120,7 +116,7 @@
         this.getDisplayableDataFromObject = function (key, value) {
             switch (key) {
                 case 'accountManager':
-                    return this.getAppendedName(value);
+                    return employeeUtil.getEmployeeName(value);
                 case 'client':
                     return value.name;
                 default:

@@ -52,12 +52,10 @@
 
                 return (apiService.fetch(pathParam, data).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         dispatch(actions.listByCriteria(criteria, response.body));
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, dashboardActions.fetch(criteria, pathParam, data));
                     }
                 }));
@@ -76,7 +74,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, dashboardActions.fetchResourceCount(type, pathParam));
                     }
                 }));

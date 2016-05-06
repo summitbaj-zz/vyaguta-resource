@@ -54,9 +54,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
-    module.exports = Sidebar
+    module.exports = Sidebar;
+
 })();

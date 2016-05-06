@@ -16,9 +16,7 @@
 
     var InProgressProjects = React.createClass({
         renderProject: function (key) {
-            return (
-                <InProgressProjectRow key={key} index={parseInt(key) + 1} project={this.props.projects[key]}/>
-            );
+            return <InProgressProjectRow key={key} index={parseInt(key) + 1} project={this.props.projects[key]}/>;
         },
 
         render: function () {

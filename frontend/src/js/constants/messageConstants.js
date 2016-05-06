@@ -9,7 +9,7 @@
         DELETE_MESSAGE: 'Are you sure you want to delete this item?',
         UNSUCCESSFUL_DELETE_MESSAGE: 'Sorry, this field cannot be deleted',
 
-        PROJECT_NAME_EXISTS_MESSAGE: 'Project name already exists.',
+        PROJECT_NAME_EXISTS_MESSAGE: 'Project name already exists',
 
         SUCCESSFULLY_ADDED: 'Successfully added item',
         SUCCESSFULLY_UPDATED: 'Successfully updated item',
@@ -18,10 +18,8 @@
         FOREIGN_KEY_VIOLATION_MESSAGE: 'violates foreign key constraint',
 
         SELECT_TEAM_MEMBER: 'Please select Team Member',
-        FILL_DATES_FOR_ALLOCATIONS: 'Please fill estimated duration for all allocations',
-        FILL_DATES_FOR_CONTRACTS: 'Please fill contract date for all contracts',
 
-        NO_RECORDS_FOUND: 'No records found.'
+        NO_RECORDS_FOUND: 'No records available.'
 
     };
 

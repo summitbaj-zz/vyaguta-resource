@@ -59,7 +59,7 @@
 
             case actionTypeConstants.HANDLE_CONTRACT_SELECT_OPTION_CHANGE:
                 var newState = _.cloneDeep(state);
-                newState.contracts[action.index][action.key] = {id: action.value};
+                newState.contracts[action.index][action.key] = (action.value == 0) ? null : {id: action.value};
                 return newState;
 
             case actionTypeConstants.DELETE_CONTRACT:

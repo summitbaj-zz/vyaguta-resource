@@ -49,16 +49,12 @@
         saveProjectRole: function (event) {
             event.preventDefault();
 
-            var projectRole = {
+            var requiredField = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectRole)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstants.PROJECT_ROLES, projectRole, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstants.PROJECT_ROLES, projectRole);
-                }
+            if (formValidator.isValid(requiredField)) {
+                    this.props.actions.submitForm(resourceConstants.PROJECT_ROLES, this.props.selectedItem.projectRoles, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }

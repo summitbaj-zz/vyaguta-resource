@@ -27,8 +27,8 @@
     var Toastr = require('toastr');
 
     var ProjectTypeForm = React.createClass({
-        getInitialState: function(){
-            return{
+        getInitialState: function () {
+            return {
                 autoFocus: true
             }
         },
@@ -49,16 +49,12 @@
         saveProjectType: function (event) {
             event.preventDefault();
 
-            var projectType = {
+            var requiredField = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectType)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstants.PROJECT_TYPES, projectType, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstants.PROJECT_TYPES, projectType);
-                }
+            if (formValidator.isValid(requiredField)) {
+                this.props.actions.submitForm(resourceConstants.PROJECT_TYPES, this.props.selectedItem.projectTypes, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }

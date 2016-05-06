@@ -8,6 +8,9 @@
     //constants
     var urlConstants = require('../../../constants/urlConstants');
 
+    //libraries
+    var moment = require('moment');
+
     var OverdueProjectRow = React.createClass({
         render: function () {
             var overdueProject = this.props.overdueProject;
@@ -21,7 +24,7 @@
                     </span>
                     <span className="label text-uppercase"
                           style={style}>{overdueProject.projectStatus}</span>
-                    <span>{overdueProject.endDate}</span>
+                    <span>{moment(overdueProject.endDate).format('Do MMMM YYYY')}</span>
                 </li>
             );
         }

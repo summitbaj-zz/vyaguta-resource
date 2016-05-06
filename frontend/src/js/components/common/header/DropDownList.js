@@ -38,9 +38,10 @@
                         </ul>
                     </li>
                 </ul>
-            )
+            );
         }
     });
 
     module.exports = DropDownList;
+
 })();

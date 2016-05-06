@@ -20,13 +20,21 @@
         EMPLOYEES: 'employees',
         START_INDEX: '1',
         OFFSET: '10',
+
+        //dashboard
         DASHBOARD: 'dashboard',
         RESOURCE: 'resource',
         UTILIZATION: 'utilization',
         BOOKED: 'booked',
         AVAILABLE: 'available',
         OVERDUE: 'overdue',
-        ENDING: 'ending'
+        ENDING: 'ending',
+        ONGOING_PROJECTS: 'inProgressProjects',
+        ENDING_PROJECTS: 'endingProjects',
+        OVERDUE_PROJECTS: 'overdueProjects',
+        IN_PROGRESS: 'In Progress',
+        EMPLOYEES_PER_PAGE: 16
+
     };
 
     module.exports = resourceConstants;

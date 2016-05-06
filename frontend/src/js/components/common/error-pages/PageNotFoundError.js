@@ -29,7 +29,8 @@
                 </div>
             );
         }
-    })
+    });
 
     module.exports = PageNotFoundError;
+
 })();

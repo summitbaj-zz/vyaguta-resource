@@ -38,26 +38,26 @@
                         {totalResource &&
                         <div className="stat-details clearfix">
                             <div className="col-xs-6">
-                                <span className="stat-label">Billed</span>
+
                                 <div className="row breakdown">
-                                    <span className="side-text clear">Percentage:
+                                    <span className="side-text clear">Billed
+                                        <span className="color-lg-blue pull-right">{resource.billed}</span>
+                                    </span>
+                                    <span className="side-text clear">Percentage
                                         <span
                                             className="color-lg-blue pull-right">{dashboardService.calculatePercentage(resource.billed, totalResource)}</span>
-                                    </span>
-                                    <span className="side-text clear">Total:
-                                        <span className="color-lg-blue pull-right">{resource.billed}</span>
                                     </span>
                                 </div>
                             </div>
                             <div className="col-xs-6">
-                                <span className="stat-label">Unbilled</span>
+                                <span className="stat-label"></span>
                                 <div className="row breakdown">
-                                    <span className="side-text clear">Percentage:
+                                    <span className="side-text clear">Unbilled
+                                        <span className="color-lg-blue pull-right">{resource.unbilled}</span>
+                                    </span>
+                                    <span className="side-text clear">Percentage
                                         <span
                                             className="color-lg-blue pull-right">{dashboardService.calculatePercentage(resource.unbilled, totalResource)}</span>
-                                    </span>
-                                    <span className="side-text clear">Total:
-                                        <span className="color-lg-blue pull-right">{resource.unbilled}</span>
                                     </span>
                                 </div>
                             </div>

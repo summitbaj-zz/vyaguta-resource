@@ -64,21 +64,13 @@
         saveProjectStatus: function (event) {
             event.preventDefault();
 
-            var projectStatus = {
-                title: this.refs.title.value,
-                color: this.refs.color.value
-            }
-
             var requiredField = {
                 title: this.refs.title.value
             }
 
             if (formValidator.isValid(requiredField)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstants.PROJECT_STATUS, projectStatus, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstants.PROJECT_STATUS, projectStatus);
-                }
+                this.props.actions.updateSelectedItem(resourceConstants.PROJECT_STATUS, 'color', this.refs.color.value);
+                this.props.actions.submitForm(resourceConstants.PROJECT_STATUS, this.props.selectedItem.projectStatus, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }

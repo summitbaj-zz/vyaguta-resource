@@ -50,7 +50,7 @@
         fetchAllHistories: function (entity, id) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
-                dispatch(apiActions.apiRequest(entity));
+                dispatch(apiActions.apiRequest());
 
                 return (resourceApiService.fetch(converter.getPathParam(entity, id, 'history')).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
@@ -59,7 +59,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
                         actionService.responseError(dispatch, error, entity, historyActions.fetchAllHistories(entity, id));
                     }
                 }));

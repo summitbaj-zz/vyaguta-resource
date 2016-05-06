@@ -30,12 +30,12 @@
 
     var Dashboard = React.createClass({
         componentWillMount: function () {
-            this.props.actions.fetch('inProgressProjects', resourceConstants.PROJECTS, {projectStatus: 'In Progress'});
-            this.props.actions.fetch('endingProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
-            this.props.actions.fetch('overdueProjects', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
-            this.props.actions.fetchResourceCount('utilization', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
-            this.props.actions.fetchResourceCount('available', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));
-            this.props.actions.fetchResourceCount('booked', converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.BOOKED));
+            this.props.actions.fetch(resourceConstants.ONGOING_PROJECTS, resourceConstants.PROJECTS, {projectStatus: resourceConstants.IN_PROGRESS});
+            this.props.actions.fetch(resourceConstants.ENDING_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
+            this.props.actions.fetch(resourceConstants.OVERDUE_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
+            this.props.actions.fetchResourceCount(resourceConstants.UTILIZATION, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
+            this.props.actions.fetchResourceCount(resourceConstants.AVAILABLE, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));
+            this.props.actions.fetchResourceCount(resourceConstants.BOOKED, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.BOOKED));
         },
 
         componentWillUnmount: function () {
@@ -62,8 +62,8 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,
-            endingProjects: state.dashboardReducer.projectEnding,
-            overdueProjects: state.dashboardReducer.overdue,
+            endingProjects: state.dashboardReducer.endingProjects,
+            overdueProjects: state.dashboardReducer.overdueProjects,
             resource: state.dashboardReducer.resource,
             apiState: state.apiReducer
         }

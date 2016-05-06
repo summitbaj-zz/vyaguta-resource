@@ -41,7 +41,7 @@ describe('EndingProjectRow component', () => {
         it('renders end date correctly', () => {
             var {component} = setup();
             var endDate = component.find('li').childAt(1);
-            expect(endDate.text()).toEqual('2049-03-04');
+            expect(endDate.text()).toEqual('4th March 2049');
         });
 
         it('renders resource count correctly', () => {

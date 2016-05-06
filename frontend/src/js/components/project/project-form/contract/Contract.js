@@ -130,7 +130,7 @@
                                     </div>
 
                                     <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Contract Date *</label>
+                                        <label className="control-label">Contract Date</label>
                                         <div data-date-format="mm/dd/yyyy"
                                              className="input-group input-daterange">
                                             <DatePicker

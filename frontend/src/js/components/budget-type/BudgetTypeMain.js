@@ -16,7 +16,7 @@
                 <div id="page-content" className="page-content">
                     {this.props.children}
                 </div>
-            )
+            );
         }
     });
 

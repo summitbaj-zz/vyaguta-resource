@@ -16,7 +16,7 @@
     var TimelineChart = require('./TimelineChart');
     var TeamMemberView = require('./contract/contract-member/ContractMemberView');
     var Contract = require('./contract/Contract');
-    var HistoryItem = require('./HistoryItem');
+    var HistoryItem = require('../HistoryItem');
 
     //actions
     var crudActions = require('../../../actions/crudActions');
@@ -29,6 +29,9 @@
 
     //services
     var historyService = require('../../../services/historyService');
+
+    //utils
+    var employeeUtil = require('../../../utils/employeeUtil');
 
     var ProjectDetails = React.createClass({
         getInitialState: function () {
@@ -49,20 +52,6 @@
             this.props.actions.clearHistory();
             this.props.actions.clearContracts();
         },
-
-        getAccountManagerName: function () {
-            var accountManager = this.props.selectedItem.projects.accountManager || {};
-            var name = '-';
-            if (accountManager.id) {
-                name = accountManager.firstName;
-                if (accountManager.middleName && accountManager.middleName != 'NULL') {
-                    name = name.concat(' ', accountManager.middleName);
-                }
-                name = name.concat(' ', accountManager.lastName);
-            }
-            return name;
-        }
-        ,
 
         listTechnologyStack: function (technologyStack) {
             return (
@@ -153,7 +142,7 @@
                                         <div className="common-view clearfix">
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label">Account Manager</span>
-                                                <p>{this.getAccountManagerName()}</p>
+                                                <p>{employeeUtil.getEmployeeName(this.props.selectedItem.projects.accountManager)}</p>
                                             </div>
                                             <div className="col-xs-12 col-sm-6 col-md-4"><span
                                                 className="view-label"> Technology Stack</span>
