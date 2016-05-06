@@ -11,8 +11,8 @@ import store from '../../storeMock';
 function setup() {
     var props = {
         projects: store.getState().dashboardReducer.inProgressProjects,
-        endingProjects: store.getState().dashboardReducer.projectEnding,
-        overdueProjects: store.getState().dashboardReducer.overdue,
+        endingProjects: store.getState().dashboardReducer.endingProjects,
+        overdueProjects: store.getState().dashboardReducer.overdueProjects,
         resource: store.getState().dashboardReducer.resource,
         apiState: store.getState().apiReducer,
         actions: {

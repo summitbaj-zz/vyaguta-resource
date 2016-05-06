@@ -52,7 +52,7 @@ describe('OverdueProjectRow component', () => {
         it('renders correct end date', () => {
             var {component} = setup();
             var index = component.find('li').childAt(2).text();
-            expect(index).toEqual('2016-09-09');
+            expect(index).toEqual('9th September 2016');
         });
     });
 });

@@ -9,8 +9,8 @@ import actionTypeConstants from '../../src/js/constants/actionTypeConstants';
 import dashboardReducer from '../../src/js/reducers/dashboardReducer';
 
 var initialState = {
-    projectEnding: [],
-    overdue: [],
+    endingProjects: [],
+    overdueProjects: [],
     inProgressProjects: [],
     resource: {
         utilization: {},
@@ -33,12 +33,12 @@ describe('dashboardReducer', () => {
 
     it('should handle LIST_BY_CRITERIA', () => {
         var expectedState = _.cloneDeep(tempState);
-        expectedState.overdue = testData.data;
+        expectedState.overdueProjects = testData.data;
 
         expect(dashboardReducer(undefined,
             {
                 type: actionTypeConstants.LIST_BY_CRITERIA,
-                criteria: 'overdue',
+                criteria: 'overdueProjects',
                 data: testData.data
             })
         ).toEqual(expectedState);

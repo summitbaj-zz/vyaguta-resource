@@ -31,7 +31,7 @@
     var Dashboard = React.createClass({
         componentWillMount: function () {
             this.props.actions.fetch(resourceConstants.ONGOING_PROJECTS, resourceConstants.PROJECTS, {projectStatus: resourceConstants.IN_PROGRESS});
-            //this.props.actions.fetch(resourceConstants.ENDING_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
+            this.props.actions.fetch(resourceConstants.ENDING_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
             this.props.actions.fetch(resourceConstants.OVERDUE_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
             this.props.actions.fetchResourceCount(resourceConstants.UTILIZATION, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
             this.props.actions.fetchResourceCount(resourceConstants.AVAILABLE, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));

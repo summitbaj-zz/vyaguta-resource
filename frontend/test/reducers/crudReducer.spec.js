@@ -23,11 +23,6 @@ var initialState = {
     clients: [],
     selectedItem: { //for editing or viewing purposes
         projects: {
-            budgetType: {},
-            projectType: {},
-            projectStatus: {},
-            accountManager: {},
-            client: {},
             contracts: []
         },
         projectRoles: {},
