@@ -78,17 +78,6 @@
                 resources += parseInt(endingProjects[i].resources);
             }
             return resources;
-        },
-
-        getEmployeeName: function (employee) {
-            var employee = employee || {};
-            var name = '';
-            name = name + employee.firstName;
-            if (employee.middleName && employee.middleName != 'NULL') {
-                name = name + ' ' + employee.middleName;
-            }
-            name = name + ' ' + employee.lastName;
-            return name;
         }
     };
 

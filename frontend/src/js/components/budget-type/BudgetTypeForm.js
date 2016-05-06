@@ -56,16 +56,12 @@
         saveBudgetType: function (event) {
             event.preventDefault();
 
-            var budgetType = {
+            var requiredField = {
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isValid(budgetType)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstants.BUDGET_TYPES, budgetType, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstants.BUDGET_TYPES, budgetType);
-                }
+            if (formValidator.isValid(requiredField)) {
+                this.props.actions.submitForm(resourceConstants.BUDGET_TYPES, this.props.selectedItem.budgetTypes, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }

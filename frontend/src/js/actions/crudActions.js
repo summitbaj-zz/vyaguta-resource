@@ -91,7 +91,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, crudActions.fetch(entity, data));
                     }
                 }));
@@ -111,7 +110,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, crudActions.addItem(entity, data));
                     }
                 }));
@@ -131,7 +129,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, crudActions.updateItem(entity, data, id));
                     }
                 }));
@@ -150,7 +147,6 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse());
                         actionService.responseError(dispatch, error, crudActions.fetchById(entity, id));
                     }
                 }))
@@ -173,10 +169,19 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
                         actionService.responseError(dispatch, error, entity, crudActions.deleteItem(entity, id, data));
                     }
                 }))
+            }
+        },
+
+        submitForm: function (entity, data, id) {
+            return function (dispatch, getState) {
+                if (id) {
+                    dispatch(crudActions.updateItem(entity, data, id));
+                } else {
+                    dispatch(crudActions.addItem(entity, data));
+                }
             }
         },
 

@@ -19,6 +19,7 @@
 
     var actionService = {
         responseError: function (dispatch, error, callback) {
+            dispatch(apiActions.apiResponse());
             switch (error.status) {
                 case 400:
                     var message = error.response.body.error || error.response.body[0].error;

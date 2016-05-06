@@ -33,11 +33,13 @@
 
     //utils
     var formValidator = require('../../../utils/formValidator');
+    var employeeUtil = require('../../../utils/employeeUtil');
 
     //services
     var coreApiService = require('../../../services/api-services/coreApiService');
     var authApiService = require('../../../services/api-services/authApiService');
     var resourceApiService = require('../../../services/api-services/resourceApiService');
+    var contractMemberService = require('../../../services/contractMemberService');
     var convertContractHash = require('../../../services/convertContractHash');
 
     //actions
@@ -52,7 +54,8 @@
             return {
                 technologyStack: [],
                 projectName: null,
-                isProjectNameValid: false,
+                showValidityIcon: false,
+                isUnique: true,
                 isRequesting: false
             }
         },
@@ -66,7 +69,6 @@
             this.props.actions.fetch(resourceConstants.PROJECT_TYPES);
             this.props.actions.fetch(resourceConstants.CLIENTS);
             this.props.actions.fetch(resourceConstants.PROJECT_ROLES);
-
         },
 
         componentWillReceiveProps: function (props) {
@@ -85,27 +87,6 @@
 
             //fixes modal freezing the application when back is pressed while it is open
             $('#addContractMember').modal('hide');
-        },
-
-        loadEmployees: function (input) {
-            return coreApiService.fetch(resourceConstants.EMPLOYEES, {q: input}).then(function (response) {
-                var options = [];
-                for (var i = 0; i < response.body.data.length; i++) {
-                    if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
-                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
-                    } else {
-                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
-                    }
-
-                    options.push({value: response.body.data[i].id, label: employeeName});
-                }
-
-                return {options: options};
-            }, function (error) {
-                if (error.status == 401) {
-                    authApiService.refreshSession();
-                }
-            });
         },
 
         addTag: function (value) {
@@ -180,7 +161,7 @@
                 'title': this.refs.title.value
             };
 
-            if (!formValidator.isValid(requiredField)) {
+            if (!formValidator.isValid(requiredField) || !this.state.isUnique) {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             } else if (!this.isContractValid(project.contracts)) {
                 Toastr.error(messageConstants.FILL_DATES_FOR_CONTRACTS, messageConstants.TOASTR_INVALID_HEADER);
@@ -222,7 +203,7 @@
                 'reason': reason
             };
 
-            if (formValidator.isValid(requiredFieldForUpdate)) {
+            if (formValidator.isValid(requiredFieldForUpdate) && this.state.isUnique) {
                 $('#addReason').modal('hide');
                 this.props.actions.updateItem(resourceConstants.PROJECTS, project, this.props.params.id);
             } else {
@@ -231,7 +212,7 @@
         },
 
         validateTitle: function (event) {
-            this.setState({isProjectNameValid: false});
+            this.setState({showValidityIcon: false});
             var title = this.refs.title.value;
             var that = this;
             var elementId = $(event.target).attr('id');
@@ -243,10 +224,10 @@
 
                     if (response.body.count) {
                         formValidator.showErrors(elementId, messageConstants.PROJECT_NAME_EXISTS_MESSAGE);
-                        that.setState({isProjectNameValid: false});
+                        that.state.isUnique = false;
                     } else {
                         formValidator.showSuccess(elementId);
-                        that.setState({isProjectNameValid: true});
+                        that.setState({showValidityIcon: true, isUnique: true});
                     }
 
                 }, function (error) {
@@ -266,7 +247,7 @@
         },
 
         resetField: function () {
-            this.setState({isProjectNameValid: false});
+            this.setState({showValidityIcon: false});
             formValidator.removeFeedback('title');
         },
 
@@ -282,29 +263,6 @@
             var employeeFullName = employee && employee.label;
 
             this.props.actions.handleAutoCompleteChange('projects', 'accountManager', employeeId, employeeFullName);
-        },
-
-        getAutoCompleteValue: function () {
-            var value = this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id;
-            var accountManager = this.props.selectedItem.projects.accountManager;
-
-            if (accountManager && accountManager.id) {
-                var firstName = accountManager.firstName;
-                var lastName = accountManager.lastName;
-                var middleName = '';
-
-                if (accountManager.middleName && accountManager.middleName != 'NULL') {
-                    middleName = accountManager.middleName + ' ';
-                }
-
-                return {
-                    value: value,
-                    label: firstName + ' ' + middleName + lastName
-                }
-
-            } else {
-                return null;
-            }
         },
 
         render: function () {
@@ -333,7 +291,7 @@
                                             {this.state.isRequesting && <span
                                                 className="form-control-feedback validation-icon"
                                                 aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
-                                            {this.state.isProjectNameValid && <span
+                                            {this.state.showValidityIcon && <span
                                                 className="glyphicon glyphicon-ok form-control-feedback validation-icon"
                                                 aria-hidden="true"></span>}
 
@@ -392,8 +350,8 @@
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label>Account Manager</label>
                                                     <Select.Async name="employee"
-                                                                  value={this.getAutoCompleteValue()}
-                                                                  loadOptions={this.loadEmployees}
+                                                                  value={contractMemberService.getAutoCompleteValue(this.props.selectedItem.projects.accountManager)}
+                                                                  loadOptions={contractMemberService.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
                                                                   disabled={this.props.apiState.isRequesting}
                                                                   minimumInput={1}

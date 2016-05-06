@@ -47,7 +47,7 @@
                         <Route path=":id/view" name="Details"
                                component={require('./components/project/project-view/ProjectDetails')}/>
                         <Route path=":id/history" name="History"
-                               component={require('./components/project/project-view/ProjectHistory')}/>
+                               component={require('./components/project/ProjectHistory')}/>
                     </Route>
 
                     <Route path="projecttypes" name="Project Types"
