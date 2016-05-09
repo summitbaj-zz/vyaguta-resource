@@ -54,12 +54,12 @@
 
                 return (resourceApiService.fetch(converter.getPathParam(entity, id, 'history')).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        dispatch(apiActions.apiResponse(entity));
+                        dispatch(apiActions.apiResponse());
                         dispatch(actions.list(entity, response.body));
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        actionService.responseError(dispatch, error, entity, historyActions.fetchAllHistories(entity, id));
+                        actionService.responseError(dispatch, error, historyActions.fetchAllHistories(entity, id));
                     }
                 }));
             }
