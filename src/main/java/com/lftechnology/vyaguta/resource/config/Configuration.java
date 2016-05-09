@@ -23,6 +23,7 @@ public class Configuration {
     private String clientSecret;
     private Integer sendEmailAtHour;
     private Integer sendEmailAtMinute;
+    private String notificationEmailFrom;
 
     private Configuration() {
         try {
@@ -39,7 +40,7 @@ public class Configuration {
             setClientSecret(properties.getProperty("CLIENT_SECRET"));
             setSendEmailAtHour(Integer.parseInt(properties.getProperty("SEND_EMAIL_AT_HOUR")));
             setSendEmailAtMinute(Integer.parseInt(properties.getProperty("SEND_EMAIL_AT_MINUTE")));
-
+            setNotificationEmailFrom(properties.getProperty("NOTIFICATION_EMAIL_FROM"));
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -114,6 +115,14 @@ public class Configuration {
 
     public void setSendEmailAtMinute(Integer sendEmailAtMinute) {
         this.sendEmailAtMinute = sendEmailAtMinute;
+    }
+
+    public String getNotificationEmailFrom() {
+        return notificationEmailFrom;
+    }
+
+    public void setNotificationEmailFrom(String notificationEmailFrom) {
+        this.notificationEmailFrom = notificationEmailFrom;
     }
 
 }
