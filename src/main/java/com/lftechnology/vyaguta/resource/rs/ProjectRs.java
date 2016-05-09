@@ -176,4 +176,12 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findOverdueProjects(projectStatus)).build();
     }
 
+    @Path("/ending")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(@DefaultValue("0") @QueryParam("days") int days) {
+        return Response.status(Response.Status.OK).entity(projectService.findContractsEndingIn(days)).build();
+    }
+
 }
