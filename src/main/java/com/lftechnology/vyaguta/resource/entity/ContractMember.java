@@ -39,14 +39,9 @@ import com.lftechnology.vyaguta.resource.pojo.Employee;
 @Where(clause = "deleted='false'")
 @NamedQueries({
         @NamedQuery(name = ContractMember.FIND_BY_CONTRACT, query = "SELECT cm FROM ContractMember cm WHERE cm.contract = :contract"),
-        @NamedQuery(name = ContractMember.COUNT_DISTINCT_MEMBERS,
-                query = "SELECT COUNT (DISTINCT cm.employee.id) FROM ContractMember cm WHERE :date BETWEEN cm.joinDate AND cm.endDate"),
-        @NamedQuery(
-                name = ContractMember.FIND_PROJECT_ALLOCATION_SUM,
-                query = "SELECT COALESCE(SUM (cm.allocation), 0) FROM ContractMember cm WHERE cm.employee.id = :employee AND ((cm.endDate  >= :jDate) AND (cm.joinDate <= :eDate)) GROUP BY cm.employee.id"),
-        @NamedQuery(
-                name = ContractMember.FIND_PROJECT_ALLOCATION_SUM_EXCEPT_SELF,
-                query = "SELECT COALESCE(SUM (cm.allocation), 0) FROM ContractMember cm WHERE cm.employee.id = :employee AND cm.contract.project <> :project AND ((cm.endDate  >= :jDate) AND (cm.joinDate <= :eDate))") })
+        @NamedQuery(name = ContractMember.COUNT_DISTINCT_MEMBERS, query = "SELECT COUNT (DISTINCT cm.employee.id) FROM ContractMember cm WHERE :date BETWEEN cm.joinDate AND cm.endDate"),
+        @NamedQuery(name = ContractMember.FIND_PROJECT_ALLOCATION_SUM, query = "SELECT COALESCE(SUM (cm.allocation), 0) FROM ContractMember cm WHERE cm.employee.id = :employee AND ((cm.endDate  >= :jDate) AND (cm.joinDate <= :eDate)) GROUP BY cm.employee.id"),
+        @NamedQuery(name = ContractMember.FIND_PROJECT_ALLOCATION_SUM_EXCEPT_SELF, query = "SELECT COALESCE(SUM (cm.allocation), 0) FROM ContractMember cm WHERE cm.employee.id = :employee AND cm.contract.project <> :project AND ((cm.endDate  >= :jDate) AND (cm.joinDate <= :eDate))") })
 public class ContractMember extends BaseEntity implements Serializable, SoftDeletable {
 
     private static final long serialVersionUID = -4463672032184656029L;
@@ -61,7 +56,7 @@ public class ContractMember extends BaseEntity implements Serializable, SoftDele
     @JsonBackReference
     private Contract contract;
 
-    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id")))
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -204,10 +199,6 @@ public class ContractMember extends BaseEntity implements Serializable, SoftDele
         if (this.endDate == null || this.joinDate == null) {
             return true;
         }
-        if (this.endDate.isBefore(this.joinDate)) {
-            return false;
-        }
-        return true;
+        return !this.endDate.isBefore(this.joinDate);
     }
-
 }

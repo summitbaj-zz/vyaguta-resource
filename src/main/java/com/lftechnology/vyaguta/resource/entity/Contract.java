@@ -29,6 +29,8 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 
+import edu.umd.cs.findbugs.annotations.NoWarning;
+
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
@@ -195,10 +197,6 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
         if (this.endDate == null || this.startDate == null) {
             return true;
         }
-        if (this.endDate.isBefore(this.startDate)) {
-            return false;
-        }
-        return true;
+        return !this.endDate.isBefore(this.startDate);
     }
-
 }
