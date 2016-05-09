@@ -23,9 +23,9 @@
         <span style='line-height: 1.5; width: 125px; display: inline-block;'>Project
             End Date: </span> <span th:text="${contract.getEndDate().toString()}"></span>
     </div>
-    <p>Releasing Resources:</p>
-
-    <table width='50%'>
+<br/>
+    <table width='50%' th:if="${isReleasingResourceEmpty == false}">
+    <caption> Releasing Resources: </caption>
         <thead style='background: #969494; color: #FFFCFC'>
             <tr>
                 <th>Employee</th>
@@ -42,7 +42,10 @@
             </tr>
         </tbody>
     </table>
-    <p>Please click here to find more details: <a th:href="${linkToProjectPageLink}"> <span th:text="${contract.getProject().getTitle()}"> </span> </a></p>
+    <div th:if="${isReleasingResourceEmpty == true}">
+    	<p>There are no resource allocated with this contract.</p>
+    </div>
+    <p>Please click here to find more details: <a th:href="${linkToProjectPage}"> <span th:text="${contract.getProject().getTitle()}"> </span> </a></p>
     <p>Thank You <br/> Vyaguta Resource </p>
 </body>
 </html>
