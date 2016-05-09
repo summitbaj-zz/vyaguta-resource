@@ -11,13 +11,10 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
 
 import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
-import com.lftechnology.vyaguta.commons.util.DateUtil;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
@@ -170,9 +167,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds =
-                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
-                        .collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -215,7 +211,8 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -270,8 +267,8 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
-                            + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(
+                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
@@ -280,6 +277,10 @@ public class ProjectServiceImpl implements ProjectService {
     private void validateAllocations(Project project) {
         for (Contract contract : project.getContracts()) {
             for (ContractMember cm : contract.getContractMembers()) {
+                if (cm.getEmployee() == null) {
+                    throw new ParameterFormatException("Employee id cannot be null");
+                }
+
                 Double allocation = 0d;
                 if (project.getId() == null) {
                     allocation = contactMemberDao.findProjectAllocation(cm.getEmployee(), cm.getJoinDate(), cm.getEndDate());
