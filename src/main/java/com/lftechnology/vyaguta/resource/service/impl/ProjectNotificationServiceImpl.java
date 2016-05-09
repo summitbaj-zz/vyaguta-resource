@@ -4,28 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.lftechnology.vyaguta.commons.pojo.ResponseData;
 import com.lftechnology.vyaguta.commons.util.ArrayUtil;
@@ -33,6 +20,7 @@ import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.service.EmailService;
 import com.lftechnology.vyaguta.resource.service.ProjectNotificationService;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -49,18 +37,22 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
     @Inject
     private ProjectService projectService;
 
-    @Resource(lookup = "java:jboss/mail/ses")
-    private Session session;
-
     @Inject
-    private Logger log;
+    private EmailService emailService;
 
     @Override
-    public void pushNotification() {
-        // days before contract ending to send notification
+    public void notifyPriorEndDate() {
         LocalDate date = LocalDate.now().plusDays(Configuration.instance().getEndingNotificationDays());
-
         List<Contract> contracts = projectService.findContractsEndingBefore(date);
+        this.validateAccountManagerAndPushNotification(contracts, EmailServiceImpl.CONTRACT_ENDING_EMAIL_TEMPLATE);
+    }
+
+    @Override
+    public void notifyAtferEndDate() {
+        // TODO put code here
+    }
+
+    private void validateAccountManagerAndPushNotification(List<Contract> contracts, String templateName) {
         for (Contract contract : contracts) {
             if (contract.getProject().getAccountManager() == null) {
                 continue;
@@ -72,48 +64,8 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
                 continue;
             }
 
-            final String body = this.emailBuilder(contract);
-            this.sendMail(mailTo, body);
-        }
-    }
-
-    private void sendMail(String mailTo, String body) {
-        String from = "noreply@lftechnology.com";
-        String subject = "Project Ending Reminder";
-
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
-            message.setSubject(subject);
-            message.setContent(body, "text/html");
-            Transport.send(message);
-        } catch (MessagingException mex) {
-            log.error("{}", mex.getMessage());
-        }
-    }
-
-    private List<Employee> fetchEmployees(List<UUID> employeeIds) {
-
-        ResponseData<Employee> data = this.getEmployeeFromCore(employeeIds, new GenericType<ResponseData<Employee>>() {
-        });
-        return data.getData();
-    }
-
-    private <T> T getEmployeeFromCore(List<UUID> employeeIds, GenericType<T> entityType) throws WebApplicationException {
-        String url = EMPLOYEE_URL + "?id=" + ArrayUtil.toCommaSeparated(employeeIds);
-        String clientId = Configuration.instance().getClientId();
-        String clientSecret = Configuration.instance().getClientSecret();
-
-        Client client = ClientBuilder.newClient();
-        Response response = client.target(url).request().header("X-Client-Id", clientId).header("X-Client-Secret", clientSecret)
-                .get(Response.class);
-        if (response.getStatus() == 200) {
-            return response.readEntity(entityType);
-        } else {
-            throw new WebApplicationException(response);
+            final String body = emailService.emailBuilder(contract, templateName);
+            emailService.sendMail(mailTo, body);
         }
     }
 
@@ -146,19 +98,26 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
         }
     }
 
-    @Override
-    public String emailBuilder(Contract contract) {
-        String projectViewPageLink = Configuration.instance().getProjectPageViewPage() + contract.getProject().getId() + "/view";
+    private List<Employee> fetchEmployees(List<UUID> employeeIds) {
 
-        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-        resolver.setTemplateMode("HTML5");
-        resolver.setSuffix(".html");
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(resolver);
-        final Context context = new Context(Locale.ENGLISH);
-        context.setVariable("contract", contract);
-        context.setVariable("linkToProjectPageLink", projectViewPageLink);
-        return templateEngine.process("email", context);
+        ResponseData<Employee> data = this.getEmployeeFromCore(employeeIds, new GenericType<ResponseData<Employee>>() {
+        });
+        return data.getData();
+    }
+
+    private <T> T getEmployeeFromCore(List<UUID> employeeIds, GenericType<T> entityType) throws WebApplicationException {
+        String url = EMPLOYEE_URL + "?id=" + ArrayUtil.toCommaSeparated(employeeIds);
+        String clientId = Configuration.instance().getClientId();
+        String clientSecret = Configuration.instance().getClientSecret();
+
+        Client client = ClientBuilder.newClient();
+        Response response = client.target(url).request().header("X-Client-Id", clientId).header("X-Client-Secret", clientSecret)
+                .get(Response.class);
+        if (response.getStatus() == 200) {
+            return response.readEntity(entityType);
+        } else {
+            throw new WebApplicationException(response);
+        }
     }
 
 }
