@@ -7,7 +7,7 @@ import _ from 'lodash';
 //components
 import EndingProjects from '../../../../src/js/components/dashboard/ending-projects/EndingProjects';
 import EndingProjectRow from '../../../../src/js/components/dashboard/ending-projects/EndingProjectRow';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import dashboardUtil from '../../../../src/js/services/dashboardService';
 
 var fakeEndingProjects = [
     {
@@ -40,32 +40,36 @@ function setup() {
 }
 
 describe('EndingProjects component', () => {
-    describe('EndingProjects component', () => {
-        describe('render', () => {
-            it('calls getEndingProjectsData of dashboardUtil', () => {
-                var {props} = setup();
-                expect(dashboardUtil.getEndingProjectsData).toHaveBeenCalledWith(props.endingProjects);
-            });
-
-            it('calls getEndingProjectsResourceTotal of dashboardUtil', () => {
-                var {props} = setup();
-                expect(dashboardUtil.getEndingProjectsResourceTotal).toHaveBeenCalledWith(fakeEndingProjects);
-            });
+    describe('renderEndingProject', () => {
+        it('returns correct component', () => {
+            var {component, props} = setup();
+            var actual = component.instance().renderEndingProject(props.endingProjects[0]);
+            var expected = <EndingProjectRow key="1" endingProject={props.endingProjects[0]}/>;
+            expect(actual).toEqual(expected);
         });
 
-        describe('renderEndingProject', () => {
-            it('returns correct component', () => {
-                var {component, props} = setup();
-                var actual = component.instance().renderEndingProject(props.endingProjects[0]);
-                var expected = <EndingProjectRow key="1" endingProject={props.endingProjects[0]}/>;
-                expect(actual).toEqual(expected);
-            });
-
-            it('renders all ending projects', () => {
-                var {component, props} = setup();
-                var total = component.find(EndingProjectRow).length;
-                expect(total).toEqual(props.endingProjects.length);
-            });
+        it('renders all ending projects', () => {
+            var {component, props} = setup();
+            var total = component.find(EndingProjectRow).length;
+            expect(total).toEqual(props.endingProjects.length);
         });
+    });
+});
+describe('render', () => {
+    it('calls getEndingProjectsData of dashboardUtil', () => {
+        var {props} = setup();
+        expect(dashboardUtil.getEndingProjectsData).toHaveBeenCalledWith(props.endingProjects);
+    });
+
+    it('calls getEndingProjectsResourceTotal of dashboardUtil', () => {
+        var {props} = setup();
+        expect(dashboardUtil.getEndingProjectsResourceTotal).toHaveBeenCalledWith(fakeEndingProjects);
+    });
+
+    it('returns no record found item if there are no records', () => {
+        dashboardUtil.getEndingProjectsData = expect.createSpy().andReturn([]);
+        var component = mount(<EndingProjects endingProjects={[]}/>);
+        var output = component.find('.not-found-message');
+        expect(output.length).toEqual(1);
     });
 });

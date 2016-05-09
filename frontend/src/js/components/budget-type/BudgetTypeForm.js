@@ -14,13 +14,15 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/formValidator');
+
+    //utils
+    var formValidator = require('../../utils/formValidator');
 
     //actions
     var crudActions = require('../../actions/crudActions');
@@ -28,8 +30,6 @@
 
     //libraries
     var _ = require('lodash');
-
-    //libraries
     var Toastr = require('toastr');
 
     var BudgetTypeForm = React.createClass({
@@ -43,12 +43,12 @@
             //fill form with data for editing
             if (this.props.params.id) {
                 this.setState({autoFocus: false});
-                this.props.actions.fetchById(resourceConstant.BUDGET_TYPES, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.BUDGET_TYPES, this.props.params.id);
             }
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.BUDGET_TYPES);
+            this.props.actions.clearSelectedItem(resourceConstants.BUDGET_TYPES);
             this.props.actions.apiClearState();
         },
 
@@ -56,18 +56,14 @@
         saveBudgetType: function (event) {
             event.preventDefault();
 
-            var budgetType = {
+            var requiredField = {
                 title: this.refs.budgetType.value
             }
 
-            if (formValidator.isValid(budgetType)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.BUDGET_TYPES, budgetType, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstant.BUDGET_TYPES, budgetType);
-                }
+            if (formValidator.isValid(requiredField)) {
+                this.props.actions.submitForm(resourceConstants.BUDGET_TYPES, this.props.selectedItem.budgetTypes, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -76,7 +72,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.BUDGET_TYPES, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.BUDGET_TYPES, key, value);
         },
 
         render: function () {

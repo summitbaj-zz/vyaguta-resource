@@ -18,11 +18,11 @@
     var DatePicker = require('react-datepicker');
     var moment = require('moment');
 
-    //util
-    var alertBox = require('../../../../util/alertBox');
+    //utils
+    var alertBox = require('../../../../utils/alertBox');
 
     //constants
-    var messageConstant = require('../../../../constants/messageConstants');
+    var messageConstants = require('../../../../constants/messageConstants');
 
     var Contract = React.createClass({
         getInitialState: function () {
@@ -41,7 +41,7 @@
             return (
                 <SelectOption key={key} index={key} id={this.props.budgetTypes[key].id}
                               option={this.props.budgetTypes[key].title}/>
-            )
+            );
         },
 
         handleChangeStartDate: function (date) {
@@ -67,7 +67,7 @@
             event.preventDefault();
             var that = this;
 
-            alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
+            alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
                 that.props.actions.deleteContract(that.props.index);
             });
         },
@@ -99,8 +99,8 @@
                             </span>
                             }
                         </h4>
-
                     </div>
+
                     <div id={"collapseContract" + this.props.index}
                          className="panel-collapse collapse"
                          role="tabpanel"
@@ -130,7 +130,7 @@
                                     </div>
 
                                     <div className="col-md-6 col-lg-4 element">
-                                        <label className="control-label">Contract Date *</label>
+                                        <label className="control-label">Contract Date</label>
                                         <div data-date-format="mm/dd/yyyy"
                                              className="input-group input-daterange">
                                             <DatePicker
@@ -194,9 +194,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
-    })
+    });
 
     module.exports = Contract;
+
 })();

@@ -11,11 +11,12 @@
     var React = require('react');
 
     //components
-    var d3Chart = require('../../../util/charts/d3Chart');
-    var ApiUtil = require('../../../util/apiUtil');
+    var d3Chart = require('../../../utils/charts/d3Chart');
+    var ApiUtil = require('../../../utils/apiUtil');
     var ReactDOM = require('react-dom');
-    //util
-    var convertContractHash = require('../../../util/convertContractHash');
+
+    //services
+    var convertContractHash = require('../../../services/convertContractHash');
 
     var isDrawn = false;
 
@@ -56,9 +57,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
     module.exports = TimelineChart;
+
 })();

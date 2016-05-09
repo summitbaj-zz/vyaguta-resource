@@ -8,13 +8,15 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/formValidator');
+
+    //utils
+    var formValidator = require('../../utils/formValidator');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -25,20 +27,21 @@
     var Toastr = require('toastr');
 
     var ProjectTypeForm = React.createClass({
-        getInitialState: function(){
-            return{
+        getInitialState: function () {
+            return {
                 autoFocus: true
             }
         },
+
         componentWillMount: function () {
             if (this.props.params.id) {
                 this.setState({autoFocus: false});
-                this.props.actions.fetchById(resourceConstant.PROJECT_TYPES, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.PROJECT_TYPES, this.props.params.id);
             }
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_TYPES);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECT_TYPES);
             this.props.actions.apiClearState();
         },
 
@@ -46,18 +49,14 @@
         saveProjectType: function (event) {
             event.preventDefault();
 
-            var projectType = {
+            var requiredField = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectType)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.PROJECT_TYPES, projectType, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstant.PROJECT_TYPES, projectType);
-                }
+            if (formValidator.isValid(requiredField)) {
+                this.props.actions.submitForm(resourceConstants.PROJECT_TYPES, this.props.selectedItem.projectTypes, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -65,7 +64,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_TYPES, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.PROJECT_TYPES, key, value);
         },
 
         render: function () {

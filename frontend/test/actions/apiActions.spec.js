@@ -15,21 +15,18 @@ import apiActions from '../../src/js/actions/apiActions';
 
 describe('apiActions', () => {
     it('should create an action for an API request', () => {
-        var entity = 'Some entity';
         var expectedAction = {
             type: actionTypeConstant.API_REQUEST,
-            entity: entity
         };
-       expect(apiActions.apiRequest(entity)).toEqual(expectedAction);
+       expect(apiActions.apiRequest()).toEqual(expectedAction);
     });
 
     it('should create an action for an API response',() => {
         var entity = 'Some entity';
         var expectedAction = {
             type: actionTypeConstant.API_RESPONSE,
-            entity: entity
         };
-        expect(apiActions.apiResponse(entity)).toEqual(expectedAction);
+        expect(apiActions.apiResponse()).toEqual(expectedAction);
     });
 
     it('should create an action for clearing the API state', () => {

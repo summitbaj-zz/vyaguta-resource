@@ -48,8 +48,8 @@ var contractReducer = {
 };
 
 var dashboardReducer = {
-    projectEnding: [],
-    overdue: [],
+    endingProjects: [],
+    overdueProjects: [],
     inProgressProjects: [],
     resource: {
         utilization: {},

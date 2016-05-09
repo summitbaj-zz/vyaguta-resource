@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.dao.CrudDao;
+import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.Project;
 
 /**
@@ -32,4 +33,11 @@ public interface ProjectDao extends CrudDao<Project, UUID> {
      *         "projectStatus","projectStatusColor", "endDate"
      */
     List<Map<String, Object>> findOverdueProjects(String projectStatus);
+
+    /**
+     * @param LocalDate
+     * @param LocalDate
+     * @return List {@link Contract}
+     */
+    List<Contract> contractsEndingBetween(LocalDate startPoint, LocalDate endPoint);
 }

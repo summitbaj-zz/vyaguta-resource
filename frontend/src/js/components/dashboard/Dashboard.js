@@ -20,24 +20,22 @@
     var apiActions = require('../../actions/apiActions');
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
 
     //utils
-    var dashboardUtil = require('../../util/dashboardUtil');
+    var converter = require('../../utils/converter');
 
     //libraries
     var _ = require('lodash');
 
     var Dashboard = React.createClass({
         componentWillMount: function () {
-            this.props.actions.fetchByField(resourceConstant.PROJECTS, resourceConstant.PROJECT_STATUS, 'In Progress');
-
-            var request = 'btn' + dashboardUtil.addDayInDate(0) + 'and' + dashboardUtil.addDayInDate(15);
-            this.props.actions.fetchByEndDate(resourceConstant.DASHBOARD, 'projectEnding', request);
-            this.props.actions.fetchOverdueProjects(resourceConstant.PROJECTS, resourceConstant.OVERDUE);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.UTILIZATION);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.BOOKED);
-            this.props.actions.fetchResourceCount(resourceConstant.RESOURCE, resourceConstant.AVAILABLE);
+            this.props.actions.fetch(resourceConstants.ONGOING_PROJECTS, resourceConstants.PROJECTS, {projectStatus: resourceConstants.IN_PROGRESS});
+            this.props.actions.fetch(resourceConstants.ENDING_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.ENDING), {days: 15});
+            this.props.actions.fetch(resourceConstants.OVERDUE_PROJECTS, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.OVERDUE));
+            this.props.actions.fetchResourceCount(resourceConstants.UTILIZATION, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.UTILIZATION));
+            this.props.actions.fetchResourceCount(resourceConstants.AVAILABLE, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.AVAILABLE));
+            this.props.actions.fetchResourceCount(resourceConstants.BOOKED, converter.getPathParam(resourceConstants.PROJECTS, resourceConstants.RESOURCE, resourceConstants.BOOKED));
         },
 
         componentWillUnmount: function () {
@@ -64,8 +62,8 @@
     var mapStateToProps = function (state) {
         return {
             projects: state.dashboardReducer.inProgressProjects,
-            endingProjects: state.dashboardReducer.projectEnding,
-            overdueProjects: state.dashboardReducer.overdue,
+            endingProjects: state.dashboardReducer.endingProjects,
+            overdueProjects: state.dashboardReducer.overdueProjects,
             resource: state.dashboardReducer.resource,
             apiState: state.apiReducer
         }

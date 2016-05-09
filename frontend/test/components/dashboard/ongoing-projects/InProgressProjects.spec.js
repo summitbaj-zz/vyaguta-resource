@@ -32,5 +32,11 @@ describe('InProgressProjects component', () => {
             var total = component.find(InProgressProjectRow).length;
             expect(total).toEqual(props.projects.length);
         });
+
+        it('returns no record found item if there are no records', () =>{
+            var component = mount(<InProgressProjects projects={[]}/>);
+            var output = component.find('.not-found-message');
+            expect(output.length).toEqual(1);
+        });
     });
 });

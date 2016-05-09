@@ -5,9 +5,11 @@
     var React = require('react');
 
     //components
-    var apiUtil = require('../../../util/apiUtil');
     var Tagging = require('../../common/tag/Tagging');
-    var resourceConstant = require('../../../constants/resourceConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
+
+    //services
+    var resourceApiService = require('../../../services/api-services/resourceApiService');
 
     var TechnologyStack = React.createClass({
         getInitialState: function () {
@@ -31,27 +33,21 @@
             return tag;
         },
 
-        changeTagState: function (data) {
-            this.setState({isRequesting: false});
-            this.setState({suggestions: data});
-        },
-
         updateSuggestions: function (input) {
-            this.setState({isRequesting: true});
-            this.setState({suggestions: []});
+            var that = this;
+            that.setState({isRequesting: true});
 
-            apiUtil.fetchByQuery(resourceConstant.TAGS, input, this.changeTagState);
+            resourceApiService.fetch(resourceConstants.TAGS, {q: input}).then(function (response) {
+                    that.setState({isRequesting: false});
+                    that.setState({suggestions: response.body.data});
+                },
+                function (error) {
+                    that.setState({isRequesting: false});
+                });
         },
 
         addTag: function (tag) {
             this.setState({isRequesting: false});
-            var suggestions = this.state.suggestions || [];
-            for (var i = 0; i < suggestions.length; i++) {
-                if (tag == suggestions[i].title) {
-                    this.props.addTag(suggestions[i]);
-                    return;
-                }
-            }
             this.props.addTag({title: tag});
         },
 
@@ -64,5 +60,7 @@
             );
         }
     });
+
     module.exports = TechnologyStack;
+
 })();

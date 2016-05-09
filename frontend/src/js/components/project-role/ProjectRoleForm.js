@@ -8,13 +8,15 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../constants/resourceConstants');
-    var urlConstant = require('../../constants/urlConstants');
-    var messageConstant = require('../../constants/messageConstants');
+    var resourceConstants = require('../../constants/resourceConstants');
+    var urlConstants = require('../../constants/urlConstants');
+    var messageConstants = require('../../constants/messageConstants');
 
     //components
     var EntityHeader = require('../common/header/EntityHeader');
-    var formValidator = require('../../util/formValidator');
+
+    //utils
+    var formValidator = require('../../utils/formValidator');
 
     //actions
     var apiActions = require('../../actions/apiActions');
@@ -34,12 +36,12 @@
         componentWillMount: function () {
             if (this.props.params.id) {
                 this.setState({autoFocus: false});
-                this.props.actions.fetchById(resourceConstant.PROJECT_ROLES, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.PROJECT_ROLES, this.props.params.id);
             }
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECT_ROLES);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECT_ROLES);
             this.props.actions.apiClearState();
         },
 
@@ -47,18 +49,14 @@
         saveProjectRole: function (event) {
             event.preventDefault();
 
-            var projectRole = {
+            var requiredField = {
                 title: this.refs.title.value
             }
 
-            if (formValidator.isValid(projectRole)) {
-                if (this.props.params.id) {
-                    this.props.actions.updateItem(resourceConstant.PROJECT_ROLES, projectRole, this.props.params.id);
-                } else {
-                    this.props.actions.addItem(resourceConstant.PROJECT_ROLES, projectRole);
-                }
+            if (formValidator.isValid(requiredField)) {
+                    this.props.actions.submitForm(resourceConstants.PROJECT_ROLES, this.props.selectedItem.projectRoles, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
@@ -66,7 +64,7 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECT_ROLES, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.PROJECT_ROLES, key, value);
         },
 
         render: function () {
@@ -112,8 +110,7 @@
                         </form>
                     </div>
                 </div>
-            )
-                ;
+            );
         }
     });
 

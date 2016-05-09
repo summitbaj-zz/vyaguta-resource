@@ -35,7 +35,7 @@
                                 check={true}
                                 actions={this.props.actions}
                                 contractMember={this.props.contractMembers[key]}/>
-            )
+            );
         },
 
         initializeModal: function(event) {
@@ -45,7 +45,7 @@
         },
 
         toggleModalState: function () {
-            this.setState({isModalActive: (this.state.isModalActive) ? false : true})
+            this.setState({isModalActive: (this.state.isModalActive) ? false : true});
         },
 
         render: function () {
@@ -83,9 +83,10 @@
                                         employees={this.props.employees}/>
                     }
                 </div>
-            )
+            );
         }
     });
 
     module.exports = ContractMemberContainer;
+
 })();

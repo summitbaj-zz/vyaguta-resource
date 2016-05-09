@@ -1,8 +1,11 @@
 ;(function () {
     'use strict';
 
+    //React dependencies
     var React = require('react');
-    var formValidator = require('../../../util/formValidator');
+
+    //utils
+    var formValidator = require('../../../utils/formValidator');
 
     var ReasonModal = React.createClass({
         updateProject: function(){
@@ -38,9 +41,10 @@
                         </div>
                     </div>
                 </div>
-
-            )
+            );
         }
     });
+
     module.exports = ReasonModal;
+
 })();

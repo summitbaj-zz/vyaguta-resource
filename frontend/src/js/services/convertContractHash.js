@@ -5,7 +5,8 @@
  */
 
 ;(function () {
-//libraries
+
+    //libraries
     var _ = require('lodash');
 
     var convertContractHash = {
@@ -122,4 +123,5 @@
     }
 
     module.exports = convertContractHash;
+
 })();

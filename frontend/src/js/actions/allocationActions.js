@@ -58,8 +58,8 @@
                 type: actionTypeConstant.CLEAR_ALLOCATIONS
             }
         }
-
     }
 
     module.exports = allocationActions;
+
 })();

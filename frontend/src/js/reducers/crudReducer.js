@@ -2,7 +2,7 @@
     'use strict';
 
     //constants
-    var actionTypeConstant = require('../constants/actionTypeConstants');
+    var actionTypeConstants = require('../constants/actionTypeConstants');
 
     //libraries
     var _ = require('lodash');
@@ -16,11 +16,6 @@
         clients: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
-                budgetType: {},
-                projectType: {},
-                projectStatus: {},
-                accountManager: {},
-                client: {},
                 contracts: []
             },
             projectRoles: {},
@@ -37,18 +32,18 @@
         state = state || initialState;
 
         switch (action.type) {
-            case actionTypeConstant.LIST:
+            case actionTypeConstants.LIST:
                 var newState = _.cloneDeep(state);
                 newState[action.entity] = _.cloneDeep(action.data.data);
                 return newState;
 
 
-            case actionTypeConstant.SELECT_ITEM:
+            case actionTypeConstants.SELECT_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = action.data;
                 return newState;
 
-            case actionTypeConstant.DELETE:
+            case actionTypeConstants.DELETE:
                 var newState = _.cloneDeep(state);
                 var data = newState[action.entity];
                 var index = _.indexOf(data, _.find(data, {id: action.id}));
@@ -56,34 +51,34 @@
 
                 return newState;
 
-            case actionTypeConstant.UPDATE_SELECTED_ITEM:
+            case actionTypeConstants.UPDATE_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
 
                 newState.selectedItem[action.entity][action.key] = action.value;
                 return newState;
 
-            case actionTypeConstant.HANDLE_SELECT_OPTION_CHANGE:
+            case actionTypeConstants.HANDLE_SELECT_OPTION_CHANGE:
                 var newState = _.cloneDeep(state);
-                newState.selectedItem[action.entity][action.key] = {id: action.value};
+                newState.selectedItem[action.entity][action.key] = (action.value == 0) ? null : {id: action.value};
                 return newState;
 
-            case actionTypeConstant.CLEAR_SELECTED_ITEM:
+            case actionTypeConstants.CLEAR_SELECTED_ITEM:
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity] = {};
                 return newState;
 
-            case actionTypeConstant.CLEAR_LIST:
+            case actionTypeConstants.CLEAR_LIST:
                 var newState = _.cloneDeep(state);
                 newState[action.entity] = {};
                 return newState;
 
-            case actionTypeConstant.PAGINATION_INDEX:
+            case actionTypeConstants.PAGINATION_INDEX:
                 var newState = _.cloneDeep(state);
-                newState.pagination.page = action.index;
+                newState.pagination.startPage = action.index;
                 newState.pagination.count = action.count;
                 return newState;
 
-            case actionTypeConstant.HANDLE_AUTOCOMPLETE_CHANGE:
+            case actionTypeConstants.HANDLE_AUTOCOMPLETE_CHANGE:
                 var newState = _.cloneDeep(state);
                 var employeeName = action.label && action.label.split(' ');
 
@@ -105,7 +100,6 @@
                         lastName: employeeName[2]
                     };
                 }
-
                 return newState;
 
             default:

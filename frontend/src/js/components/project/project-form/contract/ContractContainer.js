@@ -68,9 +68,10 @@
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     });
 
     module.exports = ContractContainer;
+
 })();

@@ -18,9 +18,11 @@
         componentDidMount: function () {
             var input = document.getElementsByClassName(this.props.inputField)[0];
 
-            input.addEventListener('keydown', this.keyPressed);
-            input.addEventListener('keyup', this.generateSuggestions);
-            input.addEventListener('blur', this.focusOut);
+            if(input) {
+                input.addEventListener('keydown', this.keyPressed);
+                input.addEventListener('keyup', this.generateSuggestions);
+                input.addEventListener('blur', this.focusOut);
+            }
         },
 
         focusOut: function () {
@@ -75,7 +77,6 @@
                 if (this.isValidKey(event)) {
                     this.setState({selected: false});
                 }
-                this.setState({suggestions: []});
             }
         },
 
@@ -121,10 +122,11 @@
 
             if (inputValue && that.isValidKey(event)) {
                 clearTimeout(typingTimer);
-
                 typingTimer = setTimeout(function () {
                     that.props.generateSuggestions(inputValue);
                 }, 200);
+            } else if (!inputValue) {
+                this.setState({suggestions: []});
             }
         },
 
@@ -204,5 +206,7 @@
             )
         }
     });
+
     module.exports = AutoComplete;
+
 })();

@@ -10,7 +10,6 @@
     var SearchBar = require('./SearchBar');
 
     var Header = React.createClass({
-
         render: function () {
             return (
                 <header id="header" className="navbar navbar-default navbar-fixed-top">
@@ -18,9 +17,10 @@
                     <SearchBar/>
                     <DropDownList/>
                 </header>
-            )
+            );
         }
     });
 
     module.exports = Header;
+
 })();

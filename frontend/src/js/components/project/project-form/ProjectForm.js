@@ -14,15 +14,14 @@
     var bindActionCreators = require('redux').bindActionCreators;
 
     //constants
-    var resourceConstant = require('../../../constants/resourceConstants');
-    var urlConstant = require('../../../constants/urlConstants');
-    var messageConstant = require('../../../constants/messageConstants');
+    var resourceConstants = require('../../../constants/resourceConstants');
+    var urlConstants = require('../../../constants/urlConstants');
+    var messageConstants = require('../../../constants/messageConstants');
 
     //libraries
     var moment = require('moment');
     var _ = require('lodash');
     var Toastr = require('toastr');
-
     var Select = require('react-select');
 
     //components
@@ -31,11 +30,17 @@
     var SelectOption = require('./SelectOption');
     var ContractContainer = require('./contract/ContractContainer');
     var ReasonModal = require('./ReasonModal');
-    var formValidator = require('../../../util/formValidator');
 
-    //util
-    var apiUtil = require('../../../util/apiUtil');
-    var convertContractHash = require('../../../util/convertContractHash');
+    //utils
+    var formValidator = require('../../../utils/formValidator');
+    var employeeUtil = require('../../../utils/employeeUtil');
+
+    //services
+    var coreApiService = require('../../../services/api-services/coreApiService');
+    var authApiService = require('../../../services/api-services/authApiService');
+    var resourceApiService = require('../../../services/api-services/resourceApiService');
+    var contractMemberService = require('../../../services/contractMemberService');
+    var convertContractHash = require('../../../services/convertContractHash');
 
     //actions
     var crudActions = require('../../../actions/crudActions');
@@ -49,21 +54,21 @@
             return {
                 technologyStack: [],
                 projectName: null,
-                isProjectNameValid: false,
+                showValidityIcon: false,
+                isUnique: true,
                 isRequesting: false
             }
         },
 
         componentWillMount: function () {
             if (this.props.params.id) {
-                this.props.actions.fetchById(resourceConstant.PROJECTS, this.props.params.id);
+                this.props.actions.fetchById(resourceConstants.PROJECTS, this.props.params.id);
             }
-            this.props.actions.fetchAll(resourceConstant.BUDGET_TYPES);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_STATUS);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_TYPES);
-            this.props.actions.fetchAll(resourceConstant.CLIENTS);
-            this.props.actions.fetchAll(resourceConstant.PROJECT_ROLES);
-
+            this.props.actions.fetch(resourceConstants.BUDGET_TYPES);
+            this.props.actions.fetch(resourceConstants.PROJECT_STATUS);
+            this.props.actions.fetch(resourceConstants.PROJECT_TYPES);
+            this.props.actions.fetch(resourceConstants.CLIENTS);
+            this.props.actions.fetch(resourceConstants.PROJECT_ROLES);
         },
 
         componentWillReceiveProps: function (props) {
@@ -76,35 +81,13 @@
         },
 
         componentWillUnmount: function () {
-            this.props.actions.clearSelectedItem(resourceConstant.PROJECTS);
+            this.props.actions.clearSelectedItem(resourceConstants.PROJECTS);
             this.props.actions.clearContracts();
             this.props.actions.apiClearState();
 
             //fixes modal freezing the application when back is pressed while it is open
             $('#addContractMember').modal('hide');
         },
-
-        loadEmployees: function (input) {
-            return apiUtil.fetchByQueryFromCore(resourceConstant.EMPLOYEES, input).then(function (response) {
-                var options = [];
-                for (var i = 0; i < response.body.data.length; i++) {
-                    if (!response.body.data[i].middleName || response.body.data[i].middleName == 'NULL') {
-                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].lastName;
-                    } else {
-                        var employeeName = response.body.data[i].firstName + ' ' + response.body.data[i].middleName + ' ' + response.body.data[i].lastName;
-                    }
-
-                    options.push({value: response.body.data[i].id, label: employeeName});
-                }
-
-                return {options: options};
-            }, function (error) {
-                if (error.status == 401) {
-                    apiUtil.refreshSession();
-                }
-            });
-        },
-
 
         addTag: function (value) {
             this.state.technologyStack.push(value);
@@ -160,15 +143,6 @@
             )
         },
 
-        isContractValid: function (contracts) {
-            for (var i = 0; i < contracts.length; i++) {
-                if (!contracts[i].startDate || !contracts[i].endDate) {
-                    return false;
-                }
-            }
-            return true;
-        },
-
         //called when form is submitted
         saveProject: function (event) {
             event.preventDefault();
@@ -178,38 +152,24 @@
                 'title': this.refs.title.value
             };
 
-            if (!formValidator.isValid(requiredField)) {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
-            } else if (!this.isContractValid(project.contracts)) {
-                Toastr.error(messageConstant.FILL_DATES_FOR_CONTRACTS, messageConstant.TOASTR_INVALID_HEADER);
-            } else {
+            if (formValidator.isValid(requiredField) && this.state.isUnique) {
                 if (this.props.params.id) {
                     $('#addReason').modal('show');
                 } else {
-                    this.props.actions.addItem(resourceConstant.PROJECTS, project);
+                    this.props.actions.addItem(resourceConstants.PROJECTS, project);
                 }
+            } else {
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
         getFormData: function () {
-            var contracts = convertContractHash.toBackEndHash(this.props.contracts);
+           var project = _.cloneDeep(this.props.selectedItem.projects);
+            var convertedContracts = convertContractHash.toBackEndHash(this.props.contracts);
+            project.contracts = convertedContracts;
+            project.tags = this.state.technologyStack;
 
-            if (this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id) {
-                var accountManager = {id: this.props.selectedItem.projects.accountManager.id};
-            } else {
-                var accountManager = null;
-            }
-
-            return {
-                'title': this.refs.title.value,
-                'description': this.refs.description.value,
-                'projectType': (this.refs.projectType.value != 0) ? {"id": this.refs.projectType.value} : null,
-                'projectStatus': (this.refs.projectStatus.value != 0) ? {"id": this.refs.projectStatus.value} : null,
-                'client': (this.refs.client.value != 0) ? {"id": this.refs.client.value} : null,
-                'tags': this.state.technologyStack,
-                'accountManager': accountManager,
-                'contracts': contracts
-            };
+            return project;
         },
 
         updateProject: function (reason) {
@@ -220,28 +180,38 @@
                 'reason': reason
             };
 
-            if (formValidator.isValid(requiredFieldForUpdate)) {
+            if (formValidator.isValid(requiredFieldForUpdate) && this.state.isUnique) {
                 $('#addReason').modal('hide');
-                this.props.actions.updateItem(resourceConstant.PROJECTS, project, this.props.params.id);
+                this.props.actions.updateItem(resourceConstants.PROJECTS, project, this.props.params.id);
             } else {
-                Toastr.error(messageConstant.FORM_INVALID_SUBMISSION_MESSAGE, messageConstant.TOASTR_INVALID_HEADER);
+                Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
         validateTitle: function (event) {
-            this.setState({isProjectNameValid: false});
+            this.setState({showValidityIcon: false});
             var title = this.refs.title.value;
             var that = this;
+            var elementId = $(event.target).attr('id');
 
             if (title && title != this.state.projectName) {
                 that.setState({isRequesting: true});
-                formValidator.isTitleValid(resourceConstant.PROJECTS, event.target).then(function (response) {
+                resourceApiService.fetch(resourceConstants.PROJECTS, {title: title}).then(function (response) {
                     that.setState({isRequesting: false});
-                    response && that.setState({isProjectNameValid: true});
+
+                    if (response.body.count) {
+                        formValidator.showErrors(elementId, messageConstants.PROJECT_NAME_EXISTS_MESSAGE);
+                        that.state.isUnique = false;
+                    } else {
+                        formValidator.showSuccess(elementId);
+                        that.setState({showValidityIcon: true, isUnique: true});
+                    }
+
                 }, function (error) {
                     that.setState({isRequesting: false});
+
                     if (error.status == 401) {
-                        apiUtil.refreshSession().then(function (response) {
+                        authApiService.refreshSession().then(function (response) {
                             that.validateTitle(that.refs.title.dispatchEvent(new Event('blur')));
                         });
                     } else {
@@ -254,7 +224,7 @@
         },
 
         resetField: function () {
-            this.setState({isProjectNameValid: false});
+            this.setState({showValidityIcon: false});
             formValidator.removeFeedback('title');
         },
 
@@ -262,7 +232,11 @@
             var key = event.target.name;
             var value = event.target.value;
 
-            this.props.actions.updateSelectedItem(resourceConstant.PROJECTS, key, value);
+            this.props.actions.updateSelectedItem(resourceConstants.PROJECTS, key, value);
+        },
+
+        handleSelectOptionChange: function(event){
+          this.props.actions.handleSelectOptionChange(resourceConstants.PROJECTS, event.target.name, event.target.value);
         },
 
         handleAutoCompleteChange: function (employee) {
@@ -270,30 +244,6 @@
             var employeeFullName = employee && employee.label;
 
             this.props.actions.handleAutoCompleteChange('projects', 'accountManager', employeeId, employeeFullName);
-        },
-
-        getAutoCompleteValue: function () {
-            var value = this.props.selectedItem.projects.accountManager && this.props.selectedItem.projects.accountManager.id;
-            var accountManager = this.props.selectedItem.projects.accountManager;
-
-            if (accountManager && accountManager.id) {
-                var firstName = accountManager.firstName;
-                var lastName = accountManager.lastName;
-                var middleName = '';
-
-                if (accountManager.middleName && accountManager.middleName != 'NULL') {
-                    middleName = accountManager.middleName + ' ';
-                }
-
-                return {
-                    value: value,
-                    label: firstName + ' ' + middleName + lastName
-                }
-
-            } else {
-                return null;
-            }
-
         },
 
         render: function () {
@@ -322,7 +272,7 @@
                                             {this.state.isRequesting && <span
                                                 className="form-control-feedback validation-icon"
                                                 aria-hidden="true"> <img src="img/ajax-loader-3.gif"/></span>}
-                                            {this.state.isProjectNameValid && <span
+                                            {this.state.showValidityIcon && <span
                                                 className="glyphicon glyphicon-ok form-control-feedback validation-icon"
                                                 aria-hidden="true"></span>}
 
@@ -349,7 +299,7 @@
                                                             id="projectType"
                                                             value={this.props.selectedItem.projects.projectType &&
                                                                this.props.selectedItem.projects.projectType.id}
-                                                            onChange={this.handleChange}
+                                                            onChange={this.handleSelectOptionChange}
                                                     >
                                                         <option value="0">Please Select</option>
 
@@ -367,7 +317,7 @@
                                                             id="projectStatus"
                                                             value={this.props.selectedItem.projects.projectStatus &&
                                                                this.props.selectedItem.projects.projectStatus.id}
-                                                            onChange={this.handleChange}>
+                                                            onChange={this.handleSelectOptionChange}>
                                                         <option value="0">Please
                                                             Select
                                                         </option>
@@ -381,8 +331,8 @@
                                                 <div className="col-md-6 col-lg-4 element">
                                                     <label>Account Manager</label>
                                                     <Select.Async name="employee"
-                                                                  value={this.getAutoCompleteValue()}
-                                                                  loadOptions={this.loadEmployees}
+                                                                  value={contractMemberService.getAutoCompleteValue(this.props.selectedItem.projects.accountManager)}
+                                                                  loadOptions={contractMemberService.loadEmployees}
                                                                   onChange={this.handleAutoCompleteChange}
                                                                   disabled={this.props.apiState.isRequesting}
                                                                   minimumInput={1}
@@ -402,7 +352,7 @@
                                                             id="client"
                                                             value={this.props.selectedItem.projects.client &&
                                                                this.props.selectedItem.projects.client.id}
-                                                            onChange={this.handleChange}>
+                                                            onChange={this.handleSelectOptionChange}>
                                                         <option value="0">Please Select</option>
                                                         {Object.keys(this.props.clients).map(this.renderClient)}
                                                     </select>
@@ -453,7 +403,7 @@
                     <ReasonModal updateProject={this.updateProject}/>
 
                 </div>
-            )
+            );
         }
     });
 
@@ -485,4 +435,5 @@
     };
 
     module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectForm);
+
 })();

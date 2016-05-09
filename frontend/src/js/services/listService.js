@@ -1,7 +1,13 @@
 ;(function () {
     'use strict';
 
-    function sortUI() {
+    //react dependencies
+    var React = require('react');
+
+    //constants
+    var messageConstants = require('../constants/messageConstants');
+
+    function listService() {
         this.changeSortDisplay = function (field) {
             var sortField = $('#' + field);
             var sortIcon = sortField.children('i');
@@ -21,8 +27,14 @@
                 return false;
             }
         }
+
+        this.displayNoRecordFound = function () {
+            return (<tr>
+                <td colSpan="100%" className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</td>
+            </tr>);
+        }
     }
 
-    module.exports = new sortUI();
+    module.exports = new listService();
 
 })();

@@ -428,4 +428,14 @@ public class ProjectServiceImpl implements ProjectService {
         return contractDao.findContractsEndingBefore(date);
     }
 
+    @Override
+    public List<Project> findContractsEndingIn(int days) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(days);
+
+        List<Contract> contracts = projectDao.contractsEndingBetween(startDate, endDate);
+        return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
+
+    }
+
 }

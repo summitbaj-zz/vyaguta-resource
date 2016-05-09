@@ -21,7 +21,7 @@ function setup() {
         projects: [{id: 1, title: 'project1'}, {id: 2, title: 'project2'}],
         pagination: {},
         actions: {
-            fetchByQuery: expect.createSpy(),
+            fetch: expect.createSpy(),
             clearPagination: expect.createSpy(),
             apiClearState: expect.createSpy(),
             deleteItem: expect.createSpy(),
@@ -43,7 +43,7 @@ describe('ProjectList Component', () => {
     describe('componentDidMount', () => {
         it('dispatches fetchByQuery action on componentDidMount', () => {
             var {actions} = setup();
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     });
 
@@ -79,7 +79,7 @@ describe('ProjectList Component', () => {
             var {actions, component} = setup();
             var projectHeading = component.find('#title');
             projectHeading.simulate('click');
-            expect(actions.fetchByQuery).toHaveBeenCalled();
+            expect(actions.fetch).toHaveBeenCalled();
         });
     })
 });

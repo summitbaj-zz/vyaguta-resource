@@ -1,14 +1,15 @@
 ;(function () {
     'use strict';
+
+    //constants
     var messageConstant = require('../constants/messageConstants');
 
-    var apiUtil = require('./apiUtil');
-    var Promise = require('promise');
+    //services
+    var resourceApiService = require('../services/api-services/resourceApiService');
 
     function formValidator() {
         var that = this;
         var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        var isTitleNameValid = true;
         var isEmailValid = true;
         var newEvent;
 
@@ -18,9 +19,10 @@
                 if (formDatas[key] == '') {
                     this.showErrors(key, messageConstant.REQUIRED_MESSAGE);
                     error = true;
+                    break;
                 }
             }
-            if (!error && isTitleNameValid && isEmailValid) {
+            if (!error && isEmailValid) {
                 return true;
             } else {
                 return false;
@@ -54,13 +56,8 @@
 
         this.removeFeedback = function (elementId) {
             var parentElement = $('#' + elementId).parent();
-
-            if (parentElement.hasClass('has-error')) {
-                parentElement.removeClass('has-error');
-            }
-            if (parentElement.hasClass('has-success')) {
-                parentElement.removeClass('has-success');
-            }
+            parentElement.removeClass('has-error');
+            parentElement.removeClass('has-success');
             parentElement.children('span').html('');
         }
 
@@ -81,26 +78,6 @@
             } else {
                 isEmailValid = true;
             }
-        }
-
-        this.isTitleValid = function (entity, event) {
-            var elementId = $(event).attr('id');
-            return new Promise(function (resolve, reject) {
-                apiUtil.fetchByTitle(entity, event.value).then(function (response) {
-                    if (response.body.count) {
-                        isTitleNameValid = false;
-                        that.showErrors(elementId, messageConstant.PROJECT_NAME_EXISTS_MESSAGE);
-                        resolve(false);
-                    } else {
-                        isTitleNameValid = true;
-                        that.showSuccess(elementId);
-                        resolve(true);
-                    }
-                }, function (error) {
-                    reject(error);
-                });
-            });
-
         }
     }
 

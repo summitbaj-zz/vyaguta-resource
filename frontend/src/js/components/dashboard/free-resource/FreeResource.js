@@ -4,15 +4,19 @@
     //React Dependencies
     var React = require('react');
 
-    //component
+    //components
     var FreeResourceItem = require('./FreeResourceItem');
+
+    //constants
+    var resourceConstants = require('../../../constants/resourceConstants');
+    var messageConstants = require('../../../constants/messageConstants');
 
     var FreeResource = React.createClass({
         showFreeResource: function () {
             var totalData = this.props.resource && this.props.resource.length;
             var carousalArray = [];
 
-            for (var i = 0; i < Math.ceil(totalData / 16); i++) {
+            for (var i = 0; i < Math.ceil(totalData / resourceConstants.EMPLOYEES_PER_PAGE); i++) {
                 carousalArray.push(this.renderCarousal(i));
             }
             return (<div className="carousel-inner" role="listbox">{carousalArray}</div>);
@@ -21,12 +25,12 @@
         renderCarousal: function (i) {
             var className = (i == 0) ? 'item active' : 'item';
             var resourceArray = [];
-            for (var j = 0; j < 16; j++) {
-                var index = i * 16 + j;
+            for (var j = 0; j < resourceConstants.EMPLOYEES_PER_PAGE; j++) {
+                var index = i * resourceConstants.EMPLOYEES_PER_PAGE + j;
                 if (index >= this.props.resource.length) {
                     break;
                 }
-                resourceArray.push(this.renderResource(i * 16 + j));
+                resourceArray.push(this.renderResource(i * resourceConstants.EMPLOYEES_PER_PAGE + j));
             }
             return (
                 <div className={className} key={'resource' + i}>{resourceArray}</div>
@@ -43,7 +47,7 @@
             var indicators = [];
             var totalData = this.props.resource && this.props.resource.length;
             var className;
-            for (var i = 0; i < Math.ceil(totalData / 16); i++) {
+            for (var i = 0; i < Math.ceil(totalData / resourceConstants.EMPLOYEES_PER_PAGE); i++) {
                 (i == 0) ? className = 'active' : className = '';
                 indicators.push(<li data-target="#myCarousel" data-slide-to={i}
                                     className={className} key={'indicator' + i}></li>);
@@ -93,7 +97,7 @@
                                 <div className="widget-extra widget-custom">
                                     <div className="widget-title">Available Resource</div>
                                 </div>
-                                <div className="not-found-message">No resource is available at the moment.</div>
+                                <div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>
                             </div>
                         </div>
                     </div>
@@ -101,5 +105,7 @@
             }
         }
     });
+
     module.exports = FreeResource;
+
 })();

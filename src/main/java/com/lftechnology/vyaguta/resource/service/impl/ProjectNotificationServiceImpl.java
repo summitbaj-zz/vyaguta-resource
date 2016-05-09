@@ -8,11 +8,14 @@ import java.util.UUID;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
 
 import com.lftechnology.vyaguta.commons.pojo.ResponseData;
 import com.lftechnology.vyaguta.commons.util.ArrayUtil;
@@ -39,6 +42,9 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
 
     @Inject
     private EmailService emailService;
+
+    @Named("vyaguta")
+    private Logger log;
 
     @Override
     public void notifyPriorEndDate() {

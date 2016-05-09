@@ -14,9 +14,10 @@
                                placeholder="Search.."/>
                     </div>
                 </form>
-            )
+            );
         }
     });
 
     module.exports = SearchBar;
+
 })();

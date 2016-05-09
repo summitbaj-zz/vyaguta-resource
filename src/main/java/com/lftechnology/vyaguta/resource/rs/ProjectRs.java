@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -50,6 +51,7 @@ public class ProjectRs {
     private ProjectHistoryService projectHistoryService;
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     @Path("/")
@@ -172,6 +174,14 @@ public class ProjectRs {
     @Produces(MediaType.APPLICATION_JSON)
     public Response flaggedProjects(@DefaultValue("In Progress") @QueryParam("projectStatus") String projectStatus) {
         return Response.status(Response.Status.OK).entity(projectService.findOverdueProjects(projectStatus)).build();
+    }
+
+    @Path("/ending")
+    @GET
+    @RolesAllowed({ "Employee", "Admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list(@DefaultValue("0") @QueryParam("days") int days) {
+        return Response.status(Response.Status.OK).entity(projectService.findContractsEndingIn(days)).build();
     }
 
 }

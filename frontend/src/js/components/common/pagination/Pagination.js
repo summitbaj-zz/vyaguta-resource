@@ -164,7 +164,6 @@
         }
     });
 
-
     module.exports = Pagination;
 
 })();

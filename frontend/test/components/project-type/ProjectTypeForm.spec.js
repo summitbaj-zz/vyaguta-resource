@@ -27,8 +27,7 @@ function setup(params) {
             clearSelectedItem: expect.createSpy(),
             apiClearState: expect.createSpy(),
             updateSelectedItem: expect.createSpy(),
-            addItem: expect.createSpy(),
-            updateItem: expect.createSpy()
+            submitForm: expect.createSpy()
         }
     }
 
@@ -83,27 +82,16 @@ describe('ProjectTypeForm component', () => {
             var {component, actions} = setup({});
             var form = component.find('form');
             form.simulate('submit');
-            expect(actions.addItem).toNotHaveBeenCalled();
-            expect(actions.updateItem).toNotHaveBeenCalled();
+            expect(actions.submitForm).toNotHaveBeenCalled();
         });
 
-        it('dispatches addItem if form is valid and id is not present', () => {
+        it('dispatches submitForm if form is valid', () => {
             var {component, actions, props} = setup({});
             var form = component.find('form');
             props.selectedItem.projectTypes.title = 'Some ProjectType';
             component.update();
             form.simulate('submit');
-            expect(actions.addItem).toHaveBeenCalled();
+            expect(actions.submitForm).toHaveBeenCalled();
         });
-
-        it('dispatches updateItem if form is valid and id is present', () => {
-            var {component, actions, props} = setup({id: 123});
-            var form = component.find('form');
-            props.selectedItem.projectTypes.title = 'Some ProjectType';
-            component.update();
-            form.simulate('submit');
-            expect(actions.updateItem).toHaveBeenCalled();
-        });
-
     });
 })

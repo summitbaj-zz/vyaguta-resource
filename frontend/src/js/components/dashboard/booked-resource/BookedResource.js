@@ -4,19 +4,27 @@
     //React Dependencies
     var React = require('react');
 
-    //component
+    //components
     var BookedResourceItem = require('./BookedResourceItem');
 
-    //util
-    var dashboardUtil = require('../../../util/dashboardUtil');
+    //services
+    var dashboardService = require('../../../services/dashboardService');
+
+    //constants
+    var messageConstants = require('../../../constants/messageConstants');
 
     var BookedResource = React.createClass({
         renderResourceByProjectType: function (total, key) {
-            return (<BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>);
+            return <BookedResourceItem resource={this.props.resource[key]} key={key} total={total}/>;
+        },
+
+        displayNoRecordFound: function () {
+            return <div className="not-found-message">{messageConstants.NO_RECORDS_FOUND}</div>;
         },
 
         render: function () {
-            var totalResource = dashboardUtil.calculateTotalResource(this.props.resource);
+            var totalResource = dashboardService.calculateTotalResource(this.props.resource);
+
             return (
                 <div className="row">
                     <div className="col-lg-12">
@@ -26,7 +34,7 @@
                             </div>
                             <div className="widget-extra-full">
                                 <div className="row">
-                                    {Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource))}
+                                    {this.props.resource.length ? Object.keys(this.props.resource).map(this.renderResourceByProjectType.bind(null, totalResource)) : this.displayNoRecordFound()}
                                 </div>
                             </div>
                         </div>
@@ -35,5 +43,7 @@
             );
         }
     });
+
     module.exports = BookedResource;
+
 })();

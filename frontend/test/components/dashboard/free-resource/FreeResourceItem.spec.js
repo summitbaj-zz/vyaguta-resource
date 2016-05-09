@@ -5,9 +5,9 @@ import jsdom from 'jsdom';
 
 //components
 import FreeResourceItem from '../../../../src/js/components/dashboard/free-resource/FreeResourceItem';
-import dashboardUtil from '../../../../src/js/util/dashboardUtil';
+import employeeUtil from '../../../../src/js/utils/employeeUtil';
 
-dashboardUtil.getEmployeeName = expect.createSpy().andReturn('Bishal Shrestha');
+employeeUtil.getEmployeeName = expect.createSpy().andReturn('Bishal Shrestha');
 function setup() {
     var props = {
         resource: {availableAllocation: 0.25, designation: 'engineer'},
@@ -20,11 +20,11 @@ function setup() {
     }
 }
 
-describe('EndingProjectRow component', () => {
+describe('FreeResourceItem component', () => {
     describe('render', () => {
         it('calls getEmployeeName of dashboardUtil', () => {
             var {props} = setup();
-            expect(dashboardUtil.getEmployeeName).toHaveBeenCalledWith(props.resource);
+            expect(employeeUtil.getEmployeeName).toHaveBeenCalledWith(props.resource);
         });
 
         it('render two span items', () => {

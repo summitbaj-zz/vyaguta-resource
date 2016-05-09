@@ -14,6 +14,7 @@ import com.lftechnology.vyaguta.commons.dao.BaseDao;
 import com.lftechnology.vyaguta.commons.jpautil.EntityFilter;
 import com.lftechnology.vyaguta.commons.jpautil.EntitySorter;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
+import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.filter.ProjectFilter;
 import com.lftechnology.vyaguta.resource.sort.ProjectSort;
@@ -98,4 +99,9 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
         return output;
     }
 
+    @Override
+    public List<Contract> contractsEndingBetween(LocalDate startPoint, LocalDate endPoint) {
+        return em.createNamedQuery(Contract.FIND_ENDING_CONTRACTS_BETWEEN_DATES, Contract.class).setParameter("startPoint", startPoint)
+                .setParameter("endPoint", endPoint).getResultList();
+    }
 }

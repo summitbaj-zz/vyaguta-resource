@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -22,6 +23,7 @@ import com.lftechnology.vyaguta.resource.service.UserService;
 public class UserServiceImpl implements UserService {
 
     @Inject
+    @Named("vyaguta")
     private Logger log;
 
     private static final String USER_URL = Configuration.instance().getAuthUrl() + "users";
