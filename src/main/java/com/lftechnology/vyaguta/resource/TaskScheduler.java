@@ -48,7 +48,7 @@ public class TaskScheduler {
 
     @Timeout
     public void runTask(Timer timer) {
-        projectNotificationService.pushNotification();
+        projectNotificationService.notifyPriorEndDate();
     }
 
     public void cancelMyTimer() {
