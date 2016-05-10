@@ -266,7 +266,7 @@ ALTER TABLE ONLY contract_member_histories
 
 CREATE TABLE operational_resources (
     id uuid NOT NULL,
-    employee_id uuid,
+    employee_id uuid NOT NULL,
     created_by uuid NOT NULL,
     updated_by uuid,
     created_at timestamp with time zone NOT NULL,

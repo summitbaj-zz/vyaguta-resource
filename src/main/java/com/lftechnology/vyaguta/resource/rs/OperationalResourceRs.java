@@ -22,10 +22,15 @@ import javax.ws.rs.core.UriInfo;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.OperationalResource;
-import com.lftechnology.vyaguta.resource.entity.ProjectRole;
 import com.lftechnology.vyaguta.resource.service.OperationalResourceService;
 
-@Path("/operationalresources")
+/**
+ * 
+ * @author Prajjwal Raj Kandel<prajjwalkandel@lftechnology.com>
+ *
+ */
+
+@Path("/resources/operational")
 public class OperationalResourceRs {
 
     @Inject

@@ -14,6 +14,11 @@ import com.lftechnology.vyaguta.resource.dao.OperationalResourceDao;
 import com.lftechnology.vyaguta.resource.entity.OperationalResource;
 import com.lftechnology.vyaguta.resource.service.OperationalResourceService;
 
+/**
+ * 
+ * @author Prajjwal Raj Kandel<prajjwalkandel@lftechnology.com>
+ *
+ */
 @Transactional
 public class OperationalResourceServiceImpl implements OperationalResourceService{
 
