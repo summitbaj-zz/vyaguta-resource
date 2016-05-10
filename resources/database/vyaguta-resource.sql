@@ -275,6 +275,8 @@ CREATE TABLE operational_resources (
 ALTER TABLE operational_resources OWNER TO frieddust;
 ALTER TABLE ONLY operational_resources
     ADD CONSTRAINT operational_resources_pk PRIMARY KEY (id);
+ALTER TABLE ONLY operational_resources
+    ADD CONSTRAINT employee_id_unique UNIQUE (employee_id);
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
