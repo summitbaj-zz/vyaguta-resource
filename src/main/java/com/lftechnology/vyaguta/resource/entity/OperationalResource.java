@@ -3,6 +3,8 @@ package com.lftechnology.vyaguta.resource.entity;
 import java.io.Serializable;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
@@ -23,9 +26,8 @@ public class OperationalResource extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2173510009809546297L;
     
-    @Type(type = "pg-uuid")
-    @Column(name = "employee_id")
-    private UUID employeeId;
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
+    private Employee employee;
 
     public UUID getEmployeeId() {
         return employeeId;
