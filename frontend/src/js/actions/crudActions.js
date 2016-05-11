@@ -79,11 +79,11 @@
 
     var crudActions = {
 
-        fetch: function (entity, pathParams, data) {
+        fetch: function (entity, pathParam, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest());
-                return (resourceApiService.fetch(pathParams, data).then(function (response) {
+                return (resourceApiService.fetch(pathParam, data).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         data && dispatch(actions.pageIndex(data, response.body.count));
@@ -91,7 +91,7 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        actionService.responseError(dispatch, error, crudActions.fetch(entity, pathParams, data));
+                        actionService.responseError(dispatch, error, crudActions.fetch(entity, pathParam, data));
                     }
                 }));
             }
