@@ -50,7 +50,7 @@
         },
 
         fetchData: function (start) {
-            this.props.actions.fetch(resourceConstants.PROJECT_ROLES, {
+            this.props.actions.fetch(resourceConstants.PROJECT_ROLES, resourceConstants.PROJECT_ROLES, {
                 sort: sortBy,
                 start: start || 1,
                 offset: this.props.offset

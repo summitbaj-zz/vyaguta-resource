@@ -50,7 +50,7 @@
         },
 
         fetchData: function (start) {
-            this.props.actions.fetch(resourceConstants.CLIENTS, {
+            this.props.actions.fetch(resourceConstants.CLIENTS, resourceConstants.CLIENTS, {
                 sort: sortBy,
                 start: start || 1,
                 offset: this.props.offset
