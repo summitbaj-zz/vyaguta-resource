@@ -76,8 +76,14 @@
                         <Route path=":id" name="Edit"
                                component={require('./components/client/ClientForm')}/>
                     </Route>
-                </Route>
 
+                    <Route path="operationalresources" name="Operational Resources"
+                           component={require('./components/operational-resource/OperationalResourceMain')}>
+                        <IndexRoute component={require('./components/operational-resource/OperationalResourceList')}/>
+                        <Route path="new" name="Add"
+                               component={require('./components/operational-resource/OperationalResourceForm')}/>
+                    </Route>
+                </Route>
                 <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}/>
             </Router>
         );

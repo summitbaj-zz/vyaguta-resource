@@ -34,6 +34,10 @@
             INDEX: '/clients',
             NEW: '/clients/new',
         },
+        OPERATIONAL_RESOURCES: {
+            INDEX: '/operationalresources',
+            NEW: '/operationalresources/new',
+        },
 
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core',

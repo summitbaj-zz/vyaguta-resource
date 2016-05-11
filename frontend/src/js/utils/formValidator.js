@@ -38,6 +38,7 @@
         }
 
         this.showErrors = function (elementId, message) {
+
             var parentElement = $('#' + elementId).parent();
 
             if (!parentElement.hasClass('has-error')) {
