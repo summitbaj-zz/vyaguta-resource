@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.OperationalResourceDao;
 import com.lftechnology.vyaguta.resource.entity.OperationalResource;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
+import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.OperationalResourceService;
 
 /**
@@ -24,6 +27,9 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
 
     @Inject
     private OperationalResourceDao operationalResourceDao;
+    
+    @Inject
+    private EmployeeService employeeService;
     
     @Override
     public OperationalResource save(OperationalResource operationalResource) {
@@ -78,10 +84,18 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
     @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+        List<OperationalResource> operationalResources = operationalResourceDao.findByFilter(queryParameters);
+        List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
+        
+        for (OperationalResource operationalResource : operationalResources) {
+            operationalEmployeeIds.add(operationalResource.getEmployee().getId());
+        }
+        
+        List<Employee> employees = this.employeeService.fetchEmployees(operationalEmployeeIds);
         return new HashMap<String, Object>() {
             {
                 put("count", operationalResourceDao.count(queryParameters));
-                put("data", operationalResourceDao.findByFilter(queryParameters));
+                put("data", employees);
             }
         };
     }
