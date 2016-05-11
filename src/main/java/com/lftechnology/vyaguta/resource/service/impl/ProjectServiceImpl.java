@@ -53,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractMemberDao contactMemberDao;
-    
+
     @Inject
     private OperationalResourceDao operationalResourceDao;
 
@@ -172,8 +172,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
-                .distinct().collect(Collectors.toList());
+        List<UUID> employeeIds =
+                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
+                        .collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -216,8 +217,7 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title
-         * fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -272,8 +272,8 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
-                    throw new ParameterFormatException(
-                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
+                            + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
@@ -364,23 +364,23 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> findResourceUtilization(LocalDate date) {
-        Map<String, Object> resource = contactMemberDao.findBilledAndUnbilledResource(date);
-        Double contractUnbilled = (Double) resource.get("unbilled");
-        Double contractBilled = (Double) resource.get("billed");
-        
-        Map<String, Object> operationalResource = operationalResourceDao.findBilledAndUnbilledResource(date); 
+        // Billed and Unbilled resource for contracted Resources
+        Map<String, Object> contractResource = contactMemberDao.findBilledAndUnbilledResource(date);
+        Double contractUnbilled = (Double) contractResource.get("unbilled");
+        Double contractBilled = (Double) contractResource.get("billed");
+
+        // Billed and Unbilled resource for operational Resources
+        Map<String, Object> operationalResource = operationalResourceDao.findBilledAndUnbilledResource(date);
         Double operationalBilled = Double.valueOf(operationalResource.get("billed").toString());
         Double operationalUnbilled = Double.valueOf(operationalResource.get("unbilled").toString());
+
+        // Calculation of total billed and unbilled resources
         Double operationalResourceCount = Double.valueOf(operationalResourceDao.findAll().size());
-        
         Double nonProjectOperationalUnbilled = operationalResourceCount - (operationalBilled + operationalUnbilled);
-        
         Double totalUnbilled = contractUnbilled + nonProjectOperationalUnbilled;
-        
         Double bookedResourceCount = contractBilled + totalUnbilled;
 
         Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployeesUnderProjectResource().size());
-        Double freeResourceCount = totalEmployee - bookedResourceCount;
 
         Map<String, Object> resultOutput = new HashMap<>();
         resultOutput.put("totalResource", totalEmployee);
@@ -391,40 +391,18 @@ public class ProjectServiceImpl implements ProjectService {
                 put("unbilled", totalUnbilled);
             }
         });
-        resultOutput.put("freeResource", freeResourceCount);
+        resultOutput.put("freeResource", totalEmployee - bookedResourceCount);
         return resultOutput;
     }
 
     @Override
     public List<AvailableResource> findAvailableResource(LocalDate date) {
-
         List<Employee> employeeList = employeeService.fetchActiveEmployeesUnderProjectResource();
         Map<UUID, Double> allocatedMembers = contactMemberDao.findAvailableResource(date);
-        
-        List<OperationalResource> operationalResources = operationalResourceDao.findAll();
-        List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
-        for (OperationalResource operationalResource : operationalResources) {
-            operationalEmployeeIds.add(operationalResource.getEmployee().getId());
-        }
-        
-        List<AvailableResource> availableResource = new ArrayList<>();
-        for (Employee employee : employeeList) {
-            AvailableResource ar = new AvailableResource();
-            
-            if (allocatedMembers.containsKey(employee.getId())) {
-                if (allocatedMembers.get(employee.getId()) >= 1 || operationalEmployeeIds.contains(employee.getId())) {
-                    continue;
-                } else {
-                    ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
-                }
-            }
-            ar.setId(employee.getId());
-            ar.setFirstName(employee.getFirstName());
-            ar.setMiddleName(employee.getMiddleName());
-            ar.setLastName(employee.getLastName());
-            ar.setDesignation(employee.getDesignation().getTitle());
-            availableResource.add(ar);
-        }
+
+        List<UUID> operationalEmployeeIds = getOperationalEmployeeIds();
+
+        List<AvailableResource> availableResource = calculateAvailableResource(employeeList, operationalEmployeeIds, allocatedMembers);
         return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAvailableAllocation(), e1.getAvailableAllocation()))
                 .collect(Collectors.toList());
     }
@@ -452,7 +430,37 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<Contract> contracts = projectDao.contractsEndingBetween(startDate, endDate);
         return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
+    }
+    
+    protected List<UUID> getOperationalEmployeeIds() {
+        List<OperationalResource> operationalResources = operationalResourceDao.findAll();
+        List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
+        for (OperationalResource operationalResource : operationalResources) {
+            operationalEmployeeIds.add(operationalResource.getEmployee().getId());
+        }
+        return operationalEmployeeIds;
+    }
+    
+    protected List<AvailableResource> calculateAvailableResource(List<Employee> employeeList, List<UUID> operationalEmployeeIds, Map<UUID,Double> allocatedMembers){
+        List<AvailableResource> availableResource = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            AvailableResource ar = new AvailableResource();
 
+            if (allocatedMembers.containsKey(employee.getId())) {
+                if (allocatedMembers.get(employee.getId()) >= 1 || operationalEmployeeIds.contains(employee.getId())) {
+                    continue;
+                } else {
+                    ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
+                }
+            }
+            ar.setId(employee.getId());
+            ar.setFirstName(employee.getFirstName());
+            ar.setMiddleName(employee.getMiddleName());
+            ar.setLastName(employee.getLastName());
+            ar.setDesignation(employee.getDesignation().getTitle());
+            availableResource.add(ar);
+        }
+        return availableResource;
     }
 
 }

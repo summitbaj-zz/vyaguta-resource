@@ -85,11 +85,11 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         List<OperationalResource> operationalResources = operationalResourceDao.findByFilter(queryParameters);
-        if (operationalResources.isEmpty()) {
+        if (operationalResources == null || operationalResources.isEmpty()) {
             return new HashMap<String, Object>() {
                 {
-                    put("count", operationalResourceDao.count(queryParameters));
-                    put("data", operationalResources);
+                    put("count", 0);
+                    put("data", new ArrayList<>());
                 }
             };
         }
@@ -98,6 +98,16 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
             operationalEmployeeIds.add(operationalResource.getEmployee().getId());
         }
         List<Employee> employees = this.employeeService.fetchEmployees(operationalEmployeeIds);
+        operationalResources = addEmployeesToOperationalResourceFromEmployeeId(employees, operationalResources);
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("count", operationalResourceDao.count(queryParameters));
+        result.put("data", operationalResources);
+        return result;
+    }
+
+    protected List<OperationalResource> addEmployeesToOperationalResourceFromEmployeeId(List<Employee> employees,
+            List<OperationalResource> operationalResources) {
         for (OperationalResource operationalResource : operationalResources) {
             for (Employee employee : employees) {
                 if (employee.getId().equals(operationalResource.getEmployee().getId())) {
@@ -107,12 +117,7 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
                 }
             }
         }
-        return new HashMap<String, Object>() {
-            {
-                put("count", operationalResourceDao.count(queryParameters));
-                put("data", operationalResources);
-            }
-        };
+        return operationalResources;
     }
 
 }
