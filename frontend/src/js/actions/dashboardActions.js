@@ -52,6 +52,7 @@
 
                 return (apiService.fetch(pathParam, data).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse());
                         dispatch(actions.listByCriteria(criteria, response.body));
                     }
                 }, function (error) {
