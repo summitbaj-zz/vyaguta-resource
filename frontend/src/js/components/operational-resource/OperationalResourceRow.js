@@ -15,15 +15,15 @@
 
     //utils
     var employeeUtil = require('../../utils/employeeUtil');
-
+ 
     var OperationalResourceRow = React.createClass({
         render: function () {
             var operational = this.props.operationalResource;
             return (
                 <tr>
                     <td>{this.props.index}</td>
-                    <td>{employeeUtil.getEmployeeName(operational)}</td>
-                    <td>{operational.designation && operational.designation.title}</td>
+                    <td>{employeeUtil.getEmployeeName(operational.employee)}</td>
+                    <td>{operational.employee.designation && operational.employee.designation.title}</td>
                     <td className="text-center">
                         <div className="btn-group">
                             <button
