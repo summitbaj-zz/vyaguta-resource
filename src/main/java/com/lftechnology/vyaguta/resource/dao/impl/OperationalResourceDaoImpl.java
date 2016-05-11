@@ -1,5 +1,6 @@
 package com.lftechnology.vyaguta.resource.dao.impl;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ public class OperationalResourceDaoImpl extends BaseDao<OperationalResource, UUI
         Map<String, Object> map = new HashMap<>();
         Query query =
                 em.createNativeQuery("SELECT SUM(CASE WHEN cm.billed = 't' THEN (cm.allocation * 0.01) ELSE 0 END) AS Billed, SUM(CASE WHEN cm.billed = 'f' THEN (cm.allocation * 0.01) ELSE 0 END) AS Unbilled FROM contract_members cm JOIN operational_resources ors ON cm.employee_id = ors.employee_id WHERE :date BETWEEN join_date AND end_date");
-        query.setParameter("date", date);
+        query.setParameter("date", Date.valueOf(date));
         List<Object[]> result = query.getResultList();
         for (Object[] obj : result) {
             map.put("billed", obj[0] == null ? 0.0 : obj[0]);
