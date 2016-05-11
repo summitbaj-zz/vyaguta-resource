@@ -18,7 +18,7 @@
 
         calculatePercentage(number, total){
             var percentage = (number / total) * 100 || 0;
-            return Math.round(percentage * 100) / 100 + '%';
+            return Math.round(percentage)+ '%';
         },
 
         isEnding: function (date) {
