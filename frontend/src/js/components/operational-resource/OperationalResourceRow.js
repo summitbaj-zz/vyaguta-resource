@@ -22,8 +22,8 @@
             return (
                 <tr>
                     <td>{this.props.index}</td>
-                    <td>{employeeUtil.getEmployeeName(operational.employee)}</td>
-                    <td>{operational.employee.designation}</td>
+                    <td>{employeeUtil.getEmployeeName(operational)}</td>
+                    <td>{operational.designation && operational.designation.title}</td>
                     <td className="text-center">
                         <div className="btn-group">
                             <button
