@@ -79,11 +79,11 @@
 
     var crudActions = {
 
-        fetch: function (entity, data) {
+        fetch: function (entity, pathParam, data) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest());
-                return (resourceApiService.fetch(entity, data).then(function (response) {
+                return (resourceApiService.fetch(pathParam, data).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         data && dispatch(actions.pageIndex(data, response.body.count));
@@ -91,7 +91,7 @@
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        actionService.responseError(dispatch, error, crudActions.fetch(entity, data));
+                        actionService.responseError(dispatch, error, crudActions.fetch(entity, pathParam, data));
                     }
                 }));
             }
@@ -153,23 +153,23 @@
             }
         },
 
-        deleteItem: function (entity, id, data, count) {
+        deleteItem: function (entity, pathParam, id, data, count) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;
                 dispatch(apiActions.apiRequest());
 
-                return (resourceApiService.delete(entity, id).then(function (response) {
+                return (resourceApiService.delete(pathParam, id).then(function (response) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         Toastr.success(messageConstants.SUCCESSFULLY_DELETED);
 
                         if (!(count % 10 != 1 || count == 1))
                             data.start = data.start - 10;
-                        dispatch(crudActions.fetch(entity, data));
+                        dispatch(crudActions.fetch(entity, pathParam, data));
                     }
                 }, function (error) {
                     if (actionService.isSameRoute(getState, oldRoute)) {
-                        actionService.responseError(dispatch, error, entity, crudActions.deleteItem(entity, id, data));
+                        actionService.responseError(dispatch, error, entity, crudActions.deleteItem(entity, pathParam, id, data, count));
                     }
                 }))
             }

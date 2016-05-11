@@ -50,7 +50,7 @@
         },
 
         fetchData: function (start) {
-            this.props.actions.fetch(resourceConstants.PROJECT_TYPES, {
+            this.props.actions.fetch(resourceConstants.PROJECT_TYPES, resourceConstants.PROJECT_TYPES, {
                 sort: sortBy,
                 start: start || 1,
                 offset: this.props.offset
@@ -66,7 +66,7 @@
             var that = this;
 
             alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstants.PROJECT_TYPES, id, {
+                that.props.actions.deleteItem(resourceConstants.PROJECT_TYPES,resourceConstants.PROJECT_TYPES, id, {
                     sort: sortBy,
                     start: that.props.pagination.startPage || 1,
                     offset: that.props.offset
