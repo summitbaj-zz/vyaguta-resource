@@ -22,10 +22,12 @@ import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapImpl;
 import com.lftechnology.vyaguta.resource.dao.ContractDao;
 import com.lftechnology.vyaguta.resource.dao.ContractMemberDao;
+import com.lftechnology.vyaguta.resource.dao.OperationalResourceDao;
 import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
+import com.lftechnology.vyaguta.resource.entity.OperationalResource;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.Tag;
 import com.lftechnology.vyaguta.resource.pojo.AvailableResource;
@@ -54,6 +56,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private ContractMemberDao contactMemberDao;
+    
+    @Inject
+    private OperationalResourceDao operationalResourceDao;
 
     @Inject
     private ProjectHistoryService projectHistoryService;
@@ -363,20 +368,30 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Map<String, Object> findResourceUtilization(LocalDate date) {
         Map<String, Object> resource = contactMemberDao.findBilledAndUnbilledResource(date);
-        Double unbilled = (Double) resource.get("unbilled");
-        Double billed = (Double) resource.get("billed");
-        Double bookedResourcesCount = billed + unbilled;
+        Double contractUnbilled = (Double) resource.get("unbilled");
+        Double contractBilled = (Double) resource.get("billed");
+        
+        Map<String, Object> operationalResource = operationalResourceDao.findBilledAndUnbilledResource(date); 
+        Double operationalBilled = Double.valueOf(operationalResource.get("billed").toString());
+        Double operationalUnbilled = Double.valueOf(operationalResource.get("unbilled").toString());
+        Double operationalResourceCount = Double.valueOf(operationalResourceDao.findAll().size());
+        
+        Double nonProjectOperationalUnbilled = operationalResourceCount - (operationalBilled + operationalUnbilled);
+        
+        Double totalUnbilled = contractUnbilled + nonProjectOperationalUnbilled;
+        
+        Double bookedResourceCount = contractBilled + totalUnbilled;
 
         Double totalEmployee = Double.valueOf(employeeService.fetchActiveEmployeesUnderProjectResource().size());
-        Double freeResourceCount = totalEmployee - bookedResourcesCount;
+        Double freeResourceCount = totalEmployee - bookedResourceCount;
 
         Map<String, Object> resultOutput = new HashMap<>();
         resultOutput.put("totalResource", totalEmployee);
         resultOutput.put("bookedResource", new HashMap<String, Double>() {
             {
-                put("bookedResourceCount", bookedResourcesCount);
-                put("billed", billed);
-                put("unbilled", unbilled);
+                put("bookedResourceCount", bookedResourceCount);
+                put("billed", contractBilled);
+                put("unbilled", totalUnbilled);
             }
         });
         resultOutput.put("freeResource", freeResourceCount);
@@ -388,13 +403,19 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<Employee> employeeList = employeeService.fetchActiveEmployeesUnderProjectResource();
         Map<UUID, Double> allocatedMembers = contactMemberDao.findAvailableResource(date);
-
+        
+        List<OperationalResource> operationalResources = operationalResourceDao.findAll();
+        List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
+        for (OperationalResource operationalResource : operationalResources) {
+            operationalEmployeeIds.add(operationalResource.getEmployee().getId());
+        }
+        
         List<AvailableResource> availableResource = new ArrayList<>();
         for (Employee employee : employeeList) {
             AvailableResource ar = new AvailableResource();
-
+            
             if (allocatedMembers.containsKey(employee.getId())) {
-                if (allocatedMembers.get(employee.getId()) >= 1) {
+                if (allocatedMembers.get(employee.getId()) >= 1 || operationalEmployeeIds.contains(employee.getId())) {
                     continue;
                 } else {
                     ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
