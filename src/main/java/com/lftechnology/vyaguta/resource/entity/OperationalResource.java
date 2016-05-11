@@ -1,15 +1,13 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
+import javax.validation.constraints.NotNull;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
@@ -26,22 +24,23 @@ public class OperationalResource extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2173510009809546297L;
     
+    @NotNull(message = "employee expected")
     @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
-    public UUID getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(UUID employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
+        result = prime * result + ((employee == null) ? 0 : employee.hashCode());
         return result;
     }
 
@@ -54,10 +53,10 @@ public class OperationalResource extends BaseEntity implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         OperationalResource other = (OperationalResource) obj;
-        if (employeeId == null) {
-            if (other.employeeId != null)
+        if (employee == null) {
+            if (other.employee != null)
                 return false;
-        } else if (!employeeId.equals(other.employeeId))
+        } else if (!employee.equals(other.employee))
             return false;
         return true;
     }
