@@ -23,14 +23,14 @@ import com.lftechnology.vyaguta.resource.service.OperationalResourceService;
  *
  */
 @Transactional
-public class OperationalResourceServiceImpl implements OperationalResourceService{
+public class OperationalResourceServiceImpl implements OperationalResourceService {
 
     @Inject
     private OperationalResourceDao operationalResourceDao;
-    
+
     @Inject
     private EmployeeService employeeService;
-    
+
     @Override
     public OperationalResource save(OperationalResource operationalResource) {
         return this.operationalResourceDao.save(operationalResource);
@@ -55,7 +55,7 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
     @Override
     public void removeById(UUID id) {
         OperationalResource operationalResource = this.operationalResourceDao.findById(id);
-        if(operationalResource == null){
+        if (operationalResource == null) {
             throw new ObjectNotFoundException();
         }
         this.operationalResourceDao.remove(operationalResource);
@@ -78,24 +78,39 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
 
     @Override
     public List<OperationalResource> find(Integer start, Integer offset) {
-       return this.operationalResourceDao.find(start, offset);
+        return this.operationalResourceDao.find(start, offset);
     }
 
     @SuppressWarnings("serial")
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
         List<OperationalResource> operationalResources = operationalResourceDao.findByFilter(queryParameters);
+        if (operationalResources.isEmpty()) {
+            return new HashMap<String, Object>() {
+                {
+                    put("count", operationalResourceDao.count(queryParameters));
+                    put("data", operationalResources);
+                }
+            };
+        }
         List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
-        
         for (OperationalResource operationalResource : operationalResources) {
             operationalEmployeeIds.add(operationalResource.getEmployee().getId());
         }
-        
         List<Employee> employees = this.employeeService.fetchEmployees(operationalEmployeeIds);
+        for (OperationalResource operationalResource : operationalResources) {
+            for (Employee employee : employees) {
+                if (employee.getId().equals(operationalResource.getEmployee().getId())) {
+                    operationalResource.setEmployee(employee);
+                    employees.remove(employee);
+                    break;
+                }
+            }
+        }
         return new HashMap<String, Object>() {
             {
                 put("count", operationalResourceDao.count(queryParameters));
-                put("data", employees);
+                put("data", operationalResources);
             }
         };
     }
