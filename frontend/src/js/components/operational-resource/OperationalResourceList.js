@@ -26,8 +26,7 @@
     //utils
     var converter = require('../../utils/converter');
     var alertBox = require('../../utils/alertBox');
-
-
+    
     //services
     var listService = require('../../services/listService');
 
@@ -74,7 +73,7 @@
             var that = this;
 
             alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstants.OPERATIONAL_RESOURCE, id, {
+                that.props.actions.deleteItem(resourceConstants.OPERATIONAL_RESOURCE, converter.getPathParam(resourceConstants.RESOURCE, resourceConstants.OPERATIONAL_RESOURCE), id, {
                     sort: sortBy,
                     start: that.props.pagination.startPage || 1,
                     offset: that.props.offset
@@ -119,15 +118,13 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="Name"
-                                        onClick={this.sort.bind(null, 'name')}>
+                                    <th>
                                         Employee Name
-                                        <i className="fa fa-sort pull-right"></i>
+
                                     </th>
-                                    <th className="cursor-pointer sort noselect" data-sort="none" id="Designation"
-                                        onClick={this.sort.bind(null, 'designation')}>
+                                    <th>
                                         Designation
-                                        <i className="fa fa-sort pull-right"></i>
+
                                     </th>
                                     <th className="text-center">Actions</th>
                                 </tr>

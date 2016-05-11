@@ -72,7 +72,7 @@
             var that = this;
 
             alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstants.BUDGET_TYPES, id, {
+                that.props.actions.deleteItem(resourceConstants.BUDGET_TYPES, resourceConstants.BUDGET_TYPES, id, {
                     sort: sortBy,
                     start: that.props.pagination.startPage || 1,
                     offset: that.props.offset
