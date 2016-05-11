@@ -7,6 +7,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
@@ -23,6 +24,7 @@ public class OperationalResource extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2173510009809546297L;
     
+    @NotNull(message = "employee expected")
     @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "employee_id") ))
     private Employee employee;
 
