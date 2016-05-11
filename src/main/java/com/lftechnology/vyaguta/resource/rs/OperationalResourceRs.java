@@ -30,7 +30,7 @@ import com.lftechnology.vyaguta.resource.service.OperationalResourceService;
  *
  */
 
-@Path("/resources/operational")
+@Path("/resource/operational")
 public class OperationalResourceRs {
 
     @Inject
