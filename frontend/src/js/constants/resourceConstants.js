@@ -13,6 +13,7 @@
         PROJECTS: 'projects',
         ENDING_PROJECTS: 'endingProjects',
         CLIENTS: 'clients',
+        OPERATIONAL_RESOURCE: 'operational',
         ERROR_MESSAGE: 'errorMessage',
         VISIBLE: 'visible',
         TAGS: 'tags',
