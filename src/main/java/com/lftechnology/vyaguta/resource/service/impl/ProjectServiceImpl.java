@@ -403,6 +403,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<UUID> operationalEmployeeIds = getOperationalEmployeeIds();
 
         List<AvailableResource> availableResource = calculateAvailableResource(employeeList, operationalEmployeeIds, allocatedMembers);
+        
         return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAvailableAllocation(), e1.getAvailableAllocation()))
                 .collect(Collectors.toList());
     }
@@ -446,8 +447,12 @@ public class ProjectServiceImpl implements ProjectService {
         for (Employee employee : employeeList) {
             AvailableResource ar = new AvailableResource();
 
+            if(operationalEmployeeIds.contains(employee.getId())){
+                continue;
+            }
+            
             if (allocatedMembers.containsKey(employee.getId())) {
-                if (allocatedMembers.get(employee.getId()) >= 1 || operationalEmployeeIds.contains(employee.getId())) {
+                if (allocatedMembers.get(employee.getId()) >= 1){
                     continue;
                 } else {
                     ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
