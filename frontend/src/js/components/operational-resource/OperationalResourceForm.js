@@ -66,7 +66,6 @@
 
         //handle change over every key press in the input fields
         handleAutoCompleteChange: function (employee) {
-            console.log(employee)
             var employeeId = employee && employee.value;
             var employeeFullName = employee && employee.label;
 

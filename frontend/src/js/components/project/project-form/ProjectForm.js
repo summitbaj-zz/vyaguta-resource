@@ -240,7 +240,6 @@
         },
 
         handleAutoCompleteChange: function (employee) {
-            console.log('bis')
             var employeeId = employee && employee.value;
             var employeeFullName = employee && employee.label;
 

@@ -38,7 +38,7 @@
         }
 
         this.showErrors = function (elementId, message) {
-            console.log(elementId)
+
             var parentElement = $('#' + elementId).parent();
 
             if (!parentElement.hasClass('has-error')) {

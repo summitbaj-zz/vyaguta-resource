@@ -16,7 +16,7 @@
     //utils
     var employeeUtil = require('../../utils/employeeUtil');
 
-    var BudgetTypeRow = React.createClass({
+    var OperationalResourceRow = React.createClass({
         render: function () {
             var operational = this.props.operationalResource;
             return (
@@ -37,6 +37,6 @@
         }
     });
 
-    module.exports = BudgetTypeRow;
+    module.exports = OperationalResourceRow;
 
 })();

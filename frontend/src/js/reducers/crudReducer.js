@@ -60,7 +60,7 @@
                 return newState;
 
             case actionTypeConstants.HANDLE_SELECT_OPTION_CHANGE:
-                console.log(action)
+
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity][action.key] = (action.value == 0) ? null : {id: action.value};
                 return newState;
