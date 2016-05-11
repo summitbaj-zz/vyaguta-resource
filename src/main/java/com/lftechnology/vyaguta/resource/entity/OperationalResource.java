@@ -1,15 +1,12 @@
 package com.lftechnology.vyaguta.resource.entity;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 import com.lftechnology.vyaguta.commons.entity.BaseEntity;
 import com.lftechnology.vyaguta.resource.pojo.Employee;
