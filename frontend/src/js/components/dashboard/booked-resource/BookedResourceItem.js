@@ -25,17 +25,15 @@
 
             var totalResource = resource.billed + resource.unbilled || null;
             var classNameForIcon = this.getClassName(resource);
-            var classNameForStatTitle = totalResource ? 'stat-title' : 'stat-title v-align-middle';
             return (
                 <div className="col-sm-6 col-md-4">
                     <div className="stat-block">
-                        <div className={classNameForStatTitle}>
+                        <div className="stat-title">
                             <span className="stat-label"><i
                                 className={classNameForIcon}></i>{resource.projectType}</span>
                             <span
                                 className="color-lg-blue">{dashboardService.calculatePercentage(resource.numberOfProjects, total)}</span>
                         </div>
-                        {totalResource &&
                         <div className="stat-details clearfix">
                             <div className="col-xs-6">
 
@@ -62,7 +60,6 @@
                                 </div>
                             </div>
                         </div>
-                        }
                     </div>
                 </div>
             );
