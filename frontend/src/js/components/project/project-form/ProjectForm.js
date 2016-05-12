@@ -36,7 +36,6 @@
     var employeeUtil = require('../../../utils/employeeUtil');
 
     //services
-    var coreApiService = require('../../../services/api-services/coreApiService');
     var authApiService = require('../../../services/api-services/authApiService');
     var resourceApiService = require('../../../services/api-services/resourceApiService');
     var contractMemberService = require('../../../services/contractMemberService');
