@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import com.lftechnology.vyaguta.commons.exception.ObjectAlreadyExistsException;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.OperationalResourceDao;
@@ -33,6 +34,12 @@ public class OperationalResourceServiceImpl implements OperationalResourceServic
 
     @Override
     public OperationalResource save(OperationalResource operationalResource) {
+        List<OperationalResource> operationalResources = operationalResourceDao.findAll();
+        for (OperationalResource opResource : operationalResources) {
+            if(opResource.getEmployee().getId().equals(operationalResource.getEmployee().getId())){
+                throw new ObjectAlreadyExistsException("Employee already exists");
+            }
+        }
         return this.operationalResourceDao.save(operationalResource);
     }
 
