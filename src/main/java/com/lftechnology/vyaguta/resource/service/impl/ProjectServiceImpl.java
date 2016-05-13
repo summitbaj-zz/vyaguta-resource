@@ -172,9 +172,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void fetchAndMergeAccountManagers(List<Project> data) {
-        List<UUID> employeeIds =
-                data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId()).distinct()
-                        .collect(Collectors.toList());
+        List<UUID> employeeIds = data.stream().filter(emp -> emp.getAccountManager() != null).map(emp -> emp.getAccountManager().getId())
+                .distinct().collect(Collectors.toList());
         if (employeeIds.isEmpty())
             return;
 
@@ -217,7 +216,8 @@ public class ProjectServiceImpl implements ProjectService {
     private void fixTags(Project project) {
         List<Tag> newTagList = new ArrayList<>();
         /*
-         * Eliminate redundant Tag objects, which is evaluated comparing title fields
+         * Eliminate redundant Tag objects, which is evaluated comparing title
+         * fields
          */
         List<Tag> uniqueTagList = project.getTags().stream().filter(p -> p.getTitle() != null).distinct().collect(Collectors.toList());
 
@@ -272,8 +272,8 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
-                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
-                            + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(
+                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
@@ -403,7 +403,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<UUID> operationalEmployeeIds = getOperationalEmployeeIds();
 
         List<AvailableResource> availableResource = calculateAvailableResource(employeeList, operationalEmployeeIds, allocatedMembers);
-        
+
         return availableResource.stream().sorted((e1, e2) -> Double.compare(e2.getAvailableAllocation(), e1.getAvailableAllocation()))
                 .collect(Collectors.toList());
     }
@@ -412,7 +412,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> findOverdueProjects(String projectStatus) {
         LocalDate today = LocalDate.now();
         List<Map<String, Object>> overdueProjects = projectDao.findOverdueProjects(projectStatus);
-        return overdueProjects.stream().filter(p -> today.isAfter((LocalDate) p.get("endDate")))
+        return overdueProjects.stream().filter(p -> p.get("endDate") != null && today.isAfter((LocalDate) p.get("endDate")))
                 .sorted((e1, e2) -> e2.get("endDate").toString().compareTo(e1.get("endDate").toString())).map(e1 -> {
                     e1.put("endDate", e1.get("endDate").toString());
                     return e1;
@@ -432,7 +432,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Contract> contracts = projectDao.contractsEndingBetween(startDate, endDate);
         return contracts.stream().map(p -> p.getProject()).distinct().collect(Collectors.toList());
     }
-    
+
     protected List<UUID> getOperationalEmployeeIds() {
         List<OperationalResource> operationalResources = operationalResourceDao.findAll();
         List<UUID> operationalEmployeeIds = new ArrayList<UUID>();
@@ -441,18 +441,19 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return operationalEmployeeIds;
     }
-    
-    protected List<AvailableResource> calculateAvailableResource(List<Employee> employeeList, List<UUID> operationalEmployeeIds, Map<UUID,Double> allocatedMembers){
+
+    protected List<AvailableResource> calculateAvailableResource(List<Employee> employeeList, List<UUID> operationalEmployeeIds,
+            Map<UUID, Double> allocatedMembers) {
         List<AvailableResource> availableResource = new ArrayList<>();
         for (Employee employee : employeeList) {
             AvailableResource ar = new AvailableResource();
 
-            if(operationalEmployeeIds.contains(employee.getId())){
+            if (operationalEmployeeIds.contains(employee.getId())) {
                 continue;
             }
-            
+
             if (allocatedMembers.containsKey(employee.getId())) {
-                if (allocatedMembers.get(employee.getId()) >= 1){
+                if (allocatedMembers.get(employee.getId()) >= 1) {
                     continue;
                 } else {
                     ar.setAvailableAllocation(1 - allocatedMembers.get(employee.getId()));
