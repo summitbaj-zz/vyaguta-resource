@@ -92,7 +92,7 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
                     put("projectTitle", obj[1]);
                     put("projectStatus", obj[2]);
                     put("projectStatusColor", obj[3]);
-                    put("endDate", LocalDate.parse(obj[4].toString(), Constant.DATE_FORMAT_DB));
+                    put("endDate", obj[4] != null ? LocalDate.parse(obj[4].toString(), Constant.DATE_FORMAT_DB) : null);
                 }
             });
         }
