@@ -48,6 +48,16 @@
             );
         },
 
+        isAllocationValid: function () {
+            var allocations = this.props.selectedContractMember.allocations;
+            for (var i = 0; i < allocations.length; i++) {
+                if (!allocations[i].joinDate || !allocations[i].endDate) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
         saveContractMember: function () {
             if (this.props.selectedContractMember.employee &&
                 this.props.selectedContractMember.employee.id) {
@@ -60,16 +70,17 @@
                 employee: employee,
                 allocations: this.props.selectedContractMember.allocations
             };
-
-            if (data.employee) {
+            if (!data.employee) {
+                Toastr.error(messageConstants.SELECT_TEAM_MEMBER, messageConstants.TOASTR_INVALID_HEADER);
+            } else if (!this.isAllocationValid()) {
+                Toastr.error(messageConstants.ALLOCATION_REQUIRED, messageConstants.TOASTR_INVALID_HEADER);
+            } else {
                 if (this.props.memberIndex) {
                     this.props.actions.updateContractMember(this.props.contractIndex, this.props.memberIndex, data);
                 } else {
                     this.props.actions.addContractMember(this.props.contractIndex, data);
                 }
                 $('#addContractMember').modal('hide');
-            } else {
-                Toastr.error(messageConstants.SELECT_TEAM_MEMBER, messageConstants.TOASTR_INVALID_HEADER);
             }
         },
 
