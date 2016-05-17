@@ -84,7 +84,15 @@
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.fetchAll(entity));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }));
             }
         },
@@ -102,6 +110,7 @@
                     if (error.status == 401) {
                         dispatch(apiActions.apiRequest(entity));
                         ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
                             dispatch(crudActions.addItem(entity, data));
                         });
                     } else {
@@ -121,7 +130,15 @@
                     browserHistory.goBack();
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.updateItem(entity, data, id));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }))
             }
         },
@@ -135,7 +152,15 @@
                     dispatch(actions.selectItem(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.fetchById(entity, id));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }))
             }
         },
@@ -150,7 +175,15 @@
                     dispatch(actions.delete(entity, id));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.deleteItem(entity, id));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }))
             }
         },
@@ -173,7 +206,15 @@
                     dispatch(actions.list(entity, response.body));
                 }, function (error) {
                     dispatch(apiActions.apiResponse(entity));
-                    Toastr.error(error.response.body.error);
+                    if (error.status == 401) {
+                        dispatch(apiActions.apiRequest(entity));
+                        ApiUtil.refreshSession().then(function (response) {
+                            dispatch(apiActions.apiResponse(entity));
+                            dispatch(crudActions.addItem(entity, data));
+                        });
+                    } else {
+                        Toastr.error(error.response.body.error);
+                    }
                 }));
             }
         },
