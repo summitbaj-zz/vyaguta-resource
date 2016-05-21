@@ -44,8 +44,8 @@
         },
 
         componentWillReceiveProps: function (nextProps) {
-            if (this.props.pagination.page > 1 && !nextProps.budgetTypes.length) {
-                this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
+            if (this.props.pagination.page > 1 && !nextProps.clients.length) {
+                this.props.actions.fetchByQuery(resourceConstant.CLIENTS, {
                     _start: 1,
                     _limit: this.props.offset
                 }, sortBy);
