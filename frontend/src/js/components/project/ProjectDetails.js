@@ -62,15 +62,15 @@
         },
 
         getAccountManagerName: function () {
-            var accountManager = this.props.selectedItem.projects.accountManager;
+            var accountManager = this.props.selectedItem.projects.accountManager || {};
             var name = '-';
-            /*if (accountManager.id) {
-             name = accountManager.firstName;
-             if (accountManager.middleName) {
-             name = name.concat(' ', accountManager.middleName);
-             }
-             name = name.concat(' ', accountManager.lastName);
-             }*/                     //Until back end completes
+            if (accountManager.id) {
+                name = accountManager.firstName;
+                if (accountManager.middleName) {
+                    name = name.concat(' ', accountManager.middleName);
+                }
+                name = name.concat(' ', accountManager.lastName);
+            }
             return name;
         }
         ,
@@ -107,7 +107,7 @@
             };
             var contractIds = project.contracts && Object.keys(project.contracts);
             var historyIds = Object.keys(this.props.histories);
-
+           
             return (
                 <div>
                     <EntityHeader header="Project Details" routes={this.props.routes}/>
@@ -130,7 +130,7 @@
                                             </span>
                                             }
                                         </div>
-                                        <Link to={urlConstant.PROJECTS.EDIT + this.props.params.id}
+                                        <Link to={urlConstant.PROJECTS.INDEX + '/' + project.id}
                                               data-toggle="tooltip"
                                               title="Edit"
                                               className="btn btn-sm btn-default">

@@ -28,7 +28,8 @@
                                aria-expanded="true"
                                aria-controls={'collapse' + contract.id}
                             >
-                                Contract{(contract.startDate && contract.endDate) && ' From ' + contract.startDate + ' to ' + contract.endDate}
+                                Contract{(contract.startDate && contract.endDate) &&
+                            <span> From <strong>{contract.startDate}</strong> to <strong>{contract.endDate}</strong></span>}
                             </a>
                         </h4>
                     </div>

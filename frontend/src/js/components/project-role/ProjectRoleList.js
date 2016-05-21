@@ -67,9 +67,13 @@
 
         deleteProjectRole: function (id) {
             var that = this;
+            var pagination = {
+                _start: this.props.pagination.page || 1,
+                _limit: this.props.offset
+            };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECT_ROLES, id);
+                that.props.actions.deleteItem(resourceConstant.PROJECT_ROLES, id, pagination, sortBy);
             });
         },
 

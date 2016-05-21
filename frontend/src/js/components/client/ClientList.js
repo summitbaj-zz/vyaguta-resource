@@ -84,9 +84,13 @@
 
         deleteClient: function (id) {
             var that = this;
+            var pagination = {
+                _start: this.props.pagination.page || 1,
+                _limit: this.props.offset
+            };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.CLIENTS, id);
+                that.props.actions.deleteItem(resourceConstant.CLIENTS, id, pagination, sortBy);
             });
         },
 

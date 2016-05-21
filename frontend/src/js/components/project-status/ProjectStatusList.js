@@ -67,9 +67,13 @@
 
         deleteProjectStatus: function (id) {
             var that = this;
+            var pagination = {
+                _start: this.props.pagination.page || 1,
+                _limit: this.props.offset
+            };
 
             alertBox.confirm(messageConstant.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id);
+                that.props.actions.deleteItem(resourceConstant.PROJECT_STATUS, id, pagination, sortBy);
             });
         },
 
