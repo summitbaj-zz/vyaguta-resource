@@ -46,22 +46,10 @@
         },
 
         fetchByTitle: function (resourceName, data, callback) {
-            request
+            return request
                 .get(url + resourceName.toLowerCase() + '?title=' + data)
                 .set('Authorization', 'Bearer' + ' ' + localStorage.getItem('access_token'))
                 .set('Accept', 'application/json')
-                .then(function (response) {
-                    callback(response.body.data);
-                }, function (error) {
-                    if (error.status = 401) {
-                        apiUtil.refreshSession().then(function (response) {
-                            apiUtil.fetchByQuery(resourceName, data, callback);
-                        });
-                    } else {
-                        callback([]);
-                    }
-
-                })
         },
 
         fetchByQuery2: function (resourceName, data, sortBy) {

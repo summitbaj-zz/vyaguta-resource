@@ -249,6 +249,7 @@
 
         renderProject: function (key) {
             var project = this.props.projects[key];
+            var id = project.id;
             var style = {
                 background: project.projectStatus && project.projectStatus.color
             };

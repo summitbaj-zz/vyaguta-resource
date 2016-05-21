@@ -43,6 +43,15 @@
             });
         },
 
+        componentWillReceiveProps: function (nextProps) {
+            if (this.props.pagination.page > 1 && !nextProps.budgetTypes.length) {
+                this.props.actions.fetchByQuery(resourceConstant.BUDGET_TYPES, {
+                    _start: 1,
+                    _limit: this.props.offset
+                }, sortBy);
+            }
+        },
+
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
             this.props.actions.apiClearState();
