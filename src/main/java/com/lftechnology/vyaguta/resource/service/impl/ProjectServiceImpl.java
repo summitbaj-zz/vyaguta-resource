@@ -391,7 +391,8 @@ public class ProjectServiceImpl implements ProjectService {
                 put("unbilled", totalUnbilled);
             }
         });
-        resultOutput.put("freeResource", totalEmployee - bookedResourceCount);
+        Double freeResource = totalEmployee - bookedResourceCount;
+        resultOutput.put("freeResource", freeResource < 0 ? 0 : freeResource);
         return resultOutput;
     }
 
