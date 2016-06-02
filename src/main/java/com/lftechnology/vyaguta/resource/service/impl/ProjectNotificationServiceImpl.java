@@ -14,6 +14,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 
@@ -119,7 +120,7 @@ public class ProjectNotificationServiceImpl implements ProjectNotificationServic
         Client client = ClientBuilder.newClient();
         Response response = client.target(url).request().header("X-Client-Id", clientId).header("X-Client-Secret", clientSecret)
                 .get(Response.class);
-        if (response.getStatus() == 200) {
+        if (response.getStatus() == Status.OK.getStatusCode()) {
             return response.readEntity(entityType);
         } else {
             throw new WebApplicationException(response);
