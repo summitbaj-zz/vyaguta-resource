@@ -47,7 +47,7 @@
         },
 
         loadEmployees: function (input) {
-            return coreApiService.fetch(resourceConstants.EMPLOYEES, {q: input}).then(function (response) {
+            return coreApiService.fetch(resourceConstants.EMPLOYEES, {q: input, hrStatus: ['Probation', 'Permanent']}).then(function (response) {
                 var options = [];
                 for (var i = 0; i < response.body.data.length; i++) {
                     options.push({

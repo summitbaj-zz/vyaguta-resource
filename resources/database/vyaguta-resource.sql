@@ -262,6 +262,21 @@ ALTER TABLE ONLY contract_member_histories
     ADD CONSTRAINT contract_member_histories_pk PRIMARY KEY (id);
 ALTER TABLE ONLY contract_member_histories 
 	ADD CONSTRAINT project_history_root_fk FOREIGN KEY(batch_id) REFERENCES project_history_root ON DELETE CASCADE;
+
+
+CREATE TABLE operational_resources (
+    id uuid NOT NULL,
+    employee_id uuid NOT NULL,
+    created_by uuid NOT NULL,
+    updated_by uuid,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE operational_resources OWNER TO frieddust;
+ALTER TABLE ONLY operational_resources
+    ADD CONSTRAINT operational_resources_pk PRIMARY KEY (id);
+ALTER TABLE ONLY operational_resources
+    ADD CONSTRAINT employee_id_unique UNIQUE (employee_id);
 	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;

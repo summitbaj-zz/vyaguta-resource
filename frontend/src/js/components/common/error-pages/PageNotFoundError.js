@@ -4,29 +4,35 @@
  * on 4/10/16.
  */
 
-;(function() {
+;(function () {
 
     //React dependencies
     var React = require('react');
+    //React dependencies
+    var browserHistory = require('react-router').browserHistory;
 
     //libraries
     var NProgress = require('nprogress');
+    var DocumentTitle = require('react-document-title');
 
     var PageNotFoundError = React.createClass({
-        componentDidMount: function() {
+        componentDidMount: function () {
             NProgress.done();
         },
 
-        render: function() {
+        render: function () {
+            var requestedPage = window.location.href;
             return (
-                <div className="error">
-                    <div className="error-code m-b-10 m-t-20">404 <i className="fa fa-warning"></i></div>
-                    <h3 className="font-bold">We couldn't find the page..</h3>
+                <DocumentTitle title='Not Found'>
+                    <div className="error">
+                        <div className="error-code m-b-10 m-t-20">404 <i className="fa fa-warning"></i></div>
+                        <h3 className="font-bold">We couldn't find the page..</h3>
 
-                    <div className="error-desc">
-                        Sorry, but the page you are looking for was either not found or does not exist. <br/>
+                        <div className="error-desc">
+                            Sorry, but the page {requestedPage} was either not found or does not exist. <br/>
+                        </div>
                     </div>
-                </div>
+                </DocumentTitle>
             );
         }
     });

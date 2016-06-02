@@ -50,7 +50,7 @@
         },
 
         fetchData: function (start) {
-            this.props.actions.fetch(resourceConstants.CLIENTS, {
+            this.props.actions.fetch(resourceConstants.CLIENTS, resourceConstants.CLIENTS, {
                 sort: sortBy,
                 start: start || 1,
                 offset: this.props.offset
@@ -66,7 +66,7 @@
             var that = this;
 
             alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstants.CLIENTS, id, {
+                that.props.actions.deleteItem(resourceConstants.CLIENTS, resourceConstants.CLIENTS, id, {
                     sort: sortBy,
                     start: that.props.pagination.startPage || 1,
                     offset: that.props.offset

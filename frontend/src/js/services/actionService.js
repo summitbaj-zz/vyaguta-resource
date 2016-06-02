@@ -2,7 +2,8 @@
     'use strict';
 
     //React dependencies
-    var browserHistory = require('react-router').browserHistory;
+    var React = require('react');
+    var ReactDOM = require('react-dom');
 
     //services
     var authApiService = require('./api-services/authApiService');
@@ -13,6 +14,9 @@
     //constants
     var urlConstants = require('../constants/urlConstants');
     var messageConstants = require('../constants/messageConstants');
+
+    //components
+    var PageNotFoundError = require('../components/common/error-pages/PageNotFoundError');
 
     //libraries
     var Toastr = require('toastr');
@@ -38,7 +42,8 @@
                     break;
 
                 case 404:
-                    browserHistory.push(urlConstants.PAGE_NOT_FOUND);
+                    ReactDOM.render(
+                        <PageNotFoundError />, document.querySelector('#vyaguta-body'));
                     break;
 
                 default:

@@ -13,6 +13,7 @@
         projectTypes: [],
         projects: [],
         projectRoles: [],
+        operational: [],
         clients: [],
         selectedItem: { //for editing or viewing purposes
             projects: {
@@ -22,7 +23,8 @@
             budgetTypes: {},
             projectTypes: {},
             clients: {},
-            projectStatus: {}
+            projectStatus: {},
+            operational: {}
         },
         pagination: {},
     };
@@ -58,6 +60,7 @@
                 return newState;
 
             case actionTypeConstants.HANDLE_SELECT_OPTION_CHANGE:
+
                 var newState = _.cloneDeep(state);
                 newState.selectedItem[action.entity][action.key] = (action.value == 0) ? null : {id: action.value};
                 return newState;

@@ -18,6 +18,7 @@
         FOREIGN_KEY_VIOLATION_MESSAGE: 'violates foreign key constraint',
 
         SELECT_TEAM_MEMBER: 'Please select Team Member',
+        ALLOCATION_REQUIRED: 'Please fill date for all allocations',
 
         NO_RECORDS_FOUND: 'No records available.'
 

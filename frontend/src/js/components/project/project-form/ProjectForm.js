@@ -36,7 +36,6 @@
     var employeeUtil = require('../../../utils/employeeUtil');
 
     //services
-    var coreApiService = require('../../../services/api-services/coreApiService');
     var authApiService = require('../../../services/api-services/authApiService');
     var resourceApiService = require('../../../services/api-services/resourceApiService');
     var contractMemberService = require('../../../services/contractMemberService');
@@ -64,11 +63,11 @@
             if (this.props.params.id) {
                 this.props.actions.fetchById(resourceConstants.PROJECTS, this.props.params.id);
             }
-            this.props.actions.fetch(resourceConstants.BUDGET_TYPES);
-            this.props.actions.fetch(resourceConstants.PROJECT_STATUS);
-            this.props.actions.fetch(resourceConstants.PROJECT_TYPES);
-            this.props.actions.fetch(resourceConstants.CLIENTS);
-            this.props.actions.fetch(resourceConstants.PROJECT_ROLES);
+            this.props.actions.fetch(resourceConstants.BUDGET_TYPES,resourceConstants.BUDGET_TYPES);
+            this.props.actions.fetch(resourceConstants.PROJECT_STATUS, resourceConstants.PROJECT_STATUS);
+            this.props.actions.fetch(resourceConstants.PROJECT_TYPES, resourceConstants.PROJECT_TYPES);
+            this.props.actions.fetch(resourceConstants.CLIENTS, resourceConstants.CLIENTS);
+            this.props.actions.fetch(resourceConstants.PROJECT_ROLES, resourceConstants.PROJECT_ROLES);
         },
 
         componentWillReceiveProps: function (props) {

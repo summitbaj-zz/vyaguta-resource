@@ -1,5 +1,11 @@
+/**
+ * Created by
+ * Achyut Pokhrel <achyutpokhrel@lftechnology.com>
+ * on 5/9/16.
+ */
+
 ;(function () {
-    'use-strict';
+    'use strict';
 
     //React and Redux dependencies
     var React = require('react');
@@ -13,13 +19,14 @@
     var messageConstants = require('../../constants/messageConstants');
 
     //components
-    var ProjectStatus = require('./ProjectStatusRow');
+    var OperationalResourceRow = require('./OperationalResourceRow');
     var EntityHeader = require('../common/header/EntityHeader');
     var Pagination = require('../common/pagination/Pagination');
 
     //utils
+    var converter = require('../../utils/converter');
     var alertBox = require('../../utils/alertBox');
-
+    
     //services
     var listService = require('../../services/listService');
 
@@ -32,7 +39,7 @@
 
     var sortBy = '';
 
-    var ProjectStatusList = React.createClass({
+    var OperationalResourceList = React.createClass({
         getDefaultProps: function () {
             return {
                 offset: parseInt(resourceConstants.OFFSET)
@@ -45,12 +52,12 @@
 
         componentWillUnmount: function () {
             this.props.actions.clearPagination();
-            this.props.actions.clearList(resourceConstants.PROJECT_STATUS);
+            this.props.actions.clearList(resourceConstants.OPERATIONAL_RESOURCE);
             this.props.actions.apiClearState();
         },
 
         fetchData: function (start) {
-            this.props.actions.fetch(resourceConstants.PROJECT_STATUS, resourceConstants.PROJECT_STATUS, {
+            this.props.actions.fetch(resourceConstants.OPERATIONAL_RESOURCE, converter.getPathParam(resourceConstants.RESOURCE, resourceConstants.OPERATIONAL_RESOURCE), {
                 sort: sortBy,
                 start: start || 1,
                 offset: this.props.offset
@@ -62,11 +69,11 @@
             this.fetchData(start);
         },
 
-        deleteProjectStatus: function (id) {
+        deleteOperationalResource: function (id) {
             var that = this;
 
             alertBox.confirm(messageConstants.DELETE_MESSAGE, function () {
-                that.props.actions.deleteItem(resourceConstants.PROJECT_STATUS, resourceConstants.PROJECT_STATUS, id, {
+                that.props.actions.deleteItem(resourceConstants.OPERATIONAL_RESOURCE, converter.getPathParam(resourceConstants.RESOURCE, resourceConstants.OPERATIONAL_RESOURCE), id, {
                     sort: sortBy,
                     start: that.props.pagination.startPage || 1,
                     offset: that.props.offset
@@ -74,36 +81,36 @@
             });
         },
 
-        //sorts data in ascending or descending order according to clicked field
+        //sorts data in ascending or descending  order according to clicked field
         sort: function (field) {
             var isAscending = listService.changeSortDisplay(field);
             sortBy = (isAscending) ? field : '-' + field;
             this.fetchData(this.props.pagination.startPage);
         },
 
-        renderProjectStatus: function (key) {
+        renderOperationalResource: function (key) {
             var startIndex = this.props.pagination.startPage + parseInt(key);
-            return (
-                <ProjectStatus key={key} index={startIndex || 1 + parseInt(key)}
-                               projectStatus={this.props.projectStatus[key]}
-                               deleteProjectStatus={this.deleteProjectStatus}/>
-            );
-        },
 
+            
+            return (
+                <OperationalResourceRow key={key} index={startIndex || 1 + parseInt(key)}
+                                        operationalResource={this.props.operationalResources[key]}
+                                        deleteOperationalResource={this.deleteOperationalResource}/>
+            )
+        },
 
         render: function () {
             return (
                 <div>
-                    <EntityHeader header="Project Status"
-                                  routes={this.props.routes} title="Project Status"
+                    <EntityHeader header="Operational Resource" routes={this.props.routes} title="Operational Resource"
                                   apiState={this.props.apiState}/>
                     <div className="block full">
                         <div className="block-title">
-                            <h2>Project Status Details</h2>
+                            <h2>Operational Resources Details</h2>
                             <div className="block-options pull-right">
-                                <Link to={urlConstants.PROJECT_STATUS.NEW} title="Add Project Status"
+                                <Link to={urlConstants.OPERATIONAL_RESOURCES.NEW} title="Add Operational Resource"
                                       className="btn btn-sm btn-success btn-ghost text-uppercase"><i
-                                    className="fa fa-plus"></i> Add Project Status</Link>
+                                    className="fa fa-plus"></i> Add Operational Resource</Link>
                             </div>
                         </div>
                         <div className="table-responsive">
@@ -111,33 +118,34 @@
                                 <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th className="cursor-pointer sort noselect col-250" data-sort="none" id="title"
-                                        onClick={this.sort.bind(null, 'title')}>
-                                        Project Status
-                                        <i className="fa fa-sort pull-right"></i>
+                                    <th>
+                                        Employee Name
+
                                     </th>
-                                    <th className="text-center col-250 ellipses">Preview</th>
+                                    <th>
+                                        Designation
+
+                                    </th>
                                     <th className="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.props.projectStatus.length ? Object.keys(this.props.projectStatus).map(this.renderProjectStatus) : listService.displayNoRecordFound()}
+                                {this.props.operationalResources.length ? Object.keys(this.props.operationalResources).map(this.renderOperationalResource) : listService.displayNoRecordFound()}
                                 </tbody>
                             </table>
                         </div>
                         <Pagination maxPages={Math.ceil(this.props.pagination.count / this.props.offset)}
                                     selectedPage={parseInt(this.props.pagination.startPage / 10) + 1}
                                     refreshList={this.refreshList}/>
+
                     </div>
                 </div>
-            );
+            )
         }
     });
-
-
     var mapStateToProps = function (state) {
         return {
-            projectStatus: state.crudReducer.projectStatus,
+            operationalResources: state.crudReducer.operational,
             pagination: state.crudReducer.pagination,
             apiState: state.apiReducer
         }
@@ -149,6 +157,7 @@
         }
     };
 
-    module.exports = connect(mapStateToProps, mapDispatchToProps)(ProjectStatusList);
+    module.exports = connect(mapStateToProps, mapDispatchToProps)(OperationalResourceList);
+
 
 })();
