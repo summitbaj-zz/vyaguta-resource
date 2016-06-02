@@ -31,8 +31,6 @@ import com.lftechnology.vyaguta.commons.jpautil.LocalDateDeserializer;
 import com.lftechnology.vyaguta.commons.jpautil.LocalDateSerializer;
 import com.lftechnology.vyaguta.commons.jpautil.SoftDeletable;
 
-import edu.umd.cs.findbugs.annotations.NoWarning;
-
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
