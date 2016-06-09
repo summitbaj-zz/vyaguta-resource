@@ -19,7 +19,7 @@ import javax.ws.rs.ext.Provider;
 
 import com.lftechnology.vyaguta.commons.SecurityRequestContext;
 import com.lftechnology.vyaguta.commons.exception.AuthenticationException;
-import com.lftechnology.vyaguta.commons.pojo.Role;
+import com.lftechnology.vyaguta.commons.pojo.CommonRole;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.config.Configuration;
 import com.lftechnology.vyaguta.resource.service.UserRoleService;
@@ -57,7 +57,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
                 @Override
                 public boolean isUserInRole(String role) {
-                    return user.getRoles().contains(new Role(role));
+                    return user.getRoles().contains(new CommonRole(role));
                 }
 
                 @Override
@@ -89,7 +89,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         Response response = client.target(validateUrl).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
         if (response.getStatus() == 200) {
             User user = response.readEntity(User.class);
-            List<Role> roles = userRoleService.findRolesOfUser(user);
+            List<CommonRole> roles = userRoleService.findRolesOfUser(user);
             user.setRoles(roles);
             return user;
         } else if (response.getStatus() == 401) {

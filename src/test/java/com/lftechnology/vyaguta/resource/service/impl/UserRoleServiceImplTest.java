@@ -58,7 +58,7 @@ public class UserRoleServiceImplTest {
         Mockito.when(userRoleDao.findRolesOfUser(user)).thenReturn(new ArrayList<Role>());
         Mockito.when(setUpDao.getDefaultRole()).thenReturn(role);
         // act
-        List<com.lftechnology.vyaguta.commons.pojo.Role> roles = userRoleServiceImpl.findRolesOfUser(user);
+        List<com.lftechnology.vyaguta.commons.pojo.CommonRole> roles = userRoleServiceImpl.findRolesOfUser(user);
 
         // assert
         assertThat(roles.size(), is(1));
