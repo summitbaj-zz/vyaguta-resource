@@ -50,8 +50,6 @@ public class UserRole implements Serializable {
     protected UUID id;
 
     @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "user_id") ))
-    @JsonDeserialize(using = UserDeserializer.class)
-    @JsonSerialize(using = UserSerializer.class)
     private User user;
 
     @ManyToOne

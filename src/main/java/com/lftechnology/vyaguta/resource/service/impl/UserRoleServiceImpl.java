@@ -1,7 +1,5 @@
 package com.lftechnology.vyaguta.resource.service.impl;
 
-import static org.hamcrest.CoreMatchers.allOf;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +10,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
-import com.lftechnology.vyaguta.commons.pojo.Role;
+import com.lftechnology.vyaguta.commons.pojo.CommonRole;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.SetupDao;
 import com.lftechnology.vyaguta.resource.dao.UserRoleDao;
 import com.lftechnology.vyaguta.resource.entity.UserRole;
 import com.lftechnology.vyaguta.resource.service.UserRoleService;
+import com.lftechnology.vyaguta.resource.service.UserService;
 
 /**
  * 
@@ -27,6 +26,9 @@ import com.lftechnology.vyaguta.resource.service.UserRoleService;
  */
 @Stateless
 public class UserRoleServiceImpl implements UserRoleService {
+
+    @Inject
+    private UserService userService;
 
     @Inject
     private UserRoleDao userRoleDao;
@@ -46,12 +48,14 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRole merge(UUID id, UserRole obj) {
-        UserRole UserRole = this.findById(id);
-        if (UserRole == null) {
+        UserRole userRole = this.findById(id);
+        if (userRole == null) {
             throw new ObjectNotFoundException();
         }
-        UserRole.setRole(obj.getRole());
-        return this.update(UserRole);
+        userRole.setRole(obj.getRole());
+        userRole.setUser(obj.getUser());
+
+        return this.update(userRole);
     }
 
     @Override
@@ -71,7 +75,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRole findById(UUID id) {
-        return userRoleDao.findById(id);
+        UserRole userRole = userRoleDao.findById(id);
+        List<UUID> userIds = new ArrayList<>();
+        userIds.add(userRole.getUser().getId());
+        List<User> users = userService.fetchUsers(userIds);
+        userRole.setUser(users.get(0));
+        return userRole;
     }
 
     @Override
@@ -91,16 +100,34 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public Map<String, Object> findByFilter(MultivaluedMap<String, String> queryParameters) {
+
+        List<UserRole> userRoles = userRoleDao.findByFilter(queryParameters);
+
+        List<UUID> userIds = new ArrayList<>();
+        for (UserRole userRole : userRoles) {
+            userIds.add(userRole.getUser().getId());
+        }
+
+        List<User> users = userService.fetchUsers(userIds);
+
+        for (UserRole userRole : userRoles) {
+            for (User user : users) {
+                if (user.getId().equals(userRole.getUser().getId())) {
+                    userRole.setUser(user);
+                }
+            }
+        }
+
         return new HashMap<String, Object>() {
             {
                 put("count", userRoleDao.count(queryParameters));
-                put("data", userRoleDao.findByFilter(queryParameters));
+                put("data", userRoles);
             }
         };
     }
 
     @Override
-    public List<Role> findRolesOfUser(User user) {
+    public List<CommonRole> findRolesOfUser(User user) {
         List<com.lftechnology.vyaguta.resource.entity.Role> roles = userRoleDao.findRolesOfUser(user);
         if (roles.isEmpty()) {
             com.lftechnology.vyaguta.resource.entity.Role defaultRole = setupDao.getDefaultRole();
@@ -110,10 +137,10 @@ public class UserRoleServiceImpl implements UserRoleService {
         return convertEntityToPojoRole(roles);
     }
 
-    private List<Role> convertEntityToPojoRole(List<com.lftechnology.vyaguta.resource.entity.Role> roles) {
-        List<Role> pojoRoles = new ArrayList<>();
+    private List<CommonRole> convertEntityToPojoRole(List<com.lftechnology.vyaguta.resource.entity.Role> roles) {
+        List<CommonRole> pojoRoles = new ArrayList<>();
         for (com.lftechnology.vyaguta.resource.entity.Role role : roles) {
-            Role pojoRole = new Role();
+            CommonRole pojoRole = new CommonRole();
             pojoRole.setRole(role.getTitle());
             pojoRoles.add(pojoRole);
         }
@@ -131,4 +158,5 @@ public class UserRoleServiceImpl implements UserRoleService {
         userRole.setCreatedBy(user);
         return userRole;
     }
+
 }
