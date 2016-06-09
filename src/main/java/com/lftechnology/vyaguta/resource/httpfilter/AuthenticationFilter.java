@@ -2,8 +2,10 @@ package com.lftechnology.vyaguta.resource.httpfilter;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import javax.annotation.Priority;
+import javax.inject.Inject;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
@@ -20,6 +22,7 @@ import com.lftechnology.vyaguta.commons.exception.AuthenticationException;
 import com.lftechnology.vyaguta.commons.pojo.Role;
 import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.resource.config.Configuration;
+import com.lftechnology.vyaguta.resource.service.UserRoleService;
 
 /**
  * 
@@ -29,6 +32,9 @@ import com.lftechnology.vyaguta.resource.config.Configuration;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
+
+    @Inject
+    private UserRoleService userRoleService;
 
     private String validateUrl = Configuration.instance().getAuthUrl() + "userinfo/";
 
@@ -82,7 +88,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         Client client = ClientBuilder.newClient();
         Response response = client.target(validateUrl).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
         if (response.getStatus() == 200) {
-            return response.readEntity(User.class);
+            User user = response.readEntity(User.class);
+            List<Role> roles = userRoleService.findRolesOfUser(user);
+            user.setRoles(roles);
+            return user;
         } else if (response.getStatus() == 401) {
             throw new AuthenticationException();
         } else {
