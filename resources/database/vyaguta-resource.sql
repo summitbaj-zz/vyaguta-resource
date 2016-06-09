@@ -286,10 +286,10 @@ CREATE TABLE roles (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone
 );
-ALTER TABLE user_roles OWNER TO frieddust;
-ALTER TABLE ONLY user_roles
+ALTER TABLE roles OWNER TO frieddust;
+ALTER TABLE ONLY roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY user_roles
+ALTER TABLE ONLY roles
     ADD CONSTRAINT roles_role_key UNIQUE (title);
 
 
