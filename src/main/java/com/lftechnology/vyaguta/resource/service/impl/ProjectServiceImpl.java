@@ -33,6 +33,9 @@ import com.lftechnology.vyaguta.resource.service.EmployeeService;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
+import rx.Observable;
+import rx.Subscriber;
+
 /**
  * 
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
@@ -137,7 +140,6 @@ public class ProjectServiceImpl implements ProjectService {
         });
 
         setEmployeeDetails(project);
-
         return project;
     }
 
@@ -177,40 +179,72 @@ public class ProjectServiceImpl implements ProjectService {
         if (employeeIds.isEmpty())
             return;
 
-        List<Employee> accountManagers = employeeService.fetchEmployees(employeeIds);
+        Observable<List<Employee>> accountManagers = employeeService.fetchEmployeeInReactiveWay(employeeIds);
+        accountManagers.subscribe(new Subscriber<List<Employee>>() {
 
-        for (Project project : data) {
-            for (Employee am : accountManagers) {
-                if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
-                    project.setAccountManager(am);
-                }
+            @Override
+            public void onCompleted() {
             }
-        }
-    }
 
-    private void setEmployeeDetails(Project project) {
-        List<UUID> employeeId = new ArrayList<>();
-        for (Contract contract : project.getContracts()) {
-            for (ContractMember cm : contract.getContractMembers()) {
-                if (cm.getEmployee().getId() != null) {
-                    employeeId.add(cm.getEmployee().getId());
-                }
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
             }
-        }
 
-        if (!employeeId.isEmpty()) {
-            List<Employee> employees = employeeService.fetchEmployees(employeeId);
-            for (Contract contract : project.getContracts()) {
-                for (ContractMember cm : contract.getContractMembers()) {
-                    for (Employee employee : employees) {
-
-                        if (cm.getEmployee().equals(employee)) {
-                            cm.setEmployee(employee);
+            @Override
+            public void onNext(List<Employee> accountManagers) {
+                for (Project project : data) {
+                    for (Employee am : accountManagers) {
+                        if (project.getAccountManager() != null && am.getId().equals(project.getAccountManager().getId())) {
+                            project.setAccountManager(am);
                         }
                     }
                 }
             }
+        });
+
+    }
+
+    private void setEmployeeDetails(Project project) {
+        List<UUID> employeeIds = new ArrayList<>();
+        for (Contract contract : project.getContracts()) {
+            for (ContractMember cm : contract.getContractMembers()) {
+                if (cm.getEmployee().getId() != null) {
+                    employeeIds.add(cm.getEmployee().getId());
+                }
+            }
         }
+
+        if (employeeIds.isEmpty()) {
+            return;
+        }
+
+        Observable<List<Employee>> employees = employeeService.fetchEmployeeInReactiveWay(employeeIds);
+        employees.subscribe(new Subscriber<List<Employee>>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<Employee> employees) {
+                for (Contract contract : project.getContracts()) {
+                    for (ContractMember cm : contract.getContractMembers()) {
+                        for (Employee employee : employees) {
+                            if (cm.getEmployee().equals(employee)) {
+                                cm.setEmployee(employee);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     private void fixTags(Project project) {
