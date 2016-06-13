@@ -33,6 +33,9 @@
                                 <li><Link to={urlConstants.OPERATIONAL_RESOURCES.INDEX} activeClassName="active"><i
                                     className="fa fa-users fa-fw"></i><span className="xn-text">Operational Resource</span>
                                 </Link></li>
+                                <li><Link to={urlConstants.USER_ROLES.INDEX} activeClassName="active"><i
+                                    className="fa fa-users fa-fw"></i><span className="xn-text">User Role</span>
+                                </Link></li>
                                 <li><a className="sidebar-nav-menu" href="#"><i
                                     className="fa fa fa-cogs fa-fw"></i><span
                                     className="xn-text">Project Settings</span><i
