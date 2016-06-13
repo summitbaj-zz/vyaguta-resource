@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 
 import com.google.common.base.Strings;
 import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
@@ -188,7 +189,7 @@ public class ProjectServiceImpl implements ProjectService {
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
+                throw new WebApplicationException(e.getMessage());
             }
 
             @Override
@@ -228,7 +229,7 @@ public class ProjectServiceImpl implements ProjectService {
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
+                throw new WebApplicationException(e.getMessage());
             }
 
             @Override
