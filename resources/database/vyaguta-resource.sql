@@ -278,6 +278,49 @@ ALTER TABLE ONLY operational_resources
 ALTER TABLE ONLY operational_resources
     ADD CONSTRAINT employee_id_unique UNIQUE (employee_id);
 	
+CREATE TABLE roles (
+    id uuid NOT NULL,
+    title character varying(255) NOT NULL,
+    created_by uuid NOT NULL,
+    updated_by uuid,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+ALTER TABLE roles OWNER TO frieddust;
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_role_key UNIQUE (title);
+
+
+CREATE TABLE setups (
+		id uuid NOT NULL,
+		role_id uuid NOT NULL,
+		created_by uuid NOT NULL,
+    updated_by uuid,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone  
+);
+ALTER TABLE setups OWNER TO frieddust;
+ALTER TABLE ONLY setups
+	ADD CONSTRAINT setups_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY setups 
+	ADD CONSTRAINT setups_roles_fk FOREIGN KEY(role_id) REFERENCES user_roles ON DELETE RESTRICT;
+	
+	
+CREATE TABLE users_roles (
+	id uuid NOT NULL,
+	user_id uuid not null,
+	role_id uuid not null,
+	created_by uuid NOT NULL,
+    updated_by uuid,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone
+);
+
+ALTER TABLE users_roles OWNER TO frieddust;
+ALTER TABLE ONLY users_roles
+    ADD CONSTRAINT users_roles_pk PRIMARY KEY (id);	
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;
