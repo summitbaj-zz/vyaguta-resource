@@ -32,7 +32,7 @@ public class RoleRs {
 
     @Path("/")
     @GET
-    @RolesAllowed({ "Employee", "Admin" })
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(@Context UriInfo uriInfo) {
         Map<String, Object> roles = roleService.findByFilter(MultivaluedMapConverter.convert(uriInfo.getQueryParameters()));
@@ -41,7 +41,7 @@ public class RoleRs {
 
     @Path("/{id}")
     @GET
-    @RolesAllowed({ "Employee", "Admin" })
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") UUID id) {
         Role role = roleService.findById(id);
