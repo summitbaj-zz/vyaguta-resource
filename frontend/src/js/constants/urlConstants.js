@@ -38,6 +38,9 @@
             INDEX: '/operationalresources',
             NEW: '/operationalresources/new',
         },
+        USER_ROLES: {
+            INDEX: '/userroles',
+        },
 
         RESOURCE_SERVER: '/api/resource',
         CORE_SERVER: '/api/core',
