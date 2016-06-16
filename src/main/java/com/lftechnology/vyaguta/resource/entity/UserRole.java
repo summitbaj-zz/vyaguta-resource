@@ -49,6 +49,9 @@ public class UserRole implements Serializable {
     @Type(type = "pg-uuid")
     protected UUID id;
 
+    @Column(name = "auth_provider")
+    private String authProvider;
+
     @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "user_id") ))
     private User user;
 
@@ -132,6 +135,14 @@ public class UserRole implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(String authProvider) {
+        this.authProvider = authProvider;
     }
 
     @Override
