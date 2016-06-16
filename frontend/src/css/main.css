@@ -1615,3 +1615,8 @@ ul.pagination li {
 .weight-500 {
     font-weight: 500;
 }
+
+.histroy-reason{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
