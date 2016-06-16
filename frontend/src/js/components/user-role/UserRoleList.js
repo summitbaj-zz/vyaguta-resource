@@ -49,7 +49,7 @@
 
         componentWillMount: function(){
             this.fetchData(this.props.pagination.startPage);
-            
+            this.props.actions.fetch(resourceConstants.ROLES, resourceConstants.ROLES);
         },
 
         componentWillUnmount: function(){
@@ -71,12 +71,12 @@
             this.fetchData(start);
         },
 
-        renderUserRole: function (key) {
+        renderUserRole: function (userRole, key) {
             var startIndex = this.props.pagination.startPage + parseInt(key);
 
             return(
                 <UserRoleRow key={key} index={startIndex || 1 + parseInt(key)}
-                            userRole={this.props.userRoles[key]} />
+                            userRole={userRole} roles={this.props.roles} actions={this.props.actions}/>
             )
         },
 
@@ -100,13 +100,12 @@
                                         </th>
                                         <th>
                                             Role
-
                                         </th>
                                         <th className="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.props.userRoles.length ? Object.keys(this.props.userRoles).map(this.renderUserRole) : listService.displayNoRecordFound()}
+                                {this.props.userRoles && this.props.userRoles.map(this.renderUserRole)}
                                 </tbody>
                             </table>
                         </div>
@@ -123,7 +122,8 @@
         return {
             userRoles: state.crudReducer.userRoles,
             pagination: state.crudReducer.pagination,
-            apiState: state.apiReducer
+            apiState: state.apiReducer,
+            roles: state.crudReducer.roles
         }
     };
 
