@@ -16,6 +16,7 @@
         operational: [],
         clients: [],
         userRoles: [],
+        roles:[],
         selectedItem: { //for editing or viewing purposes
             projects: {
                 contracts: []
@@ -27,6 +28,7 @@
             projectStatus: {},
             operational: {},
             userRoles: {},
+            roles: {},
         },
         pagination: {},
     };
