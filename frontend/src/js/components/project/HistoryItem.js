@@ -67,7 +67,7 @@
                         {
                             history.reason &&
                             <p><span className="weight-500">Reason: </span>
-                                {history.reason}</p>
+                                <span className="histroy-reason">{history.reason}</span></p>
                         }
                     </div>
                 </li>
