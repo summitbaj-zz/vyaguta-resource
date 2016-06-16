@@ -15,6 +15,7 @@ import com.lftechnology.vyaguta.commons.pojo.User;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.dao.SetupDao;
 import com.lftechnology.vyaguta.resource.dao.UserRoleDao;
+import com.lftechnology.vyaguta.resource.entity.Role;
 import com.lftechnology.vyaguta.resource.entity.UserRole;
 import com.lftechnology.vyaguta.resource.service.UserRoleService;
 import com.lftechnology.vyaguta.resource.service.UserService;
@@ -128,18 +129,18 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public List<CommonRole> findRolesOfUser(User user) {
-        List<com.lftechnology.vyaguta.resource.entity.Role> roles = userRoleDao.findRolesOfUser(user);
+        List<Role> roles = userRoleDao.findRolesOfUser(user);
         if (roles.isEmpty()) {
-            com.lftechnology.vyaguta.resource.entity.Role defaultRole = setupDao.getDefaultRole();
+            Role defaultRole = setupDao.getDefaultRole();
             this.mapUserToDefauleRole(user, defaultRole);
             roles.add(defaultRole);
         }
         return convertEntityToPojoRole(roles);
     }
 
-    private List<CommonRole> convertEntityToPojoRole(List<com.lftechnology.vyaguta.resource.entity.Role> roles) {
+    private List<CommonRole> convertEntityToPojoRole(List<Role> roles) {
         List<CommonRole> pojoRoles = new ArrayList<>();
-        for (com.lftechnology.vyaguta.resource.entity.Role role : roles) {
+        for (Role role : roles) {
             CommonRole pojoRole = new CommonRole();
             pojoRole.setRole(role.getTitle());
             pojoRoles.add(pojoRole);
@@ -151,7 +152,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.save(this.buildUserRole(user, defaultRole));
     }
 
-    private UserRole buildUserRole(User user, com.lftechnology.vyaguta.resource.entity.Role defaultRole) {
+    private UserRole buildUserRole(User user, Role defaultRole) {
         UserRole userRole = new UserRole();
         userRole.setUser(user);
         userRole.setRole(defaultRole);
