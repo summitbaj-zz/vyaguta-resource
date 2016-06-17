@@ -263,7 +263,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private void validateDates(Project project) {
         for (Contract c : project.getContracts()) {
-            if (!c.isDateRangeValid()) {
+            if (!c.isDateRangeValid() || !c.isActualEndDateValid()) {
                 throw new ParameterFormatException("Contract start date must be before end date");
             }
             for (ContractMember cm : c.getContractMembers()) {
@@ -271,7 +271,8 @@ public class ProjectServiceImpl implements ProjectService {
                     throw new ParameterFormatException(cm.getEmployee().getFirstName() + "'s join date must be before end date");
                 }
 
-                if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), c.getEndDate())) {
+                LocalDate latestEndDate = c.getActualEndDate() == null ? c.getEndDate() : c.getActualEndDate();
+                if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), latestEndDate)) {
                     throw new ParameterFormatException(
                             cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
                 }
