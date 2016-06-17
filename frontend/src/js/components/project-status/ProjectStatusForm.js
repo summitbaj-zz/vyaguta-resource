@@ -1,3 +1,4 @@
+
 ;(function () {
     'use strict';
 
@@ -63,14 +64,15 @@
         //called when form is submitted
         saveProjectStatus: function (event) {
             event.preventDefault();
+            var projectStatus = _.cloneDeep(this.props.selectedItem.projectStatus);
 
             var requiredField = {
                 title: this.refs.title.value
             }
 
             if (formValidator.isValid(requiredField)) {
-                this.props.actions.updateSelectedItem(resourceConstants.PROJECT_STATUS, 'color', this.refs.color.value);
-                this.props.actions.submitForm(resourceConstants.PROJECT_STATUS, this.props.selectedItem.projectStatus, this.props.params.id);
+                projectStatus.color = this.refs.color.value;
+                this.props.actions.submitForm(resourceConstants.PROJECT_STATUS, projectStatus, this.props.params.id);
             } else {
                 Toastr.error(messageConstants.FORM_INVALID_SUBMISSION_MESSAGE, messageConstants.TOASTR_INVALID_HEADER);
             }
