@@ -210,6 +210,9 @@ public class Contract extends BaseEntity implements Serializable, SoftDeletable 
         if (this.startDate == null && this.actualEndDate != null) {
             return false;
         }
+        if (this.actualEndDate == null) {
+            return true;
+        }
         return this.startDate.isBefore(this.actualEndDate);
     }
 
