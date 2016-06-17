@@ -2,10 +2,10 @@ package com.lftechnology.vyaguta.resource.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +38,7 @@ import com.lftechnology.vyaguta.resource.dao.ProjectDao;
 import com.lftechnology.vyaguta.resource.dao.TagDao;
 import com.lftechnology.vyaguta.resource.entity.Client;
 import com.lftechnology.vyaguta.resource.entity.Contract;
+import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.OperationalResource;
 import com.lftechnology.vyaguta.resource.entity.Project;
 import com.lftechnology.vyaguta.resource.entity.ProjectStatus;
@@ -94,14 +95,17 @@ public class ProjectServiceImplTest {
         tags.add(this.buildTag(null, "Maven"));
         project.setTags(tags);
 
-        Mockito.when(tagDao.save(Mockito.anyObject())).thenReturn(tag);
+        Mockito.when(tagDao.save(tag)).thenReturn(tag);
+        Mockito.when(tagDao.findByFilter(Mockito.any())).thenReturn(tags);
+        Mockito.when(projectDao.save(project)).thenReturn(project);
+        Mockito.doNothing().when(projectHistoryService).logHistory(project);
 
         // act
         projectServiceImpl.save(project);
 
         // assert
-        Mockito.verify(tagDao).save(Mockito.anyObject());
-        Mockito.verify(tagDao, Mockito.never()).findById(UUID.randomUUID());
+        Mockito.verify(tagDao, Mockito.never()).save(Mockito.anyObject());
+        Mockito.verify(tagDao).findByFilter(Mockito.any());
         Mockito.verify(projectDao).save(project);
     }
 
@@ -140,7 +144,7 @@ public class ProjectServiceImplTest {
     }
 
     @Test
-    public void testMergeWhenProjectIdIsNotValidAndWildflyExpectObjectNotFoundException() {
+    public void testMergeWhenProjectIdIsNotValidExpectObjectNotFoundException() {
 
         // arrange
         Mockito.when(projectServiceImpl.findById(id)).thenReturn(null);
@@ -182,9 +186,8 @@ public class ProjectServiceImplTest {
     }
 
     @SuppressWarnings("unchecked")
-    // @Test
-            public
-            void testRemoveByIdWhenProjectIdIsNotValidExpectNoObjectFoundException() {
+    @Test
+    public void testRemoveByIdWhenProjectIdIsNotValidExpectNoObjectFoundException() {
 
         // arrange
         Mockito.when(projectDao.findById(id)).thenThrow(ObjectNotFoundException.class);
@@ -371,16 +374,12 @@ public class ProjectServiceImplTest {
         ar.setId(UUID.fromString("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeeb"));
         assertFalse(availableResources.contains(ar));
     }
-    
+
     /**
-     * Tests the resource utilization when no operational resource is involved in any project
-     * Assumptions:
-     * Total employee = 100
-     * Booked resources = 70
-     * Billed booked resources = 45
-     * Unbilled developer resources = 15
-     * Unbilled operational resources = 10
-     * Free resource = 30
+     * Tests the resource utilization when no operational resource is involved
+     * in any project Assumptions: Total employee = 100 Booked resources = 70
+     * Billed booked resources = 45 Unbilled developer resources = 15 Unbilled
+     * operational resources = 10 Free resource = 30
      * 
      */
 
@@ -410,8 +409,8 @@ public class ProjectServiceImplTest {
 
         Map<String, Object> result = this.projectServiceImpl.findResourceUtilization(LocalDate.now());
 
-        assertEquals(30.0,result.get("freeResource"));
-        assertEquals(100.0,result.get("totalResource"));
+        assertEquals(30.0, result.get("freeResource"));
+        assertEquals(100.0, result.get("totalResource"));
     }
 
     private Tag buildTag(UUID id, String title) {
@@ -461,9 +460,20 @@ public class ProjectServiceImplTest {
         Contract contract = new Contract();
         contract.setId(UUID.randomUUID());
         contract.setStartDate(LocalDate.now());
-        contract.setEndDate(LocalDate.of(2020, 02, 02));
+        contract.setEndDate(LocalDate.of(3020, 02, 02));
+        contract.setContractMembers(Arrays.asList(this.buildContractMember()));
         contracts.add(contract);
         return contracts;
+    }
+
+    private ContractMember buildContractMember() {
+        ContractMember cm = new ContractMember();
+        cm.setEmployee(this.buildEmployee("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeea"));
+        cm.setJoinDate(LocalDate.now());
+        cm.setEndDate(LocalDate.of(3020, 02, 01));
+        cm.setAllocation(75);
+        cm.setBilled(true);
+        return cm;
     }
 
     private Employee buildEmployee(String id) {
