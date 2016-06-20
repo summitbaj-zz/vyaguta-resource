@@ -135,6 +135,25 @@
             }
         },
 
+        updateItemWithCallback: function (entity, data, id,callback) {
+            return function (dispatch, getState) {
+                var oldRoute = getState().routing.locationBeforeTransitions.pathname;
+                dispatch(apiActions.apiRequest(entity));
+
+                return (resourceApiService.edit(entity, data, id).then(function (response) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
+                        dispatch(apiActions.apiResponse());
+                        Toastr.success(messageConstants.SUCCESSFULLY_UPDATED);
+                        callback(response.body.role);
+                    }
+                }, function (error) {
+                    if (actionService.isSameRoute(getState, oldRoute)) {
+                        actionService.responseError(dispatch, error, crudActions.updateItem(entity, data, id));
+                    }
+                }));
+            }
+        },
+
         fetchById: function (entity, id) {
             return function (dispatch, getState) {
                 var oldRoute = getState().routing.locationBeforeTransitions.pathname;

@@ -14,6 +14,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
@@ -87,16 +88,20 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private User validateToken(String token) {
         Client client = ClientBuilder.newClient();
         Response response = client.target(validateUrl).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).get(Response.class);
-        if (response.getStatus() == 200) {
-            User user = response.readEntity(User.class);
-            List<CommonRole> roles = userRoleService.findRolesOfUser(user);
-            user.setRoles(roles);
-            return user;
-        } else if (response.getStatus() == 401) {
+        if (response.getStatus() == Status.OK.getStatusCode()) {
+            return setUserRoles(response);
+        } else if (response.getStatus() == Status.UNAUTHORIZED.getStatusCode()) {
             throw new AuthenticationException();
         } else {
             throw new WebApplicationException(response);
         }
+    }
+
+    private synchronized User setUserRoles(Response response) {
+        User user = response.readEntity(User.class);
+        List<CommonRole> roles = userRoleService.findRolesOfUser(user);
+        user.setRoles(roles);
+        return user;
     }
 
 }

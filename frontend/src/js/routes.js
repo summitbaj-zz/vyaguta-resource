@@ -83,6 +83,12 @@
                         <Route path="new" name="Add"
                                component={require('./components/operational-resource/OperationalResourceForm')}/>
                     </Route>
+
+                    <Route path="userroles" name="User Roles"
+                            component={require('./components/user-role/UserRoleMain')}>
+                        <IndexRoute component={require('./components/user-role/UserRoleList')}/>
+                </Route>
+
                 </Route>
                 <Route path="*" component={require('./components/common/error-pages/PageNotFoundError')}/>
             </Router>

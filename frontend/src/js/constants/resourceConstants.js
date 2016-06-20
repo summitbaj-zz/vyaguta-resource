@@ -19,6 +19,8 @@
         TAGS: 'tags',
         ACCOUNT_MANAGERS: 'accountManagers',
         EMPLOYEES: 'employees',
+        USER_ROLES:'userRoles',
+        ROLES:'roles',
         START_INDEX: '1',
         OFFSET: '10',
 

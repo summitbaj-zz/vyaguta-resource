@@ -321,6 +321,8 @@ CREATE TABLE users_roles (
 ALTER TABLE users_roles OWNER TO frieddust;
 ALTER TABLE ONLY users_roles
     ADD CONSTRAINT users_roles_pk PRIMARY KEY (id);	
+ALTER TABLE ONLY users_roles
+    ADD CONSTRAINT users_roles_users_key UNIQUE (user_id);
 	
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM frieddust;
