@@ -105,7 +105,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {this.props.userRoles && this.props.userRoles.map(this.renderUserRole)}
+                                {this.props.userRoles.length? this.props.userRoles.map(this.renderUserRole):listService.displayNoRecordFound()}
                                 </tbody>
                             </table>
                         </div>

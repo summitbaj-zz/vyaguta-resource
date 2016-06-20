@@ -21,12 +21,12 @@
         getInitialState: function(props){
             return {
                 isEditing : false,
-                userRoleID: ''
+                userRole: {}
             }
         },
 
-        componentDidMount: function(){
-            this.setState({userRoleID: this.props.userRole.role.id})
+        componentWillMount: function(){
+            this.setState({userRole: this.props.userRole.role})
         },
 
         toggleEditMode : function () {
@@ -41,14 +41,14 @@
         },
         
         setRole: function(role){
-           this.state.userRoleId.role = role; 
+            this.setState({userRole:role})
         } ,
 
         generateFormData: function () {
             return({
                     id : this.props.userRole.id,
                     role:{
-                        id: this.state.userRoleID
+                        id: this.state.userRole.id
                     },
                     user:{
                         id : this.props.userRole.user.id
@@ -57,7 +57,8 @@
         },
         
         changeRole: function(){
-            this.setState({userRoleID:this.refs.userRoleID.value})
+            this.state.userRole.id = this.refs.userRoleID.value;
+            this.setState({userRole:this.state.userRole})
         },
 
         render: function () {
@@ -65,9 +66,9 @@
                 <tr>
                     <td>{this.props.index}</td>
                     <td>{this.props.userRole.user.name}</td>
-                    {!this.state.isEditing ? <td>{this.props.userRole.role.title}</td> :
+                    {!this.state.isEditing ? <td>{this.state.userRole.title}</td> :
                         <td>
-                            <select className="form-control" name="role" ref="userRoleID" value={this.state.userRoleID} onChange={this.changeRole}>
+                            <select className="form-control" name="role" ref="userRoleID" value={this.state.userRole.id} onChange={this.changeRole}>
                                 {
                                     this.props.roles.map(function(role) {
                                         return <option key={role.id} value={role.id}>{role.title}</option>
