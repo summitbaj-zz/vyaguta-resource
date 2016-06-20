@@ -144,7 +144,6 @@
                     if (actionService.isSameRoute(getState, oldRoute)) {
                         dispatch(apiActions.apiResponse());
                         Toastr.success(messageConstants.SUCCESSFULLY_UPDATED);
-                        console.log(response.body.role);
                         callback(response.body.role);
                     }
                 }, function (error) {
