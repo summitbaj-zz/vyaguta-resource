@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.dao.CrudDao;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.Project;
+import com.lftechnology.vyaguta.resource.pojo.Employee;
 
 /**
  * 
@@ -40,4 +42,12 @@ public interface ProjectDao extends CrudDao<Project, UUID> {
      * @return List {@link Contract}
      */
     List<Contract> contractsEndingBetween(LocalDate startPoint, LocalDate endPoint);
+
+    /**
+     * Returns list of {@link Project} where {@link Employee} has worked.
+     * 
+     * @param {@link Employee}
+     * @return (@link List<{@link Project}>}
+     */
+    List<Project> findProjectsOfEmployee(Employee employee, MultivaluedMap<String, String> queryParameter);
 }
