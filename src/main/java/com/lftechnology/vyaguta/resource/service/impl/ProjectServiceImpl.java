@@ -273,8 +273,8 @@ public class ProjectServiceImpl implements ProjectService {
 
                 LocalDate latestEndDate = c.getActualEndDate() == null ? c.getEndDate() : c.getActualEndDate();
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), latestEndDate)) {
-                    throw new ParameterFormatException(
-                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
+                            + "'s allocation date contradicts with contract's date range");
                 }
             }
         }
@@ -469,6 +469,11 @@ public class ProjectServiceImpl implements ProjectService {
             availableResource.add(ar);
         }
         return availableResource;
+    }
+
+    @Override
+    public List<Project> findProjectsOfEmployee(Employee employee, MultivaluedMap<String, String> queryParameter) {
+        return projectDao.findProjectsOfEmployee(employee, queryParameter);
     }
 
 }
