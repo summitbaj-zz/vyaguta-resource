@@ -185,6 +185,13 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findContractsEndingIn(days)).build();
     }
 
+    /**
+     * @param Employee
+     *            id {@link UUID}
+     * @param Query
+     *            parameter "startDate" and "endDate" to filter the result
+     * @return {@link List<{@link Project}>}
+     */
     @Path("/members/{empId}")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
