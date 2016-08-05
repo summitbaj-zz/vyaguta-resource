@@ -192,7 +192,7 @@ public class ProjectRs {
      *            parameter "startDate" and "endDate" to filter the result
      * @return {@link List<{@link Project}>}
      */
-    @Path("/members/{empId}")
+    @Path("/employees/{empId}")
     @GET
     @RolesAllowed({ "Employee", "Admin" })
     @Produces(MediaType.APPLICATION_JSON)
@@ -200,7 +200,6 @@ public class ProjectRs {
         Employee employee = new Employee();
         employee.setId(empId);
         return Response.status(Response.Status.OK)
-                .entity(projectService.findProjectsOfEmployee(employee, MultivaluedMapConverter.convert(uriInfo.getQueryParameters())))
-                .build();
+                .entity(projectService.findByEmployee(employee, MultivaluedMapConverter.convert(uriInfo.getQueryParameters()))).build();
     }
 }
