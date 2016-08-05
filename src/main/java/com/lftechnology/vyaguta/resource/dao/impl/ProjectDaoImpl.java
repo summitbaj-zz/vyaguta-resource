@@ -118,7 +118,7 @@ public class ProjectDaoImpl extends BaseDao<Project, UUID> implements ProjectDao
      * Method that returns list of project in which employee is involved.
      */
     @Override
-    public List<Project> findProjectsOfEmployee(Employee employee, MultivaluedMap<String, String> queryParameter) {
+    public List<Project> findByEmployee(Employee employee, MultivaluedMap<String, String> queryParameter) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Project> criteriaQuery = criteriaBuilder.createQuery(Project.class);
         Root<Project> project = criteriaQuery.from(Project.class);

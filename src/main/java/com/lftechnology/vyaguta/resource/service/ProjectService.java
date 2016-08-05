@@ -70,5 +70,5 @@ public interface ProjectService extends CrudService<Project, UUID> {
      * @param {@link Employee}
      * @return (@link List<{@link Project}>}
      */
-    List<Project> findProjectsOfEmployee(Employee employee, MultivaluedMap<String, String> queryParameter);
+    List<Project> findByEmployee(Employee employee, MultivaluedMap<String, String> queryParameter);
 }

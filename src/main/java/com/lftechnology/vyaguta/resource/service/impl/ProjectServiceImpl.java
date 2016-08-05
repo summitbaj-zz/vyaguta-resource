@@ -472,8 +472,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findProjectsOfEmployee(Employee employee, MultivaluedMap<String, String> queryParameter) {
-        return projectDao.findProjectsOfEmployee(employee, queryParameter);
+    public List<Project> findByEmployee(Employee employee, MultivaluedMap<String, String> queryParameter) {
+        return projectDao.findByEmployee(employee, queryParameter);
     }
 
 }
