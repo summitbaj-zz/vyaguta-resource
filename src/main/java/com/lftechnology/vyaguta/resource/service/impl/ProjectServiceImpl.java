@@ -273,8 +273,8 @@ public class ProjectServiceImpl implements ProjectService {
 
                 LocalDate latestEndDate = c.getActualEndDate() == null ? c.getEndDate() : c.getActualEndDate();
                 if (this.validateDateRange(c.getStartDate(), cm.getJoinDate()) || this.validateDateRange(cm.getEndDate(), latestEndDate)) {
-                    throw new ParameterFormatException(
-                            cm.getEmployee().getFirstName() + "'s allocation date contradicts with contract's date range");
+                    throw new ParameterFormatException(cm.getEmployee().getFirstName()
+                            + "'s allocation date contradicts with contract's date range");
                 }
             }
         }

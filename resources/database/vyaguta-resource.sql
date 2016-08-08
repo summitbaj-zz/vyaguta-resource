@@ -305,7 +305,7 @@ ALTER TABLE setups OWNER TO frieddust;
 ALTER TABLE ONLY setups
 	ADD CONSTRAINT setups_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY setups 
-	ADD CONSTRAINT setups_roles_fk FOREIGN KEY(role_id) REFERENCES user_roles ON DELETE RESTRICT;
+	ADD CONSTRAINT setups_roles_fk FOREIGN KEY(role_id) REFERENCES roles ON DELETE RESTRICT;
 	
 	
 CREATE TABLE users_roles (
