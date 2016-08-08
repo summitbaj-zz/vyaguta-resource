@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lftechnology.vyaguta.commons.dao.CrudDao;
+import com.lftechnology.vyaguta.commons.util.MultivaluedMap;
 import com.lftechnology.vyaguta.resource.entity.Contract;
 import com.lftechnology.vyaguta.resource.entity.ContractMember;
 import com.lftechnology.vyaguta.resource.entity.Project;
@@ -34,9 +35,18 @@ public interface ContractMemberDao extends CrudDao<ContractMember, UUID> {
      */
     Long findBookedResourceCount(LocalDate date);
 
+    /**
+     * Returns list of {@link Project} where {@link Employee} has worked.
+     * 
+     * @param {@link Employee}
+     * @return (@link List<{@link Project}>}
+     */
+    List<Project> findByEmployee(Employee employee, MultivaluedMap<String, String> queryParameter);
+
     Map<UUID, Double> findAvailableResource(LocalDate date);
-    
+
     Double findProjectAllocation(Employee employee, LocalDate joinDate, LocalDate endDate);
+
     Double findProjectAllocation(Employee employee, Project project, LocalDate joinDate, LocalDate endDate);
 
 }
