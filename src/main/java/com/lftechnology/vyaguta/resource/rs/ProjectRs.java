@@ -33,7 +33,6 @@ import com.lftechnology.vyaguta.commons.exception.ObjectNotFoundException;
 import com.lftechnology.vyaguta.commons.exception.ParameterFormatException;
 import com.lftechnology.vyaguta.commons.util.MultivaluedMapConverter;
 import com.lftechnology.vyaguta.resource.entity.Project;
-import com.lftechnology.vyaguta.resource.pojo.Employee;
 import com.lftechnology.vyaguta.resource.service.ProjectHistoryService;
 import com.lftechnology.vyaguta.resource.service.ProjectService;
 
@@ -185,21 +184,4 @@ public class ProjectRs {
         return Response.status(Response.Status.OK).entity(projectService.findContractsEndingIn(days)).build();
     }
 
-    /**
-     * @param Employee
-     *            id {@link UUID}
-     * @param Query
-     *            parameter "startDate" and "endDate" to filter the result
-     * @return {@link List<{@link Project}>}
-     */
-    @Path("/employees/{empId}")
-    @GET
-    @RolesAllowed({ "Employee", "Admin" })
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response listProjectsOfEmployee(@PathParam("empId") UUID empId, @Context UriInfo uriInfo) {
-        Employee employee = new Employee();
-        employee.setId(empId);
-        return Response.status(Response.Status.OK)
-                .entity(projectService.findByEmployee(employee, MultivaluedMapConverter.convert(uriInfo.getQueryParameters()))).build();
-    }
 }
